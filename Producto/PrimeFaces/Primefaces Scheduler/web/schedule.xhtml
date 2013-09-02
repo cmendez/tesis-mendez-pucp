@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="title">
+                Greeting2
+            </ui:define>
+
+            <ui:define name="box">
+
+                <h:head>
+                    <script language="javascript" src="jquery-1.9.1.min.js"></script>
+                    <script type="text/javascript">
+                        <!--//--><![CDATA[//><!--
+                        $(document).ready(function() {
+                            //SEGURIDAD DESDE EL LADO DEL CLIENTE. ADEMAS INCLUIREMOS LO QUE USAMOS EN DP1: irAvista(..)
+                            //el cual primero verificara si se tiene el tipo permiso y sino mostrara un XHTML de error
+                            //podemos obtener una variable de nuestro sessionController por ejemplo un string                            
+                            var tipoUsuario = "#{scheduleController.cadena}";
+                            //cada vista XHTML tendrá un permiso requerido
+                            var permisoRequerido = "trabajador";
+                            //var permisoRequerido = "cliente";
+                            //var permisoRequerido = "superadmin";
+
+                            if (tipoUsuario.toString()===permisoRequerido){
+                                alert("Bienvenido señor "+tipoUsuario);                                
+                            }
+                            else{
+                                //limpiaremos el BODY entero
+                                $('body').empty();
+                                alert("Error: no tiene permiso señor "+tipoUsuario);
+                            }
+                        });
+                        
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero','Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+                            dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+                            dayNamesShort: ['Dom','Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['D','L','M','X','J','V','S'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText : 'Todo el día'
+                        };
+                        
+                        //--><!]]>
+                    </script>
+                </h:head>
+
+                <h:form id="form">
+
+                    <p:growl id="messages" showDetail="true" />
+
+                    <p:schedule id="schedule" value="#{scheduleController.eventModel}" widgetVar="myschedule" locale="es">
+
+                        <p:ajax event="dateSelect" listener="#{scheduleController.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
+                        <p:ajax event="eventSelect" listener="#{scheduleController.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
+                        <p:ajax event="eventMove" listener="#{scheduleController.onEventMove}" update="messages" />
+                        <p:ajax event="eventResize" listener="#{scheduleController.onEventResize}" update="messages" />
+
+                    </p:schedule>
+
+                    <p:dialog widgetVar="eventDialog" header="Información del Trabajo" showEffect="clip" hideEffect="clip">
+                        <h:panelGrid id="eventDetails" columns="2">
+                            <h:outputLabel for="title" value="Nombre:" />
+                            <p:inputText id="title" value="#{scheduleController.event.title}" required="true"/>
+
+                            <h:outputLabel for="from" value="Inicio:" />
+                            <p:inputMask id="from" value="#{scheduleController.event.startDate}" mask="99/99/9999 99:99">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                            </p:inputMask>
+
+                            <h:outputLabel for="to" value="Fin:" />
+                            <p:inputMask id="to" value="#{scheduleController.event.endDate}" mask="99/99/9999 99:99">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                            </p:inputMask>
+
+                            <h:outputLabel for="allDay" value="All Day:" />
+                            <h:selectBooleanCheckbox id="allDay" value="#{scheduleController.event.allDay}" />
+
+
+                            <p:commandButton id="borrarButton" value="Eliminar" onclick="confirmation.show()" oncomplete="myschedule.update()"/>
+                            <p:commandButton id="addButton" value="Guardar" actionListener="#{scheduleController.addEvent}" oncomplete="myschedule.update();eventDialog.hide();"/>
+                        </h:panelGrid>
+                    </p:dialog>
+
+                    <p:commandButton value="Guardar" rendered="true"
+                                     action="#{scheduleController.accion()}" update="messages" id="submit" /> 
+
+                    <p:confirmDialog id="confirmDialog" message="¿Está seguro que desea eliminar el trabajo?"  
+                                     header="Mensaje de confirmación" severity="alert" widgetVar="confirmation">  
+
+                        <p:commandButton id="confirm" value="Aceptar" oncomplete="myschedule.update();confirmation.hide();eventDialog.hide();"  
+                                         actionListener="#{scheduleController.borrarEvent}" />  
+                        <p:commandButton id="decline" value="Cancelar" onclick="confirmation.hide()" type="button" />   
+
+                    </p:confirmDialog>  
+                </h:form>
+
+
+
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

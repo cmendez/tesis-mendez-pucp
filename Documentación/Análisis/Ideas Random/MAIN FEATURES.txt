@@ -1,0 +1,9 @@
++ Búsqueda automatizada y selectiva de proveedores
++ Recarga de leads y habilitación de proveedores
++ Sistema de recompensas de leads a proveedores destacados
++ Sistema de calificación y feedback por trabajos realizados a clientes
++ Registro, búsqueda y compra virtual de ofertas, promociones y descuentos en tiendas (suministradores)
++ Scheduler con detalle de trabajos (proveedores)
++ Reportes y consolidados estadísticos (6~7)
+********************************************************
++ Android App. Prototype: detección GPS de tiendas afiliadas con ofertas, promociones y descuentos (Tesis 2)

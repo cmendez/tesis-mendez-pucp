@@ -1,0 +1,18 @@
+- STARTUML, lo cambiar los colores XD
+- ALLFUSION ERWIN, para modelo BD
+- VISIO (PUCP online), para arquitectura
+
+
+ERWIN - IMPORTANTE
+- Generar el modelo de la BD en modo PHYSICAL, no logical
+ya que desde este modo se hace TOOLS>FORWAR ENGINEER>SCHEMA GENERATION
+- FORMAT>DISPLAY LEVEL>COLUMN
+- TABLE DISPLAY > COLUMN DATATYPE, NULL OPTION, FOREIGN KEY FK
+- Para generar el DICCIONARIO DE DATOS, TOOLS>DATA BROWSER, AllFusion ERwin DM Reports>
+Table Reports>Generar Reporte Diccionario Datos. Ejecutar y se puede copiar y pegar a excel.
+Si no recuerdo mirar:
+http://wb.itboards.com/wb/default.asp?action=9&boardid=10&read=170910&fid=3800&FirstTopic=180&LastTopic=199
+
+
+Lista diagramadores BD sql server
+http://www.mssqltips.com/sqlservertip/1057/sql-server-data-modeling-tools/

@@ -1,0 +1,1 @@
+http://localhost:8080/PrimeFaces_Scheduler/faces/schedule.xhtml

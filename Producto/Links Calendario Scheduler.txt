@@ -1,0 +1,18 @@
+ASPNET AJAX INCLUYE EL SCHEDULER
+ASPNET MVC NO.
+
+http://www.telerik.com/products/aspnet-ajax/resources/step-by-step.aspx
+
+http://www.telerik.com/community/code-library/aspnet-ajax/scheduler/radscheduler-and-sqldatasource-example.aspx
+
+http://www.telerik.com/help/aspnet-ajax/scheduler-database-structure.html
+
+http://demos.telerik.com/aspnet-ajax/scheduler/examples/dbschedulerprovider/defaultcs.aspx
+
+http://www.primefaces.org/showcase/ui/schedule.jsf
+
+http://forum.primefaces.org/viewtopic.php?f=3&t=4720
+
+http://www.telerik.com/help/aspnet-ajax/scheduler-declarative-data-binding.html
+
+http://demos.telerik.com/aspnet-ajax/scheduler/examples/bindtolist/defaultcs.aspx

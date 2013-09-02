@@ -1,0 +1,18 @@
+NUEVOS
+- Registro de clientes y proveedores
+- Búsqueda y selección de proveedores
+- Recarga de leads y habilitación de proveedores
+- Cierre y retroalimentación (post-servicio).
+* Gestión de Trabajos Unitarios (el que era MACROPROCESO)
+* Gestión de Proyectos de Servicios Generales 
+
+ANTERIORES
+- Contacto inicial.
+- Visita preliminar.
+- Selección y compra de insumos y materiales a usar.
+- Ejecución del trabajo.
+- Cierre y retroalimentación (post-servicio).
+
+FASE 1: Concepción y planteamiento del modelo
+FASE 2: Documentación y elaboración de prototipo
+FASE 3: Despliegue y puesta en marcha de la plataforma

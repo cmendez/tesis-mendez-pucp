@@ -1,0 +1,15 @@
+ACEPTADAS
+******************************************************************************
++ clientes suben los proyectos que necesitan, la notificación le llega solo a 
+los proveedores relacionados al proyecto (tipo de servicio) disponibles. Los proveedores interesados si desean postular al proyecto pagan 3 leads, rellenan un formulario (nro personas, costo estimado, detalle, tiempo estimado, lista de personas que necesitará sean o no del sistema). el cliente recibe las cotizaciones, el algoritmo recomienda alguna dependiendo de costo, tiempo, personas, y el cliente finalmente elige uno.
++ proveedores y clientes pueden buscar las ferreterias que venden productos, tiene ofertas, descuentos, más puntos, etc
+- Proveedores pueden adjuntar la imagen de su recibo por honorarios
+- app movil (gps tiendas con ofertas) pero hacerlo en tesis 2 y no despues del curso 
+
+
+RECHAZADAS
+******************************************************************************
+- clientes entran y dejan los trabajos que necesitan ser solucionados
+como la pag web etece.es y taskrabbit.com
+- modulo de ventas para los suministradores
+-los proveedores juridicos (empresas) podrán registrar a cada uno de sus dependientes y ver los trabajos de cada uno (leads grupales)

@@ -1,0 +1,12 @@
+El proveedor puede trabajar con varios suministradores (al registrarse indicará con cuáles, previa confirmación de cada una de estos). Luego puede agregar más. Al inicio está en estado habilitado.
+
+Un cliente, luego de registrarse, puede buscar proveedores. Al buscar, solo aparecerán datos de proveedores tales como nombres y apellidos, DNI, servicios que brinda, y puntuación promedio.
+Solo aparecerán el teléfono e email una vez que de click en "Contratar" (esto para evitar la pendejada de que el cliente vea el teléfono y cierre la página sin hacer nada más). Cada "contrato" es una "oportunidad de trabajo" (lead).
+
+El proveedor tiene derecho a 4 leads, no importando si llegó a concretar un trato con el cliente, o éste nunca lo llamó a pesar de "contratarlo". Cuando el proveedor se quede sin leads, pasa a estar en estado inhabilitado. Para que vuelva a estar habilitado, debe ponerse en contacto con un suministrador, hacerle compras en su tienda (por el valor que el suministrador establezca y crea conveniente), y solo éste entrando al sistema puede volver a colocarlo como habilitado.
+
+recarga de leads == recarga de tarjetas/saldo en un celular
+el proveedor se queda sin leads, le compra a un suministrador y vuelve a estar habilitado ;)
+
+
+PD: YA NO IRÍA EL PROCESO DE 5 PASOS (contacto, visita preliminar, insumos, ejecución, y cierre/encuestas).

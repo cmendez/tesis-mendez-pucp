@@ -1,0 +1,14 @@
+http://www.primefaces.org/showcase/ui/fileUploadSingle.jsf
+
+http://www.java-tutorial.ch/java-server-faces/file-upload-with-primefaces
+
+http://stackoverflow.com/questions/4388441/primefaces-fileupload-event-not-firing-jsf-2-0
+
+
+
+JAR REQUERIDOS POR SI SALE: java.lang.NoClassDefFoundError: org/apache/commons/fileupload/FileItemFactory
+
+
+commons-fileupload-1.3
+commons-io-2.4
+

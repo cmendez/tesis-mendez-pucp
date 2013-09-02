@@ -1,0 +1,8 @@
+Descartamos la idea de que el proveedor pueda
+registrar su NO DISPONIBILIDAD porque no tiene mucho sentido ya que
+el registrarla, implica que el algoritmo no lo consideraría al proveedor en alguna búsqueda.. osea pierde chamba.
+Tampoco tiene mucha utilidad que registren su horario de trabajo ya
+que lo que menos van a querer es perder oportunidades de trabajo.. y 
+fijarse a un horario sería una potencial manera de perder algún posible trabajo.
+
+Lo que sí sería útil es el tener un calendario virtual donde se visualizen los trabajos a realizar (wdCalendar sin registrar solo ver), y además poder imprimir este calendario en PDF (NUEVA FUNCIONALIDAD).

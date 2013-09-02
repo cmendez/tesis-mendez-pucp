@@ -1,0 +1,28 @@
+TEMA:
+ANALISIS, DISEÑO E IMPLEMENTACION DE UNA APLICACION WEB PARA LA GESTION Y ENTREGA DE PEDIDOS DE SERVICIOS GENERALES Y DE MANTENIMIENTO [DE HOGARES Y OFICINAS]
+
+OBJ. GENERAL:
+Implementar un sistema de información para la gestión de entrega de servicios generales y de mantenimiento a hogares basado en un esquema de comercio electrónico que permita la asignación de proveedores, venta y control de insumos, y retroalimentación mediante encuestas de satisfacción al cliente.
+
+OBJ. ESPECIFICOS:
+
+1.	Definir y diseñar el flujo del caso de negocio que incluye los siguientes puntos:
+
+	a.	Contacto inicial.
+	b.	Visita preliminar.
+	c.	Insumos y materiales a usar.
+	d.	Ejecución del trabajo.
+	e.	Cierre y retroalimentación (encuestas al cliente).
+
+2.	Definir las reglas de negocio que deben cumplir todos los stakeholders involucrados en el caso de negocio.
+
+3.	Implementar el algoritmo de búsqueda Tabú para la asignación automática del mejor proveedor al cliente, considerando los siguientes factores:
+
+	a.	Disponibilidad del proveedor, según calendario virtual.
+	b.	Distanciamiento entre ambos.
+	c.	Puntuación promedio del proveedor, según la calificación de los clientes.
+	d.	Cumplimiento por parte del proveedor de las reglas de negocio.	
+
+4.	Diseñar la arquitectura del sistema basada en una plataforma web (de comercio electrónico).
+
+5.	Construir el prototipo del sistema.
