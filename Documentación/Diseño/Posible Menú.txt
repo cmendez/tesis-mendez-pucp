@@ -1,0 +1,30 @@
+•	Clientes
+	o	Buscar Proveedores
+	o	Buscar Productos
+	o	Calificar Proveedor
+	o	Editar Información
+•	Proveedores
+	o	Buscar Productos
+	o	Buscar Ofertas, Promos y Dsctos
+	o	Comprar Ofertas, Promos y Dsctos
+	o	Mis Trabajos
+	o	Mi Calendario
+	o	Mi Crecimiento 
+	o	Demanda de Visitas
+	o	Editar Información 
+•	Suministradores
+	o	Recargar Leads
+	o	Demanda de Productos
+	o	Demanda de Ofertas, Promos y Dsctos
+	o	Editar Productos
+	o	Editar Ofertas, Promos y Dsctos
+	o	Editar Información
+•	Administración
+	o	Administrar Usuarios
+	o	Administrar Perfiles
+	o	Consolidado Global
+	o	Gestión de Recompensas
+	o	Proveedores Destacados
+
+	
+	
