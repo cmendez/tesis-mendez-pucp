@@ -2,29 +2,28 @@
 	o	Buscar Proveedores
 	o	Buscar Productos
 	o	Calificar Proveedor
-	o	Editar Información
+	o	Editar Mi Información (Ocultar link si no es cliente)
 •	Proveedores
+	o	[Historial de Trabajos (SI ES CLIENTE)] OR [Mis Trabajos (SI ES PROVEEDOR)]
+	o	Historial de Recargas
 	o	Buscar Productos
 	o	Buscar Ofertas, Promos y Dsctos
 	o	Comprar Ofertas, Promos y Dsctos
-	o	Mis Trabajos
+	o	Demanda de Servicios Generales	
 	o	Mi Calendario
-	o	Mi Crecimiento 
-	o	Demanda de Visitas
-	o	Editar Información 
+	o	Mi Crecimiento (DESEABLE)	
+	o	Editar Mi Información (Ocultar link si no es proveedor)
 •	Suministradores
 	o	Recargar Leads
 	o	Demanda de Productos
 	o	Demanda de Ofertas, Promos y Dsctos
+	o	Demanda de Servicios Generales
 	o	Editar Productos
 	o	Editar Ofertas, Promos y Dsctos
-	o	Editar Información
+	o	Editar Mi Información (Ocultar link si no es suministrador)
 •	Administración
 	o	Administrar Usuarios
 	o	Administrar Perfiles
-	o	Consolidado Global
-	o	Gestión de Recompensas
+	o	Histórico de Trabajos
 	o	Proveedores Destacados
-
-	
-	
+	o	Gestión de Recompensas	
