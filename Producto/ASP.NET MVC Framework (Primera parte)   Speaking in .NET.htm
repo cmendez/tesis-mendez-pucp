@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<!-- saved from url=(0068)http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/ -->
+<html lang="es-ES"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>ASP.NET MVC Framework (Primera parte) | Speaking in .NET</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="http://speakingin.net/xmlrpc.php">
+<!--[if lt IE 9]>
+<script src="http://speakingin.net/wp-content/themes/twentytwelve/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+<link rel="alternate" type="application/rss+xml" title="Speaking in .NET » Feed" href="http://speakingin.net/feed/">
+<link rel="alternate" type="application/rss+xml" title="Speaking in .NET » RSS de los comentarios" href="http://speakingin.net/comments/feed/">
+
+            <script src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/quant.js" async="" type="text/javascript"></script><script type="text/javascript" async="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/ga.js"></script><script type="text/javascript">//<![CDATA[
+            // Google Analytics for WordPress by Yoast v4.3.3 | http://yoast.com/wordpress/google-analytics/
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-3247399-3']);
+				            _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+			<link rel="alternate" type="application/rss+xml" title="Speaking in .NET » ASP.NET MVC Framework (Primera parte) RSS de los comentarios" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/feed/">
+<link rel="stylesheet" id="colorbox-theme1-css" href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/colorbox.css" type="text/css" media="screen">
+<link rel="stylesheet" id="farbtastic-css" href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/farbtastic.css" type="text/css" media="all">
+<link rel="stylesheet" id="jetpack-widgets-css" href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/widgets.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentytwelve-fonts-css" href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="twentytwelve-style-css" href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/style.css" type="text/css" media="all">
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentytwelve-ie-css'  href='http://speakingin.net/wp-content/themes/twentytwelve/css/ie.css?ver=20121010' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="sharedaddy-css" href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/sharing.css" type="text/css" media="all">
+<script type="text/javascript" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/jquery.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/jquery.colorbox-min.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/jquery.tagcanvas.min.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/comment-reply.min.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://speakingin.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://speakingin.net/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Truco: Velocidad del disco duro y rendimiento de Visual Studio" href="http://speakingin.net/2007/11/03/truco-velocidad-del-disco-duro-y-rendimiento-de-visual-studio/">
+<link rel="next" title="Enlaces 17 Nov: ASP.NET, ASP.NET AJX, ASP.NET MVC, VS 208, .NET 3.5, IIS7, Silverlight" href="http://speakingin.net/2007/11/18/enlaces-17-nov-aspnet-aspnet-ajx-aspnet-mvc-vs-208-net-35-iis7-silverlight/">
+<meta name="generator" content="WordPress 3.6">
+<link rel="canonical" href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/ASP.NET MVC Framework (Primera parte)   Speaking in .NET.htm">
+<link rel="shortlink" href="http://wp.me/p1JfOR-1W">
+		<script type="text/javascript" charset="utf-8">
+			var href = "http://speakingin.net";
+			// solves the issue where app mode does not set the correct UA String.
+			if ( window.navigator.standalone ) {
+				href += "?onswipe_redirect=yes";
+				location.href = href;
+			};
+			try{
+			// make reader urls work backwards.
+				href += "?p=" + location.hash.match(/\#!\/entry\/.+,(\d+)$/)[1];
+				location.href = href;
+			}catch(e){}		
+		</script>
+		
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC Framework (Primera parte)">
+<meta property="og:url" content="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/">
+<meta property="og:description" content="Hace un par de semanas hablamos sobre el nuevo MVC Framework (Modelo Vista Controlador) que vamos a soportar como una característica opcional. Nos aporta un modelo estructurado que se preocupa de s...">
+<meta property="og:site_name" content="Speaking in .NET">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step4.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step5.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step6.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step1.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step0.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step3.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step2.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step7.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step8.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step9.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step10.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step11.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step12.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step14.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step13.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step16.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step17.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step18.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step19.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step20.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step21.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step22.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step23.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step24.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step25.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step26.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step27.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step28.jpg">
+<meta property="og:image" content="http://www.scottgu.com/bhttp://www.scottgu.com/blogposts/mvc2/step29.jpglogposts/mvc2/step29.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step29.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step30.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step31.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step32.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step33.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step34.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step35.jpg">
+<meta name="twitter:site" content="@jetpack">
+<meta name="twitter:image0" content="http://www.scottgu.com/blogposts/mvc2/step4.jpg">
+<meta name="twitter:image1" content="http://www.scottgu.com/blogposts/mvc2/step4.jpg">
+<meta name="twitter:image2" content="http://www.scottgu.com/blogposts/mvc2/step5.jpg">
+<meta name="twitter:image3" content="http://www.scottgu.com/blogposts/mvc2/step6.jpg">
+<meta name="twitter:card" content="gallery">
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+<!-- jQuery Lightbox For Native Galleries v3.2.2 | http://www.viper007bond.com/wordpress-plugins/jquery-lightbox-for-native-galleries/ -->
+<script type="text/javascript">
+// <![CDATA[
+	jQuery(document).ready(function($){
+		$(".gallery").each(function(index, obj){
+			var galleryid = Math.floor(Math.random()*10000);
+			$(obj).find("a").colorbox({rel:galleryid, maxWidth:"95%", maxHeight:"95%"});
+		});
+		$("a.lightbox").colorbox({maxWidth:"95%", maxHeight:"95%"});
+	});
+// ]]>
+</script>
+	<style type="text/css">
+			.site-title,
+		.site-description {
+			position: absolute !important;
+			clip: rect(1px 1px 1px 1px); /* IE7 */
+			clip: rect(1px, 1px, 1px, 1px);
+		}
+		</style>
+	<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #e6e6e6; }
+</style>
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/saved_resource">
+		<link rel="stylesheet" type="text/css" id="gravatar-card-css" href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/services.css"></head>
+
+<body class="single single-post postid-120 single-format-standard custom-background custom-font-enabled single-author" style=""><div id="cboxOverlay" style="display: none;"></div><div id="colorbox" class="" style="padding-bottom: 42px; padding-right: 42px; display: none;"><div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div><div id="cboxTopCenter" style="float: left;"></div><div id="cboxTopRight" style="float: left;"></div></div><div style="clear:left"><div id="cboxMiddleLeft" style="float: left;"></div><div id="cboxContent" style="float: left;"><div id="cboxLoadedContent" style="width:0; height:0; overflow:hidden" class=""></div><div id="cboxLoadingOverlay" class=""></div><div id="cboxLoadingGraphic" class=""></div><div id="cboxTitle" class=""></div><div id="cboxCurrent" class=""></div><div id="cboxNext" class=""></div><div id="cboxPrevious" class=""></div><div id="cboxSlideshow" class=""></div><div id="cboxClose" class=""></div></div><div id="cboxMiddleRight" style="float: left;"></div></div><div style="clear:left"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position:absolute; width:9999px; visibility:hidden; display:none"></div></div>
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header" role="banner">
+		<hgroup>
+			<h1 class="site-title"><a href="http://speakingin.net/" title="Speaking in .NET" rel="home">Speaking in .NET</a></h1>
+			<h2 class="site-description">2007 – 2012</h2>
+		</hgroup>
+
+		<nav id="site-navigation" class="main-navigation" role="navigation">
+			<h3 class="menu-toggle">Menú</h3>
+			<a class="assistive-text" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#content" title="Ir al contenido">Ir al contenido</a>
+			<div class="menu-inicio-container"><ul id="menu-inicio" class="nav-menu"><li id="menu-item-1534" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1534"><a href="http://speakingin.net/">Home</a></li>
+<li id="menu-item-1531" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1531"><a>Tutoriales</a>
+<ul class="sub-menu">
+	<li id="menu-item-1520" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1520"><a href="http://speakingin.net/tutorial-de-linq-to-sql/">Tutorial de LINQ to SQL</a></li>
+	<li id="menu-item-1521" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1521"><a href="http://speakingin.net/tutorial-de-silverlight/">Tutorial de Silverlight</a></li>
+	<li id="menu-item-1517" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1517"><a href="http://speakingin.net/tutorial-asp-net-mvc-3/">Tutorial ASP.NET MVC 3</a></li>
+	<li id="menu-item-1516" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1516"><a href="http://speakingin.net/introduccion-al-aliasing/">Introducción al aliasing</a></li>
+	<li id="menu-item-1518" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1518"><a href="http://speakingin.net/tutorial-svg/">Tutorial SVG</a></li>
+</ul>
+</li>
+<li id="menu-item-1532" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1532"><a href="http://speakingin.net/lecturas-recomendadas/">Lecturas Recomendadas</a></li>
+<li id="menu-item-1533" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1533"><a href="http://speakingin.net/about/">About</a></li>
+<li id="menu-item-1962" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1962"><a href="http://speakingin.net/patrocinio/">Patrocinio</a></li>
+</ul></div>		</nav><!-- #site-navigation -->
+
+		<div class="div-centered">
+			<a href="http://speakingin.net/"><img src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/cropped-BlogHeader.png" class="header-image" width="776" height="106" alt=""></a>
+</div>
+			</header><!-- #masthead -->
+
+	<div id="main" class="wrapper">
+	<div id="primary" class="site-content">
+		<div id="content" role="main">
+
+			
+				
+	<article id="post-120" class="post-120 post type-post status-publish format-standard hentry category-net category-asp-net category-mvc category-scott-guthrie category-visual-studio">
+				<header class="entry-header">
+									<h1 class="entry-title">ASP.NET MVC Framework (Primera parte)</h1>
+										<div class="comments-link">
+					<a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comments" title="Comentarios en ASP.NET MVC Framework (Primera parte)">38 respuestas</a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>Hace un par de semanas hablamos sobre el nuevo <a href="http://speakingin.net/2007/10/16/aspnet-mvc-framework/">MVC Framework (Modelo Vista Controlador)</a> que vamos a soportar como una característica opcional. Nos aporta un modelo estructurado que se preocupa de separar claramente las diferentes partes de una aplicación, y hace mucho más sencillo la realizacion de test unitarios y soporta un workflow TDD. También nos ayuda a tener un mayor control sobre las URLs que publicamos en nuestras aplicaciones, y opcionalmente mayor control sobre el HTML que se emite para ellas.<span id="more-120"></span></p>
+<p>Desde entonces he estado respondiendo un montón de preguntas de gente con ganas de aprender sobre el. Debido al nivel de interes creo que podía tener sentido juntar unos cuantos posts que describan cómo usarlo en más detalle. Éste es el primero de una serie de post que escribiré en las proximas semanas.</p>
+<p><strong>Una aplicación de E-commerce simple</strong></p>
+<p>Vamos a usar una aplicación de e-comerce simple para ilustrar cómo funciona el ASP.NET MVC Framework. Para el post de hoy, implementaremos el listado/navegación de productos de la tienda.</p>
+<p>Vamos a crear una tienda que permita a los usuarios navegar por una lista de categorías de productos cuando van a la URL /products/categories:</p>
+<p><img src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step4.jpg" border="0" alt="" width="1" height="1"><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step4.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step4.jpg" border="0" alt="" width="754" height="559"></a></p>
+<p>Cuando un usuario hace clic en una categoría de la página, llegarán a la lista de productos de esa categorías con una url con este formato: Products/list/Nombrecategoría -:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step5.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step5.jpg" border="0" alt="" width="813" height="764"></a></p>
+<p>Cuando un usuario hace clic en un producto, llegará a la URL del detalle del producto -/Products/Detail/ProductID - que muestra los detalles del producto seleccionado:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step6.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step6.jpg" border="0" alt="" width="762" height="579"></a></p>
+<p>Crearemos toda esta funcionalidad con el ASP.NET MVC Framework. Con esto nos aseguraremos mantener una separación de conceptos entre los diferentes componentes de la aplicación, y nos permitirá integrar test unitarios y un desarrollo guiado por test.</p>
+<p><strong>Crear una aplicación ASP.NET MVC</strong></p>
+<p>El ASP.NET MVC Framework incluye una serie de Templates para Visual Studio que hacen fácil crear una aplicación. Sólo con ir al menú&nbsp;File-&gt;New Project elegimos "ASP.NET MVC Web Application" tendremos el esqueleto para una aplicación web.</p>
+<p>Por defecto, cuando creamos una nueva aplicación de esta forma, Visual Studio creará una nueva solución y añadirá dos proyectos. El primero es un proyecto web en el que implementaremos nuestra aplicación. El segudno es un proyecto de testing que usaremos para escribir test unitarios:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step1.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step1.jpg" border="0" alt="" width="251" height="390"></a></p>
+<p>Podemos usar cualquier framework de test unitarios (NUnit, MBUnit, MSTest, XUnit, y otros). VS 2008 Professional incluye un proyecto de testing para MSTest (VS 2005 necesitva el Visual Studio Team System SKU).</p>
+<p>También estamos trabajando en templates para NUnit, MBUnit y otros frameworks de test unitarios, de forma que podáis usarlos para crear vuestra aplicación y tener un proyecto de test inmediato para usarlo.</p>
+<p><strong>Comprendiendo la estructura de directorios del proyecto</strong></p>
+<p>La estructura por defecto de una aplicación ASP.NET MVC tiene 3 directorios:</p>
+<ul>
+<li>/Controllers</li>
+<li>/Models</li>
+<li>/Views</li>
+</ul>
+<p>Como podréis suponer, os aconsejamos que pongais las clases de controladores en el directorio /Controllers, las de modelo de datos en el directorio /Models, y las vistas en el directorio /Views.</p>
+<p>ASP.NET MVC Framework no te obliga a usar esta estructura, el template usa este patrón y os lo recomendamos ya que es una forma fácil de estructurar la aplicación. A menos que tengáis una buena razón para usar una estructura diferente, os recomiendo que useis este.</p>
+<p><strong>Mapeando URLs a clases de controladores.</strong></p>
+<p>En la mayoría de frameworks para web (ASP, PHP, JSP, ASP.NET WebForms, etc), las Urls suelen corresponderse con archivos en el disco. Por ejemplo, "/Products.asp" o "/Products.php" suelen tener un archivo Products.aspx o Products.php en el disco que administra el proceso. Cuando una petición http para ana aplicación web llega al servidor web, el web framework ejecuta el código de dicho archivo del disco, y este código asume la administración de la petición. Normalmente ese código usa HTML en Products.aspx o Products.php para generar una respuesta adecuada al cliente.</p>
+<p>Los frameworks MVC mapean esas urls&nbsp;de una forma algo diferente. En lugar de mapear las urls a archivos del disco, mapean las urls a clases directamente. Estas clases se llamana "Controladores" y procesa todas las peticiones, administrar la interacción del usuario, y ejecutan la lógica necesaria basándose en ellas. Una clase Controlador llamará a una "vista" que genera el HTML de respuesta:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step0.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step0.jpg" border="0" alt="" width="635" height="271"></a></p>
+<p>El ASP.NET MVC Framework tiene un motor de mapeados de urls muy potente que aporta una gran flexibilidad en cómo mapea a las clases Controlador. Podemos usarlo para crear reglas de rutado que usará ASP.NET para evaluar las URLs entrantes y seleccionar un Controlador que la ejecute. También podemos hacer que el motor de rutado parsee las variables que definamos en las URLs y que ASP.NET las pase a nuestro Controlador como argumentos. Veremos escenarios más avanzados en los que se usa el motor de rutado de urls en otro post de esta serie.</p>
+<p><strong>Rutado por defecto de URL de ASP.NET MVC a las clases Controlador.</strong></p>
+<p>Por defecto los proyectos de ASP.NET MVC están tienen unas reglas de rutado de urls preconfiguradas que nos permiten empezar a crear aplicaciones sin tener que configurar explicitamente nada. De esta forma podemos empezar a escribir el código usando un conjunto de convenciones para nombrar las urls que van a usarse en nuestra aplicación en ASP.NET en el archivo Global.asax que se crea.</p>
+<p>El convenio por defecto es mapear el path de la url de una petición HTTP (por ejemplo: /Products/) a una clase cuyo nombre siga el patrón <em>UrlPath</em>Controller (por ejemplo: una url que termine con /Products/ se mapeará a la clase <em>Products</em>Controller).</p>
+<p>Para crear la funcionalidad de navegación de productos en nuestro ejemplo, añadimos la clase "ProductsController" a nuestro proyecto (podemos usar el menú "Add New Item" de Visual Studio para crear una clase Controlador desde un template):</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step3.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step3.jpg" border="0" alt="" width="252" height="320"></a></p>
+<p>Nuestra clase ProductsController heredará de System.Web.MVC.Controller. Aunque no es necesario esta herencia - pero esta clase base contiene algunos métodos auxiliares y funcionalidad que podría hacernos falta para aprovecharla más tarde:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step2.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step2.jpg" border="0" alt="" width="460" height="217"></a></p>
+<p>Una vez que definimos esta clase, el framework ASP.NET MVC la usará para procesar todas las peticiones cuya url contenga la cadena "/Products". Es decir, será llamada para procesar las urls "/Products/Categories", "/Products/List/Beverages", y "/Products/Detail/3".</p>
+<p>En otro post veremos cómo añadir un ShoppingCartController (para permitir que los usuarios administren sus carritos d compra) y un AccountController (para administrar sus cuentas de usuarios). Una vez que las definamos, las urls que contgan "/SoppingCart/" y "/Account/" seran procesadas por aquellas.</p>
+<p><em>Nota: ASP.NET MVC no requiere que se use este convenio de nombres. La razón por la que nuestra aplicación usa este convenio por defecto es porque hay una regla de rutado que configura esta opción que se añade automáticamenet a las clases de nuestras aplicaciones ASP.NET cuando creamos un proyecto ASP.NET MVC con Visual Studio. Si no os gusta esta regla, o queréis personalizarla, sólo tenéis que iros a la clase de la aplicación (en global.asax) y cambiarlo. Veremos cómo hacer esto en otro post (cuando veamos algunos escenarios interesantes que nos permite el rutado de URLs).</em></p>
+<p><strong>Comprendiendo los métodos de acción de los controladores.</strong></p>
+<p>Ahora que tenemos la clase ProductsController podemos empezar a añadir lógica para procesar las urls con el path "/Products".</p>
+<p>Cuando definimos los casos de uso de nuestra tienda al principio del blog, dijimos que ibamos a implementar tres escenarios: 1) Navegar por las categorías de Productos, 2) Listar los productos de una categoría, y 3) Mostrar los detalles de un producto. Vamos a usar las siguientes urls para estos escenarios:</p>
+<table border="1" cellspacing="0" cellpadding="2" width="680">
+<tbody>
+<tr>
+<td width="211" valign="top"><strong>URL Format</strong></td>
+<td width="241" valign="top"><strong>Behavior</strong></td>
+<td width="224" valign="top"><strong>URL Example</strong></td>
+</tr>
+<tr>
+<td width="212" valign="top">/Products/Categories</td>
+<td width="241" valign="top">Browse all Product Categories</td>
+<td width="224" valign="top">/Products/Categories</td>
+</tr>
+<tr>
+<td width="213" valign="top">/Products/List/<em>Category</em></td>
+<td width="241" valign="top">List Products within a Category</td>
+<td width="224" valign="top">/Products/List/Beverages</td>
+</tr>
+<tr>
+<td width="214" valign="top">/Products/Detail/<em>ProductID</em></td>
+<td width="241" valign="top">Show Details about a Specific Product</td>
+<td width="224" valign="top">/Products/Detail/34</td>
+</tr>
+</tbody>
+</table>
+<p>Hay un par de formas de escribir el código en nuestra clase ProductsController para procesar estos tres tipos de urls. Una forma podría ser "Ejecutar" un método en la clase base Controller y escribir nuestra lógica if/else/switch para ver qué url se ha solicitado, y entonces ejecutar la logica necesaria en cada caso.</p>
+<p>Una forma más sencilla es usar una característica del framework MVC que nos permite definir "métodos de acción" en nuestro controlador, y que la clase base Controller invoque el método apropiado.</p>
+<p>Por ejemplo, podemos añadir los siguientes métodos de acción a nuestra clase ProductsController :</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step7.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step7.jpg" border="0" alt="" width="464" height="567"></a></p>
+<p>Las reglas de rutado de urls que&nbsp;están configuradas por defecto cuando creamos un nuevo proyecto tratan los sub-path de la url que siguen al nombre del controlador como el nombre de la acción de la petición. Así que cuando recibimos una petición de la forma "/Products/Categories", la regla tratará la parte "Categories" como el nombre de la acción, y se invocará el método Categories() para procesar la petición. Si recivimos una petición a la url /Products/Detail/5, la regla cojerá el nombre "Detail" como el nombre de la acción y se invocará al método Detail(), etc.</p>
+<p><em>Nota: ASP.NET MVC no obliga a usar este convenio de nombres. Si queremos usar otro patrón de mapeado para las urls, podemos cambiarlo en la clase de la aplicación de ASP.NET (en Global.asax) y cambiarlo.</em></p>
+<p><strong>Mapeando parámetros URL a métodos de acción</strong></p>
+<p>Hay varias formas de acceder a los parámetros de las urls en los métodos de acción de las clases controlador.</p>
+<p>La clase base Controller expone un conjunto de objetos Request y Response que podemos usar. EStos objetos tienen la misma estructura que los objetos HttpRequest/HttpResponse a los que estamos acostumbrados en ASP.NET. La diferencia es que estos objetos están basados en interfaces en lugar de en clases selladas (sealed) (MVC trae las interfaces System.Web.IHttpRequest y System.Web.IHttpResponse). Lo bueno de esto es que ahora podemos implementarlos como queramos - lo que nos permite crear test unitarios para clases controlador. Lo veremos en más profundidad en futuros post.</p>
+<p>Aquí tenéis un ejemplo de cómo usar el API Request para obtener un ID querystring desde la acción Detail de nuestra clase ProductsController:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step8.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step8.jpg" border="0" alt="" width="381" height="137"></a></p>
+<p>ASP.NET MVC también nos permite mapear automáticamente parámetros de la url como parámetros de métodos de acción. Por defecto, si tenemos un parámetro en algún método de acción, MVC mirará los datos de la petición para ver si hay algún valor que se corresponda con el mismo nombre. Si lo hay, lo pasará automáticamente como parámetro del método de acción.</p>
+<p>Por ejemplo, podemos reescribir el método de acción Detail use esta característica:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step9.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step9.jpg" border="0" alt="" width="337" height="135"></a></p>
+<p>Además de mapear los valores de los argumentos de la querystring de una petición, ASP.NET MVC tamibén nos permite usar la infraestructura de mapeo de rutas para incrustar valores en la misma url (por ejemplo: en ludgar de /Products/Detail?id=3 podríamos usar /Products/Detail/3).</p>
+<p>La regla de mapeo por defecto cuando creamos un nuevo proyecto MVC es: "[controller]/[action]/[id]". Vemos que si hay algún sub-path en la dirección después del nombre del método de acción, lo tratará como un parámetro - y podremos pasarlo directamente al método de acción como argumento:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step10.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step10.jpg" border="0" alt="" width="324" height="135"></a></p>
+<p>Podemos hacer lo mismo para la acción List (Listar) de manera que le pasamos el nombre de la categoría en la url (por ejemplo: /Products/List/Beverages). Para hacer el código más claro, he hecho un truco en las reglas de rutado en lugar de pasar un argumento con nombre "id" sea "category" para esta acción.</p>
+<p>Aquí teneis una versión de nuestra clase ProductsController que ahora tiene un rutado url completo y un soporte para el mapeo de parámetros:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step11.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step11.jpg" border="0" alt="" width="515" height="597"></a></p>
+<p>Fijáos cómo en la acción List coge el parámetro de la categoría como parte de la URL, y un índice de página opcional&nbsp; (implementaremos paginado en el servidor y usaremos ese valor para indicar qué página de categoría mostrar en la petición).</p>
+<p>Los parámetros opcionales se manejan usando tipos de datos nullables en los métodos de acción de los controladores. Debido a que el parámetro de nuestra acción List es nullable (eso es lo que significa "int?"), el framework MVC pasará el valor si está en la url - o pasará un nulo si no. Leed <a href="http://speakingin.net/2007/09/24/el-operador-de-c-usandolo-en-linq/">este post </a>para aprender cómo funcionan los tipos nulables.</p>
+<p><strong>Construllendo objetos de nuestro modelo de datos.</strong></p>
+<p>Ya tenemos la clase ProductsController y tres métodos de acción listas para procesar peticiones web. El siguiente paso es crear algunas clases que nos ayuden a trabajar con nuestra base de datos para obtener los datos necesarios para manejar esas peticiones web.</p>
+<p>En un mundo MVC los "modelos" son componentes de una aplicación responsables de mantener el estado. En las aplicaciones web, este estado se guarda en una base de datos (por ejemplo: tendremos un objeto producto que se usa para representar los datos de un producto de la tabla Products en nuestra base de datos SQL).</p>
+<p>El framework ASP.NET MVC nos permite usar cualquier patrón de acceso&nbsp; a datos o framework que queramos para obtener y trabajar con los modelos. Si queremos usar ADO.NET DataSets/DataReaders (o abstracciones encima de ellos) podemos. Si preferimos usar un ORM (Object Relational Mapper) como NHibernate, LLBLGen, WilsonORMapper, LINQ to SQL/LINQ to Entities podemos también.</p>
+<p>Para nuestra aplicación de ejemplo usaremos el ORM que viene con .NET 3.5 y VS 2008&nbsp;llamado LINQ to SQL. Podéis aprender más sobre él en la serie de post que escribí (en concreto aquí tenéis los post: <a href="http://speakingin.net/2007/05/20/usando-linq-to-sql-1%c2%aa-parte/">post1</a>, <a href="http://speakingin.net/2007/05/30/linq-to-sql-2%c2%aa-parte-definiendo-nuestras-clases-del-modelo-de-datos/">post2</a>, <a href="http://speakingin.net/2007/06/30/linq-to-sql-3%c2%aa-parte-consultando-la-base-de-datos/">post3 </a>y <a href="http://speakingin.net/2007/07/13/linq-to-sql-4%c2%aa-parte-actualizando-la-base-de-datos/">post4</a>).</p>
+<p>Empezaremos haciendo clic con el botón derecho en el directorio "Models" de nuestro proyecto MVC y elegimos "Add New Item" para añadir un modelo LINQ to SQL. En el diseñador de LINQ&nbsp; to SQL defeiniremos tres clases para mapear las tablas Categories, Products, y Suppliers de la base de datos de ejemplo de Northwind:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step12.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step12.jpg" border="0" alt="" width="535" height="635"></a></p>
+<p>Una vez definido nuestro modelo LINQ to SQL, añadiremos una nueva clase parcial NorthwindDataContext&nbsp;al directorio Models:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step14.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step14.jpg" border="0" alt="" width="255" height="354"></a></p>
+<p>En esta clase definiremos unos cuantos métodos que nos servirán para encapsular algunas expresiones LINQ que usaremos para obtener los objetos Category de nuestra base de datos, obtener todos los productos de una categoría y un producto concreto a partir del campo ProductID:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step13.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step13.jpg" border="0" alt="" width="734" height="402"></a></p>
+<p>Estos métodos nos harán más facil y claro obtener los objetos del modelo de datos que necesitamos para nuestra clase ProductsController (sin tener que escribir ninguna expresión LINQ en nuestra clase controlador):</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step16.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step16.jpg" border="0" alt="" width="547" height="367"></a></p>
+<p>Ahora tenemos todo el código necesario para la funcionalidad de la clase ProductsController.</p>
+<p><strong>Terminando la implementación de la clase ProductsController</strong></p>
+<p>Los controladores de una aplicación basada en MVC son los responsables de procesar las peticiones entrantes, administrar las entradas de usuario y sus interacciones, y ejecutar la lógica necesaria (obtener y actualizar el modelo de datos, etc...).</p>
+<p>Normalmente los controladores NO generan la respuesta HTML. Esta tarea es cosa de los componentes "View" (o vistas) de la aplicación - que se implementan en clases a parte de los controladores. Las vistas se centrar en encapsular toda la lógica de presentación y no deben contener nada de la lógica de la aplicación o accesos a la base de datos (esto es tarea de los controladores).</p>
+<p>En un workflow web MVC típico, los métodos de acción de los controladores administran las peticiones web, usan los parámetros para ejecutar la lógica apropiada, obtienen o actualizan los modelos de datos de la base de datos, y entonces eligen una Vista para renderizar la respuesta al navegador cliente. Como parte de elegir la vista adecuada para renderizar, el controlador le pasará explicitamente (como argumento) todos los datos y variables necesarios para que la vista genere la respuesta adecuada:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step0.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step0.jpg" border="0" alt="" width="635" height="271"></a></p>
+<p>Os estaréis preguntando ¿cuales son los benefiicos de separar las vistas y los controladores de esta manera? ¿Porqué no ponerlos todos en la misma clase? La primera motivación de particionar la aplicación de esta manera es para ayudar a la separación entre lógica de negocio y la generación de la interfaz de suuario. Esto hace mucho más sencillo el hacer test unitarios a nuestra logica de datos por una parte y para la presentación en otra. También puede ayudarnos a hacer que nuestra aplicación sea más mantenible con el paso del tiempo - hace más difícil que añadamos parte de la lógica en la capa de presentación.</p>
+<p>Cuando implementamos los tres métodos de acción del controlador en la clase ProductsController, usaremos los parámetros de la URL para obtener los objetos adecuados de nuestra base de datos, y entonces seleccionamos una vista adecuada para generar una resputesta HTML. Usaremos uno de los métodos RenderView() de la clase base Controller para espcificar la vista que queramos usar, así como explicitamente le pasaremos los datos específicos que queremos que la vista use para renderizar la respuesta.</p>
+<p>Aquí tenéis el resultado final de la clase ProductsController:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step17.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step17.jpg" border="0" alt="" width="691" height="586"></a></p>
+<p>Fíjáos que el número de líneas de codigo que tienen los métodos de acción es muy poco (dos líneas cada uno). Esto es debido a que la lógica de paso de parametros de las URLs es administrada completamente por el framework MVC (ahorrándonos el tener que escribir todo ese código). También es debido a que el escenario de navegación entre productos es muy simple desde el punto de vista de la lógica de negocio (los métodos de acción son sólo escenarios de lectura).</p>
+<p>En general nos encontraremos con los llamados "skinny controllers" (controladores flacos) - haciendo referencia a aquellos controladores cuyos métodos de acción no tienen más de 10 líneas de código. Esto suele ser una señal de que hemos encapsulado muy bien la lógica de datos y factorizado la lógica de controlador bien.</p>
+<p><strong>Tests unitarios de la clase ProductsController</strong></p>
+<p>Os sorprenderá ver que el siguiente paso es trabajar en el testing de la lógica de la aplicación y la funcionalidad. Preguntaréis ¿cómo es posible? No hemos implementado nada en las vistas y nuestra aplicación a día de hoy no renderiza ni un tag HTML. Bueno, una de las cosas que hace que el MVC sea interesante es que nos permite hacer test unitarios&nbsp; de los controladores y del model lógico de las aplicaciones completamente independiente de la generación de las vistas/Html. Como ahora veremos podemos hasta testear esto ántes de crear las vistas.</p>
+<p>Para hacerle los test unitarios a la clase ProductsController añadiremos una clase nueva ProductsControllerTester al proyecto de Test que se creó en la solución por defecto cuando creamos el proyecto en Visual Studio:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step18.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step18.jpg" border="0" alt="" width="255" height="427"></a></p>
+<p>Ahora definiremos un test simple que comprueba la acción Detail:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step19.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step19.jpg" border="0" alt="" width="662" height="599"></a></p>
+<p>El framework ASP.NET MVC ha sido diseñado especialmente para que sea fácil hacer test unitarios. Todas las APIS y contratos del framework son interfaces, y los puntos de extensión están disponibles para permitir una injección y personalización fácil de objetos (incluyendo la habilidad de usar contenedores IOC como Windsor, StructureMap, Spring.NET y ObjectBuilder). Los desarrolladores serán capaces de usar las clases incluidas, o cualquier tipo de framework .NET para simular sus propios test a los objetos de MVC.</p>
+<p>En el test anterior, podemos ver un ejemplo sobre cómo inyectar una implementacion tonta de "ViewFactory" en nuestra clase ProductsController antes de llamar al método de acción Detail(). De esta forma estamos sobreescribiendo la factoría de vistas por defecto que se usaría para renderizar nuestra vista. Podemos usar esta implementación de factoría de vistas para aislar el testeado del comportamiento del método Detail de ProductsController (y no involucrar ninguna vista para hacer esto). Fijaos cómo podemos usar las tres sentencias Assert después del método Detail() para verificar el correcto comportaminto d eéste (específicamente que la acción ha obtenido el producto correcto y se lo ha pasado a la vista).</p>
+<p>Debido a que podemos simular cualquier objeto del framework MVC (incluso objetos IHttpRequest y IHttpResponse), no tenemos que ejecutar tests en el contexto del servidor web actual. Si no que, podemos crear nuestro controlador ProductsController en una librería y testearla directamente. Esto puede acelerar la velocidad de ejecución de test unitarios, y simplificar la configuración y la ejecución de ellos.</p>
+<p>Si usamos Visual Studio 2008, podemos hacer un seguimiento de los test ejecutados (esta funcionalidad está incluida en VS 2008 Professional):</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step20.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step20.jpg" border="0" alt="" width="725" height="193"></a></p>
+<p>Creo que os daréis cuenta la facilidad que es realizar test con ASP.NET MVC Framework, y nos permite un bonito workflow TDD.</p>
+<p><strong>Renderizando UI con Vistas</strong></p>
+<p>Hemos terminado de implementar y testear la aplicación y la lógica de datos para la sección de navegación entre productos de nuestra aplicación d e-comerce. Ahora tenemos que implementar una interfaz de usuario HTML para ella.</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step0.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step0.jpg" border="0" alt="" width="635" height="271"></a></p>
+<p>Lo haremos implementando unas "Vistas" que renderizarán la interfaz de usuario adecuada usando objetos de datos relacionados con las vistas que los métodos de acción de la clase ProductsController proporcionarán cuando se llame al método RenderView():</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step21.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step21.jpg" border="0" alt="" width="504" height="126"></a></p>
+<p>En este código vemos que el parámetro "Categories" está indicando el nombre de la vista que queremos renderizar, y el segundo parámetro es una lista de objetos Category que queremos pasarle a la vista para que genere el HTML adecuado.</p>
+<p>ASP.NET MVC tiene la habilidad de usar cualquier motor de templates para ayudarnos a generar la interfaz de usuario (incluyendo motores de templates como NVelocity, Brail - y cualquiera que escribamos ). Por defecto ASP.NET MVC usa las páginas ASP.NET (.aspx), Master Pages (.master) y UserControls (.ascx).</p>
+<p>Usaermos el motor de ASP.NET para implementar la interfaz de usuario de nuestra aplicación.</p>
+<p><strong>Definiendo el archivo Site.Master</strong></p>
+<p>Como vamos a estar creando varias páginas para nuestro sitio, empezaremos definiendo una master page que usaremos para encapsular el HTML común que usaremos en todo el sitio. Esto lo haremos con un archivo llamado "Site.Master" que crearemos en el directorio ViewsShared:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step22.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step22.jpg" border="0" alt="" width="236" height="388"></a></p>
+<p>Podemos referenciar una CSS externa para encapsular todos los estilos del sitio, y usar la master page para definir el aspecto del sitio, así como identificar los placeholders que las páginas rellenaran con su contenido propio. Podemos usar todas las características del diseñador de VS 2008 para hacer esto (incluyendo la<a href="http://speakingin.net/2007/08/07/habilitando-la-pantalla-partida-vertical-en-vs-2008/"> pantalla partida </a>, el <a href="http://speakingin.net/2007/08/04/vs-2008-web-designer-y-el-soporte-css/">soporte de css</a>, y el <a href="http://speakingin.net/2007/07/10/soporte-de-master-pages-jerarquizadas-en-vs-2008/">soporte de master pages anidadas</a>):</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step23.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step23.jpg" border="0" alt="" width="800" height="690"></a></p>
+<p><strong>Entendiendo la estructura del directorio /Views</strong></p>
+<p>Cuando creamos un proyecto para ASP.NET MVC en Visual Studio, creará un subdirectorio llamado "Shared" en el directorio "Views". Este es el lugar recomendado para guardar las Master Pages, User Controls, y las Vistas que queramos compartir entre varios Controladores de nuestra aplicación.</p>
+<p>Cuando creamos vistas que son específicas para un sólo controlador, la convención que se usa por defecto en ASP.NET MVC es guardarlas en subdirectorios del directorio /Views. El nombre por defecto de ese subdirectorio debe ser el mismo que el nombre del controlador. Por ejemplo, como ya tenemos una clase controlador llamada "ProductsController", por defecto, guardaremos las vistas asociadas a ella en el directorio /Views/Product:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step24.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step24.jpg" border="0" alt="" width="233" height="470"></a></p>
+<p>Cuando llamemos al método RenderView (string viewName) de un controlador concreto, MVC framework buscará primero a su correspondiente .aspx o .ascx vajo el directorio /Views/<em>NombreControllador </em>y si no puede encontrarlo comprobará el directorio ViewsShared.</p>
+<p><strong>Crear la vista de Categorías</strong></p>
+<p>Podemos crear una vista "Categories" para ProductsController con Visual Studio usando el menú "Add New Item" en el directorio Products y seleccionando "MVC View Page". ESto creará un nuevo .aspx que podemos asociar a la página Site.Master para que tenga el mismo look and feel del sitio (al igual que con las master pages tener un soporte WYSIWYG):</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step25.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step25.jpg" border="0" alt="" width="761" height="486"></a></p>
+<p>Cuando creamos aplicaciones con el patron MVC, querremos mantener el código de las vistas lo más simple posible, y asegurarnos de que ese código sólo se encarga de renderizar la interfaz de usuario. La lógica de la aplicación y de los datos sólo debería estar escrito en las clases controlador. Estas clases pueden elegir pasar los objetos necesarios para renderizar una vista cuando llamen al método RenderView. Por ejemplo, aquí teneís el método de acción de Categories de nuestra clase ProductsController que le pasa una colección List de objetos categoría:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step21.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step21.jpg" border="0" alt="" width="504" height="126"></a></p>
+<p>Las páginas de vistas de MVC derivan de System.Web.Mvc.ViewPage que nos proporciona un conjunto de métodos de ayuda y propiedades que podemos usar para la generación de la interfaz de usuario. Una de esas propiedades es "ViewData", y nos da acceso a objetos de datos específicos de la vista que el controlador le pasa como argumentos al método RenderView().</p>
+<p>Desde la vista podemos acceder a "ViewData" tanto de forma tipada como no tipada. Si nuestra vista deriva de ViewPage, la propiedad ViewData se tipará como un diccionario. Si la vista deriva de tipos genéricos ViewPage&lt;T&gt; - donde T indica el tipo de datos que el controlador le pasa a la vista - entonces la propiedad ViewDAta es fuertemente tipada.</p>
+<p>Por ejemplo, en el código trasero de nuestra vista de Categorías vemos que deriva de ViewPage&lt;T&gt; - donde le indicamos que T es una List de objetos Category:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step26.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step26.jpg" border="0" alt="" width="571" height="232"></a></p>
+<p>Esto implica que tenemos seguridad de tipos, intellisense y comprobaciones en tiempo de compilación en el código de la vista cuando trabajamos con los datos de ProductsController.Categories:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step27.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step27.jpg" border="0" alt="" width="417" height="271"></a></p>
+<p><strong>Renderizando la vista de Categorias:</strong></p>
+<p>Si recordamos las capturas de pantalla del principio del post, queremos mostrar la lista de productos de una categoría en la vista de Categorías:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step28.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step28.jpg" border="0" alt="" width="356" height="496"></a></p>
+<p>Podemos escribir esta generación de la interfaz de usuario de dos formas: 1) Usando código inline en el .aspx o 2) Usando controles de servidor en el .aspx y enlazarlos desde el código trasero.</p>
+<p><strong>Primera opcion: Código inline</strong></p>
+<p>Las páginas ASP.NET, los User Controls y las Master Pages soportan la sintaxis de &lt;% %&gt; y &lt;%= &amp;&gt; para insertar código en el rendering del html. Podemos usar esta técnica con nuestra vista de categorías para escribir un bucle foreach que genere la lista en html:</p>
+<p><img src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step29.jpg" border="0" alt="" width="1" height="1"><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step29(1).jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step29(1).jpg" border="0" alt="" width="800" height="281"></a></p>
+<p>VS 2008 nos da intellisense completo en el editor de código tanto para VB como para C#.</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step30.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step30.jpg" border="0" alt="" width="800" height="381"></a></p>
+<p>También nos permite debugear el código inline (permitiéndonos poner puntos de ruptura):</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step31.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step31.jpg" border="0" alt="" width="800" height="612"></a></p>
+<p><strong>Segunda opción: Usando controles de servidor</strong></p>
+<p>Las páginas ASP.NET, los User Controls y las Master Pages también tienen la habilidad de usar contorles de servidor declarativos para encapsular la generación del HTML. En lugar de usar el código inline, podemos usar<a href="http://speakingin.net/2007/08/12/el-control-asplistview-parte-1-creacion-de-una-pagina-de-listado-de-productos-con-una-css-limpia/"> el nuevo control &lt;asp:listview&gt; de .NET 3.5 </a>para generar la lista:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step32.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step32.jpg" border="0" alt="" width="800" height="363"></a></p>
+<p>Fijaos cómo el control ListView encapsula tanto el renderizado de los valores como administra el escenario cuando no hay elementos en la lista (el &lt;EmptyDataTemplate&gt; nos salva de tener que escribir una sentencia if/else en el lenguaje de marcado). Ahora podemos enlazar nuestros objetos de categoría al control listview en el código trasero:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step33.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step33.jpg" border="0" alt="" width="557" height="289"></a></p>
+<p><em>Importante: En el mundo MVC sólo querremos poner lógica de renderizado en el código trasero de las vistas (y ninguna lógica de la aplicación). Arriba, la única lógica que tenemos es la asignación de la colección fuertemente tipada de ViewData al control ListView. El controlador ProductsController es el único que obtiene la lista de categorías de la base de datos, no la vista.</em></p>
+<p>El control ListView de la vista generará el mismo HTML que el código inline de la primera opción. Como no queremos tener un control &lt;form runat="server"&gt; en la página, sin viewstate, valores ID, no se emitirá nada. Sólo CSS y HTML:</p>
+<p><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step34.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step34.jpg" border="0" alt="" width="575" height="513"></a></p>
+<p><strong>El método Html.ActionLink</strong></p>
+<p>Una de las cosas de las que os habréis dado cuenta tanto en la opción del código inline como en la versión con un control de servidor son las llamadas al método Html.ActionLink:</p>
+<p><img src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step35.jpg" border="0" alt="" width="1" height="1"><a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step35.jpg" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.scottgu.com&#39;]);"><img style="border:0;" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/step35.jpg" border="0" alt="" width="828" height="39"></a></p>
+<p>El objeto Html es una propiedad de ayuda en la clase base ViewPage, y el método ActionLink es una forma de hacer sencillo el generar enlaces HTML que enlacen a los métodos de acción de los controladores. Si miramos la salida HTML podemos ver un ejemplo del HTML generado por este método:</p>
+<p>&nbsp;&lt;a href="http://weblogs.asp.net/Products/List/Beverages" mce_href="http://weblogs.asp.net/Products/List/Beverages"&gt;Beverages&lt;/a&gt;</p>
+<p>Esta firma del método Html.ActionLink que estamos usando es de esta forma:</p>
+<blockquote><p>string ActionLink(string text, object values);</p></blockquote>
+<p>El primer parámtero representa al contenido del enlace a renderizar (por ejemplo: &lt;a&gt; el texto que va aquí &lt;/a&gt;. El segundo argumento es un <a href="http://speakingin.net/2007/05/16/nueva-caracteristica-de-orcas-tipos-anonimos/">tipo anónimo </a>que represetna una secuencia de valores a usar para generar la URl (podeis pensar en ello como una <a href="http://weblogs.asp.net/leftslipper/archive/2007/09/24/using-c-3-0-anonymous-types-as-dictionaries.aspx" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://weblogs.asp.net&#39;]);">forma limpia de generar diccionarios</a>). Lo veremos en más detalle en un post futuro sobre el motor de rutado de URL. Resumiendo, es que podemos usar el sistema de rutado URL tanto para procesar las URLs entrantes como para generar las urls que emitiremos. Si tenemos una rgla como esta:</p>
+<blockquote><p>/&lt;controller&gt;/&lt;action&gt;/&lt;category&gt;</p></blockquote>
+<p>Y luego escribir este código en la vista de categorías del ProductController:</p>
+<blockquote><p>&lt;%= Html.ActionLink("Click Me to See Beverages", new { action="List", category="Beverages" } %&gt;</p></blockquote>
+<p>El método ActionLink usará las reglas de mapeo de url de nuestra aplicación para enmascararla en los parámetros y generar esta salida:</p>
+<blockquote><p>&lt;a href="http://weblogs.asp.net/Products/List/Beverages" mce_href="http://weblogs.asp.net/Products/List/Beverages"&gt;Click Me to See Beverages&lt;/a&gt;</p></blockquote>
+<p>Esto hace muy fácil a nuestra aplicación generar URLs y callbacks de AJAX en nuestros Controladores. También implica el poder actualizar las reglas de rutado de URLs en un lugar y tener el código disponible en toda nuestra aplicación.</p>
+<p><em>Nota importante: Para ayudar la testeabilidad, el framework MVC no soporta los eventos de postback directamente a controles de servidor en las vistas. En lugar de eso, las aplicaiones ASP.NET MVC generar hyperlink y callbacks AJAX para las acciones del controlador - y usa las vistas (y cualquier control de servidor) sólo para renderizar la salida. Esto asegura que la lógica de Vistas sigue siendo mínima y sólo se centra en la renderización, pudiendo así testear las clases controlador y comprobar toda la lógica de datos y de la aplicación independientmente de las vista. Lo veremos en otros post futuros.</em></p>
+<p><strong>Resumen</strong></p>
+<p>Este primer post es muy largo, pero ofrece un buen&nbsp;primer vistazo sobre los diferentes componentes que ofrece ASP.NET MVC, y cómo podemos crear un escenario real típico. Los primeros bits de ASP.NET MVC estará disponible en unas pocas semanas, y podréis usarlo para hacer todos los pasos de arriba.</p>
+<p>Aunque la mayoría de los conceptos de MVC (en particular la idea de separar conceptos) sean nuevos a muchos lectores, este post también ha mostrado que la implementación de ASP.NET MVC en la que estamos trabajando es bastante limpia. Podemos usar .ASPX, .ASCX y MASTER PAGES y ASP.NET AJX para crear las vistas de ASP.NET MVC. Características no relacionadas con la interfaz de usuario de ASP.NET como Autenticación por formulario, Windows Authentication, Membership, Roles, URL Authorization, Cacheo, Session STate, Profiles, Health Monitoring, Configuration, Compilation, Localization, y HttpModules/HttpHandlers soportan el modelo MVC.</p>
+<p>Si no os gusta el modelo MVC o no lo encontrais natural para vuestra forma de desarrollo, no tendreis que usarlo. Es una oferta totalmente opcional - y no reemplaza al modelo de WebForms Page Controller. Tanto WebForms como MVC estarán soportados y extendidos. Incluso podéis crear una aplicación y tener partes escritas con WebForms y partes con MVC si queréis.</p>
+<p>Si os ha gustado lo que habéis visto de MVC (o si queréis aprender más), estad atentos al blog en las próximas semanas. Escribiré sobre más conceptos de MVC y los usaremos para crear nuestra aplicación de e-commerce para ver más características.</p>
+<p>Espero que sirva</p>
+<p>Scott.</p>
+<p>Traducido por: Juan María Laó Ramos. Microsoft Student Partner.</p>
+<p>Artículo original: <a href="http://weblogs.asp.net/scottgu/archive/2007/11/13/asp-net-mvc-framework-part-1.aspx?CommentPosted=true#commentmessage" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://weblogs.asp.net&#39;]);">http://weblogs.asp.net/scottgu/archive/2007/11/13/asp-net-mvc-framework-part-1.aspx?CommentPosted=true#commentmessage</a></p>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-facebook"><a rel="nofollow" class="share-facebook sd-button share-icon" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?share=facebook&nb=1" title="Compartir en Facebook" id="sharing-facebook-120"><span>Facebook<span class="share-count">5</span></span></a></li><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?share=twitter&nb=1" title="Haz clic para compartir en Twitter" id="sharing-twitter-120"><span>Twitter<span class="share-count">3</span></span></a></li><li class="share-linkedin"><a rel="nofollow" class="share-linkedin sd-button share-icon" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?share=linkedin&nb=1" title="Haz clic aquí para compartir en LinkedIn" id="sharing-linkedin-120"><span>LinkedIn</span></a></li><li><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#" class="sharing-anchor sd-button share-more"><span>Más</span></a></li><li class="share-end"></li></ul><div class="sharing-hidden"><div class="inner" style="display: none;width:150px;"><ul style="background-image:none;"><li class="share-google-plus-1"><a rel="nofollow" class="share-google-plus-1 sd-button share-icon" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?share=google-plus-1&nb=1" title="Haz clic para compartir en Google+" id="sharing-google-120"><span>Google +1</span></a></li><li class="share-end"></li></ul></div></div></div></div></div>					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			Esta entrada fue publicada en <a href="http://speakingin.net/category/net/" title="Ver todas las entradas en .NET" rel="category tag">.NET</a>, <a href="http://speakingin.net/category/asp-net/" title="Ver todas las entradas en ASP .NET" rel="category tag">ASP .NET</a>, <a href="http://speakingin.net/category/mvc/" title="Ver todas las entradas en MVC" rel="category tag">MVC</a>, <a href="http://speakingin.net/category/scott-guthrie/" title="Ver todas las entradas en Scott Guthrië" rel="category tag">Scott Guthrië</a>, <a href="http://speakingin.net/category/visual-studio/" title="Ver todas las entradas en Visual Studio" rel="category tag">Visual Studio</a> el <a href="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/ASP.NET MVC Framework (Primera parte)   Speaking in .NET.htm" title="16:53" rel="bookmark"><time class="entry-date" datetime="2007-11-18T16:53:45+00:00">18 noviembre, 2007</time></a><span class="by-author"> por <span class="author vcard"><a class="url fn n" href="http://speakingin.net/author/juanma/" title="Ver todas las entradas de juanlao" rel="author">juanlao</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+				<nav class="nav-single">
+					<h3 class="assistive-text">Navegación de entradas</h3>
+					<span class="nav-previous"><a href="http://speakingin.net/2007/11/03/truco-velocidad-del-disco-duro-y-rendimiento-de-visual-studio/" rel="prev"><span class="meta-nav">←</span> Truco: Velocidad del disco duro y rendimiento de Visual Studio</a></span>
+					<span class="nav-next"><a href="http://speakingin.net/2007/11/18/enlaces-17-nov-aspnet-aspnet-ajx-aspnet-mvc-vs-208-net-35-iis7-silverlight/" rel="next">Enlaces 17 Nov: ASP.NET, ASP.NET AJX, ASP.NET MVC, VS 208, .NET 3.5, IIS7, Silverlight <span class="meta-nav">→</span></a></span>
+				</nav><!-- .nav-single -->
+
+				
+<div id="comments" class="comments-area">
+
+	
+			<h2 class="comments-title">
+			38 pensamientos en “<span>ASP.NET MVC Framework (Primera parte)</span>”		</h2>
+
+		<ol class="commentlist">
+				<li class="pingback even thread-even depth-1" id="comment-405">
+		<p>Pingback:  <a href="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/" rel="external nofollow" class="url">ASP.NET MVC Framework (3ª Parte): Pasando ViewData desde Controladores a las Vistas « Thinking in .NET</a> </p>
+	<ol class="children">
+	<li class="comment odd alt depth-2" id="li-comment-427">
+		<article id="comment-427" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/ba814ca23c2d3a3d0640eb14efdcf51f" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-ba814ca23c2d3a3d0640eb14efdcf51f-0"><cite class="fn">MAGG </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-427"><time datetime="2009-08-01T15:30:31+00:00">1 agosto, 2009 en 15:30</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Hola, </p>
+<p>Den un vistazo a <a href="http://www.desarrollaconmsdn.com/msdn/msdnvideo2003.aspx" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-comment&#39;,&#39;http://www.desarrollaconmsdn.com&#39;]);" rel="nofollow">http://www.desarrollaconmsdn.com/msdn/msdnvideo2003.aspx</a> a la paret del dispensador donde se implementa el MVC para que quede mas claro el concepto y lo genial de esta nueva implementación.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=427#respond" onclick="return addComment.moveForm(&quot;comment-427&quot;, &quot;427&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="pingback even thread-odd thread-alt depth-1" id="comment-406">
+		<p>Pingback:  <a href="http://speakingin.net/2007/12/15/aspnet-mvc-framework-4%c2%aa-parte-escenarios-de-edicion-y-publicacion/" rel="external nofollow" class="url">ASP.NET MVC Framework (4ª Parte): Escenarios de edición y publicación « Thinking in .NET</a> </p>
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-even depth-1" id="li-comment-407">
+		<article id="comment-407" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/9c96784f953fc5d8bb0181d5e7e14f17" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-9c96784f953fc5d8bb0181d5e7e14f17-0"><cite class="fn">AB </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-407"><time datetime="2007-12-15T22:36:31+00:00">15 diciembre, 2007 en 22:36</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>y Spring??? no estaremos redescubriendo la rueda..?? ver FACeS en Java..</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=407#respond" onclick="return addComment.moveForm(&quot;comment-407&quot;, &quot;407&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	<ol class="children">
+	<li class="comment even depth-2" id="li-comment-440">
+		<article id="comment-440" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/8ece23a9914537fd3e7e0af2119d1d4f" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-8ece23a9914537fd3e7e0af2119d1d4f-0"><cite class="fn">walter cordero </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-440"><time datetime="2011-04-13T14:32:49+00:00">13 abril, 2011 en 14:32</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>si mi chavo Spring es buenísimo, pero acordate que habemos muchos que java no nos gusta para nada, o quienes en el trabajo solo usamos productos Microsoft.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=440#respond" onclick="return addComment.moveForm(&quot;comment-440&quot;, &quot;440&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-408">
+		<article id="comment-408" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/03078dc3a311fbabe062aeddb34d8468" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-03078dc3a311fbabe062aeddb34d8468-0"><cite class="fn"><a href="http://vioswords.wordpress.com/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://vioswords.wordpress.com&#39;]);" rel="external nofollow" class="url">Vio</a> </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-408"><time datetime="2007-12-16T16:15:25+00:00">16 diciembre, 2007 en 16:15</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Hola AB:</p>
+<p>Por lo que tengo entendido Spring es una metodología de desarrollo ágil. Basandose en establecer mini-hitos a cumplir en el proceso de desarrollo, teniendo como objetivo principal el no perder el control del desarrollo y saber en qué estado se encuentra el proyecto en cualquier momento. ¿Me estoy equivocando mucho?<br>
+ASP.NET MVC Framework es una tecnología para crear aplicaciones web siguiendo el patron Modelo Vista-Controlador, como dices es practicamente igual que Faces de java. Pero con ésta sólo puedes hacer cosas con java, desarrollo con java. Y con ASP.NET MVC puedes hacer lo mismo que con faces en aplicaciones web con cualquier lenguaje de .NET, esto es: J#, C#, VB, IronPython, etc, etc.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=408#respond" onclick="return addComment.moveForm(&quot;comment-408&quot;, &quot;408&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-409">
+		<article id="comment-409" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/0668d97ffd9defb65599557d3d52a71a" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-0668d97ffd9defb65599557d3d52a71a-0"><cite class="fn">Adolfo </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-409"><time datetime="2007-12-17T17:57:03+00:00">17 diciembre, 2007 en 17:57</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Vio, creo que estas confundiendo Spring con Sprint (este si es un concepto de Scrum)</p>
+<p>Por cierto, de Spring, existe una versión implementada en .NET.</p>
+<p>AB, no te falta razón, tal vez estemos redescrubriendo la rueda, esta no es más que una de las implementaciones del modelo que ya existen en .Net, la única diferencia que le encuentro es el soporte de Microsoft. Personalmente me gusta esta implementación por que supongo que será bastante educativa, y tendra una mayor adopción que las anterior, pero bueno, no soy futurologo.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=409#respond" onclick="return addComment.moveForm(&quot;comment-409&quot;, &quot;409&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-410">
+		<article id="comment-410" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/0668d97ffd9defb65599557d3d52a71a" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-0668d97ffd9defb65599557d3d52a71a-1"><cite class="fn">Adolfo </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-410"><time datetime="2007-12-17T17:58:55+00:00">17 diciembre, 2007 en 17:58</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Vio, creo que estas confundiendo Spring con Sprint (este si es un concepto de Scrum)</p>
+<p>Por cierto, de Spring, existe una versión implementada en .NET.</p>
+<p>AB, no te falta razón, tal vez estemos redescrubriendo la rueda, esta no es más que una de las implementaciones del modelo que ya existen en .Net, la única diferencia que le encuentro es el soporte de Microsoft. Personalmente me gusta esta implementación por que supongo que será bastante educativa, y tendra una mayor adopción que las anterior, pero bueno, no soy futurologo.</p>
+<p>Por cierto Vio, gracias por la traducción.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=410#respond" onclick="return addComment.moveForm(&quot;comment-410&quot;, &quot;410&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-411">
+		<article id="comment-411" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/03078dc3a311fbabe062aeddb34d8468" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-03078dc3a311fbabe062aeddb34d8468-1"><cite class="fn"><a href="http://vioswords.wordpress.com/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://vioswords.wordpress.com&#39;]);" rel="external nofollow" class="url">Vio</a> </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-411"><time datetime="2007-12-18T09:16:57+00:00">18 diciembre, 2007 en 9:16</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Gracias Adolfo por la corrección.<br>
+Veo que Spring es más ambicioso ya que MVC está pensado para la web, y spring.net no.<br>
+Estas cosas me pasan por culpa de las palabras, que se diferencian sólo en una letra.<br>
+Gracias de todas formas porque si no, no me habría enterado de que es Spring.</p>
+<p>Muchas gracias.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=411#respond" onclick="return addComment.moveForm(&quot;comment-411&quot;, &quot;411&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-412">
+		<article id="comment-412" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/7e0bef9cc32e3931a2c90b9af9a32977" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-7e0bef9cc32e3931a2c90b9af9a32977-0"><cite class="fn">victor </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-412"><time datetime="2008-02-27T23:50:45+00:00">27 febrero, 2008 en 23:50</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>baje el framework lo instale todo corre correctamente, pero al momento de subir el sitio en el server la sligas hacia las diferentes paginas no funcvionna me marca error como ke no encuentra al ruta, entonces supuse que hice algo mal, pero hice un proyecto mvc default el que vien como plantilla y lo subo al server y pasa lo mismo, y en le server ya instale el framework 3.5 las extensiones por favor alguien que me pueda ayudar</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=412#respond" onclick="return addComment.moveForm(&quot;comment-412&quot;, &quot;412&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-413">
+		<article id="comment-413" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/6f2462cac57fe8912776c893362a08ca" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-6f2462cac57fe8912776c893362a08ca-0"><cite class="fn">Joan Valls </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-413"><time datetime="2008-04-08T17:03:50+00:00">8 abril, 2008 en 17:03</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Hola,</p>
+<p>Tengo instalado el VS 2008 Team System Architecture Edition, al que he añadido el ASP.NET MVC Preview 2, pero no consigo hacer un ASP.NET MVC Web Application ni a la de tres. De hecho, cuando voy a Nuevo Proyecto y escojo Web, no me aparece esta opción. ¿no se habrá instalado la plantilla? ¿A qué se puede deber? Desde luego, el VS 2008 es original, aunque me tiene perplejo que en todas las ayudas se hable de VS 2008 Professional y no del Architecture Edition. Si este que tengo yo cuesta 5 veces más, ¿cómo es posible que no contenga esta opción? </p>
+<p>Gracias de antemano por tu ayuda</p>
+<p>Joan Valls</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=413#respond" onclick="return addComment.moveForm(&quot;comment-413&quot;, &quot;413&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-414">
+		<article id="comment-414" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/4543ffcd001928f8340de26cf570e892" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-4543ffcd001928f8340de26cf570e892-0"><cite class="fn"><a href="http://alfredocerrillo.spaces.live.con/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://alfredocerrillo.spaces.live.con&#39;]);" rel="external nofollow" class="url">Alfredo Cerrillo</a> </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-414"><time datetime="2008-04-14T20:40:45+00:00">14 abril, 2008 en 20:40</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Mejor usen MonoRail.  Es una implementación libre de MVC para ASP.NET, y ya tiene kilómetros de andadura.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=414#respond" onclick="return addComment.moveForm(&quot;comment-414&quot;, &quot;414&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="pingback even thread-even depth-1" id="comment-415">
+		<p>Pingback:  <a href="http://geeks.ms/blogs/jmaguilar/archive/2008/04/22/combinando-asp-net-mvc-framework-y-jquery-paso-a-paso.aspx" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://geeks.ms&#39;]);" rel="external nofollow" class="url">Combinando ASP.NET MVC framework y jQuery, paso a paso - Variable not found en Geeks.ms</a> </p>
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-416">
+		<article id="comment-416" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/9cc409d23068f174aa3040a51c232749" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-9cc409d23068f174aa3040a51c232749-0"><cite class="fn">Hernan </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-416"><time datetime="2008-06-24T21:02:13+00:00">24 junio, 2008 en 21:02</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Hola, efectivamente se esta redescubriendo la rueda. Microsoft quiso aportar su granito de arena con este patron. Pero hay aplicaciones como Castle Project Mono Rail que son para usar el patron MVC en ASP.NET.<br>
+Saludos.<br>
+Hernan</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=416#respond" onclick="return addComment.moveForm(&quot;comment-416&quot;, &quot;416&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-417">
+		<article id="comment-417" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/03078dc3a311fbabe062aeddb34d8468" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-03078dc3a311fbabe062aeddb34d8468-2"><cite class="fn"><a href="http://vioswords.wordpress.com/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://vioswords.wordpress.com&#39;]);" rel="external nofollow" class="url">Vio</a> </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-417"><time datetime="2008-06-25T17:51:22+00:00">25 junio, 2008 en 17:51</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Tiene buena pinta Hernan.<br>
+Pero parece tener los mismos problemas de la primera preview de ASP.NET MVC, a la hora de hacer test unitarios por ejemplo, los tipos pasados entre vistas y contrloadores no se pueden comprobar de una forma simple e intuitiva.<br>
+Se llevan bien con ASP.NET AJAX?<br>
+¿Y funciona con .NET 3.5?</p>
+<p>Muchas gracias por tu comentario.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=417#respond" onclick="return addComment.moveForm(&quot;comment-417&quot;, &quot;417&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-418">
+		<article id="comment-418" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/c80fadc5cdffed0a0b0372dca01c2991" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-c80fadc5cdffed0a0b0372dca01c2991-0"><cite class="fn"><a href="http://www.owey.com.ar/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://www.owey.com.ar&#39;]);" rel="external nofollow" class="url">Hernan</a> </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-418"><time datetime="2008-06-26T13:38:33+00:00">26 junio, 2008 en 13:38</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Hola, te comento, en cuanto a patron MVC, yo prefiero usar MonoRail <a href="http://www.castleproject.org/MonoRail/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-comment&#39;,&#39;http://www.castleproject.org&#39;]);" rel="nofollow">http://www.castleproject.org/MonoRail/</a><br>
+La ventaja principal es que tiene mas antiguedad por lo tanto esta mas probado y tambien esta hecho exclusivamente para .NET.<br>
+La ventaja principal es que funciona con el Framework 2.0 (y supongo que con el 1.1 tambien), cosa que no he podido hacer con ASP.NET MVC.<br>
+Si alguien sabe como correr MVC en framework 2.0, me seria util.</p>
+<p>Respecto a ASP.NET AJax, sinceramente casi no lo uso, ya que genera demasiados script para algo muy simple. Costo-Beneficio.<br>
+Si queres incursionar en Ajax, recomiendo Jayrock, un framework diseñado para convertir de C# a Json.<br>
+Saludos.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=418#respond" onclick="return addComment.moveForm(&quot;comment-418&quot;, &quot;418&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-419">
+		<article id="comment-419" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/2009f7c21a53db63a18fa63614776d08" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-2009f7c21a53db63a18fa63614776d08-0"><cite class="fn">Idilio Gainza </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-419"><time datetime="2008-10-04T06:15:52+00:00">4 octubre, 2008 en 6:15</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>En estos momentos empiezo a investigar sobre la programacion para aplicacines wueb, estoy interesado en aprender ASP.NET, por lo que busco framework que me faciliten el trabajo, es decir que yo pueda diseñar mi aplicación y un avez definido el diseño pueda generar codigo.</p>
+<p>   Alguien me puede ayudar o recomendar algo</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=419#respond" onclick="return addComment.moveForm(&quot;comment-419&quot;, &quot;419&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-420">
+		<article id="comment-420" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/03078dc3a311fbabe062aeddb34d8468" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-03078dc3a311fbabe062aeddb34d8468-3"><cite class="fn"><a href="http://vioswords.wordpress.com/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://vioswords.wordpress.com&#39;]);" rel="external nofollow" class="url">Vio</a> </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-420"><time datetime="2008-10-04T10:09:32+00:00">4 octubre, 2008 en 10:09</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Hola Idilio:</p>
+<p>Lo que estás buscando es Visual Studio, es de pago, pero tiene una versión gratuita un poco limitada. Busca el Visual Studio Express Edition hay uno especial para desarrollo web gratuito con ASP.NET.</p>
+<p>Espero que sirva</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=420#respond" onclick="return addComment.moveForm(&quot;comment-420&quot;, &quot;420&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-421">
+		<article id="comment-421" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/081b464716a7f40e25115cf1046d6a39" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-081b464716a7f40e25115cf1046d6a39-0"><cite class="fn">Juan Pedro </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-421"><time datetime="2009-05-21T15:26:08+00:00">21 mayo, 2009 en 15:26</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Buenas</p>
+<p>He intentado hacer este ejemplo pero no me tira. Algui que lo haya echo me lo puede pasar por la direccion de correo</p>
+<p>Muchas gracias</p>
+<p>Chao</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=421#respond" onclick="return addComment.moveForm(&quot;comment-421&quot;, &quot;421&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-422">
+		<article id="comment-422" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/c17d762fcc83473f6f3be11db8e4541a" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-c17d762fcc83473f6f3be11db8e4541a-0"><cite class="fn">Yahaira </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-422"><time datetime="2009-06-30T01:29:31+00:00">30 junio, 2009 en 1:29</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Estoy de acuerdo con Vio…</p>
+<p>Oye no podrias pasarme el mismo ejemplo pero en visual basic, te lo agradeceria</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=422#respond" onclick="return addComment.moveForm(&quot;comment-422&quot;, &quot;422&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-423">
+		<article id="comment-423" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/accb2a7d6b4bff746679eea16e087313" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-accb2a7d6b4bff746679eea16e087313-0"><cite class="fn">Juan </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-423"><time datetime="2009-07-08T15:14:14+00:00">8 julio, 2009 en 15:14</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>excelente, si pudieras mandarme material adicional te lo agradecería infinitamente.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=423#respond" onclick="return addComment.moveForm(&quot;comment-423&quot;, &quot;423&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-424">
+		<article id="comment-424" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/b77e1d1275d4f453b2ef613317c853a1" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-b77e1d1275d4f453b2ef613317c853a1-0"><cite class="fn">Beto </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-424"><time datetime="2009-07-10T12:55:38+00:00">10 julio, 2009 en 12:55</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Hola, me bajé el VS2008 trial de la página de Microsoft, pero no veo que tenga la opcion de crear un proyecto ASP MVC. Hay que instalar algo más aparte de eso? O en esa versión no es posible desarrollar ese tipo de aplicaciones.</p>
+<p>Saludos</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=424#respond" onclick="return addComment.moveForm(&quot;comment-424&quot;, &quot;424&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	<ol class="children">
+	<li class="comment even depth-2" id="li-comment-425">
+		<article id="comment-425" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/9498bdeaba6082512bb68f9b4b808391" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-9498bdeaba6082512bb68f9b4b808391-0"><cite class="fn">Tango Feroz </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-425"><time datetime="2009-07-21T16:33:27+00:00">21 julio, 2009 en 16:33</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Beto, para poder utilizar el ASP.net MVC necesitas descargar el instalador de la pagina oficial  <a href="http://www.asp.net/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-comment&#39;,&#39;http://www.asp.net&#39;]);" rel="nofollow">http://www.asp.net</a>  y luego seguir los pasos de instalación. De hecho este framework no viene incluido en ninguna de las versiones 2008 del visual studio</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=425#respond" onclick="return addComment.moveForm(&quot;comment-425&quot;, &quot;425&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment odd alt thread-even depth-1" id="li-comment-426">
+		<article id="comment-426" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/5218e91e530fcf38a04baf077e87c28b" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-5218e91e530fcf38a04baf077e87c28b-0"><cite class="fn">antoniomtz </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-426"><time datetime="2009-07-29T04:28:01+00:00">29 julio, 2009 en 4:28</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>tus imagenes no se ven</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=426#respond" onclick="return addComment.moveForm(&quot;comment-426&quot;, &quot;426&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1" id="li-comment-428">
+		<article id="comment-428" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/8e57ca32e4a73b515f861a936207d114" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-8e57ca32e4a73b515f861a936207d114-0"><cite class="fn">Daniel </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-428"><time datetime="2009-08-26T12:16:28+00:00">26 agosto, 2009 en 12:16</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Muy buena explicación, recien estoy tomando conocimiento de esta tecnología y me parece interesante. Voy a seguir aprendiendo mas espero que escribas mas post sobre este tema.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=428#respond" onclick="return addComment.moveForm(&quot;comment-428&quot;, &quot;428&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-even depth-1" id="li-comment-429">
+		<article id="comment-429" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/f4455a5eeb7eab4686005010bb4abc12" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-f4455a5eeb7eab4686005010bb4abc12-0"><cite class="fn"><a href="http://returngis.blogspot.com/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://returngis.blogspot.com&#39;]);" rel="external nofollow" class="url">GiS</a> </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-429"><time datetime="2009-09-04T07:31:25+00:00">4 septiembre, 2009 en 7:31</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Buenas,</p>
+<p>Yo estoy comenzando un tutorial de MVC con NHibernate por si a alguien le interesa…</p>
+<p><a href="http://returngis.blogspot.com/2009/09/aspnet-mvc-nhibernate-1-parte.html" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-comment&#39;,&#39;http://returngis.blogspot.com&#39;]);" rel="nofollow">http://returngis.blogspot.com/2009/09/aspnet-mvc-nhibernate-1-parte.html</a></p>
+<p>Saludos</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=429#respond" onclick="return addComment.moveForm(&quot;comment-429&quot;, &quot;429&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="pingback even thread-odd thread-alt depth-1" id="comment-430">
+		<p>Pingback:  <a href="http://realcivilis.wordpress.com/2009/10/22/algunos-conceptos-de-net/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://realcivilis.wordpress.com&#39;]);" rel="external nofollow" class="url">Algunos conceptos de .NET « Civilis blog</a> </p>
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-even depth-1" id="li-comment-431">
+		<article id="comment-431" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/1ce571aaa48598d18281f78d8f7f1ea2" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-1ce571aaa48598d18281f78d8f7f1ea2-0"><cite class="fn">afm </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-431"><time datetime="2010-01-21T16:18:31+00:00">21 enero, 2010 en 16:18</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Muy bueno, lastima que las imagenes no se ven completas, asi que me quede a medias, pero al menos me ha dado una idea general.<br>
+Gracias..</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=431#respond" onclick="return addComment.moveForm(&quot;comment-431&quot;, &quot;431&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1" id="li-comment-432">
+		<article id="comment-432" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/03078dc3a311fbabe062aeddb34d8468" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-03078dc3a311fbabe062aeddb34d8468-4"><cite class="fn"><a href="http://vioswords.wordpress.com/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://vioswords.wordpress.com&#39;]);" rel="external nofollow" class="url">Vio</a> </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-432"><time datetime="2010-01-23T11:01:14+00:00">23 enero, 2010 en 11:01</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>afm:<br>
+Ya está corregido lo que comentas d elas imágenes.<br>
+Gracias</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=432#respond" onclick="return addComment.moveForm(&quot;comment-432&quot;, &quot;432&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-even depth-1" id="li-comment-433">
+		<article id="comment-433" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/7340de1767b2fff5c820558375fa90df" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-7340de1767b2fff5c820558375fa90df-0"><cite class="fn"><a href="http://sexyweb.sytes.net/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://sexyweb.sytes.net&#39;]);" rel="external nofollow" class="url">Miki</a> </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-433"><time datetime="2010-03-08T19:19:40+00:00">8 marzo, 2010 en 19:19</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Para el que no haya caído en el tema de mas imágenes, pulsando el boton derecho del ratón en la imagen y después en “Ver Imagen” o “Abrir Imagen en una pestaña nueva”, se pueden ver <img src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/icon_wink.gif" alt=";)" class="wp-smiley"> </p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=433#respond" onclick="return addComment.moveForm(&quot;comment-433&quot;, &quot;433&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1" id="li-comment-434">
+		<article id="comment-434" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/3b0c7a4f48c75494341f2ad8c63eb342" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-3b0c7a4f48c75494341f2ad8c63eb342-0"><cite class="fn"><a href="http://maurobernal.com.ar/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://maurobernal.com.ar&#39;]);" rel="external nofollow" class="url">Mauro</a> </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-434"><time datetime="2010-04-18T15:45:46+00:00">18 abril, 2010 en 15:45</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Dos cosas:<br>
+1-Muy interesante. Lo voy a probar. Generalmente uso MVC en PHP con Joomla pero no en .NET . Creí que nunca lo incorporarían. Lo voy a probar.<br>
+2-Las imágenes están completas. Solo desactiven la hoja de estilo del sitio y prodrán verlas completa.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=434#respond" onclick="return addComment.moveForm(&quot;comment-434&quot;, &quot;434&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-even depth-1" id="li-comment-435">
+		<article id="comment-435" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/3952735ce981f1ce5f8cc03a0638e720" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-3952735ce981f1ce5f8cc03a0638e720-0"><cite class="fn"><a href="http://www.guayos.com/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://www.guayos.com&#39;]);" rel="external nofollow" class="url">Juan Carlos Reátegui</a> </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-435"><time datetime="2010-05-06T21:38:36+00:00">6 mayo, 2010 en 21:38</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Estoy desarrollando un Sistema Completo para Costos de una Heladería  (Heladería Guayos) de frutas tropicales exoticas de la Selva.<br>
+ASP.Net esta buenazo como los Helados de aguaje y camucamu de Guayos.</p>
+<p>Provecho con MVC.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=435#respond" onclick="return addComment.moveForm(&quot;comment-435&quot;, &quot;435&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1" id="li-comment-436">
+		<article id="comment-436" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/9243787dfede499a147c7be1cc0405f9" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-9243787dfede499a147c7be1cc0405f9-0"><cite class="fn">Diego </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-436"><time datetime="2010-05-07T18:32:48+00:00">7 mayo, 2010 en 18:32</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Sinceramente, me sorprende el entusiasmo con que mucha gente ve esta “Novedad” del patrón MVP aplicado a la WEB.<br>
+Fundamentalmente porque para aplicar el patrón no es necesario este bendito Framework ni ningún otro invento (spring, sprint, jaja)<br>
+Si hacemos un balance entre costo – beneficio – mantenibilidad y rapidez de desarrollo, menos entiendo a quienes fomentan esta forma de trabajar en la Web, pero lo respeto por supuesto.<br>
+El MVC es aplicable desde finales del 70, y puedo aplicarlo tanto en aplicación de Consola, WinForm o WebForm, porque es un tema de “DISEÑO”, de “ARQUITECTURA” y no te tecnología.<br>
+Es decir, quien haya estudiado (no por rendir un exámen, sino de verdad) sabe que este patrón, junto con el resto de los 23 patrones de GOF son la clave de un buen diseño, independientemente del tipo de aplicación.</p>
+<p>Bueno, finalmente mi consejo para aquellos que no saben si invertir tiempo en aprender todas estas cosas, es el siguiente:</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=436#respond" onclick="return addComment.moveForm(&quot;comment-436&quot;, &quot;436&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-even depth-1" id="li-comment-437">
+		<article id="comment-437" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/9243787dfede499a147c7be1cc0405f9" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-9243787dfede499a147c7be1cc0405f9-1"><cite class="fn">Diego </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-437"><time datetime="2010-05-07T18:39:13+00:00">7 mayo, 2010 en 18:39</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Sinceramente, me sorprende el entusiasmo con que mucha gente ve esta “Novedad” del patrón MVP aplicado a la WEB.<br>
+Fundamentalmente porque para aplicar el patrón no es necesario este bendito Framework ni ningún otro invento (spring, sprint, jaja)</p>
+<p>Si hacemos un balance entre costo – beneficio – mantenibilidad y rapidez de desarrollo, menos entiendo a quienes fomentan esta forma de trabajar en la Web, pero lo respeto por supuesto.</p>
+<p>El MVC es aplicable desde finales del 70, y puedo aplicarlo tanto en aplicación de Consola, WinForm o WebForm, porque es un tema de “DISEÑO”, de “ARQUITECTURA” y no te tecnología. Puedo estar aplicando perfectamente este patrón en WebForm sin necesidad de aprender todas estas cosas, solo hay que conocer mejor el patrón, su finalidad, y cómo combinarnlo con la tecnología existente.</p>
+<p>Es decir, quien haya estudiado (no por rendir un exámen, sino de verdad) sabe que este patrón, junto con el resto de los 23 patrones de GOF son la clave de un buen diseño, independientemente del tipo de aplicación.</p>
+<p>Bueno, finalmente mi consejo para aquellos que no saben si invertir tiempo en aprender todas estas cosas, es el siguiente: estudiá,  hay mucho material de diseño y patrones dando vueltas. No compres una moda o tendencia.</p>
+<p>Pd: mi intención es simplemente mostrar una visión diferente, no subestimar a quienes ya estan embarcados en esta tecnología.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=437#respond" onclick="return addComment.moveForm(&quot;comment-437&quot;, &quot;437&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1" id="li-comment-438">
+		<article id="comment-438" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/03078dc3a311fbabe062aeddb34d8468" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-03078dc3a311fbabe062aeddb34d8468-5"><cite class="fn"><a href="http://vioswords.wordpress.com/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://vioswords.wordpress.com&#39;]);" rel="external nofollow" class="url">Juanma</a> </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-438"><time datetime="2010-05-09T08:57:29+00:00">9 mayo, 2010 en 8:57</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Hola Diego:</p>
+<p>Gracias por tus comentarios.<br>
+Como sabes, ASP.NET MVC es un framework más para ASP.NET. Para ayudar en según qué casos reducir el costo, aumentar el beneficio, la mantenimibilidad y rapidez de desarrollo manteniendo en equilibrio inestable (como me gusta decir) la relación entre acoplamiento-cohesión-complejidad .<br>
+Esa es la base por la que salen todos los patrones de diseño, arquitecturales o no.<br>
+ASP.NET MVC es un ejercicio de abstracción más en el desarrollo, como todos los frameworks (Spring, Hibernate, .NET, Java, ect).</p>
+<p>Un saludo.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=438#respond" onclick="return addComment.moveForm(&quot;comment-438&quot;, &quot;438&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	<ol class="children">
+	<li class="comment odd alt depth-2" id="li-comment-439">
+		<article id="comment-439" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/463804c9b6ee411eb7d68bc10bf476e1" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-463804c9b6ee411eb7d68bc10bf476e1-0"><cite class="fn">Francisco </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-439"><time datetime="2010-08-22T19:42:11+00:00">22 agosto, 2010 en 19:42</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Muy interesantes todas las publicaciones.<br>
+Tengo una duda en la que quiza me puedan ayudar.</p>
+<p>Me encuentro desarrollando un sistema web y estoy en la parte del diseño arquitectonico que es muy importante para definir la estructura general del mismo.</p>
+<p>Me parece que el patron MVC es el mas adecuado para este tipo de aplicaciones, sin embargo estoy en duda sobre la plataforma a utilizar ( java, o .net).</p>
+<p>Por otro lado quiero incluir también conceptos de web 2.0 y he estado viendo frameworks con modulos ya desarrollados que me pueden servir como drupal o joomla.</p>
+<p>Quisiera saber qué tan bueno sería incluir frameworks como joomla y como afectaría mi arquitectura ( joomla está hecho en php) y si además puedo utilizar partes de joomla con partes de .net ( ya que .net tiene una curva de aprendizaje más corta) y como es que afecta a la arquitectura usando MVC.</p>
+<p>Espero me puedan ayudar.</p>
+<p>Muchas Gracias de antemano.<br>
+Saludos,<br>
+Francisco</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=439#respond" onclick="return addComment.moveForm(&quot;comment-439&quot;, &quot;439&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-1942">
+		<article id="comment-1942" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/d3b542d98e5371a88100a7a4a7949858" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-d3b542d98e5371a88100a7a4a7949858-0"><cite class="fn">Junior </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-1942"><time datetime="2012-06-15T00:30:30+00:00">15 junio, 2012 en 0:30</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>hola estoy siguiendo tu guía y tengo una duda, cuando haces el modelo LINQ tu base de datos tiene métodos o procedures ?<br>
+Estoy siguiendo tu guia en el visual studio 2010 y te cuento que si lo sigo al pie de la letra me aparece un error en la linea:<br>
+&gt;return Products.where<br>
+Error que me arroja dice que no contiene definicion para where, igual para ToList().</p>
+<p>Y otro detalle [ControllerAction] es obligatorio ? cuando yo lo agrego me arroja error. </p>
+<p>Bueno espero que respondas si aun estas vigente en tu blog. Gracias.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=1942#respond" onclick="return addComment.moveForm(&quot;comment-1942&quot;, &quot;1942&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-1951">
+		<article id="comment-1951" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/3e520da858a159bd0a060c3cd0959832" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-3e520da858a159bd0a060c3cd0959832-0"><cite class="fn">Lorena </cite><a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#comment-1951"><time datetime="2012-06-26T22:53:59+00:00">26 junio, 2012 en 22:53</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Hola!</p>
+<p>Espero me puedan ayudar deseo ejecutar mi aplicacion web asp.net mvc 2 en un servidor IIS pero no sé como hacerlo… Si pudieran ayudarme con un tutorial o algun link en donde pueda descargar la informacion. Gracias y espero puedan ayudarme =D</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/?replytocom=1951#respond" onclick="return addComment.moveForm(&quot;comment-1951&quot;, &quot;1951&quot;, &quot;respond&quot;, &quot;120&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+		</ol><!-- .commentlist -->
+
+		
+		
+	
+									<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Deja un comentario <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/#respond" style="display:none;">Cancelar respuesta</a></small></h3>
+									<form action="http://speakingin.net/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="comment-notes">Tu dirección de correo electrónico no será publicada. Los campos necesarios están marcados <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Nombre <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required="true"></p>
+<p class="comment-form-email"><label for="email">Correo electrónico <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" aria-required="true"></p>
+<p class="comment-form-url"><label for="url">Web</label> <input id="url" name="url" type="text" value="" size="30"></p>
+												<p class="comment-form-comment"><label for="comment">Comentario</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">Puedes usar las siguientes etiquetas y atributos <abbr title="HyperText Markup Language">HTML</abbr>:  <code>&lt;a href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; &lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;strike&gt; &lt;strong&gt; </code></p>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Publicar comentario">
+							<input type="hidden" name="comment_post_ID" value="120" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+						</p>
+						<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="5dfc8a5909"></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_comments" id="subscribe_comments" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"> <label class="subscribe-label" id="subscribe-label" for="subscribe_comments" style="display: inline;">Recibir un email con los siguientes comentarios a esta entrada.</label></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog" style="display: inline;">Recibir un email con cada nuevo post.</label></p>					</form>
+							</div><!-- #respond -->
+			        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery('#commentform').submit(function () {
+                    _gaq.push(
+                            ['_setAccount', 'UA-3247399-3'],
+                            ['_trackEvent', 'comment', 'submit']
+                    );
+                });
+            });
+        </script>
+					
+</div><!-- #comments .comments-area -->
+			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+			<div id="secondary" class="widget-area" role="complementary">
+			<aside id="recent-comments-2" class="widget widget_recent_comments"><h3 class="widget-title">Comentarios</h3><ul id="recentcomments"><li class="recentcomments">juanlao en <a href="http://speakingin.net/2011/12/05/zune-no-detecta-mi-windows-phone-7/#comment-4256">Zune no detecta mi Windows Phone 7</a></li><li class="recentcomments">Adrián en <a href="http://speakingin.net/2012/11/12/usar-api-skydrive-javascript-pagina-local/#comment-4224">Usar la API de SkyDrive para Javascript en una página local</a></li><li class="recentcomments">carolina en <a href="http://speakingin.net/2011/12/05/zune-no-detecta-mi-windows-phone-7/#comment-4218">Zune no detecta mi Windows Phone 7</a></li><li class="recentcomments">Bartolomé en <a href="http://speakingin.net/2013/08/23/ebook-testing-unitario-con-microsoft-fakes/#comment-4200">[ebook] Testing Unitario con Microsoft Fakes</a></li><li class="recentcomments">carlos en <a href="http://speakingin.net/2013/07/24/gtd-y-onenote/#comment-4174">GTD y OneNote</a></li></ul></aside><aside id="tag_cloud-3" class="widget widget_tag_cloud"><h3 class="widget-title">Etiquetas</h3><div class="tagcloud"><a href="http://speakingin.net/tag/net/" class="tag-link-3" title="67 temas" style="font-size: 22pt;">.NET</a>
+<a href="http://speakingin.net/tag/aliasing/" class="tag-link-103" title="8 temas" style="font-size: 11.0973451327pt;">Aliasing</a>
+<a href="http://speakingin.net/tag/android/" class="tag-link-125" title="8 temas" style="font-size: 11.0973451327pt;">Android</a>
+<a href="http://speakingin.net/tag/antialiasing/" class="tag-link-104" title="8 temas" style="font-size: 11.0973451327pt;">Antialiasing</a>
+<a href="http://speakingin.net/tag/api/" class="tag-link-42" title="7 temas" style="font-size: 10.4778761062pt;">API</a>
+<a href="http://speakingin.net/tag/asp-net-2/" class="tag-link-45" title="19 temas" style="font-size: 15.4336283186pt;">ASP.NET</a>
+<a href="http://speakingin.net/tag/asp-net-mvc/" class="tag-link-60" title="9 temas" style="font-size: 11.7168141593pt;">ASP.NET MVC</a>
+<a href="http://speakingin.net/tag/asp-net-vnext/" class="tag-link-51" title="9 temas" style="font-size: 11.7168141593pt;">ASP.NET vNext</a>
+<a href="http://speakingin.net/tag/azure/" class="tag-link-109" title="4 temas" style="font-size: 8pt;">Azure</a>
+<a href="http://speakingin.net/tag/c/" class="tag-link-50" title="10 temas" style="font-size: 12.2123893805pt;">C#</a>
+<a href="http://speakingin.net/tag/cellsdk/" class="tag-link-126" title="8 temas" style="font-size: 11.0973451327pt;">Cellsdk</a>
+<a href="http://speakingin.net/tag/cell%c2%b7sdk/" class="tag-link-123" title="8 temas" style="font-size: 11.0973451327pt;">Cell·SDK</a>
+<a href="http://speakingin.net/tag/comunidad/" class="tag-link-97" title="7 temas" style="font-size: 10.4778761062pt;">Comunidad</a>
+<a href="http://speakingin.net/tag/css3/" class="tag-link-90" title="8 temas" style="font-size: 11.0973451327pt;">CSS3</a>
+<a href="http://speakingin.net/tag/curiosidades/" class="tag-link-75" title="34 temas" style="font-size: 18.407079646pt;">Curiosidades</a>
+<a href="http://speakingin.net/tag/desarrollo/" class="tag-link-81" title="25 temas" style="font-size: 16.796460177pt;">Desarrollo</a>
+<a href="http://speakingin.net/tag/desarrollo-web/" class="tag-link-40" title="14 temas" style="font-size: 13.9469026549pt;">Desarrollo Web</a>
+<a href="http://speakingin.net/tag/eventos/" class="tag-link-101" title="9 temas" style="font-size: 11.7168141593pt;">Eventos</a>
+<a href="http://speakingin.net/tag/guthrie/" class="tag-link-47" title="14 temas" style="font-size: 13.9469026549pt;">Guthrie</a>
+<a href="http://speakingin.net/tag/herramientas/" class="tag-link-82" title="7 temas" style="font-size: 10.4778761062pt;">herramientas</a>
+<a href="http://speakingin.net/tag/html-5/" class="tag-link-57" title="11 temas" style="font-size: 12.7079646018pt;">HTML 5</a>
+<a href="http://speakingin.net/tag/ie/" class="tag-link-68" title="6 temas" style="font-size: 9.85840707965pt;">IE</a>
+<a href="http://speakingin.net/tag/internet-explorer/" class="tag-link-69" title="7 temas" style="font-size: 10.4778761062pt;">Internet Explorer</a>
+<a href="http://speakingin.net/tag/ios/" class="tag-link-124" title="9 temas" style="font-size: 11.7168141593pt;">iOS</a>
+<a href="http://speakingin.net/tag/lecturas/" class="tag-link-37" title="4 temas" style="font-size: 8pt;">Lecturas</a>
+<a href="http://speakingin.net/tag/microsoft/" class="tag-link-49" title="24 temas" style="font-size: 16.6725663717pt;">Microsoft</a>
+<a href="http://speakingin.net/tag/noticias/" class="tag-link-17" title="12 temas" style="font-size: 13.0796460177pt;">Noticias</a>
+<a href="http://speakingin.net/tag/novedad/" class="tag-link-34" title="12 temas" style="font-size: 13.0796460177pt;">Novedad</a>
+<a href="http://speakingin.net/tag/patrones-de-diseno/" class="tag-link-72" title="11 temas" style="font-size: 12.7079646018pt;">Patrones de diseño</a>
+<a href="http://speakingin.net/tag/recursos/" class="tag-link-39" title="6 temas" style="font-size: 9.85840707965pt;">Recursos</a>
+<a href="http://speakingin.net/tag/scott/" class="tag-link-46" title="15 temas" style="font-size: 14.1946902655pt;">Scott</a>
+<a href="http://speakingin.net/tag/scottgu/" class="tag-link-52" title="13 temas" style="font-size: 13.5752212389pt;">Scottgu</a>
+<a href="http://speakingin.net/tag/scott-guthrie-2/" class="tag-link-48" title="17 temas" style="font-size: 14.9380530973pt;">Scott Guthrie</a>
+<a href="http://speakingin.net/tag/scott-hanselman/" class="tag-link-78" title="4 temas" style="font-size: 8pt;">Scott Hanselman</a>
+<a href="http://speakingin.net/tag/silverlight/" class="tag-link-21" title="5 temas" style="font-size: 8.99115044248pt;">Silverlight</a>
+<a href="http://speakingin.net/tag/software/" class="tag-link-38" title="6 temas" style="font-size: 9.85840707965pt;">Software</a>
+<a href="http://speakingin.net/tag/syderis/" class="tag-link-30" title="4 temas" style="font-size: 8pt;">Syderis</a>
+<a href="http://speakingin.net/tag/trucos/" class="tag-link-23" title="22 temas" style="font-size: 16.1769911504pt;">Trucos</a>
+<a href="http://speakingin.net/tag/utilidades/" class="tag-link-41" title="11 temas" style="font-size: 12.7079646018pt;">Utilidades</a>
+<a href="http://speakingin.net/tag/visual-studio/" class="tag-link-25" title="20 temas" style="font-size: 15.6814159292pt;">Visual Studio</a>
+<a href="http://speakingin.net/tag/visual-studio-2010/" class="tag-link-58" title="9 temas" style="font-size: 11.7168141593pt;">Visual Studio 2010</a>
+<a href="http://speakingin.net/tag/windows-azure/" class="tag-link-120" title="6 temas" style="font-size: 9.85840707965pt;">Windows Azure</a>
+<a href="http://speakingin.net/tag/windows-phone/" class="tag-link-87" title="4 temas" style="font-size: 8pt;">Windows Phone</a>
+<a href="http://speakingin.net/tag/wp7/" class="tag-link-33" title="15 temas" style="font-size: 14.1946902655pt;">WP7</a>
+<a href="http://speakingin.net/tag/xna/" class="tag-link-28" title="24 temas" style="font-size: 16.6725663717pt;">XNA</a></div>
+</aside>		<aside id="recent-posts-4" class="widget widget_recent_entries">		<h3 class="widget-title">Últimos posts</h3>		<ul>
+					<li>
+				<a href="http://speakingin.net/2013/08/23/ebook-testing-unitario-con-microsoft-fakes/" title="[ebook] Testing Unitario con Microsoft Fakes">[ebook] Testing Unitario con Microsoft Fakes</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/24/gtd-y-onenote/" title="GTD y OneNote">GTD y OneNote</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/23/stylecop-tfs-y-nuget/" title="StyleCop, TFS y Nuget">StyleCop, TFS y Nuget</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/22/una-experiencia-alm-2/" title="Una experiencia ALM ++">Una experiencia ALM ++</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/18/knock-knock-buenos-dias-developer-venimos-a-hablarle-de-tdd/" title="Knock, knock … Buenos días developer, venimos a hablarle de TDD">Knock, knock … Buenos días developer, venimos a hablarle de TDD</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/17/tdd-mentirosos-el-ciclo-no-es-red-green-refactor/" title="TDD: Mentirosos el ciclo no es Red – Green -Refactor">TDD: Mentirosos el ciclo no es Red – Green -Refactor</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/05/15/evento-cartujadotnet-wave-engin/" title="[Evento CartujaDotNet] Wave Engine">[Evento CartujaDotNet] Wave Engine</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/03/27/microsoft-sync-framework-2-1-com-error-80040154-class-not-registered/" title="Microsoft Sync Framework 2.1 (COM Error 80040154 Class not registered)">Microsoft Sync Framework 2.1 (COM Error 80040154 Class not registered)</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/01/09/plain-concepts-cloud-tour/" title="Plain Concepts Cloud Tour">Plain Concepts Cloud Tour</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2012/12/03/api-google-earth-i/" title="API Google Earth (I)">API Google Earth (I)</a>
+						</li>
+				</ul>
+		</aside>		</div><!-- #secondary -->
+		</div><!-- #main .wrapper -->
+	<footer id="colophon" role="contentinfo">
+		<div class="site-info">
+						<a href="http://es.wordpress.org/" title="Plataforma semántica de publicación personal">Creado con WordPress</a>
+		</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+	<div style="display:none">
+	<div class="grofile-hash-map-ba814ca23c2d3a3d0640eb14efdcf51f">
+	</div>
+	<div class="grofile-hash-map-523de0fd4be24e2283b67a24172895b0">
+	</div>
+	<div class="grofile-hash-map-8ece23a9914537fd3e7e0af2119d1d4f">
+	</div>
+	<div class="grofile-hash-map-03078dc3a311fbabe062aeddb34d8468">
+	</div>
+	<div class="grofile-hash-map-0668d97ffd9defb65599557d3d52a71a">
+	</div>
+	<div class="grofile-hash-map-7e0bef9cc32e3931a2c90b9af9a32977">
+	</div>
+	<div class="grofile-hash-map-6f2462cac57fe8912776c893362a08ca">
+	</div>
+	<div class="grofile-hash-map-4543ffcd001928f8340de26cf570e892">
+	</div>
+	<div class="grofile-hash-map-9cc409d23068f174aa3040a51c232749">
+	</div>
+	<div class="grofile-hash-map-c80fadc5cdffed0a0b0372dca01c2991">
+	</div>
+	<div class="grofile-hash-map-2009f7c21a53db63a18fa63614776d08">
+	</div>
+	<div class="grofile-hash-map-081b464716a7f40e25115cf1046d6a39">
+	</div>
+	<div class="grofile-hash-map-c17d762fcc83473f6f3be11db8e4541a">
+	</div>
+	<div class="grofile-hash-map-accb2a7d6b4bff746679eea16e087313">
+	</div>
+	<div class="grofile-hash-map-b77e1d1275d4f453b2ef613317c853a1">
+	</div>
+	<div class="grofile-hash-map-9498bdeaba6082512bb68f9b4b808391">
+	</div>
+	<div class="grofile-hash-map-5218e91e530fcf38a04baf077e87c28b">
+	</div>
+	<div class="grofile-hash-map-8e57ca32e4a73b515f861a936207d114">
+	</div>
+	<div class="grofile-hash-map-f4455a5eeb7eab4686005010bb4abc12">
+	</div>
+	<div class="grofile-hash-map-1ce571aaa48598d18281f78d8f7f1ea2">
+	</div>
+	<div class="grofile-hash-map-7340de1767b2fff5c820558375fa90df">
+	</div>
+	<div class="grofile-hash-map-3b0c7a4f48c75494341f2ad8c63eb342">
+	</div>
+	<div class="grofile-hash-map-3952735ce981f1ce5f8cc03a0638e720">
+	</div>
+	<div class="grofile-hash-map-9243787dfede499a147c7be1cc0405f9">
+	</div>
+	<div class="grofile-hash-map-463804c9b6ee411eb7d68bc10bf476e1">
+	</div>
+	<div class="grofile-hash-map-d3b542d98e5371a88100a7a4a7949858">
+	</div>
+	<div class="grofile-hash-map-3e520da858a159bd0a060c3cd0959832">
+	</div>
+	</div>
+
+	<script type="text/javascript">
+		WPCOM_sharing_counts = {"http:\/\/speakingin.net\/2007\/11\/18\/aspnet-mvc-framework-primera-parte\/":120}	</script>
+		<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-linkedin' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-google-plus-1' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=600,height=600' );
+				return false;
+			});
+		});
+		</script>
+		<script type="text/javascript" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/devicepx-jetpack.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/wpgroho.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/navigation.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var recaptcha_options = {"lang":"en"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/sharing.js"></script>
+
+	<script src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/e-201336.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	st_go({v:'ext',j:'1:2.4.2',blog:'25561909',post:'120',tz:'2'});
+	var load_cmc = function(){linktracker_init(25561909,120,2);};
+	if ( typeof addLoadEvent != 'undefined' ) addLoadEvent(load_cmc);
+	else load_cmc();
+	</script><img id="wpstats" src="./ASP.NET MVC Framework (Primera parte)   Speaking in .NET_files/g.gif" alt="">
+</body></html>

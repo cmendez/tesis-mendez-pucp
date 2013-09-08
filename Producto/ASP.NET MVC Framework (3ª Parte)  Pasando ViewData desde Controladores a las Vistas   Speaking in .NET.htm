@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<!-- saved from url=(0118)http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/ -->
+<html lang="es-ES"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>ASP.NET MVC Framework (3ª Parte): Pasando ViewData desde Controladores a las Vistas | Speaking in .NET</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="http://speakingin.net/xmlrpc.php">
+<!--[if lt IE 9]>
+<script src="http://speakingin.net/wp-content/themes/twentytwelve/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+<link rel="alternate" type="application/rss+xml" title="Speaking in .NET » Feed" href="http://speakingin.net/feed/">
+<link rel="alternate" type="application/rss+xml" title="Speaking in .NET » RSS de los comentarios" href="http://speakingin.net/comments/feed/">
+
+            <script src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/quant.js" async="" type="text/javascript"></script><script type="text/javascript" async="" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/ga.js"></script><script type="text/javascript">//<![CDATA[
+            // Google Analytics for WordPress by Yoast v4.3.3 | http://yoast.com/wordpress/google-analytics/
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-3247399-3']);
+				            _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+			<link rel="alternate" type="application/rss+xml" title="Speaking in .NET » ASP.NET MVC Framework (3ª Parte): Pasando ViewData desde Controladores a las Vistas RSS de los comentarios" href="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/feed/">
+<link rel="stylesheet" id="colorbox-theme1-css" href="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/colorbox.css" type="text/css" media="screen">
+<link rel="stylesheet" id="farbtastic-css" href="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/farbtastic.css" type="text/css" media="all">
+<link rel="stylesheet" id="jetpack-widgets-css" href="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/widgets.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentytwelve-fonts-css" href="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="twentytwelve-style-css" href="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/style.css" type="text/css" media="all">
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentytwelve-ie-css'  href='http://speakingin.net/wp-content/themes/twentytwelve/css/ie.css?ver=20121010' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="sharedaddy-css" href="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/sharing.css" type="text/css" media="all">
+<script type="text/javascript" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/jquery.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/jquery.colorbox-min.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/jquery.tagcanvas.min.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/comment-reply.min.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://speakingin.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://speakingin.net/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="ASP.NET MVC Framework (2ª Parte): URL Routing" href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/">
+<link rel="next" title="Links del 8 de Diciembre: ASP.NET, ASP.NET AJAX, ASP.NET MVC, .NET, VS 2008" href="http://speakingin.net/2007/12/08/links-del-8-de-diciembre-aspnet-aspnet-ajax-aspnet-mvc-net-vs-2008/">
+<meta name="generator" content="WordPress 3.6">
+<link rel="canonical" href="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET.htm">
+<link rel="shortlink" href="http://wp.me/p1JfOR-26">
+		<script type="text/javascript" charset="utf-8">
+			var href = "http://speakingin.net";
+			// solves the issue where app mode does not set the correct UA String.
+			if ( window.navigator.standalone ) {
+				href += "?onswipe_redirect=yes";
+				location.href = href;
+			};
+			try{
+			// make reader urls work backwards.
+				href += "?p=" + location.hash.match(/\#!\/entry\/.+,(\d+)$/)[1];
+				location.href = href;
+			}catch(e){}		
+		</script>
+		
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC Framework (3ª Parte): Pasando ViewData desde Controladores a las Vistas">
+<meta property="og:url" content="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/">
+<meta property="og:description" content="En estas semanas he estado trabajando en una serie de post sobre ASP.NET MVC Framework. Es una aproximación opcional que podéis usar para estructurar vuestras aplicaciones ASP.NET para separar clar...">
+<meta property="og:site_name" content="Speaking in .NET">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step0.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step1.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step2.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step3.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step4.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step5.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step6.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step8.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step9.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step23.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step10.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step11.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step12.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step13.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step14.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step15.png">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/viewdata/step16.png">
+<meta name="twitter:site" content="@jetpack">
+<meta name="twitter:image0" content="http://www.scottgu.com/blogposts/mvc2/step0.jpg">
+<meta name="twitter:image1" content="http://www.scottgu.com/blogposts/viewdata/step1.png">
+<meta name="twitter:image2" content="http://www.scottgu.com/blogposts/viewdata/step2.png">
+<meta name="twitter:image3" content="http://www.scottgu.com/blogposts/viewdata/step3.png">
+<meta name="twitter:card" content="gallery">
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+<!-- jQuery Lightbox For Native Galleries v3.2.2 | http://www.viper007bond.com/wordpress-plugins/jquery-lightbox-for-native-galleries/ -->
+<script type="text/javascript">
+// <![CDATA[
+	jQuery(document).ready(function($){
+		$(".gallery").each(function(index, obj){
+			var galleryid = Math.floor(Math.random()*10000);
+			$(obj).find("a").colorbox({rel:galleryid, maxWidth:"95%", maxHeight:"95%"});
+		});
+		$("a.lightbox").colorbox({maxWidth:"95%", maxHeight:"95%"});
+	});
+// ]]>
+</script>
+	<style type="text/css">
+			.site-title,
+		.site-description {
+			position: absolute !important;
+			clip: rect(1px 1px 1px 1px); /* IE7 */
+			clip: rect(1px, 1px, 1px, 1px);
+		}
+		</style>
+	<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #e6e6e6; }
+</style>
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/saved_resource">
+		<link rel="stylesheet" type="text/css" id="gravatar-card-css" href="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/services.css"></head>
+
+<body class="single single-post postid-130 single-format-standard custom-background custom-font-enabled single-author" style=""><div id="cboxOverlay" style="display: none;"></div><div id="colorbox" class="" style="padding-bottom: 42px; padding-right: 42px; display: none;"><div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div><div id="cboxTopCenter" style="float: left;"></div><div id="cboxTopRight" style="float: left;"></div></div><div style="clear:left"><div id="cboxMiddleLeft" style="float: left;"></div><div id="cboxContent" style="float: left;"><div id="cboxLoadedContent" style="width:0; height:0; overflow:hidden" class=""></div><div id="cboxLoadingOverlay" class=""></div><div id="cboxLoadingGraphic" class=""></div><div id="cboxTitle" class=""></div><div id="cboxCurrent" class=""></div><div id="cboxNext" class=""></div><div id="cboxPrevious" class=""></div><div id="cboxSlideshow" class=""></div><div id="cboxClose" class=""></div></div><div id="cboxMiddleRight" style="float: left;"></div></div><div style="clear:left"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position:absolute; width:9999px; visibility:hidden; display:none"></div></div>
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header" role="banner">
+		<hgroup>
+			<h1 class="site-title"><a href="http://speakingin.net/" title="Speaking in .NET" rel="home">Speaking in .NET</a></h1>
+			<h2 class="site-description">2007 – 2012</h2>
+		</hgroup>
+
+		<nav id="site-navigation" class="main-navigation" role="navigation">
+			<h3 class="menu-toggle">Menú</h3>
+			<a class="assistive-text" href="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/#content" title="Ir al contenido">Ir al contenido</a>
+			<div class="menu-inicio-container"><ul id="menu-inicio" class="nav-menu"><li id="menu-item-1534" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1534"><a href="http://speakingin.net/">Home</a></li>
+<li id="menu-item-1531" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1531"><a>Tutoriales</a>
+<ul class="sub-menu">
+	<li id="menu-item-1520" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1520"><a href="http://speakingin.net/tutorial-de-linq-to-sql/">Tutorial de LINQ to SQL</a></li>
+	<li id="menu-item-1521" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1521"><a href="http://speakingin.net/tutorial-de-silverlight/">Tutorial de Silverlight</a></li>
+	<li id="menu-item-1517" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1517"><a href="http://speakingin.net/tutorial-asp-net-mvc-3/">Tutorial ASP.NET MVC 3</a></li>
+	<li id="menu-item-1516" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1516"><a href="http://speakingin.net/introduccion-al-aliasing/">Introducción al aliasing</a></li>
+	<li id="menu-item-1518" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1518"><a href="http://speakingin.net/tutorial-svg/">Tutorial SVG</a></li>
+</ul>
+</li>
+<li id="menu-item-1532" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1532"><a href="http://speakingin.net/lecturas-recomendadas/">Lecturas Recomendadas</a></li>
+<li id="menu-item-1533" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1533"><a href="http://speakingin.net/about/">About</a></li>
+<li id="menu-item-1962" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1962"><a href="http://speakingin.net/patrocinio/">Patrocinio</a></li>
+</ul></div>		</nav><!-- #site-navigation -->
+
+		<div class="div-centered">
+			<a href="http://speakingin.net/"><img src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/cropped-BlogHeader.png" class="header-image" width="776" height="106" alt=""></a>
+</div>
+			</header><!-- #masthead -->
+
+	<div id="main" class="wrapper">
+	<div id="primary" class="site-content">
+		<div id="content" role="main">
+
+			
+				
+	<article id="post-130" class="post-130 post type-post status-publish format-standard hentry category-net category-asp-net category-mvc category-scott-guthrie">
+				<header class="entry-header">
+									<h1 class="entry-title">ASP.NET MVC Framework (3ª Parte): Pasando ViewData desde Controladores a las Vistas</h1>
+										<div class="comments-link">
+					<a href="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/#respond" title="Comentarios en ASP.NET MVC Framework (3ª Parte): Pasando ViewData desde Controladores a las Vistas"><span class="leave-reply">Deja una respuesta</span></a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>En estas semanas he estado trabajando en una serie de post sobre ASP.NET MVC Framework. Es una aproximación opcional que podéis usar para estructurar vuestras aplicaciones ASP.NET para separar claramente los diferentes aspectos de esas aplicaciones, y hacer mucho más sencillo realizar test en vuestro código.<span id="more-130"></span></p>
+<p>En el <a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/">primer post </a>creamos una aplicación de e-comerce sencilla para navegar/listar los productos. Vimos los conceptos de más alto nivel que hay detrás de MVC, y vimos cómo crear un nuevo proyecto ASP.NET MVC desde cero hasta implementar y testear esas funcionalidades. El <a href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/">segundo post </a>de la serie se introducia un poco más en la arquitectura de rutado de URLs, y vimos cómo funciona y algunos escenarios de rutado de URLs&nbsp;avanzados.</p>
+<p>En el post de hoy veremos cómo interactúan los Controladores con las Vistas, y veremos cómo pasar datos desde un Controlador a una Vista para que renderize la respuesta al cliente.</p>
+<p><strong>Recapitulemos un poco</strong></p>
+<p>En el <a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/">primer post</a>&nbsp;creamos un sitio de e-comerce que nos permitía navegar y listar los poductos. Lo implementamos con ASP.NET MVC Framework, lo que nos llevó a estructurar el código de una manera natural para distinguir entre Controladores, modelos y vistas.</p>
+<p>Cuando un navegador envia una petición HTTP al sitio web, ASP.NET MVC usará su <a href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/">motor de rutado de URL</a>&nbsp;para mapear la petición a un método de acción de una clase controlador que lo procesará. Los controladores de MVC son los responsables de procesar las peticiones entrantes, manejar las entradas de usuarios y sus interacciones, y de ejecutar la lógica de la aplicación (obteniendo y actualizando el modelo de datos, etc).</p>
+<p>Cuando lleva tiempo renderizar la respuesta HTML al cliente, los controladores usan los componentes llamados "Vistas" - que están implementados como clases separadas de los controladores, y se encargar de encapsular toda la lógica de presentación.</p>
+<p><img border="0" width="635" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step0.jpg" height="271"></p>
+<p>Las vistas NO DEBEN contener ninguna lógica de la aplicación ni ningún código de acceso a datos, sino que toda la lógica de la aplicación y de datos sólo puede estar en las clases controlador. La motivación que hay detrás de esta distinción&nbsp; es para ayudar a mantener una serparción clara de la lógica de aplicación, datos y de la interfaz de usuario. Esto hace más sencillo crear test unitarios en cada una de las partes de la aplicación.</p>
+<p>Las vistas SOLO DEBEN renderizar la salida usando unos datos específicos pasados por la clase Contorlador. En ASP.NET MVC llamamos a esos datos "ViewData". El resto del post cubrirá algunas aproximaciones diferentes que podemos usar para pasar estos "ViewData" del controlador a la Vista.</p>
+<p><strong>Un escenario simple: listado de productos</strong></p>
+<p>Para ayudar a comprender algunas de las técnicas que vamos a usar para pasar ViewData del contorlador a la visa, crearemos una página de listado de productos:</p>
+<p><img border="0" width="693" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step1.png" height="668"></p>
+<p>Usaremos el entero CategoryID para filtrar los productos que queremos mostrar en la página. Fijáos cómo estamos metiendo el CategoryID como parte de la URL (por ejemplo: /Products/Category/2 o /Products/Category/4).</p>
+<p>Nuestra página de listado está renderizando dos elementos. El primero es el nombre de la categoría que se muestra (por ejemplo: "Condiments"). El segundo es una lista HTML &lt;ul&gt;&lt;li/&gt;&lt;/ul&gt; de nomres de productos. Los he rodeado los dos en rojo.</p>
+<p>Ahora veremos dos formas diferentes de implementar la clase "ProductsController" que procesen la petición, obtenga los datos, y se los pase a la vista "List" para renderizarlo. En la primera forma usaremos un objeto dicionario enlazado a los datos. En la segunda uramos una clase fuertemente tipada.</p>
+<p><strong>1: Pasando ViewData con el Diccionario Controller.ViewData</strong></p>
+<p>La clase base Controller tienen una propiedad diccionario "ViewData" que podemos usar para meter los datos que queremos pasarle a la Vista. Añadimos objetos a este diccionario con un patrón clave/valor.</p>
+<p>Aquí tenéis la clase ProductsController con un método de acción "Category" que implementa el listado de producots. Fijáos cómo se usa el parámetro ID de las categorías para buscar el nombre de la categoría, y cómo obtenemos la lista de productos de esa categoría. Está guardando esos datos en la colección Controller.ViewData usando "CategoryName" y "Products":</p>
+<p><img border="0" width="679" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step2.png" height="445"></p>
+<p>La acción Category llama al método <em>RenderView("List")</em> para indicar qué plantilla queremos renderizar. Cuando llamamos a RenderView de esta forma, le pasará el diccionario ViewData a la Vista.</p>
+<p><em>Implementando nuestra Vista</em></p>
+<p>Implementaremos la vista List usando el archivo List.aspx que está bajo el directorio ViewsProducts. Esta página heredará de la masterpage Site.Master.MasterPage del directorio ViewsShared (clic con el botón derecho en VS 2008 y seleccionamos Add New Item -&gt; MVC View Content Page para crear una master page cuando creemos una nueva página de vista:</p>
+<p><img border="0" width="248" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step3.png" height="505"></p>
+<p>Cuando creamos la página List.aspx con la plantilla MVC View Content Page no deriva de la clase System.Web.UI.Page, sino que lo hace de System.Web.Mvc.ViewPage (que es una subclase de al clase Page):</p>
+<p><img border="0" width="396" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step4.png" height="223"></p>
+<p>La clase ViewPage nos proporciona una propiedad "ViewData" que podemos usar en la página para acceder a los objetos que hayan sido añadidos por el Controlador. Entonces podemos cojer estos objetos y usarlos para renderizar la salida HTML usando tanto controles de servidor como&nbsp; los tags &lt;%= %&gt;</p>
+<p><em>Implentando la vista con controles de servidor.</em></p>
+<p>Aquí tenéis un ejemplo sobre cómo usar &lt;asp:literal&gt; y &lt;asp:repeater&gt; para implementar la salida HTML:</p>
+<p><img border="0" width="745" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step5.png" height="412"></p>
+<p>Podemos enlazar el ViewDAta a estos controlres con el siguiente código en la clase del código trasero (fijáos cómo usamos el diccionario ViewData):</p>
+<p><img border="0" width="598" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step6.png" height="301"></p>
+<p>Nota: como no tenemos un &lt;form runat="server"&gt; en la página, no se emitirá ningún view-state. Los controles siguientes tampoco renderizan ningún valor ID - con lo que tenemos control total sobre el control HTML.</p>
+<p><em>Implementando la vista usando &lt;%= %&gt;</em></p>
+<p>Si preferís usar código inline para generar la salida, lo podemos hacer de la siguiente manera:</p>
+<p><img border="0" width="739" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step8.png" height="409"></p>
+<p>Nota: Como el diccionario ViewData contiene objetos del tipo "object" tenemos que hacer un casting de ViewData["Products"] a una lista List&lt;Product&gt; o a un IEnumerable&lt;Product&gt; para poder usar la sentencia foreach. Estamos importando los namespaces&nbsp;System.Collections.Generic y MyStore.Models en la página para no tener que escribirlo una y otra vez en List&lt;T&gt; y en el tipo Products.</p>
+<p>Nota: El uso de la palabra "var" es un ejemplo de uso de la inferencia de tipos de C# y VB de VS 2008 (leed <a href="http://speakingin.net/2007/05/16/nueva-caracteristica-de-orcas-tipos-anonimos/">este post </a>sobre el tema). Como tenemos que hacer un cast de ViewData["Products"] a List&lt;Product&gt; tendremos intellisense completo en las variables de Product en el archivo List.aspx:</p>
+<p><img border="0" width="664" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step9.png" height="400"></p>
+<p><strong>2. Pasando ViewData con Clases Fuertemente Typadas</strong></p>
+<p>También podemos pasar estos ViewData a través de objetos fuertemente tipados desde los Controladores a las Vistas. Hay un par de ventajas usando esta forma:</p>
+<ol>
+<li>No tenemos que usar strings para buscar objetos, y tenemos chequeo en tiempo de compilación tanto en el código de los Controladores como en las Vistas.</li>
+<li>No tenemos que hacer castings específicos de los objetos del diccionario&nbsp; cuando usemos un lenguaje fuertemente tipado como C#.</li>
+<li>Tendremos intellisense automático en los objetos ViewData tanto en el .aspx como en el código trasero.</li>
+<li>Podremos usar herramientas de refactoring para automatizar cambios en la aplicación y en los test.</li>
+</ol>
+<p>Aquí tenéis una clase fuertemente tipada "ProductsListViewData" que encapsula los datos necesarios para&nbsp;la vista&nbsp;List.aspx. Tiene dos propiedades CategoryName y Products (implementados usando el soporte de c# de las propiedades automáticas):</p>
+<p><img border="0" width="446" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step23.png" height="137"></p>
+<p>Ahora podemos actualizar la implementación de ProductsController para que use este objeto para pasar un objeto ViewData fuertemente tipado a la vista:</p>
+<p><img border="0" width="642" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step10.png" height="471"></p>
+<p>Fijáos cómo le pasamos el objeto fuertemente tipado ProductsListViewData añadiéndolo como un parámetro extra al método RenderView().</p>
+<p><em>Usando el diccionario de ViewData de las vistas como un objeto fuertemente tipado.</em></p>
+<p>En las implementaciones anteriores de List.aspx segurán funcionando con la nueva clase ProductsController - no hace falta ningún cambio. Esto es debido a que cuando el&nbsp;objeto ViewData es&nbsp;fuertemente tipado y lo pasamos a una vista que deriva de la clase ViewPage, el diccionario ViewData usará la reflexión automáticamente sobre las propiedades del objeto fuertemente tipado para buscar los valores. Así que el código siguiente:</p>
+<p><img border="0" width="323" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step11.png" height="65"></p>
+<p>usará la reflexión para obtener el valor de la propiedad CategoryName del objeto ProductsListViewData que le pasamos cuando llamamos al método RenderView.</p>
+<p><em>Usando ViewPage&lt;T&gt; como clase base para ViewData fuertemente tipados.</em></p>
+<p>Además de soportar un diccionario como clase base para los ViewPage, ASP.NET MVC también tiene una implementación genérica para ViewPage&lt;T&gt;. Si las vistas derivan de ViewPage&lt;T&gt; - donde T indica el tipo de la clase ViewData que el controlador pasa a la vista - entonces la propiedad ViewData será fuertemente tipada usando esa clase T.</p>
+<p>Por ejemplo, podemos actualizar el código trasero List.aspx.cs para que derive de ViewPage, pero de ViewPage&lt;ProductsListViewData&gt;:</p>
+<p><img border="0" width="570" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step12.png" height="234"></p>
+<p>Cuando hacemos esto, la propiedad ViewData de la página pasará de ser un diccionario al tipo ProductsListViewData. Esto significa que en lugar de usar un diccionario basado en strings para buscar los datos, podemos usar propiedades fuertemente tipadas:</p>
+<p><img border="0" width="558" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step13.png" height="201"></p>
+<p>Podemos usar tanto controles de servidor como &lt;%= %&gt; para renderizar el HTML de esos ViewData.</p>
+<p><em>Implementar nuestro ViewPage&lt;T&gt; con controles de servidor</em></p>
+<p>Aquí tenéis un ejemplo de cómo usar los controles &lt;asp:literal&gt; y &lt;asp:repeater&gt; para implementar la interfaz HTML. Es exactamente el mismo contenido que usamos en List.aspx derivada de ViewPage:</p>
+<p><img border="0" width="745" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step5.png" height="412"></p>
+<p>Aquí vemos cómo es el código trasero. Fijáos que como derivamos de ViewPage&lt;ProductsListViewData&gt; podemos acceder a las propiedades directamente - y no tenemos que hacer ningún casting (también podemos aprovecharnos de esto a la hora de hacer refactoring cuando queramos cambiar elnombre de alguna propiedad):</p>
+<p><img border="0" width="573" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step14.png" height="321"></p>
+<p><em>Implementando nuestra ViewPage&lt;T&gt; con código inline &lt;%= %&gt;</em></p>
+<p>Si preferimos usar código inline para generar la salida, podemos obtener el mismo resultado usando el siguiente List.aspx:</p>
+<p><img border="0" width="681" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step15.png" height="358"></p>
+<p>Usando ViewPage&lt;T&gt; no necesitamos buscar string en los ViewData. Más importante aún, fijáos que tampoco tenemos que hacer ningún casting - ya que es fuertemente tipado. Esto implica que podemos escribir un foreach (var product in ViewData.Products) sin tener que hacer un casting a Products. También tenemos intelisense en la variable product dentro del bucle:</p>
+<p><img border="0" width="659" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/step16.png" height="474"></p>
+<p><strong>Resumen</strong></p>
+<p>Hemos visto más detalles sobre cómo los controladores pasan datos a las Vistas para renderizar las respuestas al cliente. Podemos usar tanto diccionarios fuertemente tipados como no.</p>
+<p>La primera vez que intentamos crear y ejecutar una aplicación MVC veremos que&nbsp;el concepto de separar la lógica de los controladores de la generación de la interfaz de usuario puede ser un poco raro. Puede que nos cueste un poco de tiempo hasta que nos sintamos cómodos y hasta que cambiemos nuestra forma de pensar cuando procesamos una petición, ejecutando toda la lógica de la aplicación, empaquetando los viewdata necesarios para crear las respuestas HTML y luego tratarlos de forma separada para renderizarlo. <em>Importante: si no os sentís cómodos con este modelo entonces nolo uséis - el modelo MVC es totalmente opcional, y no creemos que sea algo que todo el mundo deba usar.</em></p>
+<p>Los beneficios y las metas tras esta forma de dividir una aplicación es que nos permite ejecutar y testear nuestras aplicaciones y la lógica de datos a parte de la generación de la interfaz de usuario. Esto hace más fácil de desarrollar test unitarios más comprensibles para nuestra aplicación, así como usar TDD(test driven development) a medida que creamos aplicaciones. En próximos post veremos esto en más detalle, y también veremos unas buenas prácticas para testear de forma fácil nuestro código.</p>
+<p>Espero que sirva.</p>
+<p>Scott.</p>
+<p>Traducido por: Juan María Laó Ramos.</p>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-facebook"><a rel="nofollow" class="share-facebook sd-button share-icon" href="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/?share=facebook&nb=1" title="Compartir en Facebook" id="sharing-facebook-130"><span>Facebook</span></a></li><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/?share=twitter&nb=1" title="Haz clic para compartir en Twitter" id="sharing-twitter-130"><span>Twitter</span></a></li><li class="share-linkedin"><a rel="nofollow" class="share-linkedin sd-button share-icon" href="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/?share=linkedin&nb=1" title="Haz clic aquí para compartir en LinkedIn" id="sharing-linkedin-130"><span>LinkedIn</span></a></li><li><a href="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/#" class="sharing-anchor sd-button share-more"><span>Más</span></a></li><li class="share-end"></li></ul><div class="sharing-hidden"><div class="inner" style="display: none;width:150px;"><ul style="background-image:none;"><li class="share-google-plus-1"><a rel="nofollow" class="share-google-plus-1 sd-button share-icon" href="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/?share=google-plus-1&nb=1" title="Haz clic para compartir en Google+" id="sharing-google-130"><span>Google +1</span></a></li><li class="share-end"></li></ul></div></div></div></div></div>					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			Esta entrada fue publicada en <a href="http://speakingin.net/category/net/" title="Ver todas las entradas en .NET" rel="category tag">.NET</a>, <a href="http://speakingin.net/category/asp-net/" title="Ver todas las entradas en ASP .NET" rel="category tag">ASP .NET</a>, <a href="http://speakingin.net/category/mvc/" title="Ver todas las entradas en MVC" rel="category tag">MVC</a>, <a href="http://speakingin.net/category/scott-guthrie/" title="Ver todas las entradas en Scott Guthrië" rel="category tag">Scott Guthrië</a> el <a href="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET.htm" title="22:17" rel="bookmark"><time class="entry-date" datetime="2007-12-08T22:17:55+00:00">8 diciembre, 2007</time></a><span class="by-author"> por <span class="author vcard"><a class="url fn n" href="http://speakingin.net/author/juanma/" title="Ver todas las entradas de juanlao" rel="author">juanlao</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+				<nav class="nav-single">
+					<h3 class="assistive-text">Navegación de entradas</h3>
+					<span class="nav-previous"><a href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/" rel="prev"><span class="meta-nav">←</span> ASP.NET MVC Framework (2ª Parte): URL Routing</a></span>
+					<span class="nav-next"><a href="http://speakingin.net/2007/12/08/links-del-8-de-diciembre-aspnet-aspnet-ajax-aspnet-mvc-net-vs-2008/" rel="next">Links del 8 de Diciembre: ASP.NET, ASP.NET AJAX, ASP.NET MVC, .NET, VS 2008 <span class="meta-nav">→</span></a></span>
+				</nav><!-- .nav-single -->
+
+				
+<div id="comments" class="comments-area">
+
+	
+	
+									<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Deja un comentario <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/#respond" style="display:none;">Cancelar respuesta</a></small></h3>
+									<form action="http://speakingin.net/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="comment-notes">Tu dirección de correo electrónico no será publicada. Los campos necesarios están marcados <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Nombre <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required="true"></p>
+<p class="comment-form-email"><label for="email">Correo electrónico <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" aria-required="true"></p>
+<p class="comment-form-url"><label for="url">Web</label> <input id="url" name="url" type="text" value="" size="30"></p>
+												<p class="comment-form-comment"><label for="comment">Comentario</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">Puedes usar las siguientes etiquetas y atributos <abbr title="HyperText Markup Language">HTML</abbr>:  <code>&lt;a href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; &lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;strike&gt; &lt;strong&gt; </code></p>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Publicar comentario">
+							<input type="hidden" name="comment_post_ID" value="130" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+						</p>
+						<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="c9a5bb6e2c"></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_comments" id="subscribe_comments" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"> <label class="subscribe-label" id="subscribe-label" for="subscribe_comments" style="display: inline;">Recibir un email con los siguientes comentarios a esta entrada.</label></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog" style="display: inline;">Recibir un email con cada nuevo post.</label></p>					</form>
+							</div><!-- #respond -->
+			        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery('#commentform').submit(function () {
+                    _gaq.push(
+                            ['_setAccount', 'UA-3247399-3'],
+                            ['_trackEvent', 'comment', 'submit']
+                    );
+                });
+            });
+        </script>
+					
+</div><!-- #comments .comments-area -->
+			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+			<div id="secondary" class="widget-area" role="complementary">
+			<aside id="recent-comments-2" class="widget widget_recent_comments"><h3 class="widget-title">Comentarios</h3><ul id="recentcomments"><li class="recentcomments">juanlao en <a href="http://speakingin.net/2011/12/05/zune-no-detecta-mi-windows-phone-7/#comment-4256">Zune no detecta mi Windows Phone 7</a></li><li class="recentcomments">Adrián en <a href="http://speakingin.net/2012/11/12/usar-api-skydrive-javascript-pagina-local/#comment-4224">Usar la API de SkyDrive para Javascript en una página local</a></li><li class="recentcomments">carolina en <a href="http://speakingin.net/2011/12/05/zune-no-detecta-mi-windows-phone-7/#comment-4218">Zune no detecta mi Windows Phone 7</a></li><li class="recentcomments">Bartolomé en <a href="http://speakingin.net/2013/08/23/ebook-testing-unitario-con-microsoft-fakes/#comment-4200">[ebook] Testing Unitario con Microsoft Fakes</a></li><li class="recentcomments">carlos en <a href="http://speakingin.net/2013/07/24/gtd-y-onenote/#comment-4174">GTD y OneNote</a></li></ul></aside><aside id="tag_cloud-3" class="widget widget_tag_cloud"><h3 class="widget-title">Etiquetas</h3><div class="tagcloud"><a href="http://speakingin.net/tag/net/" class="tag-link-3" title="67 temas" style="font-size: 22pt;">.NET</a>
+<a href="http://speakingin.net/tag/aliasing/" class="tag-link-103" title="8 temas" style="font-size: 11.0973451327pt;">Aliasing</a>
+<a href="http://speakingin.net/tag/android/" class="tag-link-125" title="8 temas" style="font-size: 11.0973451327pt;">Android</a>
+<a href="http://speakingin.net/tag/antialiasing/" class="tag-link-104" title="8 temas" style="font-size: 11.0973451327pt;">Antialiasing</a>
+<a href="http://speakingin.net/tag/api/" class="tag-link-42" title="7 temas" style="font-size: 10.4778761062pt;">API</a>
+<a href="http://speakingin.net/tag/asp-net-2/" class="tag-link-45" title="19 temas" style="font-size: 15.4336283186pt;">ASP.NET</a>
+<a href="http://speakingin.net/tag/asp-net-mvc/" class="tag-link-60" title="9 temas" style="font-size: 11.7168141593pt;">ASP.NET MVC</a>
+<a href="http://speakingin.net/tag/asp-net-vnext/" class="tag-link-51" title="9 temas" style="font-size: 11.7168141593pt;">ASP.NET vNext</a>
+<a href="http://speakingin.net/tag/azure/" class="tag-link-109" title="4 temas" style="font-size: 8pt;">Azure</a>
+<a href="http://speakingin.net/tag/c/" class="tag-link-50" title="10 temas" style="font-size: 12.2123893805pt;">C#</a>
+<a href="http://speakingin.net/tag/cellsdk/" class="tag-link-126" title="8 temas" style="font-size: 11.0973451327pt;">Cellsdk</a>
+<a href="http://speakingin.net/tag/cell%c2%b7sdk/" class="tag-link-123" title="8 temas" style="font-size: 11.0973451327pt;">Cell·SDK</a>
+<a href="http://speakingin.net/tag/comunidad/" class="tag-link-97" title="7 temas" style="font-size: 10.4778761062pt;">Comunidad</a>
+<a href="http://speakingin.net/tag/css3/" class="tag-link-90" title="8 temas" style="font-size: 11.0973451327pt;">CSS3</a>
+<a href="http://speakingin.net/tag/curiosidades/" class="tag-link-75" title="34 temas" style="font-size: 18.407079646pt;">Curiosidades</a>
+<a href="http://speakingin.net/tag/desarrollo/" class="tag-link-81" title="25 temas" style="font-size: 16.796460177pt;">Desarrollo</a>
+<a href="http://speakingin.net/tag/desarrollo-web/" class="tag-link-40" title="14 temas" style="font-size: 13.9469026549pt;">Desarrollo Web</a>
+<a href="http://speakingin.net/tag/eventos/" class="tag-link-101" title="9 temas" style="font-size: 11.7168141593pt;">Eventos</a>
+<a href="http://speakingin.net/tag/guthrie/" class="tag-link-47" title="14 temas" style="font-size: 13.9469026549pt;">Guthrie</a>
+<a href="http://speakingin.net/tag/herramientas/" class="tag-link-82" title="7 temas" style="font-size: 10.4778761062pt;">herramientas</a>
+<a href="http://speakingin.net/tag/html-5/" class="tag-link-57" title="11 temas" style="font-size: 12.7079646018pt;">HTML 5</a>
+<a href="http://speakingin.net/tag/ie/" class="tag-link-68" title="6 temas" style="font-size: 9.85840707965pt;">IE</a>
+<a href="http://speakingin.net/tag/internet-explorer/" class="tag-link-69" title="7 temas" style="font-size: 10.4778761062pt;">Internet Explorer</a>
+<a href="http://speakingin.net/tag/ios/" class="tag-link-124" title="9 temas" style="font-size: 11.7168141593pt;">iOS</a>
+<a href="http://speakingin.net/tag/lecturas/" class="tag-link-37" title="4 temas" style="font-size: 8pt;">Lecturas</a>
+<a href="http://speakingin.net/tag/microsoft/" class="tag-link-49" title="24 temas" style="font-size: 16.6725663717pt;">Microsoft</a>
+<a href="http://speakingin.net/tag/noticias/" class="tag-link-17" title="12 temas" style="font-size: 13.0796460177pt;">Noticias</a>
+<a href="http://speakingin.net/tag/novedad/" class="tag-link-34" title="12 temas" style="font-size: 13.0796460177pt;">Novedad</a>
+<a href="http://speakingin.net/tag/patrones-de-diseno/" class="tag-link-72" title="11 temas" style="font-size: 12.7079646018pt;">Patrones de diseño</a>
+<a href="http://speakingin.net/tag/recursos/" class="tag-link-39" title="6 temas" style="font-size: 9.85840707965pt;">Recursos</a>
+<a href="http://speakingin.net/tag/scott/" class="tag-link-46" title="15 temas" style="font-size: 14.1946902655pt;">Scott</a>
+<a href="http://speakingin.net/tag/scottgu/" class="tag-link-52" title="13 temas" style="font-size: 13.5752212389pt;">Scottgu</a>
+<a href="http://speakingin.net/tag/scott-guthrie-2/" class="tag-link-48" title="17 temas" style="font-size: 14.9380530973pt;">Scott Guthrie</a>
+<a href="http://speakingin.net/tag/scott-hanselman/" class="tag-link-78" title="4 temas" style="font-size: 8pt;">Scott Hanselman</a>
+<a href="http://speakingin.net/tag/silverlight/" class="tag-link-21" title="5 temas" style="font-size: 8.99115044248pt;">Silverlight</a>
+<a href="http://speakingin.net/tag/software/" class="tag-link-38" title="6 temas" style="font-size: 9.85840707965pt;">Software</a>
+<a href="http://speakingin.net/tag/syderis/" class="tag-link-30" title="4 temas" style="font-size: 8pt;">Syderis</a>
+<a href="http://speakingin.net/tag/trucos/" class="tag-link-23" title="22 temas" style="font-size: 16.1769911504pt;">Trucos</a>
+<a href="http://speakingin.net/tag/utilidades/" class="tag-link-41" title="11 temas" style="font-size: 12.7079646018pt;">Utilidades</a>
+<a href="http://speakingin.net/tag/visual-studio/" class="tag-link-25" title="20 temas" style="font-size: 15.6814159292pt;">Visual Studio</a>
+<a href="http://speakingin.net/tag/visual-studio-2010/" class="tag-link-58" title="9 temas" style="font-size: 11.7168141593pt;">Visual Studio 2010</a>
+<a href="http://speakingin.net/tag/windows-azure/" class="tag-link-120" title="6 temas" style="font-size: 9.85840707965pt;">Windows Azure</a>
+<a href="http://speakingin.net/tag/windows-phone/" class="tag-link-87" title="4 temas" style="font-size: 8pt;">Windows Phone</a>
+<a href="http://speakingin.net/tag/wp7/" class="tag-link-33" title="15 temas" style="font-size: 14.1946902655pt;">WP7</a>
+<a href="http://speakingin.net/tag/xna/" class="tag-link-28" title="24 temas" style="font-size: 16.6725663717pt;">XNA</a></div>
+</aside>		<aside id="recent-posts-4" class="widget widget_recent_entries">		<h3 class="widget-title">Últimos posts</h3>		<ul>
+					<li>
+				<a href="http://speakingin.net/2013/08/23/ebook-testing-unitario-con-microsoft-fakes/" title="[ebook] Testing Unitario con Microsoft Fakes">[ebook] Testing Unitario con Microsoft Fakes</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/24/gtd-y-onenote/" title="GTD y OneNote">GTD y OneNote</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/23/stylecop-tfs-y-nuget/" title="StyleCop, TFS y Nuget">StyleCop, TFS y Nuget</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/22/una-experiencia-alm-2/" title="Una experiencia ALM ++">Una experiencia ALM ++</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/18/knock-knock-buenos-dias-developer-venimos-a-hablarle-de-tdd/" title="Knock, knock … Buenos días developer, venimos a hablarle de TDD">Knock, knock … Buenos días developer, venimos a hablarle de TDD</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/17/tdd-mentirosos-el-ciclo-no-es-red-green-refactor/" title="TDD: Mentirosos el ciclo no es Red – Green -Refactor">TDD: Mentirosos el ciclo no es Red – Green -Refactor</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/05/15/evento-cartujadotnet-wave-engin/" title="[Evento CartujaDotNet] Wave Engine">[Evento CartujaDotNet] Wave Engine</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/03/27/microsoft-sync-framework-2-1-com-error-80040154-class-not-registered/" title="Microsoft Sync Framework 2.1 (COM Error 80040154 Class not registered)">Microsoft Sync Framework 2.1 (COM Error 80040154 Class not registered)</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/01/09/plain-concepts-cloud-tour/" title="Plain Concepts Cloud Tour">Plain Concepts Cloud Tour</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2012/12/03/api-google-earth-i/" title="API Google Earth (I)">API Google Earth (I)</a>
+						</li>
+				</ul>
+		</aside>		</div><!-- #secondary -->
+		</div><!-- #main .wrapper -->
+	<footer id="colophon" role="contentinfo">
+		<div class="site-info">
+						<a href="http://es.wordpress.org/" title="Plataforma semántica de publicación personal">Creado con WordPress</a>
+		</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+	<div style="display:none">
+	</div>
+
+	<script type="text/javascript">
+		WPCOM_sharing_counts = {"http:\/\/speakingin.net\/2007\/12\/08\/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas\/":130}	</script>
+		<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-linkedin' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-google-plus-1' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=600,height=600' );
+				return false;
+			});
+		});
+		</script>
+		<script type="text/javascript" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/devicepx-jetpack.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/wpgroho.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/navigation.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var recaptcha_options = {"lang":"en"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/sharing.js"></script>
+
+	<script src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/e-201336.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	st_go({v:'ext',j:'1:2.4.2',blog:'25561909',post:'130',tz:'2'});
+	var load_cmc = function(){linktracker_init(25561909,130,2);};
+	if ( typeof addLoadEvent != 'undefined' ) addLoadEvent(load_cmc);
+	else load_cmc();
+	</script><img id="wpstats" src="./ASP.NET MVC Framework (3ª Parte)  Pasando ViewData desde Controladores a las Vistas   Speaking in .NET_files/g.gif" alt="">
+</body></html>
