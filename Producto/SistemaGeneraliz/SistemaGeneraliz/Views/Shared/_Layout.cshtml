@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<link rel="SHORTCUT ICON" href="@Url.Content("~/Images/favicon.ico")"/>
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 2.3.1
+Version: 1.2
+Author: KeenThemes
+Website: http://www.keenthemes.com/preview/?theme=metronic
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469
+-->
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-35323543-1']);
+        _gaq.push(['_setDomainName', 'apphb.com']);
+        _gaq.push(['_setAllowLinker', true]);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+
+    <meta charset="utf-8" />
+	<title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+
+	<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.metro.min.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.dataviz.default.min.css")" rel="stylesheet" type="text/css" />
+	<script src="@Url.Content("~/Scripts/kendo/2013.1.319/jquery.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/kendo/2013.1.319/kendo.all.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/kendo/2013.1.319/kendo.aspnetmvc.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
+    <script src="@Url.Content("~/Content/intl/kendo.es-MX.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")"></script>
+    <link href="@Url.Content("~/Content/assets/plugins/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css"/>
+	<link href="@Url.Content("~/Content/assets/plugins/font-awesome/css/font-awesome.css")" rel="stylesheet" type="text/css"/>
+	<link href="@Url.Content("~/Content/assets/css/style-metro.css")" rel="stylesheet" />
+	<link href="@Url.Content("~/Content/assets/css/style.css")" rel="stylesheet" type="text/css"/>
+	<link href="@Url.Content("~/Content/assets/plugins/bootstrap/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css"/>
+	<link href="@Url.Content("~/Content/assets/css/style-responsive.css")" rel="stylesheet" type="text/css"/>
+	<link href="@Url.Content("~/Content/assets/css/themes/default.css")" rel="stylesheet" type="text/css" id="style_color"/>
+	<link href="@Url.Content("~/Content/assets/plugins/uniform/css/uniform.default.css")" rel="stylesheet" type="text/css"/>
+	<!-- END GLOBAL MANDATORY STYLES -->
+	<!-- BEGIN PAGE LEVEL STYLES -->	
+	<link href="@Url.Content("~/Content/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css"/>
+	<link href="@Url.Content("~/Content/assets/plugins/bootstrap-daterangepicker/daterangepicker.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/assets/plugins/jqvmap/jqvmap/jqvmap.css")" rel="stylesheet" type="text/css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/assets/plugins/jquery-nestable/jquery.nestable.css")" />
+	<!-- END PAGE LEVEL STYLES -->
+	<link rel="shortcut icon" href="favicon.ico" />
+</head>
+	<body class="fixed-top">
+	<!-- BEGIN HEADER -->
+	<div class="header navbar navbar-inverse navbar-fixed-top">
+		<!-- BEGIN TOP NAVIGATION BAR -->
+		@{Html.RenderPartial("_NavigationBar");}
+		<!-- END TOP NAVIGATION BAR -->
+	</div>
+	<!-- END HEADER -->
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- BEGIN SIDEBAR -->
+		@{Html.RenderPartial("_Sidebar");}
+		<!-- END SIDEBAR -->
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<div id="portlet-config" class="modal hide">
+				<div class="modal-header">
+					<button data-dismiss="modal" class="close" type="button"></button>
+					<h3>Widget Settings</h3>
+				</div>
+				<div class="modal-body">
+					Widget settings form goes here
+				</div>
+			</div>
+			<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<!-- BEGIN PAGE CONTAINER-->
+            <div class="container-fluid">
+			@RenderBody()
+            </div>
+			<!-- END PAGE CONTAINER-->		
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+	<!-- BEGIN FOOTER -->
+	@{Html.RenderPartial("_Footer");}
+	<!-- END FOOTER -->
+	@{Html.RenderPartial("_CustomJavascripts");}
+	<script>
+	    
+		jQuery(document).ready(function() {		
+			App.init(); // initlayout and core plugins
+			Index.init();
+			//Index.initJQVMAP(); // init index page's custom scripts
+			Index.initCharts(); // init index page's custom scripts
+			Index.initChat();
+			Index.initDashboardDaterange();
+			Index.initIntro();
+		});
+	</script>
+	<!-- END JAVASCRIPTS -->
+</body>
+</html>

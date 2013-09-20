@@ -1,0 +1,128 @@
+﻿<div class="navbar-inner">
+			<div class="container-fluid">
+				<!-- BEGIN LOGO -->
+				<a class="brand" href="@Url.Action("Index", "Home", new { Area = "" } )">
+				<img src="@Url.Content("~/Content/assets/img/logo3.png")" alt="logo" />
+				</a>
+				<!-- END LOGO -->
+				<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+				<a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+				<img src="@Url.Content("~/Content/assets/img/menu-toggler.png")" alt="" />
+				</a>          
+				<!-- END RESPONSIVE MENU TOGGLER -->				
+				<!-- BEGIN TOP NAVIGATION MENU -->					
+				<ul class="nav pull-right">
+					<!-- BEGIN NOTIFICATION DROPDOWN -->	
+					@*<li class="dropdown" id="header_notification_bar">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-warning-sign"></i>
+						<span class="badge">0</span>
+						</a>
+						<ul class="dropdown-menu extended notification">
+							<li>
+								<p>Usted tiene 0 notificaciones</p>
+							</li>
+                            <!--
+							<li>
+								<a href="#">
+								<span class="label label-success"><i class="icon-plus"></i></span>
+								New user registered. 
+								<span class="time">Just now</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+								<span class="label label-important"><i class="icon-bolt"></i></span>
+								Server #12 overloaded. 
+								<span class="time">15 mins</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+								<span class="label label-warning"><i class="icon-bell"></i></span>
+								Server #2 not respoding.
+								<span class="time">22 mins</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+								<span class="label label-info"><i class="icon-bullhorn"></i></span>
+								Application error.
+								<span class="time">40 mins</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+								<span class="label label-important"><i class="icon-bolt"></i></span>
+								Database overloaded 68%. 
+								<span class="time">2 hrs</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+								<span class="label label-important"><i class="icon-bolt"></i></span>
+								2 user IP blocked.
+								<span class="time">5 hrs</span>
+								</a>
+							</li>
+                            -->
+							<li class="external">
+								<a href="#">Ver todas las notifiaciones <i class="m-icon-swapright"></i></a>
+							</li>
+						</ul>
+					</li>
+					<!-- END NOTIFICATION DROPDOWN -->
+					<!-- BEGIN INBOX DROPDOWN -->
+					<li class="dropdown" id="header_inbox_bar">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-envelope-alt"></i>
+						<span class="badge">0</span>
+						</a>
+						<ul class="dropdown-menu extended inbox">
+							<li>
+								<p>Usted tiene 0 mensajes nuevos</p>
+							</li>
+							<li class="external">
+								<a href="#">Ver todos los mensajes <i class="m-icon-swapright"></i></a>
+							</li>
+						</ul>
+					</li>
+					<!-- END INBOX DROPDOWN -->
+					<!-- BEGIN TODO DROPDOWN -->
+					<li class="dropdown" id="header_task_bar">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-tasks"></i>
+						<span class="badge">0</span>
+						</a>
+						<ul class="dropdown-menu extended tasks">
+							<li>
+								<p>Usted tiene 0 tareas pendientes</p>
+							</li>
+							<li class="external">
+								<a href="#">Ver todas las tareas <i class="m-icon-swapright"></i></a>
+							</li>
+						</ul>
+					</li>*@
+					<!-- END TODO DROPDOWN -->
+					<!-- BEGIN USER LOGIN DROPDOWN -->
+					<li class="dropdown user">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						@*<img alt="" src="/Misc/GetImagen?archivoID=@SistemaGeneraliz.Models.Seguridad.DP2MembershipProvider.GetImagenID(User.Identity.Name)" style ="height: 30px; width: 30px" />
+                        <span class="username">@SistemaGeneraliz.Models.Seguridad.DP2MembershipProvider.GetPersonaFromUsername(User.Identity.Name).NombreCompleto</span>*@
+                        <span class="username">Nombre Aqui</span>
+                            <i class="icon-angle-down"></i>
+						</a>
+						<ul class="dropdown-menu">
+@*							<li><a href="@(SistemaGeneraliz.MvcApplication.IsDebug?"http://localhost:2642/Organizacion/Intranet":"http://dp2kendo.apphb.com/Organizacion/Intranet")"><i class="icon-user"></i> Mi perfil</a></li>
+							<li><a href="@(SistemaGeneraliz.MvcApplication.IsDebug?"http://localhost:2642/Eventos/Eventos/VistaEventos?Length=7":"http://dp2kendo.apphb.com/Eventos/Eventos/VistaEventos?Length=7")"><i class="icon-calendar"></i> Mi calendario</a></li>*@
+							<li><a href="#"><i class="icon-envelope"></i> Mis mensajes</a></li>
+							<li><a href="#"><i class="icon-tasks"></i> Mis tareas</a></li>
+							<li class="divider"></li>
+							@*<li><a href="@Url.Action("Logout", "Home", new {Area = ""})"><i class="icon-key"></i> Salir</a></li>*@
+						</ul>
+					</li>
+					<!-- END USER LOGIN DROPDOWN -->
+				</ul>
+				<!-- END TOP NAVIGATION MENU -->	
+			</div>
+		</div>

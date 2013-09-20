@@ -1,0 +1,13 @@
+@model DateTime?
+
+@{
+    var x = Html.Kendo().DatePickerFor(m => m).Format("dd/MM/yyyy hh:mm tt");
+    //var x = Html.Kendo().DateTimePicker().Value(Model).Name("asdf");
+    string html = x.ToString();
+    html = html.Replace("jQuery(function(){", "");
+    html = html.Replace("});});", "});");
+    html = html.Replace("type=\"date\"", "type=\"datetime\"");
+    html = html.Replace("kendoDatePicker", "kendoDateTimePicker");
+    
+}
+@Html.Raw(html.ToString())

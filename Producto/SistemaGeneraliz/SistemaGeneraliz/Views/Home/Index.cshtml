@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Home - Sistema Generaliz";
+}
+@{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Bienvenido a Generaliz", "Sistema de Gestión de Servicios Generales"));}
+<div id="dashboard">
+    <!-- BEGIN DASHBOARD STATS -->
+    <div class="row-fluid">
+        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
+            <div class="dashboard-stat blue">
+                <div class="visual">
+                    <i class="icon-pencil"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        
+                    </div>
+                    <div class="desc">
+                        Evaluación 360°
+                    </div>
+                </div>
+                @*<a class="more" href="@Url.Action("Index", "Competencias", new { area = "Evaluacion360"})">Ver más <i class="m-icon-swapright m-icon-white"></i>
+                </a>*@
+            </div>
+        </div>
+        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
+            <div class="dashboard-stat green">
+                <div class="visual">
+                    <i class="icon-group"></i>
+                </div>
+                <div class="details">
+                    <div class="number"></div>
+                    <div class="desc">Reclutamiento</div>
+                </div>
+                <a class="more" href="#">Ver más <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="span3 responsive" data-tablet="span6  fix-offset" data-desktop="span3">
+            <div class="dashboard-stat purple">
+                <div class="visual">
+                    <i class="icon-bar-chart"></i>
+                </div>
+                <div class="details">
+                    <div class="number"></div>
+                    <div class="desc">Reportes</div>
+                </div>
+                <a class="more" href="#">Ver más <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
+            <div class="dashboard-stat yellow">
+                <div class="visual">
+                    <i class="icon-sitemap"></i>
+                </div>
+                <div class="details">
+                    <div class="number"></div>
+                    <div class="desc">Línea de carrera</div>
+                </div>
+                <a class="more" href="#">Ver más <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END DASHBOARD STATS -->
+<div class="clearfix"></div>
+
+<h3>RH++</h3>
+<br />
+
+@(Html.Kendo().PanelBar()
+.Name("IntroPanelBar")
+.Items(items =>
+{
+    items.Add()
+        .Text("Introducción")
+        .Selected(true)
+        .Expanded(true)
+        .Content(@<text>
+<p style="padding: 0 1em">
+    RH++ es un nuevo sistema de administración de recursos humanos. Combina lo mejor de la administración
+    de la información de RRHH con características sociales innovadores, tales como objetivos y metas compartidas
+    o evaluaciones mutuas. Además, tiene una interfaz que a los empleados les gustará.
+</p>
+</text>);
+    items.Add()
+        .Text("Noticias")
+        .Content(@<text>
+<p style="padding: 0 1em">
+    ¡El sistema está en desarrollo! A acabarlo rápido T_T.
+</p>
+</text>);
+    items.Add()
+        .Text("Contacto")
+        .Content(@<text>
+<p style="padding: 0 1em">
+    Si quieres comunicarte con el equipo desarrollador de este sistema, comuníquese con <a href="mailto:dlepage@pucp.pe">dlepage@pucp.pe</a>.
+</p>
+</text>);
+})
+)

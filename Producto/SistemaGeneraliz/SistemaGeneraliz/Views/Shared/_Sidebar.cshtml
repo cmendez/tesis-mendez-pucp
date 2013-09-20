@@ -1,0 +1,84 @@
+﻿@using SistemaGeneraliz.Models.Helpers
+
+
+@helper ShowNavigator(){
+    ObtenerMenu navigator = new ObtenerMenu();
+
+    //foreach (SidebarOption option in navigator.menu.Opciones)//.MenuUsuario(User.Identity.Name).Opciones)
+    foreach (SidebarOption option in navigator.MenuUsuario(User.Identity.Name).Opciones)
+    {
+		if(option.Method!=null)
+		{
+			<li class="@GetOptionArea(option.Area)">
+		        <a href="@Url.Action(option.Method, option.Controller, new {Area = option.Area })">
+			        <i class="@option.Icon"></i> 
+					<span class="title">@option.Title</span>
+				    <span class="selected"></span>
+			    </a>
+		    </li>   
+        }
+		else
+		{
+			<li class="@GetOptionArea(option.Area)">
+				<a href="javascript:;">
+					<i class="@option.Icon"></i> 
+					<span class="title">@option.Title</span>
+					<span class="arrow "></span>
+				</a>
+				<ul class="sub-menu">
+				@foreach(SidebarSuboption subopt in option.Suboptions)
+				{
+					<li class="@GetTitle(@subopt.Title)">
+						<a href="@Url.Action(subopt.Method, subopt.Controller, new {Area = option.Area })">
+							<i class="@subopt.Icon"></i>
+							@subopt.Title
+						</a>
+					</li>
+				}
+				</ul>
+			</li> 
+		}
+    }
+}
+
+@helper GetOptionArea(string desiredText)
+{
+    if (((string)ViewBag.Area).Equals(desiredText)) {
+        @: start active
+    } else {
+        @: 
+    }
+}
+
+@helper GetTitle(string desiredText) {
+    if (((string)ViewBag.title).Equals(desiredText)) {
+        @: active
+    } else {
+        @:
+    }
+}
+
+<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->        	
+			<ul>
+				<li>
+					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+					<div class="sidebar-toggler hidden-phone"></div>
+                    <p></p>
+					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+				</li>
+				<li>
+					<!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+					@*<form class="sidebar-search">
+						<div class="input-box">
+							<a href="javascript:;" class="remove"></a>
+							<input type="text" placeholder="Buscar..." />				
+							<!--input type="button" class="submit" value=" " /-->
+						</div>
+					</form>*@
+					<!-- END RESPONSIVE QUICK SEARCH FORM -->
+				</li>
+                @ShowNavigator()				
+			</ul>
+			<!-- END SIDEBAR MENU -->
+		</div>

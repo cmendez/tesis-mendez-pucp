@@ -1,0 +1,67 @@
+﻿@model SistemaGeneraliz.Models.Seguridad.LoginModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_NoLayout.cshtml";
+}
+
+<!-- BEGIN BODY -->
+<body class="login">
+  <!-- BEGIN LOGO -->
+  <div class="logo">
+    <img src="@Url.Content("~/Content/assets/img/logo2-big.png")" alt="" /> 
+  </div>
+  <!-- END LOGO -->
+  <!-- BEGIN LOGIN -->
+  <div class="content">
+    <!-- BEGIN LOGIN FORM -->
+    @using(Html.BeginForm("Login", "Home", FormMethod.Post, new { @id = "formLogin", @class = "form-vertical login-form" })){
+    
+      <h3 class="form-title">Ingrese con su cuenta</h3>
+      <div class="alert alert-error hide">
+        <button class="close" data-dismiss="alert"></button>
+        <span>Ingrese su usuario y contraseña.</span>
+      </div>
+      <div class="control-group">
+        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+        <label class="control-label visible-ie8 visible-ie9">Usuario</label>
+        <div class="controls">
+          <div class="input-icon left">
+            <i class="icon-user"></i>
+            @Html.TextBoxFor(m => m.Username, new { @class = "m-wrap placeholder-no-fix required", @maxlength = "30", @placeholder = "Usuario" })
+          </div>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label visible-ie8 visible-ie9">Contraseña</label>
+        <div class="controls">
+          <div class="input-icon left">
+            <i class="icon-lock"></i>
+             @Html.PasswordFor(m => m.Password, new { @class = "m-wrap placeholder-no-fix required", @maxlength = "50", @placeholder = "Contraseña" })
+          </div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <label class="checkbox">
+        @Html.CheckBoxFor(m => m.RememberMe) Recordarme
+        </label>
+        <button type="submit" class="btn green pull-right">
+        Entrar <i class="m-icon-swapright m-icon-white"></i>
+        </button>            
+      </div>
+    }
+    <!-- END LOGIN FORM --> 
+     @Html.ValidationMessage("LoginError")      
+  </div>
+
+    <div class="copyright">
+     <a href="@Url.Action("Index", "Public")" style="color: rgb(0,255,0)">¡Trabaja con nosotros!</a>
+    </div>
+  <!-- END LOGIN -->
+  <!-- BEGIN COPYRIGHT -->
+  <div class="copyright">
+    2013 &copy; RH++
+  </div>
+  <!-- END COPYRIGHT -->
+  @{Html.RenderPartial("_CustomJavascripts");}  
+  
+</body>

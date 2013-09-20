@@ -1,0 +1,163 @@
+/***
+Search Page
+***/
+.search-forms {
+  margin-bottom:25px;
+  background:#f0f6fa;
+}
+
+/*search default*/
+.search-default form {
+  margin-bottom:0;
+  padding:12px 14px;
+}
+
+.search-default .chat-form {
+  margin:0;
+  padding:0;
+  background:none;
+  overflow:hidden;
+  position:relative;
+}
+
+.search-default .chat-form button {
+  top:0;
+  right:0;
+  position:absolute;
+}
+
+.search-default .chat-form .input-cont {
+  margin-right:108px;
+}
+
+.search-default .chat-form .input-cont input:focus{
+  border: 1px solid #35aa47 !important;
+}
+
+.search-result {
+  background:#fafafa;
+}
+
+.search-result .portfolio-text img {
+  border-left:solid 3px #169ef4;
+}
+
+.search-result .portfolio-text h4 {
+  color:#555d69;
+  font-size:20px;
+  font-weight:400;
+  margin-top:10px;
+}
+
+.search-result .portfolio-info {
+  padding:12px 20px;
+}
+
+.search-result .portfolio-info span {
+  font-size:28px;
+}
+
+.search-result .portfolio-info span em {
+  font-size:24px;
+  font-style:normal;
+  text-transform:none;
+}
+
+/*portfolio block*/
+.portfolio-block {
+  background:#f7f7f7;
+  margin-bottom:15px;
+}
+
+.portfolio-block .span5 {
+  overflow:hidden;
+}
+
+/*portfolio text*/
+.portfolio-text {
+  overflow:hidden;
+}
+
+.portfolio-text h4 {
+}
+
+.portfolio-text img {
+  float:left;
+  margin-right:15px;
+}
+
+.portfolio-text .portfolio-text-info {
+  overflow:hidden;
+}
+
+/*portfolio button*/
+.portfolio-btn a {
+  display:block;
+  padding:28px 0;
+  background:#ddd !important;
+}
+
+.portfolio-btn a:hover {
+  background:#1d943b !important;
+}
+
+.portfolio-btn span {
+  color:#fff;
+  font-size:22px;
+  font-weight:200;  
+}
+
+/*portfolio info*/
+.portfolio-info {
+  float:left;
+  color:#616161;
+  font-size:12px;
+  padding:12px 25px;
+  margin-bottom:5px;
+  text-transform:uppercase;
+}
+
+.portfolio-info span {
+  color:#16a1f2;
+  display:block;
+  font-size:30px;
+  margin-top:5px;
+  font-weight:200;
+  text-transform:uppercase;
+}
+
+.search-result .search-btn {
+  text-align:center;
+  background:#f3f3f3;
+  padding:30px 10px 14px;
+}
+
+.search-result .search-btn p {
+  color:#9c9c9c;
+  font-size:22px;
+}
+
+.search-result .search-btn p em {
+  color:#ffa801;
+  font-size:34px;
+  font-style:normal;
+}
+
+.search-result .search-btn a {
+  font-size: 18px;
+  padding: 6px 20px;
+  text-transform: uppercase;
+}
+  
+/*search classic*/
+.search-classic {
+  margin-bottom:30px;
+}
+
+.search-classic h4 {
+  margin-bottom:3px;
+}
+
+.overflow-hidden {
+  overflow:hidden;
+}
