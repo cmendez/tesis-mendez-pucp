@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<!-- saved from url=(0080)http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/ -->
+<html lang="es-ES"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>ASP.NET MVC Framework (2ª Parte): URL Routing | Speaking in .NET</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="http://speakingin.net/xmlrpc.php">
+<!--[if lt IE 9]>
+<script src="http://speakingin.net/wp-content/themes/twentytwelve/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+<link rel="alternate" type="application/rss+xml" title="Speaking in .NET » Feed" href="http://speakingin.net/feed/">
+<link rel="alternate" type="application/rss+xml" title="Speaking in .NET » RSS de los comentarios" href="http://speakingin.net/comments/feed/">
+
+            <script src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/quant.js" async="" type="text/javascript"></script><script type="text/javascript" async="" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/ga.js"></script><script type="text/javascript">//<![CDATA[
+            // Google Analytics for WordPress by Yoast v4.3.3 | http://yoast.com/wordpress/google-analytics/
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-3247399-3']);
+				            _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+			<link rel="alternate" type="application/rss+xml" title="Speaking in .NET » ASP.NET MVC Framework (2ª Parte): URL Routing RSS de los comentarios" href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/feed/">
+<link rel="stylesheet" id="colorbox-theme1-css" href="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/colorbox.css" type="text/css" media="screen">
+<link rel="stylesheet" id="farbtastic-css" href="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/farbtastic.css" type="text/css" media="all">
+<link rel="stylesheet" id="jetpack-widgets-css" href="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/widgets.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentytwelve-fonts-css" href="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="twentytwelve-style-css" href="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/style.css" type="text/css" media="all">
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentytwelve-ie-css'  href='http://speakingin.net/wp-content/themes/twentytwelve/css/ie.css?ver=20121010' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="sharedaddy-css" href="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/sharing.css" type="text/css" media="all">
+<script type="text/javascript" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/jquery.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/jquery.colorbox-min.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/jquery.tagcanvas.min.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/comment-reply.min.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://speakingin.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://speakingin.net/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Releases de ASP.NET AJAX Control Toolkit y de Web Deployment Project para VS 2008" href="http://speakingin.net/2007/12/02/releases-de-aspnet-ajax-control-toolkit-y-de-web-deployment-project-para-vs-2008/">
+<link rel="next" title="ASP.NET MVC Framework (3ª Parte): Pasando ViewData desde Controladores a las Vistas" href="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/">
+<meta name="generator" content="WordPress 3.6">
+<link rel="canonical" href="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET.htm">
+<link rel="shortlink" href="http://wp.me/p1JfOR-25">
+		<script type="text/javascript" charset="utf-8">
+			var href = "http://speakingin.net";
+			// solves the issue where app mode does not set the correct UA String.
+			if ( window.navigator.standalone ) {
+				href += "?onswipe_redirect=yes";
+				location.href = href;
+			};
+			try{
+			// make reader urls work backwards.
+				href += "?p=" + location.hash.match(/\#!\/entry\/.+,(\d+)$/)[1];
+				location.href = href;
+			}catch(e){}		
+		</script>
+		
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC Framework (2ª Parte): URL Routing">
+<meta property="og:url" content="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/">
+<meta property="og:description" content="El mes pasado escribí el primer post de una serie en la que veremos el nuevo ASP.NET MVC Framework. En aquel post vismo cómo crear un escenario simple en el que creamos un sitio para navegar por la...">
+<meta property="og:site_name" content="Speaking in .NET">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step11.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step1.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step2.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvc2/step10.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step4.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step3.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step5.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step6.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step7.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step8.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step9.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step10.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step11.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step12.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step13.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step14.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step15.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step16.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step17.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step18.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step19.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step20.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step21.jpg">
+<meta property="og:image" content="http://www.scottgu.com/blogposts/mvcrouting/step22.jpg">
+<meta name="twitter:site" content="@jetpack">
+<meta name="twitter:image0" content="http://www.scottgu.com/blogposts/mvc2/step11.jpg">
+<meta name="twitter:image1" content="http://www.scottgu.com/blogposts/mvcrouting/step1.jpg">
+<meta name="twitter:image2" content="http://www.scottgu.com/blogposts/mvcrouting/step2.jpg">
+<meta name="twitter:image3" content="http://www.scottgu.com/blogposts/mvc2/step10.jpg">
+<meta name="twitter:card" content="gallery">
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+<!-- jQuery Lightbox For Native Galleries v3.2.2 | http://www.viper007bond.com/wordpress-plugins/jquery-lightbox-for-native-galleries/ -->
+<script type="text/javascript">
+// <![CDATA[
+	jQuery(document).ready(function($){
+		$(".gallery").each(function(index, obj){
+			var galleryid = Math.floor(Math.random()*10000);
+			$(obj).find("a").colorbox({rel:galleryid, maxWidth:"95%", maxHeight:"95%"});
+		});
+		$("a.lightbox").colorbox({maxWidth:"95%", maxHeight:"95%"});
+	});
+// ]]>
+</script>
+	<style type="text/css">
+			.site-title,
+		.site-description {
+			position: absolute !important;
+			clip: rect(1px 1px 1px 1px); /* IE7 */
+			clip: rect(1px, 1px, 1px, 1px);
+		}
+		</style>
+	<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #e6e6e6; }
+</style>
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/saved_resource">
+		<link rel="stylesheet" type="text/css" id="gravatar-card-css" href="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/services.css"></head>
+
+<body class="single single-post postid-129 single-format-standard custom-background custom-font-enabled single-author" style=""><div id="cboxOverlay" style="display: none;"></div><div id="colorbox" class="" style="padding-bottom: 42px; padding-right: 42px; display: none;"><div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div><div id="cboxTopCenter" style="float: left;"></div><div id="cboxTopRight" style="float: left;"></div></div><div style="clear:left"><div id="cboxMiddleLeft" style="float: left;"></div><div id="cboxContent" style="float: left;"><div id="cboxLoadedContent" style="width:0; height:0; overflow:hidden" class=""></div><div id="cboxLoadingOverlay" class=""></div><div id="cboxLoadingGraphic" class=""></div><div id="cboxTitle" class=""></div><div id="cboxCurrent" class=""></div><div id="cboxNext" class=""></div><div id="cboxPrevious" class=""></div><div id="cboxSlideshow" class=""></div><div id="cboxClose" class=""></div></div><div id="cboxMiddleRight" style="float: left;"></div></div><div style="clear:left"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position:absolute; width:9999px; visibility:hidden; display:none"></div></div>
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header" role="banner">
+		<hgroup>
+			<h1 class="site-title"><a href="http://speakingin.net/" title="Speaking in .NET" rel="home">Speaking in .NET</a></h1>
+			<h2 class="site-description">2007 – 2012</h2>
+		</hgroup>
+
+		<nav id="site-navigation" class="main-navigation" role="navigation">
+			<h3 class="menu-toggle">Menú</h3>
+			<a class="assistive-text" href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/#content" title="Ir al contenido">Ir al contenido</a>
+			<div class="menu-inicio-container"><ul id="menu-inicio" class="nav-menu"><li id="menu-item-1534" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1534"><a href="http://speakingin.net/">Home</a></li>
+<li id="menu-item-1531" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1531"><a>Tutoriales</a>
+<ul class="sub-menu">
+	<li id="menu-item-1520" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1520"><a href="http://speakingin.net/tutorial-de-linq-to-sql/">Tutorial de LINQ to SQL</a></li>
+	<li id="menu-item-1521" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1521"><a href="http://speakingin.net/tutorial-de-silverlight/">Tutorial de Silverlight</a></li>
+	<li id="menu-item-1517" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1517"><a href="http://speakingin.net/tutorial-asp-net-mvc-3/">Tutorial ASP.NET MVC 3</a></li>
+	<li id="menu-item-1516" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1516"><a href="http://speakingin.net/introduccion-al-aliasing/">Introducción al aliasing</a></li>
+	<li id="menu-item-1518" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1518"><a href="http://speakingin.net/tutorial-svg/">Tutorial SVG</a></li>
+</ul>
+</li>
+<li id="menu-item-1532" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1532"><a href="http://speakingin.net/lecturas-recomendadas/">Lecturas Recomendadas</a></li>
+<li id="menu-item-1533" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1533"><a href="http://speakingin.net/about/">About</a></li>
+<li id="menu-item-1962" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1962"><a href="http://speakingin.net/patrocinio/">Patrocinio</a></li>
+</ul></div>		</nav><!-- #site-navigation -->
+
+		<div class="div-centered">
+			<a href="http://speakingin.net/"><img src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/cropped-BlogHeader.png" class="header-image" width="776" height="106" alt=""></a>
+</div>
+			</header><!-- #masthead -->
+
+	<div id="main" class="wrapper">
+	<div id="primary" class="site-content">
+		<div id="content" role="main">
+
+			
+				
+	<article id="post-129" class="post-129 post type-post status-publish format-standard hentry category-net category-asp-net category-mvc category-scott-guthrie">
+				<header class="entry-header">
+									<h1 class="entry-title">ASP.NET MVC Framework (2ª Parte): URL Routing</h1>
+										<div class="comments-link">
+					<a href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/#comments" title="Comentarios en ASP.NET MVC Framework (2ª Parte): URL Routing">4 respuestas</a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<ol>
+<li>El mes pasado escribí <a href="http://speakingin.net/2007/11/18/aspnet-mvc-framework-primera-parte/">el primer post </a>de una serie en la que veremos el nuevo ASP.NET MVC Framework. En aquel post vismo cómo crear un escenario simple en el que creamos un sitio para navegar por la lista de productos y librerías. Cubrimos los conceptos de alto nivel que hay detrás de MVC, y demostramos cómo crear un proyecto ASP.NET MVC de la nada hasta implementarlo y testear la funcionalidad de listado de productos.</li>
+</ol>
+<p>En el post de hoy nos vamos a meter más en la arquitectura de rutado de ASP.NET MVC Framework, y veremos algunas cosas que podemos usar en escenarios más avanzados.<span id="more-129"></span></p>
+<p><strong>Recapitulando de la primera parte</strong></p>
+<p>En la primer post, creamos un sitio de e-comerce que exponía tres tipos de urls:</p>
+<table border="1" width="650" cellpadding="2" cellspacing="0">
+<tbody><tr>
+<td width="177" valign="top"><strong>URL Format</strong></td>
+<td width="245" valign="top"><strong>Behavior</strong></td>
+<td width="225" valign="top"><strong>URL Example</strong></td>
+</tr>
+<tr>
+<td width="179" valign="top">/Products/Categories</td>
+<td width="245" valign="top">Browse all Product Categories</td>
+<td width="225" valign="top">/Products/Categories</td>
+</tr>
+<tr>
+<td width="182" valign="top">/Products/List/<em>Category</em></td>
+<td width="245" valign="top">List Products within a Category</td>
+<td width="225" valign="top">/Products/List/Beverages</td>
+</tr>
+<tr>
+<td width="184" valign="top">/Products/Detail/<em>ProductID</em></td>
+<td width="245" valign="top">Show Details about a Specific Product</td>
+<td width="225" valign="top">/Products</td>
+</tr>
+</tbody></table>
+<p>Manejábamos estas URLs creando la clase "ProductsController":</p>
+<p><img border="0" width="515" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step11.jpg" height="597"></p>
+<p>Una vez que añadimos esta clase a nuestra clase, ASP.NET MVC administra automáticamente las URLs entrantes y las ruta al método de acción al controlador correspondiente.</p>
+<p>En el post de hoy vamos a meternos en cómo se hace este mapeo de URLs, y exploraremos escenarios más avanzados de rutado en los que nos aprovecharemos de las posibilidades de ASP.NET MVC. También demostraré lo fácil que es hacer test unitarios en estos escenarios.</p>
+<p><strong>¿Qué hace el sistema de rutado de URLs de ASP.NET MVC?</strong></p>
+<p>El framework ASP.NET incluye un sistema flexible de rutado de urls que nos permite definir reglas de mapeado en nuestras aplicaciones. El sistema de rutado tiene dos objetivos principales:</p>
+<ol>
+<li>Mapear urls entrantes a la aplicación y rutarlas al controlador y método de acción correctos.</li>
+<li>Crear urls de slaida que puedan ser usadas para volver a llamar a Controladores/Actiones (por ejemplo: desde un&nbsp;enlace &lt;a href="" mce_href=""&gt;, y llamadas AJAX).</li>
+</ol>
+<p>Poder usar reglas de mapeado de url para urls entrantes y salientes nos da una gran flexibilidad. Es decir, si queremos cambiar más adelante la estructura de urls de nuestra aplicacion (por ejemplo: cambiar el nombre /Products a /Catalog), podemos hacerlo modificando un conjunto de reglas de mapeo en el nivel de aplicación - sin tener que cambiar ninguna línea de código de los controladores&nbsp;o vistas.</p>
+<p><strong>Reglas de rutado por defecto de ASP.NET MVC</strong></p>
+<p>Cuando usamos Visual Studio para crear una aplicación con el template de "ASP.NET MVC Web Application" se añade una clase ASP.NET Application. Esto está implementado en el código trasero de Global.asax:</p>
+<p><img border="0" width="239" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step1.jpg" height="467"></p>
+<p>Esta clase permite a los programadores manejar el inicio/apagado de la aplicación y la administración de errores.</p>
+<p>El template por defecto añade el método Application_Start a la clase y registra dos reglas de rutado asociadas:</p>
+<p><img border="0" width="781" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step2.jpg" height="452"></p>
+<p>La primera regla indica que ASP.NET MVC debería mapear las urls a los controladores usando el formato "[controlador]/[acción]/[id]" para determinar la clase controlador al que instanciar, y qué método de acción invocar (junto a los parámetros necesarios).</p>
+<p>Esta regla por defecto es el motivo de que nuestra petición /Products/Detail/3 en el ejemplo del primer post invoca al método de detallles de la clase ProductsController y le pasa un 3 como argumento:</p>
+<p><img border="0" width="324" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step10.jpg" height="135"></p>
+<p>La segunda regla se añade para un caso especial: "Default.aspx", la raíz de nuestra aplicación (que normalemente pasan los servidores web en lugar de "/" cuando administran la raiz de las urls de una aplicación). Esta regla garantiza que las peticiones a "/Default.asx" ó "/" se manejan por la acción "Index()" de la clase "HomeController" (es un controlador que se añade automáticamente por Visual Studio cuando se crea un proyecto "ASP.NET MVC Web Application").</p>
+<p><strong>Comprendiendo las intancias de rutado</strong></p>
+<p>Las reglas de rutado se registran añadiendo instancias Route en la colección System.Web.Mvc.RouteTable.</p>
+<p>La clase Route define unas propiedades que podemos usar para configurar las reglas de mapeo. Podemos configurar estas propiedades con las asiganciones tradicionales de .NET 2.0:</p>
+<p><img border="0" width="542" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step4.jpg" height="118"></p>
+<p>O aprovechandonos de la inicialización de objetos de los compiladores de C# y VB:</p>
+<p><img border="0" width="511" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step3.jpg" height="104"></p>
+<p>La propiedad Url de la clase Route define la regla que debe ser usada para comprobar si una regla de rutado se aplica a una petición entrante. También define cómo debe "tokenizarse" para los parámetros. Estos parámetros se definen con la sintaxis "[ParamName]". Como veremos más tarde, no estamos restrinjidos a usar un conjunto de parametros "bien conocidos" - podemos tener un número arbitrario de parámetros. Por ejemplo, podemos usar una regla "/Blogs/[Username]/Archive/[Year]/[Month]/[Day]/[Title]" para tokenizar las urls entrantes a los posts - y haremos que MVC Framework parsee y apase el Username, year, month, day y title como parámetros al método de acción del controlador.</p>
+<p>La propiedad "Defaults" define un diccionario con valores por defecto&nbsp;a usar en el evento de la url entrante si no incluye alguno de los parámetros especificados. Por ejemplo, en los casos anteriores estamos definiendo dos valores por defecto - uno para "[action]" y otro para "[id]". Con esto si recibimos una url con /Products/ el sistema de rutado usará "Index" como nombre de la acción de ProductsController a ejecutar. Si se especificó /Products/List se pasará una cadena nula como parámetro ID.</p>
+<p>La propiedad "RouteHandler" define la instancia IRouteHandler que debe usarse para procesar la petición después de que la URL es "tokenizada" y se determina cuál es la regla de rutado. En los ejemplos anteriores estamos indicando que queremos usar la clase System.Web.Mvc.MvcRounteHandler para procesar las URLs. El motivo de este paso extra es que queremos asegurarnos de que el sistema de rutado de URLs puede usarse tanto para peticiones MVC como NO-MVC. Con la interfaz IRouteHandler somos capazes de usar de forma limpia peticiones NO-MVC (como para los WebForms, soporte Astoria REST, etc).</p>
+<p>También hay una propiedad "Validation" que veremos más tarde. Esta propiedad nos permite especificar precondiciones&nbsp;necesarias para encontrar la regla de rutado adecuada. Por ejemplo, podemos indicar que una regla de rutado sólo se aplicara a un verbo específico HTTP (pudiendo mapear así comandos REST), o podríamos usar expresiones regulares en los argumentos para ver qué regla es la adecuada.</p>
+<p><em>Nota: En la primera preview pública de MVC la clase Route no es extensible . Estamos viendo si la haremos extensible en la próxima versión y permitir a los desarrolladores añadir reglas específicas (por ejemplo: una clase RestRoute) para añadir semántica adicional y funcionalidad.</em></p>
+<p><strong>Evaluacion de reglas de rutado</strong></p>
+<p>Cuando llega una peticion URL a una aplicacion ASP.NET MVC, el framework MVC evalua las reglas de la colección RouteTable.Routes para determinar el controlador apropiado para manejar la petición.</p>
+<p>MVC elige el controlador a usar evaluando las reglas de RouteTable en el orden el que fueron registradas. La URL es comrobada con cada regla&nbsp; y cuando encuentra una que sea adecuada nos dirá el RouteHandler que procesará la petición (y todas las demás reglas se ignoran). Con esto, la mejor forma de estructurar las reglas es de más específica a menos.</p>
+<p><strong>Escenario de rutado: Busqueda personalizada de urls</strong></p>
+<p>Vamos a ver ahora el uso de reglas de rutado personalizadas en un escenario real. Vamos a implementar la búsqueda en nuestro sitio de e-comerce.</p>
+<p>Añadimos la clase SearchController al proyecto:</p>
+<p><img border="0" width="233" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step5.jpg" height="338"></p>
+<p>Ahora definiremos dos métodos de acción. Usaremos el método Index() para presentar una página de búsqueda que tenga un textbox para que se introduzca el texto a buscar. La acción Results() se usará para realizar la búsqueda contra la base de datos y mostrar los resultados al usuario:</p>
+<p><img border="0" width="475" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step6.jpg" height="386"></p>
+<p>Usando la regla de mapeado por defecto <em>/[controller]/[action]/[id]</em> , podríamos usar las urls siguientes para invocar las acciones del SearchController:</p>
+<table border="1" width="562" cellpadding="2" cellspacing="0">
+<tbody><tr>
+<td width="132" valign="top"><strong>Scenario</strong></td>
+<td width="236" valign="top"><strong>URL</strong></td>
+<td width="190" valign="top"><strong>Action Method</strong></td>
+</tr>
+<tr>
+<td width="134" valign="top">Search Form:</td>
+<td width="236" valign="top">/Search/</td>
+<td width="190" valign="top">Index</td>
+</tr>
+<tr>
+<td width="135" valign="top">Search Results:</td>
+<td width="236" valign="top">/Search/Results?query=Beverages</td>
+<td width="190" valign="top">Results</td>
+</tr>
+<tr>
+<td width="136" valign="top">&nbsp;</td>
+<td width="236" valign="top">/Search/Results?query=ASP.NET</td>
+<td width="190" valign="top">Results</td>
+</tr>
+</tbody></table>
+<p>Fijáos que la razón por la que la raíz de /Search por defecto mapea la acción Index() ya que&nbsp;la&nbsp;definición&nbsp;/[controller]/[action]/[id] se crea por defecto cuando Visual Studio crea un nuevo proyecto:</p>
+<p><img border="0" width="511" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step3.jpg" height="104"></p>
+<p dir="ltr">Si bien URLs como&nbsp;<em>Search/Results?query=Beverages</em> son perfectamente funcionales, podemos querer URLs algo más "bonitas"&nbsp;para los resultados de búsqueda. Concretamente podríamos querer quitar&nbsp;el nombre de la acción&nbsp;de la URL "Results", y pasarla&nbsp;en la consulta&nbsp;como parte de la URL en lugar de usar un argumento QueryString. Por ejemplo:</p>
+<p dir="ltr">
+</p><table border="1" width="560" cellpadding="2" cellspacing="0">
+<tbody><tr>
+<td width="132" valign="top"><strong>Scenario</strong></td>
+<td width="236" valign="top"><strong>URL</strong></td>
+<td width="190" valign="top"><strong>Action Method</strong></td>
+</tr>
+<tr>
+<td width="134" valign="top">Search Form:</td>
+<td width="236" valign="top">/Search/</td>
+<td width="190" valign="top">Index</td>
+</tr>
+<tr>
+<td width="135" valign="top">Search Results:</td>
+<td width="236" valign="top">/Search/Beverages</td>
+<td width="190" valign="top">Results</td>
+</tr>
+<tr>
+<td width="136" valign="top">&nbsp;</td>
+<td width="236" valign="top">/Search/ASP.NET</td>
+<td width="190" valign="top">Results</td>
+</tr>
+</tbody></table>
+<p>Podemos permitir estas URLs "bonitas" añadiendo dos reglas de mapeado ántes de la de por defecto /[controller]/[action]/[id]:</p>
+<p><img border="0" width="596" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step7.jpg" height="479"></p>
+<p>Con estas dos reglas estamos especificando explícitamente los parámetros del Contorlador y de la Acción para /Search/URLs. Estamos indicando que "/Search" siempre será manejado por la acción "Index" en el SearchController. Cualquier URL con una jerarquía así (/Search/Foo, /Search/Bar, etc) siempre será manejada por la acción "Results" en el SearchController.</p>
+<p>La segunda regla indica que cualquier prefijo de /Search/ debe tratarse como parámetro "[query]" que será pasado al método de acción:</p>
+<p><img border="0" width="331" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step8.jpg" height="185"></p>
+<p>Lo más común es que permitados unos resultados de búsquedas paginados (donde sólo mostraremos los 10 resultados de una vez). Esto lo podemos hacer a través de un argumento querystring (por ejemplo: /Search/Beverages?page=2) o podemos embeber el índice de la página como parte de la URL (Por ejemplo: /Search/Beverages/2). Para permitir esto lo que tenemos que añadir es un parámetro opcional extra a la segunda regla:</p>
+<p><img border="0" width="619" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step9.jpg" height="198"></p>
+<p>Fijáos cómo ahora la regla es "Search/[query]/[page]". También hemos configurado el índice por defecto a 1 en los casos en los que no se incluya en la url (esto se hace a través de los tipo anónimo como valores por defecto).</p>
+<p>Ahora podemos actualizar el método de acción SearchControler.Results para que tome este parámetro de la página como un argumento:</p>
+<p><img border="0" width="411" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step10(1).jpg" height="211"></p>
+<p>Y con esto tenemos una URL "bonita" para las búsquedas de nuestro sitio (todo lo que queda por implementar es el algoritmo de búsqueda que dejaremos como ejercicio para el lectos &lt;g&gt;).</p>
+<p><strong>Validación de precondiciones para reglas de rutado</strong></p>
+<p>Como ya he mencionado ántes, la clase Route tiene&nbsp;la propiedad "Validation" que nos permite añadir precondiciones a validar para las reglas (a parte de los filtros de URL). El framework ASP.NET MVC nos permite usar expresiones regulares para validar cada parámetro&nbsp; en la URL, así como evaluar las cabeceras HTTP (para rutar URLs vasándonos en verbos HTTP).</p>
+<p>Aquí tenéis una validación personalizada que podríamos crear para las urls del tipo "/Products/Detail/43". Especifica que el argumento ID debe ser un número (no un string), y que debe tener entre 1 y 8 caracteres:</p>
+<p><img border="0" width="572" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step11(1).jpg" height="197"></p>
+<p>Si le pasamos la url /Products/Detail/12 a nuestra a plicación, la regla anterior será válida. Si le pasamos /Products/Detail/abc o /Products/Detail/23232323232323 no lo será.</p>
+<p><strong>Crear Urls de salida desde el sistema de rutado</strong></p>
+<p>Al principio del post dije que el sistema de rutado de urls de MVC era responsable de dos cosas:</p>
+<ol>
+<li>Mapear urls entrantes a Controladores/Acciones</li>
+<li>Ayudar en la construcción de URLs salientes que puedan ser usadas par ahacer call backs a los Controladores/Acciones (por ejemplo, desde posts, enlaces &lt;a href=""&gt;,&nbsp; llamadas de AJAX).</li>
+</ol>
+<p>El sistema de rutado de URLs tiene una serie de métodos de ayuda y clases que hacen fácil crear URLs en tiempo de ejecución (también podéis tener URLs trabajando con la colección RouteTable.Route directamente.</p>
+<p><em>Html.ActionLink</em></p>
+<p>En la primera parte de esta serie resumí un poco el método Html.ActionLink(). Podemos usarlo en las vistas y permitir la generación de enlaces &lt;a href=""&gt;. Lo interesante es que estas URLs se generan a partir de las reglas de mapeo del sistema e rutado. Por ejemplo, las dos llamadas a Html.ActionLink siguientes:</p>
+<p><img border="0" width="976" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step12.jpg" height="72"></p>
+<p>cojen automáticamente los resultados de la regla de búsquedas que configuramos antes y el atributo "href" se genera automáticamente :</p>
+<p><img border="0" width="433" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step13.jpg" height="68"></p>
+<p>Fijáos en cómo la segunda llamada al método Html.ActionLink mapea el parámetro de la "pagina" como parte de la URL (y fijáos en que la primera omite el valor - ya que sabe cual es el valor por defecto en el lado del servidor).</p>
+<p>Url.Action</p>
+<p>Además de usar el método Html.ActionLink, ASP.NET MVC también tiene este segundo método. Genera un conjunto de strings de URLs - que podemos usar donde queramos. Por ejemplo, el code snippet siguiente:</p>
+<p><img border="0" width="1" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step14.jpg" height="1"><img border="0" width="799" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step14.jpg" height="42"></p>
+<p>puede usarlo el sistema de rutado para devolver una url.</p>
+<p><img border="0" width="189" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step15.jpg" height="38"></p>
+<p><em>Controller.RedirectToAction</em></p>
+<p>ASP.NET MVC también tiene este tercer método que podemos usar en los controladores para crear redirecciones (donde las URLs son generadas&nbsp;a partir del sistema de rutado de URLs)</p>
+<p>Por ejemplo cuando invocamos al método siguiente en un controlador:</p>
+<p><img border="0" width="1" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step16.jpg" height="1"><img border="0" width="1" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step16.jpg" height="1"><img border="0" width="745" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step16.jpg" height="42"></p>
+<p>internamente genera una llama a Response.Redirect("/Search/Beverages")</p>
+<p><em>DRY</em></p>
+<p>Lo bonito de estos métodos es que nos permiten no tener un código enrevasdo en los paths de las URL en la lógica de los controladores y vistas. Si más adelante decidimos cambiar el mapeo de la ruta URL de la búsqueda de "/Search/[query]/[page]"&nbsp;a "/Search/Results/[query]/[page]"&nbsp;o /Search/Results?query=[query]&amp;page=[page]"&nbsp; podemos hacerlo fácilmente editándolo sólo en un lugar (en el código de registro de rutas). No tenemos que cambiar ningún código de nuestras vistas ni controladores (esto sigue&nbsp; el<a href="http://en.wikipedia.org/wiki/Don" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://en.wikipedia.org&#39;]);" t_repeat_yourself"=""> principo DRY</a></p>
+<p><strong>Creando Urls de salida desde el sistema de rutado (con expresiones lambda)</strong></p>
+<p>Los ejemplos anteriores usan el nuevo soporte de&nbsp;<a href="http://speakingin.net/2007/05/16/nueva-caracteristica-de-orcas-tipos-anonimos/">tipos anónimos </a>de VB y C# de VS 2008. En los ejemplos estamos usando los tipos anónimos para pasar la secuencia de nombres/valores para usarlos para mapar URLs(podéis pensar en esto como <a href="http://weblogs.asp.net/leftslipper/archive/2007/09/24/using-c-3-0-anonymous-types-as-dictionaries.aspx" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://weblogs.asp.net&#39;]);">una forma limpia de generar diccionarios</a>).</p>
+<p>Además de para parámetros de forma dinámica usando tipos anónimos, el framework ASP.NET MVC también tiene la habilidad de crear acciones de rutas usando un mecanismo fuertemente tipado que nos da en tiempo de compilación intellisense para ayudarnos con las URLs. Esto lo hace con tipos genéricos y el soporte de VB y C# para expresiones Lambda.</p>
+<p>Por ejemplo, el tipo anónimo de la llamada ActionLink:</p>
+<p><img border="0" width="964" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step17.jpg" height="45"></p>
+<p>También puede escribirse así:</p>
+<p><img border="0" width="742" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step18.jpg" height="40"></p>
+<p>Además de ser fácil de escribir, la segunda opción tiene el beneficio de que es type-safe, lo que quiere decir que tenemos checkeo en tiempo de compilacion e intellisense en Visual Studio (también podemos usar herramientas de refactoring):</p>
+<p><img border="0" width="968" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step19.jpg" height="256"></p>
+<p>Fijáos cómo podemos usar el intellisense para seleccionar el método Action del SearchController que queramos usar - y cómo los parámetros son fuertemente tipados. Las urls generadas son todas del sistema de rutado de ASP.NET MVC.</p>
+<p>Os estaréis preguntando - ¿Como nos aseguramos de que esto funciona? Si recordáis, hace ocho meses escribí sobre las <a href="http://speakingin.net/2007/04/10/nueva-caracteristica-de-orcas-expresiones-lambda/">expresiones Lambda</a>. Hablaba sobre cómo se compilan las expresiones lambda como un delegado, así como con un árbol de objetos de expresión que pueden ser usadas en tiempo de ejcución para analizar expresiones lambda. Con el método Html.ActionLink&lt;T&gt; usamos la opción de este árbol de expresiones y se analizan las lambda en tiempo de ejecución buscando el método de acción que invoca así como los tipos de los parámetros, nombres y valores que se especifican en la expresión. Podemos usar esto en el sistema de rutado de MVC para devolver la url adecuada y asociarle el HTML.</p>
+<p><em>Importante: Cuando usamos estas expresiones lambda nunca ejecutaremos la acción del controlador. Por ejemplo, el siguiente código NO invoca el método de acción "Results" en el SearchController:</em></p>
+<p><img border="0" width="742" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step18.jpg" height="40"></p>
+<p>Si no que devuelve este link html:</p>
+<p><img border="0" width="413" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step20.jpg" height="41"></p>
+<p>Cuando se hace clic en este link mandará una petición http al servidor que invocará el método "Results" del SearchController.</p>
+<p><strong>Tests unitarios de rutas</strong></p>
+<p>Uno de los principios del diseño del framework ASP.NET&nbsp;MVC es permitir un soporte para test. Como todo el framework MVC, podemos hacer test unitarios sobre rutas y reglas de rutado. El sistema de rutado de MVC puede ser instanciado y ejecutado independientemente de ASP.NET - con esto podemos cargar y testear patrones de rutas con cualquier librería de test (no hay que ejecutar ningún servidor web) y usar cualquier framework (NUnit, MBUnit, MSTest, etc).</p>
+<p>Aunque podemos hacer test unitarios con la colección de RouteTable de una aplicación ASP.NET MVC directamente, en general no es buena idea tener test unitarios que se basen en estados globales. Un mejor patrón que podemos usar es estructurar la lógica de registro de rutas en un método RegisterRoutes() como el siguiente que trabaja contra el RouteCollection que se pasa como argumenteo (nota: probablemente crearemos un template para VS en la próxima actualización):</p>
+<p><img border="0" width="854" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step21.jpg" height="933"></p>
+<p>Ahora podemos escribir test unitarios con la instacia de nuestra RouteCollection y llamar al método Registerroutes() de nuestra aplicación. Y podremos simular peticiones a la aplicación y comprobar que se registran los controladores y vistas adecuados - sin tener que preocuparnos en ningún efecto colateral:</p>
+<p><img border="0" width="852" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/step22.jpg" height="392"></p>
+<p><strong>Resumen</strong></p>
+<p>Este post nos enseña unos cuantos detalles sobre cómo funciona la arquitectura de rutado de ASP.NET MVC, y cómo podemos usarla para personalizar la estructura y aspecto de las urls que publicaremos en nuestras aplicaciones ASP.NET MVC.</p>
+<p>Por defecto cuando creamos una aplicación web ASP.NET MVC se predefinirá la regla de rutado&nbsp; /[controller]/[action]/[id] que podemos usar (sin tener que configurar nada). ESto nos permite crear muchas aplicaciones sin tener que registrar reglas de rutado personalizadas. Pero hemos demostrado que si queremos podemos crear nuestros propios formatos de URL y que no es difícil - y que el MVC framework nos permite una gran flexibilidad para hacer esto.</p>
+<p>Espero que sirva.</p>
+<p>Scott.</p>
+<p>Traducido por: Juan María Laó Ramos.</p>
+<p>ARtículo original: <a href="http://weblogs.asp.net/scottgu/archive/2007/12/03/asp-net-mvc-framework-part-2-url-routing.aspx" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://weblogs.asp.net&#39;]);">http://weblogs.asp.net/scottgu/archive/2007/12/03/asp-net-mvc-framework-part-2-url-routing.aspx</a></p>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-facebook"><a rel="nofollow" class="share-facebook sd-button share-icon" href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/?share=facebook&nb=1" title="Compartir en Facebook" id="sharing-facebook-129"><span>Facebook</span></a></li><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/?share=twitter&nb=1" title="Haz clic para compartir en Twitter" id="sharing-twitter-129"><span>Twitter</span></a></li><li class="share-linkedin"><a rel="nofollow" class="share-linkedin sd-button share-icon" href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/?share=linkedin&nb=1" title="Haz clic aquí para compartir en LinkedIn" id="sharing-linkedin-129"><span>LinkedIn</span></a></li><li><a href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/#" class="sharing-anchor sd-button share-more"><span>Más</span></a></li><li class="share-end"></li></ul><div class="sharing-hidden"><div class="inner" style="display: none;width:150px;"><ul style="background-image:none;"><li class="share-google-plus-1"><a rel="nofollow" class="share-google-plus-1 sd-button share-icon" href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/?share=google-plus-1&nb=1" title="Haz clic para compartir en Google+" id="sharing-google-129"><span>Google +1</span></a></li><li class="share-end"></li></ul></div></div></div></div></div>					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			Esta entrada fue publicada en <a href="http://speakingin.net/category/net/" title="Ver todas las entradas en .NET" rel="category tag">.NET</a>, <a href="http://speakingin.net/category/asp-net/" title="Ver todas las entradas en ASP .NET" rel="category tag">ASP .NET</a>, <a href="http://speakingin.net/category/mvc/" title="Ver todas las entradas en MVC" rel="category tag">MVC</a>, <a href="http://speakingin.net/category/scott-guthrie/" title="Ver todas las entradas en Scott Guthrië" rel="category tag">Scott Guthrië</a> el <a href="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET.htm" title="12:41" rel="bookmark"><time class="entry-date" datetime="2007-12-07T12:41:59+00:00">7 diciembre, 2007</time></a><span class="by-author"> por <span class="author vcard"><a class="url fn n" href="http://speakingin.net/author/juanma/" title="Ver todas las entradas de juanlao" rel="author">juanlao</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+				<nav class="nav-single">
+					<h3 class="assistive-text">Navegación de entradas</h3>
+					<span class="nav-previous"><a href="http://speakingin.net/2007/12/02/releases-de-aspnet-ajax-control-toolkit-y-de-web-deployment-project-para-vs-2008/" rel="prev"><span class="meta-nav">←</span> Releases de ASP.NET AJAX Control Toolkit y de Web Deployment Project para VS 2008</a></span>
+					<span class="nav-next"><a href="http://speakingin.net/2007/12/08/aspnet-mvc-framework-3%c2%aa-parte-pasando-viewdata-desde-controladores-a-las-vistas/" rel="next">ASP.NET MVC Framework (3ª Parte): Pasando ViewData desde Controladores a las Vistas <span class="meta-nav">→</span></a></span>
+				</nav><!-- .nav-single -->
+
+				
+<div id="comments" class="comments-area">
+
+	
+			<h2 class="comments-title">
+			4 pensamientos en “<span>ASP.NET MVC Framework (2ª Parte): URL Routing</span>”		</h2>
+
+		<ol class="commentlist">
+				<li class="comment even thread-even depth-1" id="li-comment-456">
+		<article id="comment-456" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/fdd96a92ffa1e7b741d7b9b59886926c" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-fdd96a92ffa1e7b741d7b9b59886926c-0"><cite class="fn">John Andrade </cite><a href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/#comment-456"><time datetime="2007-12-08T02:16:40+00:00">8 diciembre, 2007 en 2:16</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Estoy muy agredacido por la traducción, excelente articulo.</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/?replytocom=456#respond" onclick="return addComment.moveForm(&quot;comment-456&quot;, &quot;456&quot;, &quot;respond&quot;, &quot;129&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-457">
+		<p>Pingback:  <a href="http://speakingin.net/2008/02/13/actualizacion-del-road-map-del-aspnet-mvc-framework/" rel="external nofollow" class="url">Actualización del Road-Map del ASP.NET MVC Framework « Thinking in .NET</a> </p>
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-458">
+		<article id="comment-458" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/9f4131b70601b8c5c58299e286892b71" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-9f4131b70601b8c5c58299e286892b71-0"><cite class="fn">lobo </cite><a href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/#comment-458"><time datetime="2008-09-29T20:54:25+00:00">29 septiembre, 2008 en 20:54</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>El articulo esta muy bueno y lo pude comprender mejor gracias a la traduccion! Gracias!<br>
+Recien me estoy iniciando en MVC y no se si es posible o no lo que quiero hacer, pero pregunto aca por si alguien sabe la respuesta.</p>
+<p>Supongamos que en vez de buscar beverages (/Search/Beverages) quiero buscar el siguiente string “7*/%” (siete asterisco barra porciento), la URL que me quedaria seria /search/7*/% pero eso no es valido… y si uso la funcion HttpUtility.UrlEncode en ese texto para ponerlo en un link, obtengo: “7*%2f%25″, pero tambien es invalido…</p>
+<p>Se puede usar este tipo de enrutamiento por URL teniendo que buscar ese tipo de caracteres?</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/?replytocom=458#respond" onclick="return addComment.moveForm(&quot;comment-458&quot;, &quot;458&quot;, &quot;respond&quot;, &quot;129&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-459">
+		<article id="comment-459" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<img alt="" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/9ce6bf27f773ce0f31b10f3d5822bcdd" class="avatar avatar-44 photo grav-hashed grav-hijack" height="44" width="44" id="grav-9ce6bf27f773ce0f31b10f3d5822bcdd-0"><cite class="fn">Rey </cite><a href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/#comment-459"><time datetime="2010-09-08T19:00:04+00:00">8 septiembre, 2010 en 19:00</time></a>			</header><!-- .comment-meta -->
+
+			
+			<section class="comment-content comment">
+				<p>Necesito tener mis controladores dentro de directorios dentro del directorio controller y lo mismo con las vistas.<br>
+digamos cuando use la url: /Administracion/Usuario/Insertar que vaya al directorio Controller, la carpeta Administracion, el controlador usuario y el metodo Insertar, y que la vista que muestre tenga esa misma direccion pero en la carpeta View. Como podria ser la ruta que tengo que ponerle para que reconozca eso?</p>
+							</section><!-- .comment-content -->
+
+			<div class="reply">
+				<a class="comment-reply-link" href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/?replytocom=459#respond" onclick="return addComment.moveForm(&quot;comment-459&quot;, &quot;459&quot;, &quot;respond&quot;, &quot;129&quot;)">Responder</a> <span>↓</span>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+	</li><!-- #comment-## -->
+		</ol><!-- .commentlist -->
+
+		
+		
+	
+									<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Deja un comentario <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://speakingin.net/2007/12/07/aspnet-mvc-framework-2%c2%aa-parte-url-routing/#respond" style="display:none;">Cancelar respuesta</a></small></h3>
+									<form action="http://speakingin.net/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="comment-notes">Tu dirección de correo electrónico no será publicada. Los campos necesarios están marcados <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Nombre <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required="true"></p>
+<p class="comment-form-email"><label for="email">Correo electrónico <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" aria-required="true"></p>
+<p class="comment-form-url"><label for="url">Web</label> <input id="url" name="url" type="text" value="" size="30"></p>
+												<p class="comment-form-comment"><label for="comment">Comentario</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">Puedes usar las siguientes etiquetas y atributos <abbr title="HyperText Markup Language">HTML</abbr>:  <code>&lt;a href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; &lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;strike&gt; &lt;strong&gt; </code></p>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Publicar comentario">
+							<input type="hidden" name="comment_post_ID" value="129" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+						</p>
+						<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="5f5230232d"></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_comments" id="subscribe_comments" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"> <label class="subscribe-label" id="subscribe-label" for="subscribe_comments" style="display: inline;">Recibir un email con los siguientes comentarios a esta entrada.</label></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog" style="display: inline;">Recibir un email con cada nuevo post.</label></p>					</form>
+							</div><!-- #respond -->
+			        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery('#commentform').submit(function () {
+                    _gaq.push(
+                            ['_setAccount', 'UA-3247399-3'],
+                            ['_trackEvent', 'comment', 'submit']
+                    );
+                });
+            });
+        </script>
+					
+</div><!-- #comments .comments-area -->
+			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+			<div id="secondary" class="widget-area" role="complementary">
+			<aside id="recent-comments-2" class="widget widget_recent_comments"><h3 class="widget-title">Comentarios</h3><ul id="recentcomments"><li class="recentcomments">juanlao en <a href="http://speakingin.net/2011/12/05/zune-no-detecta-mi-windows-phone-7/#comment-4256">Zune no detecta mi Windows Phone 7</a></li><li class="recentcomments">Adrián en <a href="http://speakingin.net/2012/11/12/usar-api-skydrive-javascript-pagina-local/#comment-4224">Usar la API de SkyDrive para Javascript en una página local</a></li><li class="recentcomments">carolina en <a href="http://speakingin.net/2011/12/05/zune-no-detecta-mi-windows-phone-7/#comment-4218">Zune no detecta mi Windows Phone 7</a></li><li class="recentcomments">Bartolomé en <a href="http://speakingin.net/2013/08/23/ebook-testing-unitario-con-microsoft-fakes/#comment-4200">[ebook] Testing Unitario con Microsoft Fakes</a></li><li class="recentcomments">carlos en <a href="http://speakingin.net/2013/07/24/gtd-y-onenote/#comment-4174">GTD y OneNote</a></li></ul></aside><aside id="tag_cloud-3" class="widget widget_tag_cloud"><h3 class="widget-title">Etiquetas</h3><div class="tagcloud"><a href="http://speakingin.net/tag/net/" class="tag-link-3" title="67 temas" style="font-size: 22pt;">.NET</a>
+<a href="http://speakingin.net/tag/aliasing/" class="tag-link-103" title="8 temas" style="font-size: 11.0973451327pt;">Aliasing</a>
+<a href="http://speakingin.net/tag/android/" class="tag-link-125" title="8 temas" style="font-size: 11.0973451327pt;">Android</a>
+<a href="http://speakingin.net/tag/antialiasing/" class="tag-link-104" title="8 temas" style="font-size: 11.0973451327pt;">Antialiasing</a>
+<a href="http://speakingin.net/tag/api/" class="tag-link-42" title="7 temas" style="font-size: 10.4778761062pt;">API</a>
+<a href="http://speakingin.net/tag/asp-net-2/" class="tag-link-45" title="19 temas" style="font-size: 15.4336283186pt;">ASP.NET</a>
+<a href="http://speakingin.net/tag/asp-net-mvc/" class="tag-link-60" title="9 temas" style="font-size: 11.7168141593pt;">ASP.NET MVC</a>
+<a href="http://speakingin.net/tag/asp-net-vnext/" class="tag-link-51" title="9 temas" style="font-size: 11.7168141593pt;">ASP.NET vNext</a>
+<a href="http://speakingin.net/tag/azure/" class="tag-link-109" title="4 temas" style="font-size: 8pt;">Azure</a>
+<a href="http://speakingin.net/tag/c/" class="tag-link-50" title="10 temas" style="font-size: 12.2123893805pt;">C#</a>
+<a href="http://speakingin.net/tag/cellsdk/" class="tag-link-126" title="8 temas" style="font-size: 11.0973451327pt;">Cellsdk</a>
+<a href="http://speakingin.net/tag/cell%c2%b7sdk/" class="tag-link-123" title="8 temas" style="font-size: 11.0973451327pt;">Cell·SDK</a>
+<a href="http://speakingin.net/tag/comunidad/" class="tag-link-97" title="7 temas" style="font-size: 10.4778761062pt;">Comunidad</a>
+<a href="http://speakingin.net/tag/css3/" class="tag-link-90" title="8 temas" style="font-size: 11.0973451327pt;">CSS3</a>
+<a href="http://speakingin.net/tag/curiosidades/" class="tag-link-75" title="34 temas" style="font-size: 18.407079646pt;">Curiosidades</a>
+<a href="http://speakingin.net/tag/desarrollo/" class="tag-link-81" title="25 temas" style="font-size: 16.796460177pt;">Desarrollo</a>
+<a href="http://speakingin.net/tag/desarrollo-web/" class="tag-link-40" title="14 temas" style="font-size: 13.9469026549pt;">Desarrollo Web</a>
+<a href="http://speakingin.net/tag/eventos/" class="tag-link-101" title="9 temas" style="font-size: 11.7168141593pt;">Eventos</a>
+<a href="http://speakingin.net/tag/guthrie/" class="tag-link-47" title="14 temas" style="font-size: 13.9469026549pt;">Guthrie</a>
+<a href="http://speakingin.net/tag/herramientas/" class="tag-link-82" title="7 temas" style="font-size: 10.4778761062pt;">herramientas</a>
+<a href="http://speakingin.net/tag/html-5/" class="tag-link-57" title="11 temas" style="font-size: 12.7079646018pt;">HTML 5</a>
+<a href="http://speakingin.net/tag/ie/" class="tag-link-68" title="6 temas" style="font-size: 9.85840707965pt;">IE</a>
+<a href="http://speakingin.net/tag/internet-explorer/" class="tag-link-69" title="7 temas" style="font-size: 10.4778761062pt;">Internet Explorer</a>
+<a href="http://speakingin.net/tag/ios/" class="tag-link-124" title="9 temas" style="font-size: 11.7168141593pt;">iOS</a>
+<a href="http://speakingin.net/tag/lecturas/" class="tag-link-37" title="4 temas" style="font-size: 8pt;">Lecturas</a>
+<a href="http://speakingin.net/tag/microsoft/" class="tag-link-49" title="24 temas" style="font-size: 16.6725663717pt;">Microsoft</a>
+<a href="http://speakingin.net/tag/noticias/" class="tag-link-17" title="12 temas" style="font-size: 13.0796460177pt;">Noticias</a>
+<a href="http://speakingin.net/tag/novedad/" class="tag-link-34" title="12 temas" style="font-size: 13.0796460177pt;">Novedad</a>
+<a href="http://speakingin.net/tag/patrones-de-diseno/" class="tag-link-72" title="11 temas" style="font-size: 12.7079646018pt;">Patrones de diseño</a>
+<a href="http://speakingin.net/tag/recursos/" class="tag-link-39" title="6 temas" style="font-size: 9.85840707965pt;">Recursos</a>
+<a href="http://speakingin.net/tag/scott/" class="tag-link-46" title="15 temas" style="font-size: 14.1946902655pt;">Scott</a>
+<a href="http://speakingin.net/tag/scottgu/" class="tag-link-52" title="13 temas" style="font-size: 13.5752212389pt;">Scottgu</a>
+<a href="http://speakingin.net/tag/scott-guthrie-2/" class="tag-link-48" title="17 temas" style="font-size: 14.9380530973pt;">Scott Guthrie</a>
+<a href="http://speakingin.net/tag/scott-hanselman/" class="tag-link-78" title="4 temas" style="font-size: 8pt;">Scott Hanselman</a>
+<a href="http://speakingin.net/tag/silverlight/" class="tag-link-21" title="5 temas" style="font-size: 8.99115044248pt;">Silverlight</a>
+<a href="http://speakingin.net/tag/software/" class="tag-link-38" title="6 temas" style="font-size: 9.85840707965pt;">Software</a>
+<a href="http://speakingin.net/tag/syderis/" class="tag-link-30" title="4 temas" style="font-size: 8pt;">Syderis</a>
+<a href="http://speakingin.net/tag/trucos/" class="tag-link-23" title="22 temas" style="font-size: 16.1769911504pt;">Trucos</a>
+<a href="http://speakingin.net/tag/utilidades/" class="tag-link-41" title="11 temas" style="font-size: 12.7079646018pt;">Utilidades</a>
+<a href="http://speakingin.net/tag/visual-studio/" class="tag-link-25" title="20 temas" style="font-size: 15.6814159292pt;">Visual Studio</a>
+<a href="http://speakingin.net/tag/visual-studio-2010/" class="tag-link-58" title="9 temas" style="font-size: 11.7168141593pt;">Visual Studio 2010</a>
+<a href="http://speakingin.net/tag/windows-azure/" class="tag-link-120" title="6 temas" style="font-size: 9.85840707965pt;">Windows Azure</a>
+<a href="http://speakingin.net/tag/windows-phone/" class="tag-link-87" title="4 temas" style="font-size: 8pt;">Windows Phone</a>
+<a href="http://speakingin.net/tag/wp7/" class="tag-link-33" title="15 temas" style="font-size: 14.1946902655pt;">WP7</a>
+<a href="http://speakingin.net/tag/xna/" class="tag-link-28" title="24 temas" style="font-size: 16.6725663717pt;">XNA</a></div>
+</aside>		<aside id="recent-posts-4" class="widget widget_recent_entries">		<h3 class="widget-title">Últimos posts</h3>		<ul>
+					<li>
+				<a href="http://speakingin.net/2013/08/23/ebook-testing-unitario-con-microsoft-fakes/" title="[ebook] Testing Unitario con Microsoft Fakes">[ebook] Testing Unitario con Microsoft Fakes</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/24/gtd-y-onenote/" title="GTD y OneNote">GTD y OneNote</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/23/stylecop-tfs-y-nuget/" title="StyleCop, TFS y Nuget">StyleCop, TFS y Nuget</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/22/una-experiencia-alm-2/" title="Una experiencia ALM ++">Una experiencia ALM ++</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/18/knock-knock-buenos-dias-developer-venimos-a-hablarle-de-tdd/" title="Knock, knock … Buenos días developer, venimos a hablarle de TDD">Knock, knock … Buenos días developer, venimos a hablarle de TDD</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/07/17/tdd-mentirosos-el-ciclo-no-es-red-green-refactor/" title="TDD: Mentirosos el ciclo no es Red – Green -Refactor">TDD: Mentirosos el ciclo no es Red – Green -Refactor</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/05/15/evento-cartujadotnet-wave-engin/" title="[Evento CartujaDotNet] Wave Engine">[Evento CartujaDotNet] Wave Engine</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/03/27/microsoft-sync-framework-2-1-com-error-80040154-class-not-registered/" title="Microsoft Sync Framework 2.1 (COM Error 80040154 Class not registered)">Microsoft Sync Framework 2.1 (COM Error 80040154 Class not registered)</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2013/01/09/plain-concepts-cloud-tour/" title="Plain Concepts Cloud Tour">Plain Concepts Cloud Tour</a>
+						</li>
+					<li>
+				<a href="http://speakingin.net/2012/12/03/api-google-earth-i/" title="API Google Earth (I)">API Google Earth (I)</a>
+						</li>
+				</ul>
+		</aside>		</div><!-- #secondary -->
+		</div><!-- #main .wrapper -->
+	<footer id="colophon" role="contentinfo">
+		<div class="site-info">
+						<a href="http://es.wordpress.org/" title="Plataforma semántica de publicación personal">Creado con WordPress</a>
+		</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+	<div style="display:none">
+	<div class="grofile-hash-map-fdd96a92ffa1e7b741d7b9b59886926c">
+	</div>
+	<div class="grofile-hash-map-9f4131b70601b8c5c58299e286892b71">
+	</div>
+	<div class="grofile-hash-map-9ce6bf27f773ce0f31b10f3d5822bcdd">
+	</div>
+	</div>
+
+	<script type="text/javascript">
+		WPCOM_sharing_counts = {"http:\/\/speakingin.net\/2007\/12\/07\/aspnet-mvc-framework-2%c2%aa-parte-url-routing\/":129}	</script>
+		<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-linkedin' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-google-plus-1' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=600,height=600' );
+				return false;
+			});
+		});
+		</script>
+		<script type="text/javascript" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/devicepx-jetpack.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/wpgroho.js"></script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/navigation.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var recaptcha_options = {"lang":"en"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/sharing.js"></script>
+
+	<script src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/e-201336.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	st_go({v:'ext',j:'1:2.4.2',blog:'25561909',post:'129',tz:'2'});
+	var load_cmc = function(){linktracker_init(25561909,129,2);};
+	if ( typeof addLoadEvent != 'undefined' ) addLoadEvent(load_cmc);
+	else load_cmc();
+	</script><img id="wpstats" src="./ASP.NET MVC Framework (2ª Parte)  URL Routing   Speaking in .NET_files/g.gif" alt="">
+</body></html>
