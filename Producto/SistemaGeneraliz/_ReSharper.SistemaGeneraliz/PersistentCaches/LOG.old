@@ -1,0 +1,19 @@
+2013/09/21-10:26:23.640 e84 Recovering log #8
+2013/09/21-10:26:23.649 e84 Level-0 table #10: started
+2013/09/21-10:26:23.765 e84 Level-0 table #10: 1351948 bytes OK
+2013/09/21-10:26:23.781 e84 Delete type=0 #4
+2013/09/21-10:26:23.782 e84 Delete type=0 #8
+2013/09/21-10:26:23.783 e84 Delete type=3 #2
+2013/09/21-10:26:23.783 e84 Delete type=3 #6
+2013/09/21-10:28:17.969 e7c Compacting 1@0 + 1@1 files
+2013/09/21-10:28:18.168 e7c Generated table #12: 3396 keys, 1352460 bytes
+2013/09/21-10:28:18.168 e7c Compacted 1@0 + 1@1 files => 1352460 bytes
+2013/09/21-10:28:18.169 e7c Delete type=2 #7
+2013/09/21-10:28:18.170 e7c Delete type=2 #10
+2013/09/21-10:28:18.171 e7c compacted to: files[ 0 1 1 0 0 0 0 ]
+2013/09/21-10:28:36.036 e7c Compacting 1@1 + 1@2 files
+2013/09/21-10:28:36.171 e7c Generated table #13: 4267 keys, 1415935 bytes
+2013/09/21-10:28:36.171 e7c Compacted 1@1 + 1@2 files => 1415935 bytes
+2013/09/21-10:28:36.172 e7c Delete type=2 #5
+2013/09/21-10:28:36.173 e7c Delete type=2 #12
+2013/09/21-10:28:36.174 e7c compacted to: files[ 0 0 1 0 0 0 0 ]

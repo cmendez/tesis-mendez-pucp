@@ -21,9 +21,17 @@ namespace SistemaGeneraliz
             AreaRegistration.RegisterAllAreas();
             try
             {
-                using (var context = new SGPContext())
+                /*solo si IfModelChanges intentará hacer esto, pero se caerá por lo que entrará al catch
+                 * la idea de hacer esto es para evitar regenerar todas las tablas y los seeds cada vez que corra (solo se
+                 * debe hacer eso si el modelo cambia), y así sea más rápida la ejecución.
+                */
+                Database.SetInitializer<SGPContext>(new SGPContextInitializer());
+            }
+            catch (Exception ex)
+            {
+                try
                 {
-                    if (context.Database.Connection.DataSource.Equals("."))
+                    using (var context = new SGPContext())
                     {
                         //IF DATABASE ALREADY EXISTED, ONLY DROP TABLES AND RECREATE THEM
                         if (context.Database.Exists())
@@ -32,29 +40,25 @@ namespace SistemaGeneraliz
                             var dbCreationScript = ((IObjectContextAdapter)context).ObjectContext.CreateDatabaseScript();
                             context.Database.ExecuteSqlCommand(dbCreationScript);
                             WebSecurity.InitializeDatabaseConnection("SGPContext", "Persona", "PersonaId", "UserName", autoCreateTables: true);
-                            WebSecurity.Logout();
+                            new SGPContext().Personas.Find(1);
+                            //WebSecurity.Logout();
                         }
                         else //IF DATABASE DIDN'T EXIST, CREATE DATABASE AND TABLES
                         {
                             Database.SetInitializer<SGPContext>(new CreateDatabaseIfNotExists<SGPContext>());
                             var dbCreationScript = ((IObjectContextAdapter)context).ObjectContext.CreateDatabaseScript();
                             WebSecurity.InitializeDatabaseConnection("SGPContext", "Persona", "PersonaId", "UserName", autoCreateTables: true);
-                            WebSecurity.Logout();
+                            //WebSecurity.Logout();
                         }
 
                         context.seed();
                         context.SaveChanges();
                     }
-                    else
-                    {
-                        Database.SetInitializer<SGPContext>(null);
-                        WebSecurity.InitializeDatabaseConnection("SGPContext", "Persona", "PersonaId", "UserName", autoCreateTables: true);
-                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
+                catch (Exception)
+                {
+                    throw;
+                }
             }
 
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-MX");

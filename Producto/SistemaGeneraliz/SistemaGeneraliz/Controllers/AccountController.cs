@@ -24,6 +24,7 @@ namespace SistemaGeneraliz.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.Area = "";
             return View();
         }
 
@@ -32,7 +33,7 @@ namespace SistemaGeneraliz.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
@@ -49,7 +50,7 @@ namespace SistemaGeneraliz.Controllers
         // POST: /Account/LogOff
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             WebSecurity.Logout();
@@ -63,7 +64,7 @@ namespace SistemaGeneraliz.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            return View("RegistrarUsuario");
         }
 
         //

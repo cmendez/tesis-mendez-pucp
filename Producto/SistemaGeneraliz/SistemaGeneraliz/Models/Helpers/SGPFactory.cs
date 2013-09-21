@@ -6,7 +6,7 @@ using System.Web;
 using SistemaGeneraliz.Models.Entities;
 using SistemaGeneraliz.Models.Helpers;
 
-namespace SGP.Models.Helpers
+namespace SistemaGeneraliz.Models.Helpers
 {
     public class SGPFactory : ISGPFactory
     {

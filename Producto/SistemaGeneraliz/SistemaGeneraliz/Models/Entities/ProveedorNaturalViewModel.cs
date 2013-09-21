@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace SistemaGeneraliz.Models.Entities
 {
-    public class Proveedor : PersonaNaturalViewModel
+    public class ProveedorNaturalViewModel : PersonaNaturalViewModel
     {
 		//VERIFICAR QUE SE HAGA BIEN LA HERENCIA:
 		/*
@@ -15,7 +12,6 @@ namespace SistemaGeneraliz.Models.Entities
 			ProveedorNaturalViewModel y ProveedorJuridicoViewModel			
 		*/
 		public int ProveedorId { get; set; }
-		public int PersonaId { get; set; }
         public virtual Persona Persona { get; set; }
 		
 		[Display(Name = "Leads Disponibles")]

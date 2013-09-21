@@ -1,50 +1,57 @@
 ﻿@model SistemaGeneraliz.Models.LoginModel
-
 @{
-    ViewBag.Title = "Iniciar sesión";
+    ViewBag.Title = "Iniciar Sesión";
+    //Layout = "~/Views/Shared/_NoLayout.cshtml";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
+<!-- BEGIN BODY -->
+<div class="login" style="padding-top: 75px;">
+  <!-- BEGIN LOGIN -->
+  <div class="content"  style="width: 291px;margin: 0 auto;margin-bottom: 50px;padding: 30px;padding-top: 20px;padding-bottom: 15px; background-color: #444 !important;">
+    <!-- BEGIN LOGIN FORM -->
+    @using(Html.BeginForm("Login", "Account", FormMethod.Post, new { @id = "formLogin", @class = "form-vertical login-form" })){
+    
+      <h3 class="form-title" style="text-align: center; color: white">Iniciar Sesión</h3>
+      <div class="alert alert-error hide">
+        <button class="close" data-dismiss="alert"></button>
+        <span>Ingrese su usuario y contraseña.</span>
+      </div>
+      <div class="control-group">
+        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+        <label class="control-label visible-ie8 visible-ie9">DNI | RUC</label>
+        <div class="controls">
+          <div class="input-icon left" style="border-left: 3px solid #35aa47 !important; height: 34px;">
+            <i class="icon-user"></i>
+            @Html.TextBoxFor(m => m.UserName, new { @class = "m-wrap placeholder-no-fix required", @style="background: white; width: 249px; border-left: 0 !important; ", @maxlength = "30", @placeholder = "DNI | RUC" })
+          </div>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label visible-ie8 visible-ie9">Contraseña</label>
+        <div class="controls">
+          <div class="input-icon left" style="border-left: 3px solid #35aa47 !important;height: 34px;">
+            <i class="icon-lock"></i>
+             @Html.PasswordFor(m => m.Password, new { @class = "m-wrap placeholder-no-fix required", @style="background: white;width: 249px; border-left: 0 !important;", @maxlength = "50", @placeholder = "Contraseña" })
+          </div>
+        </div>
+      </div>
+      <div @*class="form-actions"*@ style="margin-top: 20px;margin-bottom: 20px;">
+        <label class="checkbox" style="color: white; padding-left: 6px !important;">
+        @Html.CheckBoxFor(m => m.RememberMe, new {@style="margin-left: 0px;"}) Recordarme
+        </label>
+        <button type="submit" class="btn green pull-right">
+        Entrar <i class="m-icon-swapright m-icon-white"></i>
+        </button>            
+      </div>
+    }
+    <!-- END LOGIN FORM --> 
+     @Html.ValidationMessage("LoginError")      
+  </div>
 
-<section id="loginForm">
-<h2>Utilice una cuenta local para iniciar sesión.</h2>
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+  <!-- END LOGIN -->
+  <!-- BEGIN COPYRIGHT -->
 
-    <fieldset>
-        <legend>Formulario de inicio de sesión</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </li>
-            <li>
-                @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
-            </li>
-        </ol>
-        <input type="submit" value="Iniciar sesión" />
-    </fieldset>
-    <p>
-        @Html.ActionLink("Regístrese", "Register") si no tiene ninguna cuenta.
-    </p>
-}
-</section>
-
-<section class="social" id="socialLoginForm">
-    <h2>Usar otro servicio para iniciar sesión.</h2>
-    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
-</section>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+  <!-- END COPYRIGHT -->
+  @{Html.RenderPartial("_CustomJavascripts");}  
+  
+</div>

@@ -14,19 +14,20 @@ namespace SistemaGeneraliz.Models.Entities
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int PersonaId { get; set; }
 		public virtual ICollection<Cliente> Clientes { get; set; }
-		public virtual ICollection<Proveedor> Proveedores { get; set; }
+		//public virtual ICollection<Proveedor> Proveedores { get; set; }
 		public virtual ICollection<Suministrador> Suministradores { get; set; }
         public string UserName { get; set; }
-        public int TipoPersona { get; set; }
-        public int RUC { get; set; }
-        public int DNI { get; set; }
+        public string TipoPersona { get; set; }
+        public string TipoUsuario { get; set; }
+        public int? RUC { get; set; }
+        public int? DNI { get; set; }
         public string RazonSocial { get; set; }
         public string PrimerNombre { get; set; }
 		public string SegundoNombre { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
-        public DateTime FechaNacimiento { get; set; }
-        public DateTime FechaCreacion { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
+        public DateTime? FechaCreacion { get; set; }
 		public string Sexo { get; set; }
 		public string DireccionCompleta { get; set; }
 		public string Email1 { get; set; }
@@ -36,7 +37,7 @@ namespace SistemaGeneraliz.Models.Entities
 		public string Telefono3 { get; set; }
 		public string ImagenPrincipal { get; set; }
 		/*public string Password { get; set; }*/
-		public DateTime UltimaActualizacionPersonal { get; set; }
+		public DateTime? UltimaActualizacionPersonal { get; set; }
 		public int IsHabilitado { get; set; }
 		public int IsEliminado { get; set; }
     }
