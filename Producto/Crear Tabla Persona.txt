@@ -1,0 +1,11 @@
+De esta guía http://www.asp.net/mvc/tutorials/getting-started-with-ef-using-mvc/implementing-inheritance-with-the-entity-framework-in-an-asp-net-mvc-application
+voy a hacerlo con TPT, pero con una variante: habra una relacion 1 a 0..* entre proveedor y persona (tambien para suministrador y cliente), ver imagen de diagrama de clases. 
+Serán tablas separadas pero relacionadas con llave foranea (asi como en MRB tenia Location y Resources, la misma idea). 
+Las clases persona y proveedor no tendran los dataannotations (required, etc)
+pues creare un ProveedorNaturalViewModel y ProveedorJuridicoViewModel que tendran
+copy paste (ojo no es herencia) de las variables que me interesa aplicar las annotations, asi podre aprovechar el razor para las validaciones.
+El controller de proveedores debe tener una logica pa llamar a una view u otra.
+Cuando se muestre la vista de ProveedorNaturalViewModel, se mostraran los campos de Persona y Proveedor (con annotations), asi podre asi el tipico if (ModelState.IsValid). Luego, segun sea el caso instancia un proveedorModel (y obvio una personaModel), seteo las variables, registro primero el padre de la relacion (osea a persona), luego hago    int id = persona.Id    (el EF lo seteara justo despues de insertar, y hago proveedorModel.PersonaId = id para asi hacer referencia como llave foranea a la Pesona recien insertada, es decir, guardo en un campo del proveedor la referencia id de Persona.
+
+
+

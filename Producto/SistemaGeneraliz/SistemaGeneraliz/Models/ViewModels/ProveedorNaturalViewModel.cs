@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using SistemaGeneraliz.Models.Entities;
 
-namespace SistemaGeneraliz.Models.Entities
+namespace SistemaGeneraliz.Models.ViewModels
 {
     public class ProveedorNaturalViewModel : PersonaNaturalViewModel
     {

@@ -7,19 +7,19 @@ using System.Web;
 
 namespace SistemaGeneraliz.Models.Entities
 {
-    [Table("Persona")]
+    [Table("Personas")]
     public class Persona
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int PersonaId { get; set; }
 		public virtual ICollection<Cliente> Clientes { get; set; }
-		//public virtual ICollection<Proveedor> Proveedores { get; set; }
+		public virtual ICollection<Proveedor> Proveedores { get; set; }
 		public virtual ICollection<Suministrador> Suministradores { get; set; }
         public string UserName { get; set; }
         public string TipoPersona { get; set; }
         public string TipoUsuario { get; set; }
-        public int? RUC { get; set; }
+        public long? RUC { get; set; }
         public int? DNI { get; set; }
         public string RazonSocial { get; set; }
         public string PrimerNombre { get; set; }

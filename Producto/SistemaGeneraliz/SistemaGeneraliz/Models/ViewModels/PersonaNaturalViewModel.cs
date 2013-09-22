@@ -1,7 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using SistemaGeneraliz.Models.Entities;
 
-namespace SistemaGeneraliz.Models.Entities
+namespace SistemaGeneraliz.Models.ViewModels
 {
     public class PersonaNaturalViewModel
     {
@@ -21,6 +22,11 @@ namespace SistemaGeneraliz.Models.Entities
         [Display(Name = "DNI")]
         public string DNI { get; set; }
 
+        [StringLength(11, ErrorMessage = "El campo {0} debe tener {2} caracteres de longitud.", MinimumLength = 11)]
+        [RegularExpression(@"[0-9]{1,11}", ErrorMessage = "El campo {0} debe contener solo dígitos.")]
+        [Display(Name = "RUC")]
+        public string RUC { get; set; }
+
         [StringLength(50, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 3)]
 		[Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [RegularExpression("([a-zA-Z0-9 .&'-]+)", ErrorMessage = "Ingrese solo letras y números para el campo {0}")]
@@ -28,7 +34,6 @@ namespace SistemaGeneraliz.Models.Entities
         public string PrimerNombre { get; set; }
 
         [StringLength(50, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 3)]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [Display(Name = "Segundo Nombre")]
         public string SegundoNombre { get; set; }
 
@@ -39,7 +44,7 @@ namespace SistemaGeneraliz.Models.Entities
 
         [StringLength(50, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 3)]
 		[Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        [Display(Name = "Razón Social")]
+        [Display(Name = "Apellido Materno")]
         public string ApellidoMaterno { get; set; }
 
 		[DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]

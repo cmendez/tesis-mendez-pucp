@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
+using SistemaGeneraliz.Models.BusinessLogic;
 using WebMatrix.WebData;
 using SistemaGeneraliz.Filters;
 using SistemaGeneraliz.Models;
@@ -14,9 +15,10 @@ using SistemaGeneraliz.Models;
 namespace SistemaGeneraliz.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
-    public class AccountController : Controller
+    //[InitializeSimpleMembership]
+    public class UsuariosController : Controller
     {
+        private static LogicaPersonas _logicaPersonas = new LogicaPersonas();
         //
         // GET: /Account/Login
 
@@ -49,9 +51,8 @@ namespace SistemaGeneraliz.Controllers
         //
         // POST: /Account/LogOff
 
-        [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult LogOff()
+        public ActionResult Logout()
         {
             WebSecurity.Logout();
 
@@ -62,7 +63,7 @@ namespace SistemaGeneraliz.Controllers
         // GET: /Account/Register
 
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult RegistrarUsuario()
         {
             return View("RegistrarUsuario");
         }
@@ -404,5 +405,10 @@ namespace SistemaGeneraliz.Controllers
             }
         }
         #endregion
+
+        public static string GetNombrePersonaLoggeada()
+        {
+            return _logicaPersonas.GetNombrePersonaLoggeada(WebSecurity.CurrentUserId);
+        }
     }
 }

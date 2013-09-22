@@ -1,6 +1,7 @@
 ﻿using System;
 using SistemaGeneraliz.Models.Entities;
 using SistemaGeneraliz.Models.Helpers;
+using SistemaGeneraliz.Models.ViewModels;
 
 namespace SistemaGeneraliz.Models.BusinessLogic
 {
@@ -18,38 +19,89 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             _sgpFactory = sgpFactory;
         }
 
-        internal Persona CrearObjetoPersonaNatural(ProveedorNaturalViewModel proveedor)
+        internal void AgregarPersona(Persona persona)
         {
-            proveedor.Sexo = (proveedor.SexoId == 1) ? "Masculino" : "Femenino";
+            _sgpFactory.AgregarPersona(persona);
+        }
+
+        internal Persona CrearObjetoPersonaNatural(PersonaNaturalViewModel persona, String tipoUsuario)
+        {
+            persona.Sexo = (persona.SexoId == 1) ? "Masculino" : "Femenino";
+            //string tipoUsuario = "";
+            //if (persona.GetType() == typeof(Proveedor))
+            //    tipoUsuario = "Proveedor";
+            //if (persona.GetType() == typeof(Cliente))
+            //    tipoUsuario = "Cliente";
+            //if (persona.GetType() == typeof(Suministrador))
+            //    tipoUsuario = "Suministrador";
 
             return new Persona
             {
+                UserName = persona.DNI,
                 TipoPersona = "Natural",
-                TipoUsuario = "Proveedor",
-                DNI = Int32.Parse(proveedor.DNI),
-                RUC = Int32.Parse(proveedor.RUC),
-                PrimerNombre = proveedor.PrimerNombre,
-                SegundoNombre = proveedor.SegundoNombre,
-                ApellidoMaterno = proveedor.ApellidoMaterno,
-                ApellidoPaterno = proveedor.ApellidoPaterno,
-                FechaNacimiento = proveedor.FechaNacimiento,
-                Sexo = proveedor.Sexo,
-                //DireccionCompleta = proveedor.DireccionCompleta,
-                Email1 = proveedor.Email1,
-                Email2 = proveedor.Email2,
-                Telefono1 = proveedor.Telefono1,
-                Telefono2 = proveedor.Telefono2,
-                Telefono3 = proveedor.Telefono3,
-                //ImagenPrincipal = proveedor.ImagenPrincipal,
+                TipoUsuario = tipoUsuario,
+                DNI = Int32.Parse(persona.DNI),
+                RUC = (!String.IsNullOrEmpty(persona.RUC)) ? Int64.Parse(persona.RUC) : -1,
+                PrimerNombre = persona.PrimerNombre,
+                SegundoNombre = persona.SegundoNombre,
+                ApellidoMaterno = persona.ApellidoMaterno,
+                ApellidoPaterno = persona.ApellidoPaterno,
+                FechaNacimiento = persona.FechaNacimiento,
+                Sexo = persona.Sexo,
+                //DireccionCompleta = persona.DireccionCompleta,
+                Email1 = persona.Email1,
+                Email2 = persona.Email2,
+                Telefono1 = persona.Telefono1,
+                Telefono2 = persona.Telefono2,
+                Telefono3 = persona.Telefono3,
+                //ImagenPrincipal = persona.ImagenPrincipal,
                 UltimaActualizacionPersonal = DateTime.Now,
                 IsHabilitado = 1, //true
                 IsEliminado = 0 //false
             };
         }
 
-        internal void AgregarPersona(Persona persona)
+        internal Persona CrearObjetoPersonaJuridica(PersonaJuridicaViewModel persona, String tipoUsuario)
         {
-            _sgpFactory.AgregarPersona(persona);
+            //string tipoUsuario = "";
+            //if (persona.GetType() == typeof(Proveedor))
+            //    tipoUsuario = "Proveedor";
+            //if (persona.GetType() == typeof(Cliente))
+            //    tipoUsuario = "Cliente";
+            //if (persona.GetType() == typeof(Suministrador))
+            //    tipoUsuario = "Suministrador";
+
+            return new Persona
+            {
+                UserName = persona.RUC,
+                TipoPersona = "Juridica",
+                TipoUsuario = tipoUsuario,
+                RUC = Int64.Parse(persona.RUC),
+                RazonSocial = persona.RazonSocial,
+                FechaCreacion = persona.FechaCreacion,
+                //DireccionCompleta = persona.DireccionCompleta,
+                Email1 = persona.Email1,
+                Email2 = persona.Email2,
+                Telefono1 = persona.Telefono1,
+                Telefono2 = persona.Telefono2,
+                Telefono3 = persona.Telefono3,
+                //ImagenPrincipal = persona.ImagenPrincipal,
+                UltimaActualizacionPersonal = DateTime.Now,
+                IsHabilitado = 1, //true
+                IsEliminado = 0 //false
+            };
+        }
+
+        public string GetNombrePersonaLoggeada(int currentUserId)
+        {
+            var nombre = "";
+            var persona = _sgpFactory.GetPersonaLoggeada(currentUserId);
+            if (persona.TipoPersona == "Natural")
+                return (persona.PrimerNombre + " " + persona.ApellidoPaterno);
+            else if (persona.TipoPersona == "Juridica")
+                return (persona.RazonSocial);
+            
+            return nombre;
         }
     }
 }

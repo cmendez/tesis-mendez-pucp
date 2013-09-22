@@ -108,17 +108,20 @@
             @if (!WebSecurity.IsAuthenticated)
             {
                 @*<li><a href="@("/Account/Login")">Iniciar Sesión</a></li>*@
-                <li><a href="@("/Account/Login")">Iniciar Sesión</a></li>
+                <li><a href="@("/Usuarios/Login")">Iniciar Sesión</a></li>
                 @*<li><a>|</a></li>*@
-                <li><a href="@("/Account/Register")">Registrarme</a></li>
+                <li><a href="@("/Usuarios/RegistrarUsuario")">Registrarme</a></li>
             }
             else
             {
+                /*var c = new SistemaGeneraliz.Controllers.UsuariosController();
+                string nombreUsuario = c.GetNombrePersonaLoggeada();*/
+                
                 <li class="dropdown user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         @*<img alt="" src="/Misc/GetImagen?archivoID=@SistemaGeneraliz.Models.Seguridad.DP2MembershipProvider.GetImagenID(User.Identity.Name)" style ="height: 30px; width: 30px" />
                                 <span class="username">@SistemaGeneraliz.Models.Seguridad.DP2MembershipProvider.GetPersonaFromUsername(User.Identity.Name).NombreCompleto</span>*@
-                        <span class="username">Nombre Aqui</span>
+                        <span class="username">@Roles.GetRolesForUser().First(): &nbsp; @SistemaGeneraliz.Controllers.UsuariosController.GetNombrePersonaLoggeada()</span>
                         <i class="icon-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
@@ -127,7 +130,7 @@
                         <li><a href="#"><i class="icon-envelope"></i> Mis mensajes</a></li>
                         <li><a href="#"><i class="icon-tasks"></i> Mis tareas</a></li>
                         <li class="divider"></li>
-                        @*<li><a href="@Url.Action("Logout", "Home", new {Area = ""})"><i class="icon-key"></i> Salir</a></li>*@
+                        <li><a href="@("/Usuarios/Logout")"><i class="icon-key"></i> Cerrar Sesión</a></li>
                     </ul>
                 </li>
             }

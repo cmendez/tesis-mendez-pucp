@@ -36,14 +36,28 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.Personas.Add(persona);
             _db.SaveChanges();
         }
+
+        public Persona GetPersonaLoggeada(int currentUserId)
+        {
+            return _db.Personas.First(p => p.PersonaId == currentUserId);
+        }
         #endregion
 
-        #region Personas
+        #region Proveedores
         public void AgregarProveedor(Proveedor proveedor)
         {
             _db.Proveedores.Add(proveedor);
             _db.SaveChanges();
         }
+        #endregion
+
+        #region Clientes
+        public void AgregarCliente(Cliente Cliente)
+        {
+            _db.Clientes.Add(Cliente);
+            _db.SaveChanges();
+        }
+
         #endregion
 
         /*

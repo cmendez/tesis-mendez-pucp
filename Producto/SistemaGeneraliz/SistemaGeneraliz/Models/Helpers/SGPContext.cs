@@ -11,7 +11,7 @@ namespace SistemaGeneraliz.Models.Helpers
     public class SGPContext : DbContext, ISGPContext
     {
         public SGPContext()
-            : base("DefaultConnection")
+            : base("SGPContext")
         {
         }
 
@@ -25,7 +25,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
         /*   
@@ -53,24 +53,23 @@ namespace SistemaGeneraliz.Models.Helpers
             if (!Roles.RoleExists("Administrador"))
                 Roles.CreateRole("Administrador");
 
-            if (!WebSecurity.UserExists("admin"))
+            if (!WebSecurity.UserExists("46394691"))
             {
-                WebSecurity.CreateUserAndAccount("admin", "admin", propertyValues: new
+                WebSecurity.CreateUserAndAccount("46394691", "admin", propertyValues: new
                 {
-                    UserName = "admin",
                     TipoPersona = "Natural",
                     TipoUsuario = "Administrador",
                     PrimerNombre = "Christian",
                     ApellidoPaterno = "Mendez",
                     DNI = 46394691,
-                    FechaCreacion = DateTime.Now,
+                    UltimaActualizacionPersonal = DateTime.Now,
                     IsHabilitado = 0,
                     IsEliminado = 0
                 });
             }
 
-            if (!Roles.GetRolesForUser("admin").Contains("Administrador"))
-                Roles.AddUsersToRoles(new[] { "admin" }, new[] { "Administrador" });
+            if (!Roles.GetRolesForUser("46394691").Contains("Administrador"))
+                Roles.AddUsersToRoles(new[] { "46394691" }, new[] { "Administrador" });
 
             if (!Roles.RoleExists("Cliente"))
                 Roles.CreateRole("Cliente");

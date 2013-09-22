@@ -14,11 +14,11 @@ namespace SistemaGeneraliz.Models
         public DbSet<UserProfile> UserProfiles { get; set; }
     }
 
-    [Table("UserProfile")]
+    //[Table("UserProfile")]
     public class UserProfile
     {
-        [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        //[Key]
+        //[DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
     }
@@ -55,6 +55,7 @@ namespace SistemaGeneraliz.Models
     {
         [Required]
         [Display(Name = "Nombre de usuario")]
+        //[RegularExpression(@"[0-9]{1,11}", ErrorMessage = "El campo {0} debe contener solo dígitos.")]
         public string UserName { get; set; }
 
         [Required]

@@ -22,34 +22,6 @@ namespace SistemaGeneraliz.Models.Helpers
         {
             public SimpleMembershipInitializer()
             {
-                //Database.SetInitializer<SGPContext>(new SGPContextInitializer());
-
-                /* try
-                 {
-                     using (var context = new UsersContext())
-                     {
-                         if (!context.Database.Exists())
-                         {
-                             // Create the SimpleMembership database without Entity Framework migration schema
-                             ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
-                         }
-                     }
-
-                     WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
-                 }
-                 catch (Exception ex)
-                 {
-                     Console.WriteLine(ex);
-                     //throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
-                 }/*
-                 try
-                 {
-                     WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
-                 }
-                 catch (Exception ex)
-                 {
-                     Console.WriteLine(ex);
-                 }*/
             }
         }
     }

@@ -1,0 +1,221 @@
+@model SistemaGeneraliz.Models.Entities.ProveedorNaturalViewModel
+
+@{
+    //Layout = null;
+    ViewBag.Title = "Registrar Proveedor Natural";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Registrar Proveedor Natural</title>
+</head>
+<body>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Registrar Proveedor Natural", "Por favor complete los siguientes campos."));}
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+    
+        <fieldset  style="width: 35%">
+            <legend>ProveedorNaturalViewModel</legend>
+
+            @* *************************************** ATRIBUTOS DE PERSONA NATURAL **************************************@
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.DNI)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.DNI)<br/>
+                @Html.ValidationMessageFor(model => model.DNI)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.RUC)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.RUC)<br/>
+                @Html.ValidationMessageFor(model => model.RUC)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.PrimerNombre)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.PrimerNombre)<br/>
+                @Html.ValidationMessageFor(model => model.PrimerNombre)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SegundoNombre)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SegundoNombre)<br/>
+                @Html.ValidationMessageFor(model => model.SegundoNombre)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ApellidoPaterno)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ApellidoPaterno)<br/>
+                @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ApellidoMaterno)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ApellidoMaterno)<br/>
+                @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.FechaNacimiento)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.FechaNacimiento)<br/>
+                @Html.ValidationMessageFor(model => model.FechaNacimiento)
+            </div>
+            
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Sexo)
+            </div>
+            <select id="SexoId" name="SexoId">
+                <option value="1">Masculino</option>
+                <option value="2">Femenino</option>
+            </select>
+
+            @*    IMPLEMENTAR REGISTRAR UBICACION
+                    <div class="editor-label">
+                @Html.LabelFor(model => model.DireccionCompleta)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.DireccionCompleta)
+                @Html.ValidationMessageFor(model => model.DireccionCompleta)
+            </div>*@
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Email1)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Email1)<br/>
+                @Html.ValidationMessageFor(model => model.Email1)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Email2)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Email2)<br/>
+                @Html.ValidationMessageFor(model => model.Email2)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Telefono1)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Telefono1)<br/>
+                @Html.ValidationMessageFor(model => model.Telefono1)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Telefono2)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Telefono2)<br/>
+                @Html.ValidationMessageFor(model => model.Telefono2)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Telefono3)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Telefono3)<br/>
+                @Html.ValidationMessageFor(model => model.Telefono3)
+            </div>
+
+            @*   IMPLEMENTAR SUBIR IMAGEN. COPIARME DE KENDODP2
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ImagenPrincipal)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ImagenPrincipal)
+                @Html.ValidationMessageFor(model => model.ImagenPrincipal)
+            </div>*@
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Password)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Password)<br/>
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ConfirmPassword)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ConfirmPassword)<br/>
+                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+            </div>
+
+            @* *************************************** ATRIBUTOS DE PROVEEDOR NATURAL **************************************@
+
+            @*  IMPLEMENTAR DESPUÉS DE REGISTRAR TIPOS DE SERVICIOS
+            HACERLO COMO COMBO BOX          
+            <div class="editor-label">
+                @Html.LabelFor(model => model.EspecialidadId)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.EspecialidadId)
+                @Html.ValidationMessageFor(model => model.EspecialidadId)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Especialidad)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Especialidad)
+                @Html.ValidationMessageFor(model => model.Especialidad)
+            </div>*@
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.PaginaWeb)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.PaginaWeb)<br/>
+                @Html.ValidationMessageFor(model => model.PaginaWeb)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Facebook)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Facebook)<br/>
+                @Html.ValidationMessageFor(model => model.Facebook)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.AcercaDeMi)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.AcercaDeMi)<br/>
+                @Html.ValidationMessageFor(model => model.AcercaDeMi)
+            </div>
+
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </fieldset>
+    }
+
+    <div>
+        @Html.ActionLink("Regresar", "Index")
+    </div>
+</body>
+</html>

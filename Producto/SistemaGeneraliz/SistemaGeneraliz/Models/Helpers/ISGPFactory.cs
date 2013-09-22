@@ -62,11 +62,18 @@ namespace SistemaGeneraliz.Models.Helpers
 
         #region Personas
         void AgregarPersona(Persona persona);
+        Persona GetPersonaLoggeada(int currentUserId);
         #endregion
 
-        #region Personas
+        #region Proveedores
         void AgregarProveedor(Proveedor proveedor);
         #endregion
+
+        #region Clientes
+        void AgregarCliente(Cliente Cliente);
+        #endregion
+
+
 
         
     }

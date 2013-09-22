@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaGeneraliz.Models.Entities
 {
-	[Table("Suministrador")]
+	[Table("Suministradores")]
     public class Suministrador
     {
 		[Key]
