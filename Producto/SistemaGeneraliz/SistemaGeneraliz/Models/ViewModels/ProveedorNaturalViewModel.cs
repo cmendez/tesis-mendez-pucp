@@ -15,11 +15,6 @@ namespace SistemaGeneraliz.Models.ViewModels
 		public int ProveedorId { get; set; }
         public virtual Persona Persona { get; set; }
 
-        [StringLength(11, ErrorMessage = "El campo {0} debe tener {2} caracteres de longitud.", MinimumLength = 11)]
-        [RegularExpression(@"[0-9]{1,11}", ErrorMessage = "El campo {0} debe contener solo dígitos.")]
-        [Display(Name = "RUC")]
-        public string RUC { get; set; }
-		
 		[Display(Name = "Leads Disponibles")]
 		public int LeadsDisponibles { get; set; }		
 		

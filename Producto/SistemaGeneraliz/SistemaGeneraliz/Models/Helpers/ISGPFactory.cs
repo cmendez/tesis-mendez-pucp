@@ -70,11 +70,12 @@ namespace SistemaGeneraliz.Models.Helpers
         #endregion
 
         #region Clientes
-        void AgregarCliente(Cliente Cliente);
+        void AgregarCliente(Cliente cliente);
         #endregion
 
-
-
+        #region Suministradores
+        void AgregarSuministrador(Suministrador suministrador);
+        #endregion
         
     }
 }

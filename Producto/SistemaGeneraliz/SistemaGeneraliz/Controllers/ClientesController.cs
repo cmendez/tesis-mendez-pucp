@@ -7,21 +7,25 @@ using WebMatrix.WebData;
 
 namespace SistemaGeneraliz.Controllers
 {
+    [Authorize]
     public class ClientesController : Controller
     {
         private readonly LogicaClientes _logicaClientes = new LogicaClientes();
         private readonly LogicaPersonas _logicaPersonas = new LogicaPersonas();
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult RegistrarClienteNatural()
         {
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult RegistrarClienteNatural(ClienteNaturalViewModel clienteNaturalViewModel)
         {
@@ -44,11 +48,13 @@ namespace SistemaGeneraliz.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult RegistrarClienteJuridico()
         {
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult RegistrarClienteJuridico(ClienteJuridicoViewModel clienteNaturalViewModel)
         {

@@ -3,8 +3,8 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading;
 using System.Web.Mvc;
+using SistemaGeneraliz.Models.Helpers;
 using WebMatrix.WebData;
-using SistemaGeneraliz.Models;
 
 namespace SistemaGeneraliz.Filters
 {

@@ -10,7 +10,7 @@
 		if(option.Method!=null)
 		{
 			<li class="@GetOptionArea(option.Area)">
-		        <a href="@Url.Action(option.Method, option.Controller, new {Area = option.Area })">
+		        <a href="@Url.Action(option.Method, option.Controller)">
 			        <i class="@option.Icon"></i> 
 					<span class="title">@option.Title</span>
 				    <span class="selected"></span>
@@ -29,7 +29,7 @@
 				@foreach(SidebarSuboption subopt in option.Suboptions)
 				{
 					<li class="@GetTitle(@subopt.Title)">
-						<a href="@Url.Action(subopt.Method, subopt.Controller, new {Area = option.Area })">
+						<a href="@Url.Action(subopt.Method, subopt.Controller)">
 							<i class="@subopt.Icon"></i>
 							@subopt.Title
 						</a>

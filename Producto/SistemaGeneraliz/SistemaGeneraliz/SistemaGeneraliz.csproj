@@ -192,6 +192,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\SuministradoresController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProveedoresController.cs" />
@@ -199,10 +200,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Helpers\AccountModels.cs" />
     <Compile Include="Models\BusinessLogic\LogicaClientes.cs" />
     <Compile Include="Models\BusinessLogic\LogicaPersonas.cs" />
     <Compile Include="Models\BusinessLogic\LogicaProveedores.cs" />
+    <Compile Include="Models\BusinessLogic\LogicaSuministradores.cs" />
     <Compile Include="Models\Entities\Cliente.cs" />
     <Compile Include="Models\ViewModels\ClienteJuridicoViewModel.cs" />
     <Compile Include="Models\ViewModels\ClienteNaturalViewModel.cs" />
@@ -224,6 +226,7 @@
     <Compile Include="Models\Helpers\SGPFactory.cs" />
     <Compile Include="Models\Helpers\SideBarNavigator.cs" />
     <Compile Include="Models\Helpers\WSController.cs" />
+    <Compile Include="Models\ViewModels\SuministradorJuridicoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1772,21 +1775,17 @@
     <Content Include="Views\Proveedores\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Usuarios\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Usuarios\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Usuarios\Login.cshtml" />
-    <Content Include="Views\Usuarios\Manage.cshtml" />
     <Content Include="Views\Usuarios\Register.cshtml" />
-    <Content Include="Views\Usuarios\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Usuarios\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Usuarios\_RemoveExternalLoginsPartial.cshtml" />
-    <Content Include="Views\Usuarios\_SetPasswordPartial.cshtml" />
     <Content Include="Views\Usuarios\RegistrarUsuario.cshtml" />
     <Content Include="Views\Proveedores\RegistrarProveedorNatural.cshtml" />
     <Content Include="Views\Proveedores\RegistrarProveedorJuridico.cshtml" />
     <Content Include="Views\Clientes\Index.cshtml" />
     <Content Include="Views\Clientes\RegistrarClienteJuridico.cshtml" />
     <Content Include="Views\Clientes\RegistrarClienteNatural.cshtml" />
+    <Content Include="Views\Suministradores\RegistrarSuministradorJuridico.cshtml" />
+    <Content Include="Views\Suministradores\Index.cshtml" />
+    <Content Include="Views\Suministradores\Contacto.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -1962,17 +1961,15 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_NoLayout.cshtml" />
     <Content Include="Views\Shared\_CustomJavascripts.cshtml" />
-    <Content Include="Views\Public\Index.cshtml" />
     <Content Include="Views\Shared\_PublicLayout.cshtml" />
     <Content Include="Views\Shared\_PublicNavigationBar.cshtml" />
-    <Content Include="Views\Public\VerOferta.cshtml" />
-    <Content Include="Views\Public\AgregarPostulante.cshtml" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\assets\plugins\jquery-file-upload\server\php\files\thumbnail\" />
+    <Folder Include="Views\Public\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -19,68 +19,46 @@ namespace SistemaGeneraliz.Models.Helpers
             // Inicio
             Opciones.Add(new SidebarOption("", "Home", "Index", "Inicio", "icon-home"));
 
-            // Evaluacion 360
-
-            Opciones.Add(new SidebarOption("Evaluacion360", "Evaluación 360°", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Competencias", "Competencias", "Index", "icon-plus-sign"),
-                new SidebarSuboption("Capacidades", "Capacidades", "Index", "icon-check"),
-				//new SidebarSuboption("Evaluaciones", "Registrar Evaluaciones", "Index", "icon-check"),
-                new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
-                new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
-                new SidebarSuboption("Mis evaluaciones", "ListarProcesosXEvaluado", "Index", "icon-ok-sign"),
-            	new SidebarSuboption("Mis pendientes", "ListarProcesosXEvaluador", "Index", "icon-ok-sign"),
-            	new SidebarSuboption("Mis colaboradores", "Subordinados", "Index", "icon-group"),
-
+            // Clientes
+            Opciones.Add(new SidebarOption("Clientes", "Clientes", "icon-user", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Buscar Proveedores", "Clientes", "Index", "icon-search"),
+                new SidebarSuboption("Buscar Productos", "Clientes", "Index", "icon-search"),
+                new SidebarSuboption("Calificar Proveedor", "Clientes", "Index", "icon-star"),
+                new SidebarSuboption("Editar Mi Información", "Clientes", "Index", "icon-edit")
+            })));
+            
+            // Proveedores
+            Opciones.Add(new SidebarOption("Proveedores", "Proveedores", "icon-wrench", new List<SidebarSuboption>(new SidebarSuboption[]{
+               new SidebarSuboption("Historial de Trabajos", "Proveedores", "Index", "icon-list-ul"),
+               new SidebarSuboption("Historial de Recargas", "Proveedores", "Index", "icon-list-alt"),
+               new SidebarSuboption("Buscar Productos", "Proveedores", "Index", "icon-search"),
+               new SidebarSuboption("Buscar Ofertas, Promos y Dsctos", "Proveedores", "Index", "icon-tags"),
+               new SidebarSuboption("Comprar Ofertas, Promos y Dsctos", "Proveedores", "Index", "icon-shopping-cart"),
+               new SidebarSuboption("Demanda de Servicios Generales", "Proveedores", "Index", "icon-signal"),
+               new SidebarSuboption("Mi Calendario", "Proveedores", "Index", "icon-calendar"),
+               new SidebarSuboption("Editar Mi Información", "Proveedores", "Index", "icon-edit")
             })));
 
-
-            // Objetivos
-            Opciones.Add(new SidebarOption("Objetivos", "Objetivos", "icon-bookmark", new List<SidebarSuboption>(new SidebarSuboption[]{
-               new SidebarSuboption("Objetivos de la empresa", "Objetivosempresa", "Index", "icon-building"),
-               new SidebarSuboption("Monitoreo en mi equipo de trabajo", "Acordion", "Index", "icon-check"),
-               new SidebarSuboption("Mis objetivos", "Misobjetivos", "Index", "icon-road"),
-               new SidebarSuboption("Objetivos de subordinados", "Objetivossubordinados", "Index", "icon-group")
+            // Suministradores
+            Opciones.Add(new SidebarOption("Suministradores", "Suministradores", "icon-building", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Recargar Leads", "Suministradores", "Index", "icon-bolt"),
+                new SidebarSuboption("Demanda de Productos", "Suministradores", "Index", "icon-signal"),
+                new SidebarSuboption("Demanda de Ofertas, Promos y Dsctos", "Suministradores", "Index", "icon-signal"),
+                new SidebarSuboption("Demanda de Servicios Generales", "Suministradores", "Index", "icon-signal"),
+                new SidebarSuboption("Editar Productos", "Suministradores", "Index", "icon-cog"),
+                new SidebarSuboption("Editar Ofertas, Promos y Dsctos", "Suministradores", "Index", "icon-cog"),
+                new SidebarSuboption("Editar Mi Información", "Suministradores", "Index", "icon-edit")
             })));
 
-            // Configuracion
-            Opciones.Add(new SidebarOption("Configuracion", "Configuración", "icon-wrench", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Períodos", "Periodos", "Index", "icon-time")
+            // Administración
+            Opciones.Add(new SidebarOption("Administracion", "Administración", "icon-lock", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Administrar Usuarios","Usuarios","Index","icon-group"),
+                new SidebarSuboption("Administrar Perfiles", "Administracion", "Index", "icon-cogs"),
+                new SidebarSuboption("Histórico de Trabajos", "Administracion", "Index", "icon-list-ul"),
+                new SidebarSuboption("Proveedores Destacados", "Administracion", "Index", "icon-star"),
+                new SidebarSuboption("Gestión de Recompensas", "Administracion", "Index", "icon-gift")
             })));
 
-            // Segiuridad
-            Opciones.Add(new SidebarOption("Seguridad", "Seguridad", "icon-lock", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Permisos a Web", "Usuarios", "Index", "icon-user-md"),
-                new SidebarSuboption("Permisos a Móvil", "UsuariosMovil", "Index", "icon-user-md"),
-                new SidebarSuboption("Nuevos Usuarios", "CrearUsuario", "Index", "icon-user"),
-                new SidebarSuboption("Asignar Usuario", "AsignarCredenciales", "Index", "icon-user")
-            })));
-
-            // Organizacion
-            Opciones.Add(new SidebarOption("Organizacion", "Organizacion", "icon-globe", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Organización","Organizaciones","Index","icon-cogs"),
-                new SidebarSuboption("Organigrama", "Organigrama", "Index", "icon-sitemap"),
-                new SidebarSuboption("Areas", "Areas", "Index", "icon-certificate"),
-                new SidebarSuboption("Colaboradores", "Colaboradores", "Index", "icon-user"),
-                new SidebarSuboption("Funciones", "Funciones", "Index", "icon-check"),
-                new SidebarSuboption("Puestos", "Puestos", "Index", "icon-tag"),
-                new SidebarSuboption("Linea de Carrera","Historial","Index","icon-signal"),
-                new SidebarSuboption("Página Personal","Intranet","Index","icon-cloud")
-            })));
-
-            Opciones.Add(new SidebarOption("Reclutamiento", "Reclutamiento", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Ofertas Laborales","SolicitudOfertasLaborales","Index","icon-tag"),
-                new SidebarSuboption("Solicitud de Promoción", "SolicitudPromociones","Index","icon-tag"),
-                new SidebarSuboption("Administrar Ofertas Laborales Internas", "OfertasLaboralesInternas","Index","icon-book"),
-                new SidebarSuboption("Administrar Ofertas Laborales Externas", "OfertasLaboralesExternas","Index","icon-book")
-            })));
-
-            Opciones.Add(new SidebarOption("BolsaTrabajo", "Bolsa de Trabajo", "icon-thumbs-up", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Convocatoria Interna","ConvocatoriasInternas","Index","icon-tag")
-            })));
-
-            Opciones.Add(new SidebarOption("Eventos", "Eventos", "icon-calendar", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Eventos","Eventos","Index","icon-calendar")
-            })));
         }
     }
 

@@ -52,12 +52,19 @@ namespace SistemaGeneraliz.Models.Helpers
         #endregion
 
         #region Clientes
-        public void AgregarCliente(Cliente Cliente)
+        public void AgregarCliente(Cliente cliente)
         {
-            _db.Clientes.Add(Cliente);
+            _db.Clientes.Add(cliente);
             _db.SaveChanges();
         }
+        #endregion
 
+        #region Suministradores
+        public void AgregarSuministrador(Suministrador suministrador)
+        {
+            _db.Suministradores.Add(suministrador);
+            _db.SaveChanges();
+        }
         #endregion
 
         /*

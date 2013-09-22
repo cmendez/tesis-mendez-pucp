@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Usuarios";
+}
+
+@{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Administrar Usuarios", "Gestione las cuentas de usuarios."));}
+<ul>
+    <li>
+        <h5>@Html.ActionLink("Registrar Usuarios", "RegistrarUsuario", "Usuarios")</h5>
+    </li>
+    <li>
+        <h5>@Html.ActionLink("Habilitar/Inhabilitar Usuarios", "Usuarios", "Administracion")</h5>
+    </li>
+    <li>
+        <h5>@Html.ActionLink("Eliminar Usuarios", "Usuarios", "Administracion")</h5>
+    </li>
+</ul>

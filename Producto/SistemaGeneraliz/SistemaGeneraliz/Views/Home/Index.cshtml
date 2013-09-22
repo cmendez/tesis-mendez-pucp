@@ -2,62 +2,59 @@
     ViewBag.Title = "Home - Sistema Generaliz";
 }
 @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Bienvenido a Generaliz", "Sistema de Gestión de Servicios Generales"));}
+<br/>
 <div id="dashboard">
     <!-- BEGIN DASHBOARD STATS -->
     <div class="row-fluid">
         <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
             <div class="dashboard-stat blue">
                 <div class="visual">
-                    <i class="icon-pencil"></i>
+                    <i class="icon-group"></i>
                 </div>
                 <div class="details">
-                    <div class="number">
-                        
-                    </div>
-                    <div class="desc">
-                        Evaluación 360°
-                    </div>
+                    <div class="number"></div>
+                    <div class="desc">Buscar Proveedores</div>
                 </div>
-                @*<a class="more" href="@Url.Action("Index", "Competencias", new { area = "Evaluacion360"})">Ver más <i class="m-icon-swapright m-icon-white"></i>
-                </a>*@
+                <a class="more" href="#">Buscar <i class="m-icon-swapright m-icon-white"></i>
+                </a>
             </div>
         </div>
         <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
             <div class="dashboard-stat green">
                 <div class="visual">
-                    <i class="icon-group"></i>
+                    <i class="icon-shopping-cart"></i>
                 </div>
                 <div class="details">
                     <div class="number"></div>
-                    <div class="desc">Reclutamiento</div>
+                    <div class="desc">Buscar Productos</div>
                 </div>
-                <a class="more" href="#">Ver más <i class="m-icon-swapright m-icon-white"></i>
+                <a class="more" href="#">Buscar <i class="m-icon-swapright m-icon-white"></i>
                 </a>
             </div>
         </div>
         <div class="span3 responsive" data-tablet="span6  fix-offset" data-desktop="span3">
             <div class="dashboard-stat purple">
                 <div class="visual">
-                    <i class="icon-bar-chart"></i>
+                    <i class="icon-bolt"></i>
                 </div>
                 <div class="details">
                     <div class="number"></div>
-                    <div class="desc">Reportes</div>
+                    <div class="desc">Recarga de Leads</div>
                 </div>
-                <a class="more" href="#">Ver más <i class="m-icon-swapright m-icon-white"></i>
+                <a class="more" href="#">Recargar <i class="m-icon-swapright m-icon-white"></i>
                 </a>
             </div>
         </div>
         <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
             <div class="dashboard-stat yellow">
                 <div class="visual">
-                    <i class="icon-sitemap"></i>
+                    <i class="icon-edit"></i>
                 </div>
                 <div class="details">
                     <div class="number"></div>
-                    <div class="desc">Línea de carrera</div>
+                    <div class="desc">Mi Perfil</div>
                 </div>
-                <a class="more" href="#">Ver más <i class="m-icon-swapright m-icon-white"></i>
+                <a class="more" href="#">Editar <i class="m-icon-swapright m-icon-white"></i>
                 </a>
             </div>
         </div>
@@ -66,10 +63,8 @@
 <!-- END DASHBOARD STATS -->
 <div class="clearfix"></div>
 
-<h3>RH++</h3>
-<br />
 
-@(Html.Kendo().PanelBar()
+@*@(Html.Kendo().PanelBar()
 .Name("IntroPanelBar")
 .Items(items =>
 {
@@ -81,7 +76,7 @@
 <p style="padding: 0 1em">
     RH++ es un nuevo sistema de administración de recursos humanos. Combina lo mejor de la administración
     de la información de RRHH con características sociales innovadores, tales como objetivos y metas compartidas
-    o evaluaciones mutuas. Además, tiene una interfaz que a los empleados les gustará.
+    o evaluaciones mutuas. AdeVer Más, tiene una interfaz que a los empleados les gustará.
 </p>
 </text>);
     items.Add()
@@ -99,4 +94,4 @@
 </p>
 </text>);
 })
-)
+)*@

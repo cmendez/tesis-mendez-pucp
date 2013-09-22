@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 
-namespace SistemaGeneraliz.Models
+namespace SistemaGeneraliz.Models.Helpers
 {
     public class UsersContext : DbContext
     {
