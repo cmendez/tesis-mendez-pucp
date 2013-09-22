@@ -15,7 +15,7 @@ namespace SistemaGeneraliz.Models.Helpers
         {
             _db = new SGPContext();
         }
-        
+
         public void SetEntryState(Object obj, System.Data.EntityState entityState)
         {
             _db.Entry(obj).State = entityState;
@@ -29,6 +29,23 @@ namespace SistemaGeneraliz.Models.Helpers
                 ((IDisposable)_db).Dispose();
             }
         }
+
+        #region Personas
+        public void AgregarPersona(Persona persona)
+        {
+            _db.Personas.Add(persona);
+            _db.SaveChanges();
+        }
+        #endregion
+
+        #region Personas
+        public void AgregarProveedor(Proveedor proveedor)
+        {
+            _db.Proveedores.Add(proveedor);
+            _db.SaveChanges();
+        }
+        #endregion
+
         /*
         #region Reservations
             public ReservationModels GetLastReservation()

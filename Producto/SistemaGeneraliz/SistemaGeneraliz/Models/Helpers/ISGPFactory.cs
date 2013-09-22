@@ -59,5 +59,15 @@ namespace SistemaGeneraliz.Models.Helpers
             int CountDomainsSameNameInDB(int domainId, string domainName);
             void DeleteDomain(DomainModels domainmodels);
         #endregion*/
+
+        #region Personas
+        void AgregarPersona(Persona persona);
+        #endregion
+
+        #region Personas
+        void AgregarProveedor(Proveedor proveedor);
+        #endregion
+
+        
     }
 }

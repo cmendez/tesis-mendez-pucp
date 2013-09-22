@@ -15,7 +15,7 @@ namespace SistemaGeneraliz.Models.Entities
 		public string Especialidad { get; set; }
 		public double PuntuacionPromedio { get; set; }
 		public int NroTrabajosTerminados { get; set; }
-		public int NroBusquedas { get; set; }
+		public int NroBusquedasCliente { get; set; }
 		public int NroClicksVisita { get; set; }
 		public int NroComentarios { get; set; }
 		public int NroCalificaciones { get; set; }

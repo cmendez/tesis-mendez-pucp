@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Registrar Usuario";
+}
+@{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Registrar Usuario", "Elija un tipo de usuario"));}
+<br/>
+<ul>
+    <li>
+        <h5>@Html.ActionLink("Soy cliente natural", "Index", "Proveedores")</h5>
+    </li>
+    <li>
+        <h5>@Html.ActionLink("Soy cliente jurídico", "Index", "Proveedores")</h5>
+    </li>
+    <li>
+        <h5>@Html.ActionLink("Soy proveedor natural", "RegistrarProveedorNatural", "Proveedores")</h5>
+    </li>
+    <li>
+        <h5>@Html.ActionLink("Soy proveedor jurídico", "Index", "Proveedores")</h5>
+    </li>
+    <li>
+        <h5>@Html.ActionLink("Soy tienda/cadena de ferretería", "Index", "Proveedores")</h5>
+    </li>
+</ul>
