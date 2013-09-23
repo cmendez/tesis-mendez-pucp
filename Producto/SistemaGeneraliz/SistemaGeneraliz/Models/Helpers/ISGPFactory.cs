@@ -63,6 +63,7 @@ namespace SistemaGeneraliz.Models.Helpers
         #region Personas
         void AgregarPersona(Persona persona);
         Persona GetPersonaLoggeada(int currentUserId);
+        List<Distrito> GetDistritos();
         #endregion
 
         #region Proveedores
@@ -78,10 +79,6 @@ namespace SistemaGeneraliz.Models.Helpers
         #region Suministradores
         void AgregarSuministrador(Suministrador suministrador);
         #endregion
-
-
-
-
         
     }
 }

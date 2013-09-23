@@ -1,5 +1,5 @@
-2013/09/21-22:29:21.935 183c Recovering log #16
-2013/09/21-22:29:22.173 183c Level-0 table #18: started
-2013/09/21-22:29:22.189 183c Level-0 table #18: 444841 bytes OK
-2013/09/21-22:29:22.200 183c Delete type=0 #16
-2013/09/21-22:29:22.201 183c Delete type=3 #14
+2013/09/22-10:00:00.014 1bb4 Recovering log #19
+2013/09/22-10:00:00.097 1bb4 Level-0 table #21: started
+2013/09/22-10:00:00.121 1bb4 Level-0 table #21: 188147 bytes OK
+2013/09/22-10:00:00.151 1bb4 Delete type=0 #19
+2013/09/22-10:00:00.152 1bb4 Delete type=3 #17

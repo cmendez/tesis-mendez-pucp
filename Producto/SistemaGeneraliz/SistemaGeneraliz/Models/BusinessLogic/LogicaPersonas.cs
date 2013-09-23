@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using SistemaGeneraliz.Models.Entities;
 using SistemaGeneraliz.Models.Helpers;
 using SistemaGeneraliz.Models.ViewModels;
@@ -100,8 +102,20 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 return (persona.PrimerNombre + " " + persona.ApellidoPaterno);
             else if (persona.TipoPersona == "Juridica")
                 return (persona.RazonSocial);
-            
+
             return nombre;
+        }
+
+        internal List<SelectListItem> GetDistritos()
+        {
+            List<SelectListItem> listDistritos = new List<SelectListItem>();
+            List<Distrito> distritos = _sgpFactory.GetDistritos();
+
+            foreach (Distrito distrito in distritos)
+            {
+                listDistritos.Add(new SelectListItem() { Text = distrito.NombreDistrito, Value = distrito.DistritoId.ToString() });
+            }
+            return listDistritos;
         }
     }
 }

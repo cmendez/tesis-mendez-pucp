@@ -1,5 +1,4 @@
-﻿@using Kendo.Mvc.UI
-@model SistemaGeneraliz.Models.ViewModels.ProveedorNaturalViewModel
+﻿@model SistemaGeneraliz.Models.ViewModels.ProveedorNaturalViewModel
 
 @{
     //Layout = null;
@@ -12,6 +11,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Registrar Proveedor Natural</title>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <script src="~/Scripts/mi_mapa.js"></script>
 </head>
 <body>
     <script src="~/Scripts/jquery-1.8.2.min.js"></script>
@@ -129,21 +130,94 @@
                         </div>
                     </div>
 
+                    @* *************************************** DATOS DE CONTACTO **************************************@
+
+                    @Html.Label("Datos de Contacto", new { style = "font-weight: bold; text-decoration: underline;" })
+                    <br />
+
+                    @*  //POR SI DECIDO USAR VARIAS CIUDADES
                     <div class="row-fluid">
                         <div class="span5">
-                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.DireccionCompleta)</div>
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.IdCiudad)</div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.DireccionCompleta)<br />
-                                @Html.ValidationMessageFor(model => model.DireccionCompleta)
+                                <select id="IdCiudad" name="IdCiudad">
+                                    @for (int j = 0; j < ViewBag.Ciudades.Count; j++)
+                                    {                               
+                                        <option value="@ViewBag.Ciudades[j].Value">@ViewBag.Ciudades[j].Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>*@
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.IdDistrito)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                <select id="IdDistrito" name="IdDistrito" @*style="width: 215px"*@>
+                                    @for (int j = 0; j < ViewBag.Distritos.Count; j++)
+                                    {                               
+                                        <option value="@ViewBag.Distritos[j].Value">@ViewBag.Distritos[j].Text</option>
+                                    }
+                                </select>
                             </div>
                         </div>
                     </div>
 
-                    @* *************************************** DATOS DE CONTACTO **************************************@
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Direccion)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextAreaFor(model => model.Direccion)<br />
+                                @Html.ValidationMessageFor(model => model.Direccion)
+                            </div>
+                        </div>
+                    </div>
 
-                    @Html.Label("Datos de Contacto", new { style = "font-weight: bold; text-decoration: underline;" })
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Referencia)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextAreaFor(model => model.Referencia)<br />
+                                @Html.ValidationMessageFor(model => model.Referencia)
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="Latitud" name="Latitud" value="-12.08611459617003"/>
+                    <input type="hidden" id="Longitud" name="Longitud" value="-77.00229406356812"/>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">Ubicación</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                <a id="ver_mapa" type="button" class="btn" style="width: 54%; color: black; text-shadow: none; background-color: lightblue;" href="#modal_mapa" data-toggle="modal">Ver Mapa</a>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="modal_mapa" style="z-index: -1;">
+                            <div class="modal-header">
+                                <a class="close" data-dismiss="modal"></a>
+                                <h4>Indique su ubicación en el mapa</h4>
+                            </div>
+                            <div class="modal-body" style="height: 400px;">
+                                <div id="map-canvas" style="margin: 0;padding: 0;height: 100%;width: 100%;"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-primary" data-dismiss="modal" style="color: white; text-shadow: none; background-color: #35aa47;">Guardar</a>
+                            </div>
+                        </div>
+                    </div>
                     <br />
                     <div class="row-fluid">
                         <div class="span5">
@@ -306,11 +380,9 @@
                         </div>
                     </div>
 
-                    <p>
-                        <input id="btnGuardar" type="submit" value="Guardar" />
-                    </p>
-
-
+                    <button id="btnGuardar" type="submit" class="btn green pull-right" style="margin-right: 22%;">
+                        Guardar <i class="icon-ok-sign  m-icon-white"></i>
+                    </button>
 
                 </div>
 
@@ -334,7 +406,7 @@
                     alert("Error: debe elegir al menos un tipo de servicio");
                     return false;
                 }
-                
+
                 if (count > 2) {
                     valid = false;
                     alert("Error: puede elegir como máximo 2 tipos de servicios.|");
@@ -349,6 +421,11 @@
             }
             else
                 return false;
+        });
+
+        $("#ver_mapa").click(function () {
+            //alert("XD");
+            $("#modal_mapa").attr('style', '');
         });
     </script>
 </body>

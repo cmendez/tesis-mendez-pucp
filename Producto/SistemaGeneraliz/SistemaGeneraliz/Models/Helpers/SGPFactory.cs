@@ -41,6 +41,12 @@ namespace SistemaGeneraliz.Models.Helpers
         {
             return _db.Personas.First(p => p.PersonaId == currentUserId);
         }
+
+        public List<Distrito> GetDistritos()
+        {
+            return _db.Distritos.Where(d => d.IsVisible == 1 && d.IsEliminado == 0).ToList();
+        }
+
         #endregion
 
         #region Proveedores

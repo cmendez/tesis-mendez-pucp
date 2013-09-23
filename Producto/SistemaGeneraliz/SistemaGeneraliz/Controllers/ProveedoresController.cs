@@ -23,8 +23,8 @@ namespace SistemaGeneraliz.Controllers
 
         public ActionResult RegistrarProveedorNatural()
         {
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
             ViewBag.TiposServicios = ObtenerTiposServicios();
-
             return View();
         }
 
@@ -48,12 +48,15 @@ namespace SistemaGeneraliz.Controllers
 
                 _logicaProveedores.AgregarProveedor(proveedor);
 
+                //IMPLEMENTAR LOGICA DE GUARDADO AQUI XD (recuerda, recibo Latitud Longitud)
+
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Proveedor" });
                 var s = WebSecurity.CreateAccount(persona.UserName, proveedorNaturalViewModel.Password);
                 bool loginSuccess = WebSecurity.Login(persona.UserName, proveedorNaturalViewModel.Password);
 
                 return RedirectToAction("Index");
             }
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
             ViewBag.TiposServicios = ObtenerTiposServicios();
             return View();
         }
