@@ -49,6 +49,17 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.Proveedores.Add(proveedor);
             _db.SaveChanges();
         }
+
+        public List<TipoServicio> GetTipoServicios()
+        {
+            return _db.TipoServicios.Where(t => t.IsEliminado == 0).ToList();
+        }
+
+        public TipoServicio GetTipoServicioPorId(int tipoServicioId)
+        {
+            return _db.TipoServicios.First(t => t.TipoServicioId == tipoServicioId);
+        }
+
         #endregion
 
         #region Clientes

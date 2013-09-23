@@ -187,10 +187,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />
-    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AdministracionController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\SuministradoresController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
@@ -200,6 +200,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Distrito.cs" />
+    <Compile Include="Models\Entities\PaisCiudad.cs" />
+    <Compile Include="Models\Entities\TipoServicio.cs" />
+    <Compile Include="Models\Entities\UbicacionPersona.cs" />
     <Compile Include="Models\Helpers\AccountModels.cs" />
     <Compile Include="Models\BusinessLogic\LogicaClientes.cs" />
     <Compile Include="Models\BusinessLogic\LogicaPersonas.cs" />
@@ -1786,6 +1790,7 @@
     <Content Include="Views\Suministradores\RegistrarSuministradorJuridico.cshtml" />
     <Content Include="Views\Suministradores\Index.cshtml" />
     <Content Include="Views\Suministradores\Contacto.cshtml" />
+    <Content Include="Views\Administracion\Usuarios.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

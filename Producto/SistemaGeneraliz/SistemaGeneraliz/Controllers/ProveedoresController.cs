@@ -23,6 +23,8 @@ namespace SistemaGeneraliz.Controllers
 
         public ActionResult RegistrarProveedorNatural()
         {
+            ViewBag.TiposServicios = ObtenerTiposServicios();
+
             return View();
         }
 
@@ -36,6 +38,14 @@ namespace SistemaGeneraliz.Controllers
                 //setear la especialidad
                 _logicaPersonas.AgregarPersona(persona);
                 proveedor.PersonaId = persona.PersonaId;
+                
+                proveedor.TiposServicios = new List<TipoServicio>();
+                foreach (var tipoServicioId in proveedorNaturalViewModel.ListTiposServiciosIds)
+                {
+                    TipoServicio tipo = _logicaProveedores.GetTipoServicioPorId(tipoServicioId);
+                    proveedor.TiposServicios.Add(tipo);
+                }
+
                 _logicaProveedores.AgregarProveedor(proveedor);
 
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Proveedor" });
@@ -44,12 +54,13 @@ namespace SistemaGeneraliz.Controllers
 
                 return RedirectToAction("Index");
             }
-
+            ViewBag.TiposServicios = ObtenerTiposServicios();
             return View();
         }
 
         public ActionResult RegistrarProveedorJuridico()
         {
+            ViewBag.TiposServicios = ObtenerTiposServicios();
             return View();
         }
 
@@ -63,6 +74,14 @@ namespace SistemaGeneraliz.Controllers
                 //setear la especialidad
                 _logicaPersonas.AgregarPersona(persona);
                 proveedor.PersonaId = persona.PersonaId;
+
+                proveedor.TiposServicios = new List<TipoServicio>();
+                foreach (var tipoServicioId in proveedorJuridicoViewModel.ListTiposServiciosIds)
+                {
+                    TipoServicio tipo = _logicaProveedores.GetTipoServicioPorId(tipoServicioId);
+                    proveedor.TiposServicios.Add(tipo);
+                }
+
                 _logicaProveedores.AgregarProveedor(proveedor);
 
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Proveedor" });
@@ -71,8 +90,23 @@ namespace SistemaGeneraliz.Controllers
 
                 return RedirectToAction("Index");
             }
-
+            ViewBag.TiposServicios = ObtenerTiposServicios();
             return View();
+        }
+
+        public List<TipoServicio> ObtenerTiposServicios()
+        {
+            /*List<SelectListItem> listTipos = new List<SelectListItem>();
+            List<TipoServicio> tipoServicios = _logicaProveedores.GetTipoServicios();
+
+            foreach (TipoServicio tipo in tipoServicios)
+            {
+                listTipos.Add(new SelectListItem() { Text = tipo.NombreServicio, Value = tipo.TipoServicioId.ToString() });
+            }
+
+            return listTipos;*/
+            List<TipoServicio> tipoServicios = _logicaProveedores.GetTipoServicios();
+            return tipoServicios;
         }
     }
 }

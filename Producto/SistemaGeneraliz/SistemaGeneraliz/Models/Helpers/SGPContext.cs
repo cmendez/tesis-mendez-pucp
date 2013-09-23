@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Data.Entity;
@@ -21,32 +22,112 @@ namespace SistemaGeneraliz.Models.Helpers
         public IDbSet<Cliente> Clientes { get; set; }
         public IDbSet<Proveedor> Proveedores { get; set; }
         public IDbSet<Suministrador> Suministradores { get; set; }
+        public IDbSet<TipoServicio> TipoServicios { get; set; }
+        public IDbSet<PaisCiudad> PaisesCiudades { get; set; }
+        public IDbSet<Distrito> Distritos { get; set; }
+        public IDbSet<UbicacionPersona> UbicacionesPersonas { get; set; }
         #endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Entity<Proveedor>().HasMany(r => r.TiposServicios).WithMany(t => t.Proveedores)
+                .Map(t => t.MapLeftKey("ProveedorId").MapRightKey("TipoServicioId").ToTable("TiposServiciosPorProveedor"));
         }
 
-        /*   
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+
+        internal void Seed()
         {
-            modelBuilder.Entity<ReservationModels>()
-                .HasMany(r => r.Rooms).WithMany(t => t.Reservations)
-                .Map(t => t.MapLeftKey("CalendarId")
-                    .MapRightKey("RoomId")
-                    .ToTable("RoomsByReservation"));
-
-            modelBuilder.Entity<ReservationModels>()
-                .HasMany(r => r.Resources).WithMany(t => t.Reservations)
-                .Map(t => t.MapLeftKey("CalendarId")
-                    .MapRightKey("ResourceId")
-                    .ToTable("ResourcesByReservation"));
+            SeedsRoles();
+            SeedsTiposServicios();
+            //SeedProveedores();
+            SeedPaisesCiudadesDistritos();
+            //SeedDistritos();
+            //SeedUbicacionesPersonas();
         }
-        */
 
-        #region Seeds
-        internal void seed()
+        private void SeedPaisesCiudadesDistritos()
+        {
+            var listaPaisesCiudades = new List<PaisCiudad>()
+            {
+                new PaisCiudad { NombrePais = "Perú", NombreCiudad = "Lima", IsVisible = 1, IsEliminado = 0}
+            };
+            listaPaisesCiudades.ForEach(s => this.PaisesCiudades.Add(s));
+            this.SaveChanges();
+
+            var ciudadId = listaPaisesCiudades[0].PaisCiudadId;
+            var listaDistritos = new List<Distrito>()
+            {
+                new Distrito{NombreDistrito = "San Borja", PaisCiudadId = ciudadId, LatitudDefault = 0, LongitudDefault = 1, IsVisible = 1, IsEliminado = 0},
+                new Distrito{NombreDistrito = "Pueblo Libre", PaisCiudadId = ciudadId, LatitudDefault = 0, LongitudDefault = 1, IsVisible = 1, IsEliminado = 0},
+                new Distrito{NombreDistrito = "San Miguel", PaisCiudadId = ciudadId, LatitudDefault = 0, LongitudDefault = 1, IsVisible = 1, IsEliminado = 0},
+                new Distrito{NombreDistrito = "La Molina", PaisCiudadId = ciudadId, LatitudDefault = 0, LongitudDefault = 1, IsVisible = 1, IsEliminado = 0},
+                new Distrito{NombreDistrito = "Los Olivos", PaisCiudadId = ciudadId, LatitudDefault = 0, LongitudDefault = 1, IsVisible = 1, IsEliminado = 0},
+                new Distrito{NombreDistrito = "Lince", PaisCiudadId = ciudadId, LatitudDefault = 0, LongitudDefault = 1, IsVisible = 1, IsEliminado = 0},
+                new Distrito{NombreDistrito = "Ate", PaisCiudadId = ciudadId, LatitudDefault = 0, LongitudDefault = 1, IsVisible = 1, IsEliminado = 0},
+                new Distrito{NombreDistrito = "Chorrillos", PaisCiudadId = ciudadId, LatitudDefault = 0, LongitudDefault = 1, IsVisible = 1, IsEliminado = 0}
+            };
+            listaDistritos.Sort((x, y) => string.Compare(x.NombreDistrito, y.NombreDistrito));
+            listaDistritos.ForEach(s => this.Distritos.Add(s));
+            this.SaveChanges();
+        }
+
+        /* 
+        private void SeedProveedores()
+        {
+            var listPersonas = new List<Persona>()
+            {
+                new TipoServicio { NombreServicio = "Carpintería", DescripcionServicio = "Servicio de Carpintería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Cerrajería", DescripcionServicio = "Servicio de Cerrajería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Drywall", DescripcionServicio = "Servicio de Drywall", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Electricidad",DescripcionServicio = "Servicio de Electricidad", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Gasfitería", DescripcionServicio = "Servicio de Gasfitería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Melamina", DescripcionServicio = "Servicio de Melamina", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Pintura", DescripcionServicio = "Servicio de Pintura", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Vidriería", DescripcionServicio = "Servicio de Vidriería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Carpintería", DescripcionServicio = "Servicio de Carpintería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Cerrajería", DescripcionServicio = "Servicio de Cerrajería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Drywall", DescripcionServicio = "Servicio de Drywall", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Electricidad",DescripcionServicio = "Servicio de Electricidad", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Gasfitería", DescripcionServicio = "Servicio de Gasfitería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Melamina", DescripcionServicio = "Servicio de Melamina", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Pintura", DescripcionServicio = "Servicio de Pintura", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Vidriería", DescripcionServicio = "Servicio de Vidriería", IsEliminado = 0}
+            };
+
+            var listProveedores = new List<Proveedor>()
+            {
+                new TipoServicio { NombreServicio = "Carpintería", DescripcionServicio = "Servicio de Carpintería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Cerrajería", DescripcionServicio = "Servicio de Cerrajería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Drywall", DescripcionServicio = "Servicio de Drywall", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Electricidad",DescripcionServicio = "Servicio de Electricidad", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Gasfitería", DescripcionServicio = "Servicio de Gasfitería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Melamina", DescripcionServicio = "Servicio de Melamina", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Pintura", DescripcionServicio = "Servicio de Pintura", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Vidriería", DescripcionServicio = "Servicio de Vidriería", IsEliminado = 0}
+            };
+            listProveedores.ForEach(s => this.Proveedores.Add(s));
+            this.SaveChanges();
+        }*/
+
+        private void SeedsTiposServicios()
+        {
+            var listTiposServicios = new List<TipoServicio>()
+            {
+                new TipoServicio { NombreServicio = "Carpintería", DescripcionServicio = "Servicio de Carpintería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Cerrajería", DescripcionServicio = "Servicio de Cerrajería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Drywall", DescripcionServicio = "Servicio de Drywall", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Electricidad",DescripcionServicio = "Servicio de Electricidad", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Gasfitería", DescripcionServicio = "Servicio de Gasfitería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Melamina", DescripcionServicio = "Servicio de Melamina", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Pintura", DescripcionServicio = "Servicio de Pintura", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Vidriería", DescripcionServicio = "Servicio de Vidriería", IsEliminado = 0}
+            };
+            listTiposServicios.ForEach(s => this.TipoServicios.Add(s));
+            this.SaveChanges();
+        }
+
+        private void SeedsRoles()
         {
             //Seed of Roles & Permissions
             //Administrator
@@ -78,8 +159,6 @@ namespace SistemaGeneraliz.Models.Helpers
             if (!Roles.RoleExists("Suministrador"))
                 Roles.CreateRole("Suministrador");
         }
-        #endregion
-
 
     }
 

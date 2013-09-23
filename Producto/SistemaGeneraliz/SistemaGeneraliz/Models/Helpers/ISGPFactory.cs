@@ -67,6 +67,8 @@ namespace SistemaGeneraliz.Models.Helpers
 
         #region Proveedores
         void AgregarProveedor(Proveedor proveedor);
+        List<TipoServicio> GetTipoServicios();
+        TipoServicio GetTipoServicioPorId(int tipoServicioId);
         #endregion
 
         #region Clientes
@@ -76,6 +78,10 @@ namespace SistemaGeneraliz.Models.Helpers
         #region Suministradores
         void AgregarSuministrador(Suministrador suministrador);
         #endregion
+
+
+
+
         
     }
 }

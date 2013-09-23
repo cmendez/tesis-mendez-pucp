@@ -1,4 +1,5 @@
-﻿@model SistemaGeneraliz.Models.ViewModels.ProveedorNaturalViewModel
+﻿@using Kendo.Mvc.UI
+@model SistemaGeneraliz.Models.ViewModels.ProveedorNaturalViewModel
 
 @{
     //Layout = null;
@@ -17,7 +18,7 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Registrar Proveedor Natural", "Por favor complete los siguientes campos."));}
-    @using (Html.BeginForm())
+    @using (Html.BeginForm(new { @id = "formId" }))
     {
         @Html.ValidationSummary(true)
     
@@ -107,7 +108,7 @@
                             <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaNacimiento)</div>
                         </div>
                         <div class="span7">
-                            <div class="editor-field" style="width: 58%; text-align: left;">
+                            <div class="editor-field" style="width: 58%; text-align: left">
                                 @Html.EditorFor(model => model.FechaNacimiento)<br />
                                 @Html.ValidationMessageFor(model => model.FechaNacimiento)
                             </div>
@@ -208,7 +209,7 @@
                     @* *************************************** ATRIBUTOS DE PROVEEDOR Y CUENTA **************************************@
 
 
-                    <div class="row-fluid">
+                    @*                    <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EspecialidadId)</div>
                         </div>
@@ -216,6 +217,17 @@
                             <div class="editor-field" style="width: 100%; text-align: left;">
                                 @Html.TextBoxFor(model => model.EspecialidadId)<br />
                                 @Html.ValidationMessageFor(model => model.EspecialidadId)
+                            </div>
+                        </div>
+                    </div>*@
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.TiposServicios)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 62%; text-align: left; padding-bottom: 10px;">
+                                @Html.ListBoxFor(x => x.ListTiposServiciosIds, new MultiSelectList(ViewBag.TiposServicios, "TipoServicioId", "NombreServicio"))
                             </div>
                         </div>
                     </div>
@@ -276,7 +288,7 @@
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.Password, new{@type="password"})<br />
+                                @Html.TextBoxFor(model => model.Password, new { @type = "password" })<br />
                                 @Html.ValidationMessageFor(model => model.Password)
                             </div>
                         </div>
@@ -288,14 +300,14 @@
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.ConfirmPassword, new{@type="password"})<br />
+                                @Html.TextBoxFor(model => model.ConfirmPassword, new { @type = "password" })<br />
                                 @Html.ValidationMessageFor(model => model.ConfirmPassword)
                             </div>
                         </div>
                     </div>
 
                     <p>
-                        <input type="submit" value="Guardar" />
+                        <input id="btnGuardar" type="submit" value="Guardar" />
                     </p>
 
 
@@ -309,5 +321,35 @@
     <div>
         @Html.ActionLink("Regresar", "Index")
     </div>
+
+    <script>
+        $("#btnGuardar").click(function () {
+            //var r = confirm("Guardar?");
+            var r = true;
+            if (r === true) {
+                var valid = true;
+                var count = $('select[id=ListTiposServiciosIds] option:selected').size();
+                if (count === 0) {
+                    valid = false;
+                    alert("Error: debe elegir al menos un tipo de servicio");
+                    return false;
+                }
+                
+                if (count > 2) {
+                    valid = false;
+                    alert("Error: puede elegir como máximo 2 tipos de servicios.|");
+                    return false;
+                }
+
+                if (!valid)
+                    return false;
+                else {
+                    return true;
+                }
+            }
+            else
+                return false;
+        });
+    </script>
 </body>
 </html>

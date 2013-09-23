@@ -23,8 +23,8 @@ namespace SistemaGeneraliz
             {
                 using (var context = new SGPContext())
                 {
-                    if (false)
-                    //if (context.Database.Connection.DataSource.Equals("."))                        
+                    //if (false)
+                    if (context.Database.Connection.DataSource.Equals("."))                        
                     {
                         //IF DATABASE ALREADY EXISTED, ONLY DROP TABLES AND RECREATE THEM
                         if (context.Database.Exists())
@@ -45,7 +45,7 @@ namespace SistemaGeneraliz
                             //    WebSecurity.Logout();
                         }
 
-                        context.seed();
+                        context.Seed();
                         context.SaveChanges();
                     }
                     else

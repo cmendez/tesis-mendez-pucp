@@ -1,17 +1,12 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using SistemaGeneraliz.Models.Entities;
 
 namespace SistemaGeneraliz.Models.ViewModels
 {
     public class ProveedorNaturalViewModel : PersonaNaturalViewModel
     {
-		//VERIFICAR QUE SE HAGA BIEN LA HERENCIA:
-		/*
-			Que al crear la VIEW automáticamente, se cree con TODOS los campos
-			de PersonaNaturalViewModel y de Proveedor. Sino los crea automáticamente,
-			podemos probar con el RenderPartialView o por último crear 
-			ProveedorNaturalViewModel y ProveedorJuridicoViewModel			
-		*/
 		public int ProveedorId { get; set; }
         public virtual Persona Persona { get; set; }
 
@@ -22,7 +17,12 @@ namespace SistemaGeneraliz.Models.ViewModels
 		
 		[Display(Name = "Especialidad")]
 		public string Especialidad { get; set; }
-		
+
+        [Display(Name = "Servicios que brinda")]
+        public virtual ICollection<TipoServicio> TiposServicios { get; set; }
+
+        public int[] ListTiposServiciosIds { get; set; }
+
 		[Display(Name = "Puntuacion Promedio")]
 		public double PuntuacionPromedio { get; set; }
 		

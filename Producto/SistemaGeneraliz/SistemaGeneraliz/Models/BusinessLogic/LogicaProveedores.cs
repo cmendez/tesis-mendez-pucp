@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using SistemaGeneraliz.Models.Entities;
 using SistemaGeneraliz.Models.Helpers;
 using SistemaGeneraliz.Models.ViewModels;
@@ -66,6 +67,16 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 AcercaDeMi = proveedor.AcercaDeMi,
                 IsDestacado = 0 //false
             };
+        }
+
+        internal List<TipoServicio> GetTipoServicios()
+        {
+            return _sgpFactory.GetTipoServicios();
+        }
+
+        internal TipoServicio GetTipoServicioPorId(int tipoServicioId)
+        {
+            return _sgpFactory.GetTipoServicioPorId(tipoServicioId);
         }
     }
 }

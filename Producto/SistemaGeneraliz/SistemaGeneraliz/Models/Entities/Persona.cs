@@ -30,6 +30,7 @@ namespace SistemaGeneraliz.Models.Entities
         public DateTime? FechaCreacion { get; set; }
 		public string Sexo { get; set; }
 		public string DireccionCompleta { get; set; }
+        public virtual ICollection<UbicacionPersona> UbicacionesPersonas { get; set; }
 		public string Email1 { get; set; }
 		public string Email2 { get; set; }
 		public string Telefono1 { get; set; }

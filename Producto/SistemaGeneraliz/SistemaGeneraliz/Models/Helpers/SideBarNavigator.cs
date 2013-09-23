@@ -53,7 +53,8 @@ namespace SistemaGeneraliz.Models.Helpers
             // Administración
             Opciones.Add(new SidebarOption("Administracion", "Administración", "icon-lock", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Administrar Usuarios","Usuarios","Index","icon-group"),
-                new SidebarSuboption("Administrar Perfiles", "Administracion", "Index", "icon-cogs"),
+                new SidebarSuboption("Configurar Ubicaciones", "Administracion", "Index", "icon-globe"),
+                new SidebarSuboption("Configurar Servicios", "Administracion", "Index", "icon-cogs"),
                 new SidebarSuboption("Histórico de Trabajos", "Administracion", "Index", "icon-list-ul"),
                 new SidebarSuboption("Proveedores Destacados", "Administracion", "Index", "icon-star"),
                 new SidebarSuboption("Gestión de Recompensas", "Administracion", "Index", "icon-gift")
