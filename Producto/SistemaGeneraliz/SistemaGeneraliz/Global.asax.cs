@@ -23,7 +23,7 @@ namespace SistemaGeneraliz
             {
                 using (var context = new SGPContext())
                 {
-                    if (true)
+                    if (false)
                     {
                         //IF DATABASE ALREADY EXISTED, ONLY DROP TABLES AND RECREATE THEM
                         if (context.Database.Exists())

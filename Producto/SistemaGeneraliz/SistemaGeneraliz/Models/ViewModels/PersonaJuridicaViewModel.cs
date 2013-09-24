@@ -29,11 +29,32 @@ namespace SistemaGeneraliz.Models.ViewModels
 
 		[DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
 		[Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        [Display(Name = "Fecha de Creación")]        
+        [Display(Name = "Fecha de Creación de la Empresa")]        
         public DateTime? FechaCreacion { get; set; }
 
 		[Display(Name = "Dirección")]
 		public string DireccionCompleta { get; set; }
+
+        //****************************************************************
+        [Display(Name = "Ciudad")]
+        public int IdCiudad { get; set; }
+
+        [Display(Name = "Distrito")]
+        public int IdDistrito { get; set; }
+
+        [StringLength(50, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 3)]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        [Display(Name = "Dirección")]
+        public string Direccion { get; set; }
+
+        [StringLength(50, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 3)]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        [Display(Name = "Referencias")]
+        public string Referencia { get; set; }
+
+        public float Latitud { get; set; }
+        public float Longitud { get; set; }
+        //****************************************************************
 
 		[Required(ErrorMessage = "El campo {0} es obligatorio.")]
 		[StringLength(40, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 8)]

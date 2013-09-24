@@ -47,6 +47,36 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.Distritos.Where(d => d.IsVisible == 1 && d.IsEliminado == 0).ToList();
         }
 
+        public void AgregarUbicacion(UbicacionPersona ubicacion)
+        {
+            _db.UbicacionesPersonas.Add(ubicacion);
+            _db.SaveChanges();
+        }
+
+        public bool ExisteDNIRUC(string dni, string ruc)
+        {
+            Persona p1, p2;
+            bool b1, b2;
+            p1 = p2 = null;
+            b1 = b2 = false;
+
+            if (!String.IsNullOrEmpty(dni))
+            {
+                int dniInt = Int32.Parse(dni);
+                p1 = _db.Personas.FirstOrDefault(p => p.DNI == dniInt);
+                if (p1 != null)
+                    return true;
+            }
+            if (!String.IsNullOrEmpty(ruc))
+            {
+                long rucLong = Int64.Parse(ruc);
+                p2 = _db.Personas.FirstOrDefault(p => p.RUC == rucLong);
+                if (p2 != null)
+                    return true;
+            }
+            return false;
+        }
+
         #endregion
 
         #region Proveedores

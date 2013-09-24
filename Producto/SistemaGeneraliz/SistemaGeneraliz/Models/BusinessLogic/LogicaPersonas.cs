@@ -29,13 +29,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         internal Persona CrearObjetoPersonaNatural(PersonaNaturalViewModel persona, String tipoUsuario)
         {
             persona.Sexo = (persona.SexoId == 1) ? "Masculino" : "Femenino";
-            //string tipoUsuario = "";
-            //if (persona.GetType() == typeof(Proveedor))
-            //    tipoUsuario = "Proveedor";
-            //if (persona.GetType() == typeof(Cliente))
-            //    tipoUsuario = "Cliente";
-            //if (persona.GetType() == typeof(Suministrador))
-            //    tipoUsuario = "Suministrador";
+            //persona.DireccionCompleta = persona.Direccion + persona.IdDistrito <- obtener Distrito de BD
 
             return new Persona
             {
@@ -51,6 +45,8 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 FechaNacimiento = persona.FechaNacimiento,
                 Sexo = persona.Sexo,
                 //DireccionCompleta = persona.DireccionCompleta,
+                //Latitud = persona.Latitud,
+                //Longitud = persona.Longitud,
                 Email1 = persona.Email1,
                 Email2 = persona.Email2,
                 Telefono1 = persona.Telefono1,
@@ -65,14 +61,6 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 
         internal Persona CrearObjetoPersonaJuridica(PersonaJuridicaViewModel persona, String tipoUsuario)
         {
-            //string tipoUsuario = "";
-            //if (persona.GetType() == typeof(Proveedor))
-            //    tipoUsuario = "Proveedor";
-            //if (persona.GetType() == typeof(Cliente))
-            //    tipoUsuario = "Cliente";
-            //if (persona.GetType() == typeof(Suministrador))
-            //    tipoUsuario = "Suministrador";
-
             return new Persona
             {
                 UserName = persona.RUC,
@@ -116,6 +104,11 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 listDistritos.Add(new SelectListItem() { Text = distrito.NombreDistrito, Value = distrito.DistritoId.ToString() });
             }
             return listDistritos;
+        }
+
+        internal bool ExisteDNIRUC(string dni, string ruc)
+        {
+            return _sgpFactory.ExisteDNIRUC(dni, ruc);
         }
     }
 }

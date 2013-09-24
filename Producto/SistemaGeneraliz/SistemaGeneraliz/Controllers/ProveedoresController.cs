@@ -15,6 +15,7 @@ namespace SistemaGeneraliz.Controllers
     {
         private readonly LogicaProveedores _logicaProveedores = new LogicaProveedores();
         private readonly LogicaPersonas _logicaPersonas = new LogicaPersonas();
+        private readonly LogicaUbicaciones _logicaUbicaciones = new LogicaUbicaciones();
 
         public ActionResult Index()
         {
@@ -33,12 +34,21 @@ namespace SistemaGeneraliz.Controllers
         {
             if (ModelState.IsValid)
             {
+                bool existe = _logicaPersonas.ExisteDNIRUC(proveedorNaturalViewModel.DNI, proveedorNaturalViewModel.RUC);
+                if (existe)
+                {
+                    ModelState.AddModelError("", "Error: el DNI y/o RUC ingresado ya existe.");
+                    ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                    ViewBag.TiposServicios = ObtenerTiposServicios();
+                    return View();
+                }
+
                 Persona persona = _logicaPersonas.CrearObjetoPersonaNatural(proveedorNaturalViewModel, "Proveedor");
                 Proveedor proveedor = _logicaProveedores.CrearObjetoProveedorNatural(proveedorNaturalViewModel);
                 //setear la especialidad
                 _logicaPersonas.AgregarPersona(persona);
                 proveedor.PersonaId = persona.PersonaId;
-                
+
                 proveedor.TiposServicios = new List<TipoServicio>();
                 foreach (var tipoServicioId in proveedorNaturalViewModel.ListTiposServiciosIds)
                 {
@@ -46,9 +56,9 @@ namespace SistemaGeneraliz.Controllers
                     proveedor.TiposServicios.Add(tipo);
                 }
 
+                UbicacionPersona ubicacion = _logicaUbicaciones.CrearObjetoUbicacionPersonaNatural(proveedorNaturalViewModel, persona);
+                _logicaUbicaciones.AgregarUbicacion(ubicacion);
                 _logicaProveedores.AgregarProveedor(proveedor);
-
-                //IMPLEMENTAR LOGICA DE GUARDADO AQUI XD (recuerda, recibo Latitud Longitud)
 
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Proveedor" });
                 var s = WebSecurity.CreateAccount(persona.UserName, proveedorNaturalViewModel.Password);
@@ -56,7 +66,7 @@ namespace SistemaGeneraliz.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             ViewBag.TiposServicios = ObtenerTiposServicios();
             return View();
         }
@@ -85,6 +95,8 @@ namespace SistemaGeneraliz.Controllers
                     proveedor.TiposServicios.Add(tipo);
                 }
 
+                UbicacionPersona ubicacion = _logicaUbicaciones.CrearObjetoUbicacionPersonaJuridica(proveedorJuridicoViewModel, persona);
+                _logicaUbicaciones.AgregarUbicacion(ubicacion);
                 _logicaProveedores.AgregarProveedor(proveedor);
 
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Proveedor" });

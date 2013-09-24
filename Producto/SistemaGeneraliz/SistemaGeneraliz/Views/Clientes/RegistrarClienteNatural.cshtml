@@ -21,6 +21,9 @@
     {
         @Html.ValidationSummary(true)
     
+        //AVERIGUAR COMO LLAMAR A UNA VISTA PARCIAL QUE ESTA EN OTRA CARPETA DISTINTA DE SHARED
+        //@{Html.RenderPartial("/Usuarios/RegistrarPersonaNatural", new SistemaGeneraliz.Models.Helpers.PageTitle("Registrar Cliente Natural", "Por favor complete los siguientes campos."));}
+        
         <div style="width: auto;">
             <div class="row-fluid">
                 <!-- contenedor superior izquierdo: campos -->
@@ -124,18 +127,6 @@
                                     <option value="1">Masculino</option>
                                     <option value="2">Femenino</option>
                                 </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.DireccionCompleta)</div>
-                        </div>
-                        <div class="span7">
-                            <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.DireccionCompleta)<br />
-                                @Html.ValidationMessageFor(model => model.DireccionCompleta)
                             </div>
                         </div>
                     </div>

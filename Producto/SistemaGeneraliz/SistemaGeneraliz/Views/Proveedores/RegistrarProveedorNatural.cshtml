@@ -19,7 +19,7 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Registrar Proveedor Natural", "Por favor complete los siguientes campos."));}
-    @using (Html.BeginForm(new { @id = "formId" }))
+    @using (Html.BeginForm())
     {
         @Html.ValidationSummary(true)
     
@@ -218,7 +218,9 @@
                             </div>
                         </div>
                     </div>
+
                     <br />
+
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Email1)</div>
@@ -283,7 +285,8 @@
                     @* *************************************** ATRIBUTOS DE PROVEEDOR Y CUENTA **************************************@
 
 
-                    @*                    <div class="row-fluid">
+                    @*                    
+                        <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EspecialidadId)</div>
                         </div>
