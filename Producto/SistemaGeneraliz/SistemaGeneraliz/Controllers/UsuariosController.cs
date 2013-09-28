@@ -65,7 +65,18 @@ namespace SistemaGeneraliz.Controllers
         [AllowAnonymous]
         public ActionResult RegistrarUsuario()
         {
-            return View("RegistrarUsuario");
+            if (!WebSecurity.IsAuthenticated)
+            {
+                return View("RegistrarUsuario");    
+            }
+            else
+            {
+                if (Roles.IsUserInRole("Administrador"))
+                {
+                    return View("RegistrarUsuario");    
+                }
+                return RedirectToAction("Index", "Home");
+            }
         }
 
 

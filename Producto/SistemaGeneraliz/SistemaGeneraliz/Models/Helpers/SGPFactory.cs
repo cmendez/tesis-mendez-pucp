@@ -77,6 +77,11 @@ namespace SistemaGeneraliz.Models.Helpers
             return false;
         }
 
+        public Distrito GetDistritoPorId(int distritoId)
+        {
+            return _db.Distritos.Find(distritoId);
+        }
+
         #endregion
 
         #region Proveedores

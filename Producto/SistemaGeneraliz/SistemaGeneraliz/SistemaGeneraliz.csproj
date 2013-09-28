@@ -1794,6 +1794,7 @@
     <Content Include="Views\Suministradores\Contacto.cshtml" />
     <Content Include="Views\Administracion\Usuarios.cshtml" />
     <Content Include="Views\Usuarios\_RegistrarPersonaNatural.cshtml" />
+    <Content Include="Views\Usuarios\_RegistrarPersonaJuridica.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

@@ -52,8 +52,8 @@ namespace SistemaGeneraliz.Models.ViewModels
         [Display(Name = "Referencias")]
         public string Referencia { get; set; }
 
-        public float Latitud { get; set; }
-        public float Longitud { get; set; }
+        public double Latitud { get; set; }
+        public double Longitud { get; set; }
         //****************************************************************
 
 		[Required(ErrorMessage = "El campo {0} es obligatorio.")]

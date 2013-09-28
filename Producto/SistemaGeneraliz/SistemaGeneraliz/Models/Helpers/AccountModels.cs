@@ -55,7 +55,7 @@ namespace SistemaGeneraliz.Models.Helpers
     {
         [Required]
         [Display(Name = "Nombre de usuario")]
-        //[RegularExpression(@"[0-9]{1,11}", ErrorMessage = "El campo {0} debe contener solo dígitos.")]
+        [RegularExpression(@"[0-9]{1,11}", ErrorMessage = "El campo {0} debe contener solo dígitos.")]
         public string UserName { get; set; }
 
         [Required]

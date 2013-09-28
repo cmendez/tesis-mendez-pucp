@@ -16,6 +16,7 @@ namespace SistemaGeneraliz.Controllers
     {
         private readonly LogicaSuministradores _logicaSuministradores = new LogicaSuministradores();
         private readonly LogicaPersonas _logicaPersonas = new LogicaPersonas();
+        private readonly LogicaUbicaciones _logicaUbicaciones = new LogicaUbicaciones();
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -32,7 +33,11 @@ namespace SistemaGeneraliz.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult RegistrarSuministradorJuridico()
         {
-            return View();
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
+            SuministradorJuridicoViewModel suministrador = new SuministradorJuridicoViewModel();
+            suministrador.Latitud = -12.08611459617003;
+            suministrador.Longitud = -77.00229406356812;
+            return View(suministrador);
         }
 
         [Authorize(Roles = "Administrador")]
@@ -46,7 +51,7 @@ namespace SistemaGeneraliz.Controllers
                 {
                     ModelState.AddModelError("", "Error: el DNI y/o RUC ingresado ya existe.");
                     ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                    return View();
+                    return View(suministradorJuridicoViewModel);
                 }
 
                 Persona persona = _logicaPersonas.CrearObjetoPersonaJuridica(suministradorJuridicoViewModel, "Suministrador");
@@ -54,6 +59,8 @@ namespace SistemaGeneraliz.Controllers
                 
                 _logicaPersonas.AgregarPersona(persona);
                 suministrador.PersonaId = persona.PersonaId;
+                UbicacionPersona ubicacion = _logicaUbicaciones.CrearObjetoUbicacionPersonaJuridica(suministradorJuridicoViewModel, persona);
+                _logicaUbicaciones.AgregarUbicacion(ubicacion);
                 _logicaSuministradores.AgregarSuministrador(suministrador);
 
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Suministrador" });
@@ -62,8 +69,8 @@ namespace SistemaGeneraliz.Controllers
 
                 return RedirectToAction("Index");
             }
-
-            return View();
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
+            return View(suministradorJuridicoViewModel);
         }
     }
 }

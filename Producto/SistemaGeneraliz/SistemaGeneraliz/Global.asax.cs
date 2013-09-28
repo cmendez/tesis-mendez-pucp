@@ -23,7 +23,7 @@ namespace SistemaGeneraliz
             {
                 using (var context = new SGPContext())
                 {
-                    if (false)
+                    if (true)
                     {
                         //IF DATABASE ALREADY EXISTED, ONLY DROP TABLES AND RECREATE THEM
                         if (context.Database.Exists())
@@ -50,7 +50,7 @@ namespace SistemaGeneraliz
                     else
                     {
                         Database.SetInitializer<SGPContext>(null);
-                        WebSecurity.InitializeDatabaseConnection("SGPContext", "Persona", "PersonaId", "UserName", autoCreateTables: true);
+                        WebSecurity.InitializeDatabaseConnection("SGPContext", "Personas", "PersonaId", "UserName", autoCreateTables: true);
                     }
                 }
             }

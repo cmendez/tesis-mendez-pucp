@@ -61,7 +61,7 @@ function placeMarker(location) {
     var lng = loc.split(",")[1];
 
     lat = lat.substring(1, lat.length);
-    lng = lng.substring(0, lat.length - 1);
+    lng = lng.substring(0, lng.length - 1);
     $("#Latitud").val(lat);
     $("#Longitud").val(lng);
     //alert("a: " + $("#Latitud").val() + " " + $("#Longitud").val());

@@ -16,6 +16,7 @@ namespace SistemaGeneraliz.Models.Helpers
         List<Distrito> GetDistritos();
         void AgregarUbicacion(UbicacionPersona ubicacion);
         bool ExisteDNIRUC(string dni, string ruc);
+        Distrito GetDistritoPorId(int distritoId);
         #endregion
 
         #region Proveedores

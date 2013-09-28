@@ -30,127 +30,18 @@
 
                     @* *************************************** ATRIBUTOS DE PERSONA **************************************@
                     <br />
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.RUC)</div>
-                        </div>
-                        <div class="span7">
-                            <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.RUC)<br />
-                                @Html.ValidationMessageFor(model => model.RUC)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.RazonSocial)</div>
-                        </div>
-                        <div class="span7">
-                            <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.RazonSocial)<br />
-                                @Html.ValidationMessageFor(model => model.RazonSocial)
-                            </div>
-                        </div>
-                    </div>
                     
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaCreacion)</div>
-                        </div>
-                        <div class="span7">
-                            <div class="editor-field" style="width: 58%; text-align: left;">
-                                @Html.EditorFor(model => model.FechaCreacion)<br />
-                                @Html.ValidationMessageFor(model => model.FechaCreacion)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.DireccionCompleta)</div>
-                        </div>
-                        <div class="span7">
-                            <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.DireccionCompleta)<br />
-                                @Html.ValidationMessageFor(model => model.DireccionCompleta)
-                            </div>
-                        </div>
-                    </div>
-
-                    @* *************************************** DATOS DE CONTACTO **************************************@
-
-                    @Html.Label("Datos de Contacto", new { style = "font-weight: bold; text-decoration: underline;" })
-                    <br />
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Email1)</div>
-                        </div>
-                        <div class="span7">
-                            <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.Email1)<br />
-                                @Html.ValidationMessageFor(model => model.Email1)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Email2)</div>
-                        </div>
-                        <div class="span7">
-                            <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.Email2)<br />
-                                @Html.ValidationMessageFor(model => model.Email2)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Telefono1)</div>
-                        </div>
-                        <div class="span7">
-                            <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.Telefono1)<br />
-                                @Html.ValidationMessageFor(model => model.Telefono1)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Telefono2)</div>
-                        </div>
-                        <div class="span7">
-                            <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.Telefono2)<br />
-                                @Html.ValidationMessageFor(model => model.Telefono2)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Telefono3)</div>
-                        </div>
-                        <div class="span7">
-                            <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.Telefono3)<br />
-                                @Html.ValidationMessageFor(model => model.Telefono3)
-                            </div>
-                        </div>
-                    </div>
+                    @{Html.RenderPartial("~/Views/Usuarios/_RegistrarPersonaJuridica.cshtml");}
 
                     @* *************************************** ATRIBUTOS DE CUENTA **************************************@
-                    
+
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Password)</div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.Password, new{@type="password"})<br />
+                                @Html.TextBoxFor(model => model.Password, new { @type = "password" })<br />
                                 @Html.ValidationMessageFor(model => model.Password)
                             </div>
                         </div>
@@ -162,15 +53,15 @@
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.ConfirmPassword, new{@type="password"})<br />
+                                @Html.TextBoxFor(model => model.ConfirmPassword, new { @type = "password" })<br />
                                 @Html.ValidationMessageFor(model => model.ConfirmPassword)
                             </div>
                         </div>
                     </div>
 
-                    <p>
-                        <input type="submit" value="Guardar" />
-                    </p>
+                    <button id="btnGuardar" type="submit" class="btn green pull-right" style="margin-right: 22%;">
+                        Guardar <i class="icon-ok-sign  m-icon-white"></i>
+                    </button>
                 </div>
 
             </div>
@@ -178,7 +69,13 @@
     }
 
     <div>
-        @Html.ActionLink("Regresar", "Index")
+        @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
     </div>
+
+    <script>
+        $("#ver_mapa").click(function () {
+            $("#modal_mapa").attr('style', '');
+        });
+    </script>
 </body>
 </html>

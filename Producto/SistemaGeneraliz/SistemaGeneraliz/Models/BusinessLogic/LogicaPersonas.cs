@@ -29,7 +29,8 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         internal Persona CrearObjetoPersonaNatural(PersonaNaturalViewModel persona, String tipoUsuario)
         {
             persona.Sexo = (persona.SexoId == 1) ? "Masculino" : "Femenino";
-            //persona.DireccionCompleta = persona.Direccion + persona.IdDistrito <- obtener Distrito de BD
+            Distrito distrito = _sgpFactory.GetDistritoPorId(persona.IdDistrito);
+            persona.DireccionCompleta = persona.Direccion + " " + distrito.NombreDistrito;
 
             return new Persona
             {
@@ -44,9 +45,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 ApellidoPaterno = persona.ApellidoPaterno,
                 FechaNacimiento = persona.FechaNacimiento,
                 Sexo = persona.Sexo,
-                //DireccionCompleta = persona.DireccionCompleta,
-                //Latitud = persona.Latitud,
-                //Longitud = persona.Longitud,
+                DireccionCompleta = persona.DireccionCompleta,
                 Email1 = persona.Email1,
                 Email2 = persona.Email2,
                 Telefono1 = persona.Telefono1,
@@ -61,6 +60,9 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 
         internal Persona CrearObjetoPersonaJuridica(PersonaJuridicaViewModel persona, String tipoUsuario)
         {
+            Distrito distrito = _sgpFactory.GetDistritoPorId(persona.IdDistrito);
+            persona.DireccionCompleta = persona.Direccion + " " + distrito.NombreDistrito;
+
             return new Persona
             {
                 UserName = persona.RUC,
@@ -69,7 +71,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 RUC = Int64.Parse(persona.RUC),
                 RazonSocial = persona.RazonSocial,
                 FechaCreacion = persona.FechaCreacion,
-                //DireccionCompleta = persona.DireccionCompleta,
+                DireccionCompleta = persona.DireccionCompleta,
                 Email1 = persona.Email1,
                 Email2 = persona.Email2,
                 Telefono1 = persona.Telefono1,

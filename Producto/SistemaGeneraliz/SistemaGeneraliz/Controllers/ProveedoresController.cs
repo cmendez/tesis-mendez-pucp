@@ -29,7 +29,7 @@ namespace SistemaGeneraliz.Controllers
             ProveedorNaturalViewModel proveedor = new ProveedorNaturalViewModel();
             proveedor.Latitud = -12.08611459617003;
             proveedor.Longitud = -77.00229406356812;
-            return View();
+            return View(proveedor);
         }
 
         [HttpPost]
@@ -43,7 +43,7 @@ namespace SistemaGeneraliz.Controllers
                     ModelState.AddModelError("", "Error: el DNI y/o RUC ingresado ya existe.");
                     ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
                     ViewBag.TiposServicios = ObtenerTiposServicios();
-                    return View();
+                    return View(proveedorNaturalViewModel);
                 }
 
                 Persona persona = _logicaPersonas.CrearObjetoPersonaNatural(proveedorNaturalViewModel, "Proveedor");
@@ -71,14 +71,17 @@ namespace SistemaGeneraliz.Controllers
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             ViewBag.TiposServicios = ObtenerTiposServicios();
-            return View();
+            return View(proveedorNaturalViewModel);
         }
 
         public ActionResult RegistrarProveedorJuridico()
         {
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             ViewBag.TiposServicios = ObtenerTiposServicios();
-            return View();
+            ProveedorJuridicoViewModel proveedor = new ProveedorJuridicoViewModel();
+            proveedor.Latitud = -12.08611459617003;
+            proveedor.Longitud = -77.00229406356812;
+            return View(proveedor);
         }
 
         [HttpPost]
@@ -92,7 +95,7 @@ namespace SistemaGeneraliz.Controllers
                     ModelState.AddModelError("", "Error: el DNI y/o RUC ingresado ya existe.");
                     ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
                     ViewBag.TiposServicios = ObtenerTiposServicios();
-                    return View();
+                    return View(proveedorJuridicoViewModel);
                 }
 
                 Persona persona = _logicaPersonas.CrearObjetoPersonaJuridica(proveedorJuridicoViewModel, "Proveedor");
@@ -120,7 +123,7 @@ namespace SistemaGeneraliz.Controllers
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             ViewBag.TiposServicios = ObtenerTiposServicios();
-            return View();
+            return View(proveedorJuridicoViewModel);
         }
 
         public List<TipoServicio> ObtenerTiposServicios()

@@ -13,6 +13,7 @@ namespace SistemaGeneraliz.Controllers
     {
         private readonly LogicaClientes _logicaClientes = new LogicaClientes();
         private readonly LogicaPersonas _logicaPersonas = new LogicaPersonas();
+        private readonly LogicaUbicaciones _logicaUbicaciones = new LogicaUbicaciones();
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -43,7 +44,7 @@ namespace SistemaGeneraliz.Controllers
                     {
                         ModelState.AddModelError("", "Error: el DNI y/o RUC ingresado ya existe.");
                         ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                        return View();
+                        return View(clienteNaturalViewModel);
                     }
 
                     Persona persona = _logicaPersonas.CrearObjetoPersonaNatural(clienteNaturalViewModel, "Cliente");
@@ -51,6 +52,8 @@ namespace SistemaGeneraliz.Controllers
                     //setear la especialidad
                     _logicaPersonas.AgregarPersona(persona);
                     cliente.PersonaId = persona.PersonaId;
+                    UbicacionPersona ubicacion = _logicaUbicaciones.CrearObjetoUbicacionPersonaNatural(clienteNaturalViewModel, persona);
+                    _logicaUbicaciones.AgregarUbicacion(ubicacion);
                     _logicaClientes.AgregarCliente(cliente);
                     
                     Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Cliente" });
@@ -65,45 +68,50 @@ namespace SistemaGeneraliz.Controllers
                 }
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-            return View();
+            return View(clienteNaturalViewModel);
         }
 
         [AllowAnonymous]
         public ActionResult RegistrarClienteJuridico()
         {
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-            return View();
+            ClienteJuridicoViewModel cliente = new ClienteJuridicoViewModel();
+            cliente.Latitud = -12.08611459617003;
+            cliente.Longitud = -77.00229406356812;
+            return View(cliente);
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult RegistrarClienteJuridico(ClienteJuridicoViewModel clienteNaturalViewModel)
+        public ActionResult RegistrarClienteJuridico(ClienteJuridicoViewModel clienteJuridicoViewModel)
         {
             if (ModelState.IsValid)
             {
-                bool existe = _logicaPersonas.ExisteDNIRUC(null, clienteNaturalViewModel.RUC);
+                bool existe = _logicaPersonas.ExisteDNIRUC(null, clienteJuridicoViewModel.RUC);
                 if (existe)
                 {
                     ModelState.AddModelError("", "Error: el DNI y/o RUC ingresado ya existe.");
                     ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                    return View();
+                    return View(clienteJuridicoViewModel);
                 }
 
-                Persona persona = _logicaPersonas.CrearObjetoPersonaJuridica(clienteNaturalViewModel, "Cliente");
-                Cliente cliente = _logicaClientes.CrearObjetoClienteJuridico(clienteNaturalViewModel);
+                Persona persona = _logicaPersonas.CrearObjetoPersonaJuridica(clienteJuridicoViewModel, "Cliente");
+                Cliente cliente = _logicaClientes.CrearObjetoClienteJuridico(clienteJuridicoViewModel);
                 //setear la especialidad
                 _logicaPersonas.AgregarPersona(persona);
                 cliente.PersonaId = persona.PersonaId;
+                UbicacionPersona ubicacion = _logicaUbicaciones.CrearObjetoUbicacionPersonaJuridica(clienteJuridicoViewModel, persona);
+                _logicaUbicaciones.AgregarUbicacion(ubicacion);
                 _logicaClientes.AgregarCliente(cliente);
 
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Cliente" });
-                WebSecurity.CreateAccount(persona.UserName, clienteNaturalViewModel.Password);
-                bool loginSuccess = WebSecurity.Login(persona.UserName, clienteNaturalViewModel.Password);
+                WebSecurity.CreateAccount(persona.UserName, clienteJuridicoViewModel.Password);
+                bool loginSuccess = WebSecurity.Login(persona.UserName, clienteJuridicoViewModel.Password);
 
                 return RedirectToAction("Index");
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-            return View();
+            return View(clienteJuridicoViewModel);
         }
     }
 }
