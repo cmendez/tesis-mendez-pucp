@@ -1,0 +1,40 @@
+LOGICA:
+3 servicios: S1, S2, S3
+lista de proveedores por servicios (ordenados de mayor a menor SOLO
+por distancia, no por puntuacion)
+S1: a1, a2 ,a3
+S2: b1, b2 ,b3
+S3: c1, c2 ,c3
+FITNESS (factor): sera la suma de los factores Puntaje/Distancia
+F.O: Maximizar Factor
+
+								   S1  S2  S3
+lista inicial (sol. opt inicial): [a1, b1, c1]
+
+En cada vuelta del while, vamos a ir haciendo el cambio
+del proveedor [Sx] para reemplazarlo por el mejor candidato
+(optimo local), es decir, en la primera vuelta reemplazaremos
+a1 por a2 o a3 o ninguno dependiendo de si mejora el fitness;
+en la segunda iteracion reemplazaremos bx, en la tercera cx,
+en la cuarta otra vez ax y así sucesivamente.
+¿Por qué? Porque de por sí ya teniamos una lista inicial ordenada
+por distancias (primer criterio aparentemente cumplido). En cada
+iteracion del while se supone que la lista final debe mejorar (mejor
+suma de fitness luego del switch). Osea el fitness debe ir en aumento
+siempre, en cada vuelta del while. No importa si se va elijiendo
+a proveedores un poquito más lejos, el fitness podría mejorar.
+Además al buscar optimos locales respecto del proveedor analizado
+en ese momento resolvemos el Problema de la Tendencia Fija (el proveedor con
+mayor puntaje y que estaba más cerca AL CLIENTE siempre era elegido no importando 
+el resto de proveedores en el mapa los cuales podrían haber tenido un mejor factor 
+pero que nunca los vimos al solo considerar alejamiento respecto del cliente
+Antes ni siquiera los considerabamos como candidatos, con tabu ahora sí,
+y además ya no será un punto fijo (la ubicacion del cliente), sino que 
+se buscarán optimos locales respecto del proveedor en ese momento analizado
+
+El criterio de stop del while debe ser: nroTiposServicios*20,
+para que cada tipo de servicio haya sufrido 20 intercambios cada uno.
+El 20 es arbitario, mejor seria la cantidad maxima M de proveedores
+de entre los N arreglos (1 arreglo por tipo de servicio). 
+Obvio, porque como maximo debera hacer N reemplazos (el mas grande
+de los N arreglos)
