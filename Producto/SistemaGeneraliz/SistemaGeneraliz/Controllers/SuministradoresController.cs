@@ -41,6 +41,14 @@ namespace SistemaGeneraliz.Controllers
         {
             if (ModelState.IsValid)
             {
+                bool existe = _logicaPersonas.ExisteDNIRUC(null, suministradorJuridicoViewModel.RUC);
+                if (existe)
+                {
+                    ModelState.AddModelError("", "Error: el DNI y/o RUC ingresado ya existe.");
+                    ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                    return View();
+                }
+
                 Persona persona = _logicaPersonas.CrearObjetoPersonaJuridica(suministradorJuridicoViewModel, "Suministrador");
                 Suministrador suministrador = _logicaSuministradores.CrearObjetoSuministradorJuridico(suministradorJuridicoViewModel);
                 

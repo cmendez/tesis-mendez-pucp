@@ -26,6 +26,9 @@ namespace SistemaGeneraliz.Controllers
         {
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
             ViewBag.TiposServicios = ObtenerTiposServicios();
+            ProveedorNaturalViewModel proveedor = new ProveedorNaturalViewModel();
+            proveedor.Latitud = -12.08611459617003;
+            proveedor.Longitud = -77.00229406356812;
             return View();
         }
 
@@ -73,6 +76,7 @@ namespace SistemaGeneraliz.Controllers
 
         public ActionResult RegistrarProveedorJuridico()
         {
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             ViewBag.TiposServicios = ObtenerTiposServicios();
             return View();
         }
@@ -82,6 +86,15 @@ namespace SistemaGeneraliz.Controllers
         {
             if (ModelState.IsValid)
             {
+                bool existe = _logicaPersonas.ExisteDNIRUC(null, proveedorJuridicoViewModel.RUC);
+                if (existe)
+                {
+                    ModelState.AddModelError("", "Error: el DNI y/o RUC ingresado ya existe.");
+                    ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                    ViewBag.TiposServicios = ObtenerTiposServicios();
+                    return View();
+                }
+
                 Persona persona = _logicaPersonas.CrearObjetoPersonaJuridica(proveedorJuridicoViewModel, "Proveedor");
                 Proveedor proveedor = _logicaProveedores.CrearObjetoProveedorJuridico(proveedorJuridicoViewModel);
                 //setear la especialidad
@@ -105,6 +118,7 @@ namespace SistemaGeneraliz.Controllers
 
                 return RedirectToAction("Index");
             }
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             ViewBag.TiposServicios = ObtenerTiposServicios();
             return View();
         }

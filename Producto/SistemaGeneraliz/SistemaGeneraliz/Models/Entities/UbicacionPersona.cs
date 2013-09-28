@@ -13,14 +13,14 @@ namespace SistemaGeneraliz.Models.Entities
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UbicacionPersonaId { get; set; }
+        public int PersonaId { get; set; }
+        public virtual Persona Persona { get; set; }
         public string Direccion { get; set; }
         public string Referencia { get; set; }
         public double Latitud { get; set; }
         public double Longitud { get; set; }
         public int DistritoId { get; set; }
         public virtual Distrito Distrito { get; set; }
-        public int PersonaId { get; set; }
-        public virtual Persona Persona { get; set; }
         public int IsVisible { get; set; }
         public int IsEliminado { get; set; }
     }
