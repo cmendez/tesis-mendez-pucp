@@ -117,6 +117,17 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.Suministradores.Add(suministrador);
             _db.SaveChanges();
         }
+
+        public Suministrador GetSuministradorPorPersonaId(int personaId)
+        {
+            return _db.Suministradores.FirstOrDefault(s => s.PersonaId == personaId);
+        }
+
+        public List<RecargaLeads> GetListaRecargasSuministrador(int suministradorId)
+        {
+            return _db.RecargasLeads.Where(r => r.SuministradorId == suministradorId).ToList();
+        }
+
         #endregion
 
         /*

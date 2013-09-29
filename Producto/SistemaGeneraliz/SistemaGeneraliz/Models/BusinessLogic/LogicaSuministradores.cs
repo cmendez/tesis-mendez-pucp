@@ -41,5 +41,15 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 IsDestacado = 0 //false
             };
         }
+
+        public Suministrador GetSuministradorPorPersonaId(int personaId)
+        {
+            return _sgpFactory.GetSuministradorPorPersonaId(personaId);
+        }
+
+        public List<RecargaLeads> GetListaRecargasSuministrador(int suministradorId)
+        {
+            return _sgpFactory.GetListaRecargasSuministrador(suministradorId);
+        }
     }
 }

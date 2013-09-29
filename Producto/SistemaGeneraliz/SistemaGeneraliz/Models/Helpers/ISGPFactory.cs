@@ -31,6 +31,8 @@ namespace SistemaGeneraliz.Models.Helpers
 
         #region Suministradores
         void AgregarSuministrador(Suministrador suministrador);
+        Suministrador GetSuministradorPorPersonaId(int personaId);
+        List<RecargaLeads> GetListaRecargasSuministrador(int suministradorId);
         #endregion
         
     }

@@ -72,5 +72,23 @@ namespace SistemaGeneraliz.Controllers
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
             return View(suministradorJuridicoViewModel);
         }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult RecargarLeads()
+        {
+            int idPersona = WebSecurity.CurrentUserId;
+            Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
+            List<RecargaLeads> listaRecargas = _logicaSuministradores.GetListaRecargasSuministrador(suministrador.SuministradorId);
+            //ViewBag.ListaRecargas    
+            ViewBag.Suministrador = suministrador;
+            return View();
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        [HttpPost]
+        public ActionResult RecargarLeads(RecargaLeads recarga)
+        {
+            return View();
+        }
     }
 }

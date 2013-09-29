@@ -23,14 +23,15 @@ namespace SistemaGeneraliz
             {
                 using (var context = new SGPContext())
                 {
-                    if (true)
+                    if (false)
                     {
                         //IF DATABASE ALREADY EXISTED, ONLY DROP TABLES AND RECREATE THEM
                         if (context.Database.Exists())
                         {
                             Database.SetInitializer<SGPContext>(new DropOnlyTables<SGPContext>());
                             var dbCreationScript = ((IObjectContextAdapter)context).ObjectContext.CreateDatabaseScript();
-                            context.Database.ExecuteSqlCommand(dbCreationScript);
+                            string script = dbCreationScript.Replace("on delete cascade", "");
+                            context.Database.ExecuteSqlCommand(script);
                             WebSecurity.InitializeDatabaseConnection("SGPContext", "Personas", "PersonaId", "UserName", autoCreateTables: true);
                             //if (WebSecurity.IsAuthenticated)
                             //    WebSecurity.Logout();

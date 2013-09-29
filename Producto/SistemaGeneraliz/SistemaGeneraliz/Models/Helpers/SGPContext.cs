@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Data.Entity;
@@ -17,7 +18,6 @@ namespace SistemaGeneraliz.Models.Helpers
         }
 
         #region DbSet's
-        //public IDbSet<UserProfile> UserProfiles { get; set; }
         public IDbSet<Persona> Personas { get; set; }
         public IDbSet<Cliente> Clientes { get; set; }
         public IDbSet<Proveedor> Proveedores { get; set; }
@@ -26,6 +26,7 @@ namespace SistemaGeneraliz.Models.Helpers
         public IDbSet<PaisCiudad> PaisesCiudades { get; set; }
         public IDbSet<Distrito> Distritos { get; set; }
         public IDbSet<UbicacionPersona> UbicacionesPersonas { get; set; }
+        public IDbSet<RecargaLeads> RecargasLeads { get; set; }
         #endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -34,56 +35,71 @@ namespace SistemaGeneraliz.Models.Helpers
             modelBuilder.Entity<Proveedor>().HasMany(r => r.TiposServicios).WithMany(t => t.Proveedores)
                 .Map(t => t.MapLeftKey("ProveedorId").MapRightKey("TipoServicioId").ToTable("TiposServiciosPorProveedor"));
         }
-
-
+        
         internal void Seed()
         {
             SeedsRoles();
-            SeedsTiposServicios();
+            var tiposServicios = SeedsTiposServicios();
             var distritos = SeedPaisesCiudadesDistritos();
-            var personas = SeedPersonasNaturales(10);
-            //SeedProveedores(personas);
-            //SeedUbicacionesPersonas(personas, distritos);
+            var personasNaturales = SeedPersonasNaturales(10);
+            var personasJuridicas = SeedPersonasJuridicas();
+            var personas = personasNaturales.Concat(personasJuridicas).ToList();
+            SeedUbicacionesPersonas(personas, distritos);
+            var proveedores = SeedProveedores(personas, tiposServicios);
+            var suministradores = SeedSuministradores(personas);
+            var clientes = SeedClientes(personas);
+            SeedRecargaLeads(suministradores, proveedores);
         }
 
-        private void SeedUbicacionesPersonas(List<Persona> personas, List<Distrito> distritos)
+        private void SeedsRoles()
         {
-            int r1;
-            double r2;
-            foreach (var persona in personas)
+            //Seed of Roles & Permissions
+            //Administrator
+            if (!Roles.RoleExists("Administrador"))
+                Roles.CreateRole("Administrador");
+
+            if (!WebSecurity.UserExists("46394691"))
             {
-                Random random = new Random();
-                r1 = random.Next(0, distritos.Count());
-                r2 = random.NextDouble();
-                Distrito distrito = distritos[r1];
-
-                /* punto 1
-                 -12.08611459617
-                -77.0022940635681
-                punto 2
-                -12.10389890780546
-                 -76.99587821960449
-
-                diferencia de dos puntos
-                0.01778431163546
-                0.00641584396361
-                  
-                podemos sumar o restar 0.01778431163546 a latitud y 0.00641584396361 a longitud
-                 usar otra variable random para saber si debemos sumar o restar
-                 */
-
-                UbicacionPersona ubicacion = new UbicacionPersona
+                WebSecurity.CreateUserAndAccount("46394691", "admin", propertyValues: new
                 {
-                    PersonaId = persona.PersonaId,
-                    DistritoId = distrito.DistritoId,
-                    Direccion = "",
-                    Referencia = "",
-                    Latitud = distrito.LatitudDefault,
-                    Longitud = distrito.LongitudDefault,
-                    IsVisible = 1,
+                    TipoPersona = "Natural",
+                    TipoUsuario = "Administrador",
+                    PrimerNombre = "Christian",
+                    ApellidoPaterno = "Mendez",
+                    DNI = 46394691,
+                    UltimaActualizacionPersonal = DateTime.Now,
+                    IsHabilitado = 0,
                     IsEliminado = 0
-                };
+                });
             }
+
+            if (!Roles.GetRolesForUser("46394691").Contains("Administrador"))
+                Roles.AddUsersToRoles(new[] { "46394691" }, new[] { "Administrador" });
+
+            if (!Roles.RoleExists("Cliente"))
+                Roles.CreateRole("Cliente");
+            if (!Roles.RoleExists("Proveedor"))
+                Roles.CreateRole("Proveedor");
+            if (!Roles.RoleExists("Suministrador"))
+                Roles.CreateRole("Suministrador");
+        }
+
+        private List<TipoServicio> SeedsTiposServicios()
+        {
+            var listTiposServicios = new List<TipoServicio>()
+            {
+                new TipoServicio { NombreServicio = "Carpintería", DescripcionServicio = "Servicio de Carpintería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Cerrajería", DescripcionServicio = "Servicio de Cerrajería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Drywall", DescripcionServicio = "Servicio de Drywall", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Electricidad",DescripcionServicio = "Servicio de Electricidad", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Gasfitería", DescripcionServicio = "Servicio de Gasfitería", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Melamina", DescripcionServicio = "Servicio de Melamina", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Pintura", DescripcionServicio = "Servicio de Pintura", IsEliminado = 0},
+                new TipoServicio { NombreServicio = "Vidriería", DescripcionServicio = "Servicio de Vidriería", IsEliminado = 0}
+            };
+            listTiposServicios.ForEach(s => this.TipoServicios.Add(s));
+            this.SaveChanges();
+            return listTiposServicios;
         }
 
         private List<Distrito> SeedPaisesCiudadesDistritos()
@@ -120,20 +136,19 @@ namespace SistemaGeneraliz.Models.Helpers
             string[] nombres = { "Juan", "Alberto", "Pedro", "David", "Alfredo", "Renato", "Marcos", "Lucas", "Raúl", "Eduardo", "Cristopher", "Toribio" };
             string[] apellidos = { "Lopez", "Vidal", "Guerra", "Garcia", "Alvarez", "Dominguez", "Rodriguez", "Balcazar", "Quintana", "Taboada", "Córdova", "Suarez" };
             string[] documentos = { "46394691", "86735959", "34896582", "70688569", "42384465", "41774584", "26335963", "37855213", "58765115", "31669569", "33287845", "42542398" };
-            string[] tipoPersona = { "Cliente", "Proveedor", "Suministrador" };
+            string[] tipoPersona = { "Cliente", "Cliente", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor" };
             List<long> docs = new List<long>();
             long d1;
-            int r1, r2, r3;
-
+            int r1, r2, r3, r4;
+            Random random = new Random();
             for (int i = 0; i < n; i++)
             {
                 do
                 {
-                    Random random = new Random();
                     r1 = random.Next(0, 12);
                     r2 = random.Next(0, 12);
                     r3 = random.Next(0, 3);
-
+                    r4 = random.Next(0, tipoPersona.Count());
                     d1 = (Int64.Parse(documentos[r1]) + Int64.Parse(documentos[r2])) / 2;
                 } while (docs.Contains(d1));
 
@@ -143,7 +158,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 {
                     UserName = d1.ToString(),
                     TipoPersona = "Natural",
-                    TipoUsuario = "Proveedor", //tipoPersona[r3],
+                    TipoUsuario = tipoPersona[r4],
                     DNI = unchecked((int)d1),
                     PrimerNombre = nombres[r1],
                     ApellidoMaterno = apellidos[r1],
@@ -173,94 +188,234 @@ namespace SistemaGeneraliz.Models.Helpers
             return listPersonas;
         }
 
-        /* 
-        private void SeedProveedores()
+        private List<Persona> SeedPersonasJuridicas()
         {
-            var listPersonas = new List<Persona>()
+            var listPersonas = new List<Persona>();
+            string[] razonesSociales = { "J&R", "ABC", "XYZ", "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Lambda", "Omega" };
+            string[] documentos = { "20046394691", "20086735959", "20034896582", "20070688569", "20042384465", "20041774584", "20026335963", "20037855213", "20058765115", "20031669569" };
+            string[] tipoPersona = { "Cliente", "Proveedor", "Proveedor", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador" };
+            List<long> docs = new List<long>();
+            long d1;
+            int r1, r2, r3, r4;
+            Random random = new Random();
+            for (int i = 0; i < razonesSociales.Count(); i++)
             {
-                new TipoServicio { NombreServicio = "Carpintería", DescripcionServicio = "Servicio de Carpintería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Cerrajería", DescripcionServicio = "Servicio de Cerrajería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Drywall", DescripcionServicio = "Servicio de Drywall", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Electricidad",DescripcionServicio = "Servicio de Electricidad", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Gasfitería", DescripcionServicio = "Servicio de Gasfitería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Melamina", DescripcionServicio = "Servicio de Melamina", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Pintura", DescripcionServicio = "Servicio de Pintura", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Vidriería", DescripcionServicio = "Servicio de Vidriería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Carpintería", DescripcionServicio = "Servicio de Carpintería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Cerrajería", DescripcionServicio = "Servicio de Cerrajería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Drywall", DescripcionServicio = "Servicio de Drywall", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Electricidad",DescripcionServicio = "Servicio de Electricidad", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Gasfitería", DescripcionServicio = "Servicio de Gasfitería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Melamina", DescripcionServicio = "Servicio de Melamina", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Pintura", DescripcionServicio = "Servicio de Pintura", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Vidriería", DescripcionServicio = "Servicio de Vidriería", IsEliminado = 0}
-            };
+                r1 = random.Next(0, 12);
+                r2 = random.Next(0, 12);
+                r3 = random.Next(0, 3);
 
-            var listProveedores = new List<Proveedor>()
-            {
-                new TipoServicio { NombreServicio = "Carpintería", DescripcionServicio = "Servicio de Carpintería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Cerrajería", DescripcionServicio = "Servicio de Cerrajería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Drywall", DescripcionServicio = "Servicio de Drywall", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Electricidad",DescripcionServicio = "Servicio de Electricidad", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Gasfitería", DescripcionServicio = "Servicio de Gasfitería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Melamina", DescripcionServicio = "Servicio de Melamina", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Pintura", DescripcionServicio = "Servicio de Pintura", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Vidriería", DescripcionServicio = "Servicio de Vidriería", IsEliminado = 0}
-            };
-            listProveedores.ForEach(s => this.Proveedores.Add(s));
-            this.SaveChanges();
-        }*/
-
-        private void SeedsTiposServicios()
-        {
-            var listTiposServicios = new List<TipoServicio>()
-            {
-                new TipoServicio { NombreServicio = "Carpintería", DescripcionServicio = "Servicio de Carpintería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Cerrajería", DescripcionServicio = "Servicio de Cerrajería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Drywall", DescripcionServicio = "Servicio de Drywall", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Electricidad",DescripcionServicio = "Servicio de Electricidad", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Gasfitería", DescripcionServicio = "Servicio de Gasfitería", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Melamina", DescripcionServicio = "Servicio de Melamina", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Pintura", DescripcionServicio = "Servicio de Pintura", IsEliminado = 0},
-                new TipoServicio { NombreServicio = "Vidriería", DescripcionServicio = "Servicio de Vidriería", IsEliminado = 0}
-            };
-            listTiposServicios.ForEach(s => this.TipoServicios.Add(s));
-            this.SaveChanges();
-        }
-
-        private void SeedsRoles()
-        {
-            //Seed of Roles & Permissions
-            //Administrator
-            if (!Roles.RoleExists("Administrador"))
-                Roles.CreateRole("Administrador");
-
-            if (!WebSecurity.UserExists("46394691"))
-            {
-                WebSecurity.CreateUserAndAccount("46394691", "admin", propertyValues: new
+                Persona p = new Persona
                 {
-                    TipoPersona = "Natural",
-                    TipoUsuario = "Administrador",
-                    PrimerNombre = "Christian",
-                    ApellidoPaterno = "Mendez",
-                    DNI = 46394691,
+                    UserName = documentos[i],
+                    TipoPersona = "Juridica",
+                    TipoUsuario = tipoPersona[i],
+                    RUC = Int64.Parse(documentos[i]),
+                    RazonSocial = razonesSociales[i] + " S.A.C.",
+                    FechaCreacion = DateTime.Now.AddYears((r1 + 5 + r3 * 4) * -1),
+                    Email1 = razonesSociales[i].ToLower() + "@gmail.com",
+                    Telefono1 = documentos[i].Substring(4, 7).ToString(),
+                    //ImagenPrincipal = persona.ImagenPrincipal,
                     UltimaActualizacionPersonal = DateTime.Now,
-                    IsHabilitado = 0,
-                    IsEliminado = 0
-                });
+                    IsHabilitado = 1, //true
+                    IsEliminado = 0 //false                 
+                };
+                listPersonas.Add(p);
             }
 
-            if (!Roles.GetRolesForUser("46394691").Contains("Administrador"))
-                Roles.AddUsersToRoles(new[] { "46394691" }, new[] { "Administrador" });
+            listPersonas.ForEach(s => this.Personas.Add(s));
+            this.SaveChanges();
 
-            if (!Roles.RoleExists("Cliente"))
-                Roles.CreateRole("Cliente");
-            if (!Roles.RoleExists("Proveedor"))
-                Roles.CreateRole("Proveedor");
-            if (!Roles.RoleExists("Suministrador"))
-                Roles.CreateRole("Suministrador");
+            foreach (var persona in listPersonas)
+            {
+                Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { persona.TipoUsuario });
+                WebSecurity.CreateAccount(persona.UserName, "asdasdasd");
+            }
+
+            return listPersonas;
         }
 
+        private void SeedUbicacionesPersonas(List<Persona> personas, List<Distrito> distritos)
+        {
+            int r1, r2, r3, r4, r5, r6;
+            var listaUbicaciones = new List<UbicacionPersona>();
+            Random random = new Random();
+            foreach (var persona in personas)
+            {
+                r1 = random.Next(0, distritos.Count());
+                r2 = random.Next(0, 2);
+                r3 = random.Next(0, 2);
+                r4 = random.Next(1, 6);
+                r5 = random.Next(1, 6);
+                r6 = random.Next(201, 500);
+
+                Distrito distrito = distritos[r1];
+                string direccion = "";
+                if (distrito.NombreDistrito == "Ate") direccion = "Av. Nicolás Ayllón " + r6.ToString();
+                if (distrito.NombreDistrito == "Chorrillos") direccion = "Av. Huaylas " + r6.ToString();
+                if (distrito.NombreDistrito == "La Molina") direccion = "Av. La Molina " + r6.ToString();
+                if (distrito.NombreDistrito == "Lince") direccion = "Av. Arequipa " + r5.ToString();
+                if (distrito.NombreDistrito == "Los Olivos") direccion = "Av. Universitaria " + r6.ToString();
+                if (distrito.NombreDistrito == "Pueblo Libre") direccion = "Av. Bolivar " + r6.ToString();
+                if (distrito.NombreDistrito == "San Borja") direccion = "Av. Aviación " + r6.ToString();
+                if (distrito.NombreDistrito == "San Miguel") direccion = "Av. La Marina " + r6.ToString();
+
+                int signo1 = ((int)r2 == 0) ? 1 : -1;
+                int signo2 = ((int)r3 == 0) ? 1 : -1;
+
+                double lat = 0.01778431163546 * signo1 * r4;
+                double lon = 0.00641584396361 * signo2 * r5;
+
+                UbicacionPersona ubicacion = new UbicacionPersona
+                {
+                    PersonaId = persona.PersonaId,
+                    DistritoId = distrito.DistritoId,
+                    Direccion = direccion,
+                    Referencia = " ",
+                    Latitud = distrito.LatitudDefault + lat,
+                    Longitud = distrito.LongitudDefault + lon,
+                    IsVisible = 1,
+                    IsEliminado = 0
+                };
+                listaUbicaciones.Add(ubicacion);
+                persona.DireccionCompleta = ubicacion.Direccion + " - " + distrito.NombreDistrito;
+                this.Personas.Attach(persona);
+                this.Entry(persona).State = EntityState.Modified;
+            }
+            listaUbicaciones.ForEach(s => this.UbicacionesPersonas.Add(s));
+
+            this.SaveChanges();
+        }
+
+        private List<Proveedor> SeedProveedores(List<Persona> personas, List<TipoServicio> tiposServicios)
+        {
+            int r1, r2, r3, r4, r5, r6;
+            var listaProveedores = new List<Proveedor>();
+            Random random = new Random();
+            foreach (var persona in personas)
+            {
+                r1 = random.Next(10, 26);
+
+                if (persona.TipoUsuario == "Proveedor")
+                {
+                    string t = "";
+                    if (persona.TipoPersona == "Natural") t = "Maestro";
+                    if (persona.TipoPersona == "Juridica") t = "Empresa";
+
+                    Proveedor proveedor = new Proveedor
+                    {
+                        PersonaId = persona.PersonaId,
+                        LeadsDisponibles = 2,
+                        PuntuacionPromedio = 0,
+                        NroTrabajosTerminados = 0,
+                        NroBusquedasCliente = 0,
+                        NroClicksVisita = 0,
+                        NroComentarios = 0,
+                        NroCalificaciones = 0,
+                        NroRecomendaciones = 0,
+                        NroVolveriaContratarlo = 0,
+                        PaginaWeb = "",
+                        Facebook = "",
+                        AcercaDeMi = t + " con " + r1.ToString() + " años de experiencia.",
+                        IsDestacado = 0
+                    };
+
+                    proveedor.TiposServicios = new List<TipoServicio>();
+
+                    while (proveedor.TiposServicios.Count < 2)
+                    {
+                        r2 = random.Next(0, tiposServicios.Count());
+                        TipoServicio tipo = tiposServicios[r2];
+                        if (!proveedor.TiposServicios.Contains(tipo))
+                            proveedor.TiposServicios.Add(tipo);
+                    }
+
+                    listaProveedores.Add(proveedor);
+                }
+            }
+            listaProveedores.ForEach(s => this.Proveedores.Add(s));
+            this.SaveChanges();
+            return listaProveedores;
+        }
+
+        private List<Suministrador> SeedSuministradores(List<Persona> personas)
+        {
+            int r1, r2;
+            Random random = new Random();
+            var listaSuministradores = new List<Suministrador>();
+
+            foreach (var persona in personas)
+            {
+                if (persona.TipoUsuario == "Suministrador")
+                {
+                    r1 = random.Next(20, 81);
+                    r2 = random.Next(5, 16);
+                    Suministrador suministrador = new Suministrador
+                    {
+                        PersonaId = persona.PersonaId,
+                        LeadsDisponibles = r1,
+                        LeadsReserva = r2,
+                        PaginaWeb = "",
+                        Facebook = "",
+                        AcercaDeMi = "",
+                        IsDestacado = 0
+                    };
+                    listaSuministradores.Add(suministrador);
+                }
+            }
+            listaSuministradores.ForEach(s => this.Suministradores.Add(s));
+            this.SaveChanges();
+
+            return listaSuministradores;
+        }
+
+        private List<Cliente> SeedClientes(List<Persona> personas)
+        {
+            var listaClientes = new List<Cliente>();
+
+            foreach (var persona in personas)
+            {
+                if (persona.TipoUsuario == "Cliente")
+                {
+                    Cliente cliente = new Cliente
+                    {
+                        PersonaId = persona.PersonaId
+                    };
+                    listaClientes.Add(cliente);
+                }
+            }
+            listaClientes.ForEach(s => this.Clientes.Add(s));
+            this.SaveChanges();
+            return listaClientes;
+        }
+
+        private void SeedRecargaLeads(List<Suministrador> suministradores, List<Proveedor> proveedores)
+        {
+            var listaRecargas = new List<RecargaLeads>();
+            int r1, r2, r3;
+            Random random = new Random();
+
+            foreach (var suministrador in suministradores)
+            {
+                r1 = random.Next(1, 6);
+                for (int i = 0; i < r1; i++)
+                {
+                    r2 = random.Next(0, proveedores.Count);
+                    r3 = random.Next(5, 21);
+                    RecargaLeads recarga = new RecargaLeads
+                    {
+                        SuministradorId = suministrador.SuministradorId,
+                        ProveedorId = proveedores[r2].ProveedorId,
+                        FechaRecarga = DateTime.Now.AddMonths(r1 + r2 / 2).AddDays(r1 + r2 / 2),
+                        MontoRecarga = r3,
+                        TipoMoneda = "Soles",
+                        CantidadLeads = r3
+                    };
+                    listaRecargas.Add(recarga);
+                }
+            }
+            listaRecargas.ForEach(s => this.RecargasLeads.Add(s));
+            this.SaveChanges();
+        }
     }
 
     //public class SGPContextInitializer : DropCreateDatabaseTables<SGPContext>

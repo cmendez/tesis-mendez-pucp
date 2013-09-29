@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "RecargaLeads";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Recargar Leads</title>
+</head>
+<body>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Recargar Leads", ""));}
+
+        @*@Html.ValidationSummary(true)*@
+    
+        <table  style="width: 100%">
+            <tr>
+                <td>
+                    <div class="editor-label">
+                        Tipo Documento:
+                    </div>
+                    <div class="editor-field">
+                        Aca combo box
+                    </div>
+
+                    <div class="editor-label">
+                        Tipo Documento:
+                    </div>
+                    <div class="editor-field">
+                        Aca combo box
+                    </div>
+                    <div class="editor-label">
+                        Tipo Documento:
+                    </div>
+                    <div class="editor-field">
+                        Aca combo box
+                    </div>
+
+                    <div class="editor-label">
+                        Tipo Documento:
+                    </div>
+                    <div class="editor-field">
+                        Aca combo box
+                    </div>
+
+                </td>
+                <td>
+                    <button id="btnGuardar" type="submit" class="btn green pull-right" style="margin-right: 22%;">
+                        Guardar <i class="icon-ok-sign  m-icon-white"></i>
+                    </button>
+                </td>
+                <td>
+                    <button id="btnGuardar" type="submit" class="btn green pull-right" style="margin-right: 22%;">
+                        FOTO ACA <i class="icon-ok-sign  m-icon-white"></i>
+                    </button>
+                </td>
+                <td>
+                    <div class="span7">
+                        <div class="row-fluid">
+                            <div class="span5">
+                                <div class="editor-label" style="width: 100%; text-align: left;">Tipo Documento:</div>
+                            </div>
+                            <div class="span7">
+                                <div class="editor-field" style="width: 100%; text-align: left;">
+                                    Aqui cb<br />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row-fluid">
+                            <div class="span5">
+                                <div class="editor-label" style="width: 100%; text-align: left;">Tipo Documento:</div>
+                            </div>
+                            <div class="span7">
+                                <div class="editor-field" style="width: 100%; text-align: left;">
+                                    Aqui cb<br />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row-fluid">
+                            <div class="span5">
+                                <div class="editor-label" style="width: 100%; text-align: left;">Tipo Documento:</div>
+                            </div>
+                            <div class="span7">
+                                <div class="editor-field" style="width: 100%; text-align: left;">
+                                    Aqui cb<br />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row-fluid">
+                            <div class="span5">
+                                <div class="editor-label" style="width: 100%; text-align: left;">Tipo Documento:</div>
+                            </div>
+                            <div class="span7">
+                                <div class="editor-field" style="width: 100%; text-align: left;">
+                                    Aqui cb<br />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <button id="btnGuardar" type="submit" class="btn green pull-right" style="margin-right: 22%;">
+                        Guardar <i class="icon-ok-sign  m-icon-white"></i>
+                    </button>
+                </td>
+            </tr>
+
+        </table>
+
+        
+
+
+    @*    <div>
+        @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
+    </div>*@
+</body>
+</html>

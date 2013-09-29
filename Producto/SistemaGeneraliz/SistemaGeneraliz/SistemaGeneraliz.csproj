@@ -203,6 +203,7 @@
     <Compile Include="Models\BusinessLogic\LogicaUbicaciones.cs" />
     <Compile Include="Models\Entities\Distrito.cs" />
     <Compile Include="Models\Entities\PaisCiudad.cs" />
+    <Compile Include="Models\Entities\RecargaLeads.cs" />
     <Compile Include="Models\Entities\TipoServicio.cs" />
     <Compile Include="Models\Entities\UbicacionPersona.cs" />
     <Compile Include="Models\Helpers\AccountModels.cs" />
@@ -1795,6 +1796,7 @@
     <Content Include="Views\Administracion\Usuarios.cshtml" />
     <Content Include="Views\Usuarios\_RegistrarPersonaNatural.cshtml" />
     <Content Include="Views\Usuarios\_RegistrarPersonaJuridica.cshtml" />
+    <Content Include="Views\Suministradores\RecargarLeads.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
