@@ -35,7 +35,7 @@ namespace SistemaGeneraliz.Models.Helpers
             modelBuilder.Entity<Proveedor>().HasMany(r => r.TiposServicios).WithMany(t => t.Proveedores)
                 .Map(t => t.MapLeftKey("ProveedorId").MapRightKey("TipoServicioId").ToTable("TiposServiciosPorProveedor"));
         }
-        
+
         internal void Seed()
         {
             SeedsRoles();
@@ -405,7 +405,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     {
                         SuministradorId = suministrador.SuministradorId,
                         ProveedorId = proveedores[r2].ProveedorId,
-                        FechaRecarga = DateTime.Now.AddMonths(r1 + r2 / 2).AddDays(r1 + r2 / 2),
+                        FechaRecarga = DateTime.Now.AddMonths((r1 + r2 / 2) * -1).AddDays(r1 + r2 / 2).AddHours(r1).AddMinutes(r1 + r3),
                         MontoRecarga = r3,
                         TipoMoneda = "Soles",
                         CantidadLeads = r3
@@ -413,6 +413,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     listaRecargas.Add(recarga);
                 }
             }
+            listaRecargas.Sort((x, y) => DateTime.Compare(x.FechaRecarga, y.FechaRecarga));
             listaRecargas.ForEach(s => this.RecargasLeads.Add(s));
             this.SaveChanges();
         }

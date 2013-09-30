@@ -17,7 +17,7 @@ namespace SistemaGeneraliz.Models.Entities
         public virtual Suministrador Suministrador { get; set; }
         public int ProveedorId { get; set; }
         public virtual Proveedor Proveedor { get; set; }
-        public DateTime? FechaRecarga { get; set; }
+        public DateTime FechaRecarga { get; set; }
         public int MontoRecarga { get; set; }
         public string TipoMoneda { get; set; }
         public int CantidadLeads { get; set; }

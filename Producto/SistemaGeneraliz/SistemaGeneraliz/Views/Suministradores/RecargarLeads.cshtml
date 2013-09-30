@@ -1,5 +1,9 @@
-﻿@{
+﻿@using SistemaGeneraliz.Models.Entities
+@using SistemaGeneraliz.Models.ViewModels
+
+@{
     ViewBag.Title = "RecargaLeads";
+    Suministrador suministrador = ViewBag.Suministrador;
 }
 
 <!DOCTYPE html>
@@ -9,115 +13,238 @@
     <title>Recargar Leads</title>
 </head>
 <body>
-    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    @*    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
     @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Recargar Leads", ""));}
 
-        @*@Html.ValidationSummary(true)*@
-    
-        <table  style="width: 100%">
+    @*@Html.ValidationSummary(true)*@
+
+    <table style="width: 100%; border: 0;">
+        <tbody>
             <tr>
-                <td>
-                    <div class="editor-label">
-                        Tipo Documento:
-                    </div>
-                    <div class="editor-field">
-                        Aca combo box
-                    </div>
+                <td style="vertical-align: top; width: 38%;">
+                    <table>
+                        <tbody style="vertical-align: top;">
+                            <tr>
+                                <td>Tipo Documento:</td>
+                                <td>
+                                    <select name="tipoDocumento" id="tipoDocumento">
+                                        <option value="1">DNI</option>
+                                        <option value="2">RUC</option>
+                                    </select>
 
-                    <div class="editor-label">
-                        Tipo Documento:
-                    </div>
-                    <div class="editor-field">
-                        Aca combo box
-                    </div>
-                    <div class="editor-label">
-                        Tipo Documento:
-                    </div>
-                    <div class="editor-field">
-                        Aca combo box
-                    </div>
-
-                    <div class="editor-label">
-                        Tipo Documento:
-                    </div>
-                    <div class="editor-field">
-                        Aca combo box
-                    </div>
-
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Nro. Documento:</td>
+                                <td>
+                                    <input type="text" name="nroDocumento" id="nroDocumento" maxlength="11">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Proveedor:</td>
+                                <td>
+                                    <input type="hidden" name="proveedorId" id="proveedorId" value="">
+                                    <input type="text" name="nombreProveedor" id="nombreProveedor" readonly="readonly">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Leads Actuales:</td>
+                                <td>
+                                    <input type="text" name="leadsActuales" id="leadsActuales" readonly="readonly"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
-                <td>
-                    <button id="btnGuardar" type="submit" class="btn green pull-right" style="margin-right: 22%;">
-                        Guardar <i class="icon-ok-sign  m-icon-white"></i>
-                    </button>
+                <td style="vertical-align: top;">
+                    <table>
+                        <tr>
+                            <td style="padding-left: 3%; padding-right: 17%;">
+                                <button id="btnBuscar" type="submit" class="btn blue pull-right" style="width: 100%;">
+                                    Buscar <i class="icon-search  m-icon-white"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="" width="146" height="106"></td>
+                        </tr>
+                    </table>
                 </td>
-                <td>
-                    <button id="btnGuardar" type="submit" class="btn green pull-right" style="margin-right: 22%;">
-                        FOTO ACA <i class="icon-ok-sign  m-icon-white"></i>
-                    </button>
+
+                <td style="vertical-align: top; width: 38%;">
+                    <table style="width: auto; border: 0;">
+                        <tbody style="vertical-align: top;">
+                            <tr>
+                                <td>Leads Disponibles</td>
+                                <td>
+                                    <input type="hidden" name="suministradorId" id="suministradorId" value="@suministrador.SuministradorId">
+                                    <input type="text" name="leadsDisponibles" id="leadsDisponibles" readonly="readonly" value="@suministrador.LeadsDisponibles" style="text-align: right;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Leads Reserva</td>
+                                <td>
+                                    <input type="text" name="leadsReserva" id="leadsReserva" readonly="readonly" value="@suministrador.LeadsReserva"style="text-align: right;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Monto Recarga</td>
+                                <td>
+                                    <input type="number" min="1" name="montoRecarga" id="montoRecarga"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
-                <td>
-                    <div class="span7">
-                        <div class="row-fluid">
-                            <div class="span5">
-                                <div class="editor-label" style="width: 100%; text-align: left;">Tipo Documento:</div>
-                            </div>
-                            <div class="span7">
-                                <div class="editor-field" style="width: 100%; text-align: left;">
-                                    Aqui cb<br />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row-fluid">
-                            <div class="span5">
-                                <div class="editor-label" style="width: 100%; text-align: left;">Tipo Documento:</div>
-                            </div>
-                            <div class="span7">
-                                <div class="editor-field" style="width: 100%; text-align: left;">
-                                    Aqui cb<br />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row-fluid">
-                            <div class="span5">
-                                <div class="editor-label" style="width: 100%; text-align: left;">Tipo Documento:</div>
-                            </div>
-                            <div class="span7">
-                                <div class="editor-field" style="width: 100%; text-align: left;">
-                                    Aqui cb<br />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row-fluid">
-                            <div class="span5">
-                                <div class="editor-label" style="width: 100%; text-align: left;">Tipo Documento:</div>
-                            </div>
-                            <div class="span7">
-                                <div class="editor-field" style="width: 100%; text-align: left;">
-                                    Aqui cb<br />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <button id="btnGuardar" type="submit" class="btn green pull-right" style="margin-right: 22%;">
-                        Guardar <i class="icon-ok-sign  m-icon-white"></i>
+                <td style="vertical-align: top; padding-top: 15px; width: 12%;">
+                    <button id="btnRecargar" type="submit" class="btn green pull-right" style="">
+                        Recargar <i class="icon-bolt  m-icon-white"></i>
                     </button>
                 </td>
             </tr>
+        </tbody>
+    </table>
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption"><i class="icon-reorder"></i>Historial de Recargas</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse"></a>
+            </div>
+        </div>
+        <div class="portlet-body">
 
-        </table>
-
-        
-
-
+            @(Html.Kendo().Grid<RecargasLeadsViewModel>()
+            .Name("Grid")
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.RecargaLeadsId);
+                columns.Bound(p => p.FechaRecarga);
+                columns.Bound(p => p.NombreProveedor);
+                columns.Bound(p => p.DocumentoProveedor);
+                columns.Bound(p => p.MontoRecarga);
+                columns.Bound(p => p.CantidadLeads);
+            })
+            .Pageable(paper => paper.Refresh(true))
+            .Sortable()
+            .Scrollable()
+            .Filterable()
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .ServerOperation(false)
+                .Model(model => { model.Id(p => p.RecargaLeadsId); })
+                .Read(read => read.Action("RecargasLeads_Read", "Suministradores"))
+            )
+        )
+        </div>
+    </div>
     @*    <div>
         @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
     </div>*@
+
+    <script>
+
+        $("#nroDocumento").keypress(function (e) {
+            return onlyNumbersNoSpace(e);
+        });
+
+        $("#montoRecarga").keypress(function (e) {
+            return onlyNumbersNoSpace(e);
+        });
+
+        function onlyNumbersNoSpace(e) {
+            var charCode;
+            if (navigator.appName == "Netscape") {
+                charCode = e.which;
+            }
+            else {
+                charCode = e.keyCode;
+            }
+            //alert(charCode);
+
+            if ((charCode > 47 && charCode < 58) ||
+           charCode == 8 || //backspace
+                //charCode == 32   || // espacio en blanco
+
+          charCode == 0)  // flechas direccionales
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        $("#btnBuscar").click(function e() {
+            var documento = $("#nroDocumento").val();
+            if (documento === "") {
+                alert("Error: debe ingresar un documento para poder buscar.");
+                return;
+            }
+
+            var opcionDocumento = $("#tipoDocumento option:selected").val();
+            $('#nombreProveedor').val('');
+            $('#leadsActuales').val('');
+            $('#proveedorId').val('');
+
+            $.getJSON('/Suministradores/GetProveedorRecargaJSON', { documento: documento, opcionDocumento: opcionDocumento, ajax: 'true' }, function (result) {
+                $(result).each(function () {
+                    if (this.ProveedorID != -1) {
+                        $('#nombreProveedor').val(this.NombreProveedor);
+                        $('#leadsActuales').val(this.LeadsProveedor);
+                        $('#proveedorId').val(this.ProveedorID);
+                    }
+                    else {
+                        alert("No se encontró al proveedor con documento: " + documento);
+                    }
+                });
+            });
+        });
+
+        $("#btnRecargar").click(function e() {
+            var idProveedor = $('#proveedorId').val();
+            if (idProveedor === "") {
+                alert("Error: debe buscar a un proveedor primero.");
+                return;
+            };
+
+            if ($('#montoRecarga').val() === "") {
+                alert("Error: ingrese monto a recargar.");
+                return;
+            };
+
+            var monto = parseInt($("#montoRecarga").val(), 10);
+            var leads = parseInt($("#leadsDisponibles").val(), 10) + parseInt($("#leadsReserva").val(), 10);
+
+            if (monto > leads) {
+                alert("Error: usted no tiene leads suficientes para hacer la recarga.\nLeads totales: " + leads);
+                return;
+            }
+
+            var idSuministrador = $("#suministradorId").val();
+            //alert(idProveedor + " " + idSuministrador + " " + monto);
+            $.ajax({
+                type: 'GET',
+                url: '/Suministradores/EjecutarRecarga',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: {
+                    idProveedor: idProveedor,
+                    idSuministrador: idSuministrador,
+                    monto: monto
+                },
+
+                success: function (data) {
+                    //alert(data);
+                    alert("La recarga se realizó exitosamente.");
+                    window.location = "/Suministradores/RecargarLeads/";
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

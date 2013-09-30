@@ -23,6 +23,7 @@ namespace SistemaGeneraliz.Models.Helpers
         void AgregarProveedor(Proveedor proveedor);
         List<TipoServicio> GetTipoServicios();
         TipoServicio GetTipoServicioPorId(int tipoServicioId);
+        Proveedor GetProveedorPorDocumento(long documento, int opcionDocumento);
         #endregion
 
         #region Clientes
@@ -33,7 +34,11 @@ namespace SistemaGeneraliz.Models.Helpers
         void AgregarSuministrador(Suministrador suministrador);
         Suministrador GetSuministradorPorPersonaId(int personaId);
         List<RecargaLeads> GetListaRecargasSuministrador(int suministradorId);
+        void AgregarRecarga(RecargaLeads recarga);
+        Suministrador GetSuministrador(int idSuministrador);
+        void ActualizarSuministrador(Suministrador suministrador);
         #endregion
+
         
     }
 }

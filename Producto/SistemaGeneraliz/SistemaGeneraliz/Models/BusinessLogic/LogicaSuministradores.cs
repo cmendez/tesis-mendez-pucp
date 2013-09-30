@@ -51,5 +51,31 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         {
             return _sgpFactory.GetListaRecargasSuministrador(suministradorId);
         }
+
+        internal void AgregarRecarga(RecargaLeads recarga)
+        {
+            _sgpFactory.AgregarRecarga(recarga);
+        }
+
+        public void ActualizarLeads(int idSuministrador, int monto)
+        {
+            Suministrador suministrador = this.GetSuministrador(idSuministrador);
+
+            if (suministrador.LeadsDisponibles >= monto)
+            {
+                suministrador.LeadsDisponibles -= monto;
+            }
+            else if (monto > suministrador.LeadsDisponibles)
+            {
+                suministrador.LeadsReserva -= monto - suministrador.LeadsDisponibles;
+                suministrador.LeadsDisponibles = 0;
+            }
+            _sgpFactory.ActualizarSuministrador(suministrador);
+        }
+
+        private Suministrador GetSuministrador(int idSuministrador)
+        {
+            return _sgpFactory.GetSuministrador(idSuministrador);
+        }
     }
 }

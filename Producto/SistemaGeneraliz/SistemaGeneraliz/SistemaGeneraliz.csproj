@@ -232,6 +232,7 @@
     <Compile Include="Models\Helpers\SGPFactory.cs" />
     <Compile Include="Models\Helpers\SideBarNavigator.cs" />
     <Compile Include="Models\Helpers\WSController.cs" />
+    <Compile Include="Models\ViewModels\RecargasLeadsViewModel.cs" />
     <Compile Include="Models\ViewModels\SuministradorJuridicoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Scripts\mi_mapa.js" />

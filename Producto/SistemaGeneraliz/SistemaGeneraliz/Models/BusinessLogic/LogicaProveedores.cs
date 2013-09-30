@@ -78,5 +78,10 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         {
             return _sgpFactory.GetTipoServicioPorId(tipoServicioId);
         }
+
+        public Proveedor GetProveedorPorDocumento(long documento, int opcionDocumento)
+        {
+            return _sgpFactory.GetProveedorPorDocumento(documento, opcionDocumento);
+        }
     }
 }

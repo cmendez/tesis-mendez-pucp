@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using SistemaGeneraliz.Models.BusinessLogic;
 using SistemaGeneraliz.Models.Entities;
 using SistemaGeneraliz.Models.ViewModels;
@@ -17,6 +19,7 @@ namespace SistemaGeneraliz.Controllers
         private readonly LogicaSuministradores _logicaSuministradores = new LogicaSuministradores();
         private readonly LogicaPersonas _logicaPersonas = new LogicaPersonas();
         private readonly LogicaUbicaciones _logicaUbicaciones = new LogicaUbicaciones();
+        private readonly LogicaProveedores _logicaProveedores = new LogicaProveedores();
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -56,7 +59,7 @@ namespace SistemaGeneraliz.Controllers
 
                 Persona persona = _logicaPersonas.CrearObjetoPersonaJuridica(suministradorJuridicoViewModel, "Suministrador");
                 Suministrador suministrador = _logicaSuministradores.CrearObjetoSuministradorJuridico(suministradorJuridicoViewModel);
-                
+
                 _logicaPersonas.AgregarPersona(persona);
                 suministrador.PersonaId = persona.PersonaId;
                 UbicacionPersona ubicacion = _logicaUbicaciones.CrearObjetoUbicacionPersonaJuridica(suministradorJuridicoViewModel, persona);
@@ -78,17 +81,107 @@ namespace SistemaGeneraliz.Controllers
         {
             int idPersona = WebSecurity.CurrentUserId;
             Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
-            List<RecargaLeads> listaRecargas = _logicaSuministradores.GetListaRecargasSuministrador(suministrador.SuministradorId);
-            //ViewBag.ListaRecargas    
-            ViewBag.Suministrador = suministrador;
+
+            if (suministrador != null)
+            {
+                ViewBag.Suministrador = suministrador;
+
+            }
+
             return View();
         }
 
-        [Authorize(Roles = "Administrador, Suministrador")]
-        [HttpPost]
-        public ActionResult RecargarLeads(RecargaLeads recarga)
+        // ReSharper disable InconsistentNaming
+        public ActionResult RecargasLeads_Read([DataSourceRequest]DataSourceRequest request)
         {
-            return View();
+            int idPersona = WebSecurity.CurrentUserId;
+            Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
+            List<RecargaLeads> listaRecargas = new List<RecargaLeads>();
+            List<RecargasLeadsViewModel> listaRecargasViewModel = new List<RecargasLeadsViewModel>();
+            if (suministrador != null)
+            {
+                listaRecargas = _logicaSuministradores.GetListaRecargasSuministrador(suministrador.SuministradorId);
+                foreach (var recarga in listaRecargas)
+                {
+                    string n = "";
+                    string d = "";
+
+                    if (recarga.Proveedor.Persona.TipoPersona == "Natural")
+                    {
+                        n = recarga.Proveedor.Persona.PrimerNombre + " " + recarga.Proveedor.Persona.ApellidoPaterno;
+                        d = recarga.Proveedor.Persona.DNI.ToString();
+                    }
+
+                    if (recarga.Proveedor.Persona.TipoPersona == "Juridica")
+                    {
+                        n = recarga.Proveedor.Persona.RazonSocial;
+                        d = recarga.Proveedor.Persona.RUC.ToString();
+                    }
+
+                    RecargasLeadsViewModel rec = new RecargasLeadsViewModel
+                    {
+                        RecargaLeadsId = recarga.RecargaLeadsId,
+                        FechaRecarga = recarga.FechaRecarga.ToString("dd/MM/yyyy HH:mm"),
+                        NombreProveedor = n,
+                        DocumentoProveedor = recarga.Proveedor.Persona.UserName,
+                        MontoRecarga = "S/. " + recarga.MontoRecarga.ToString(),
+                        CantidadLeads = recarga.CantidadLeads
+                    };
+                    listaRecargasViewModel.Add(rec);
+                }
+            }
+
+            return Json(listaRecargasViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        // ReSharper disable InconsistentNaming
+        [Authorize(Roles = "Administrador, Suministrador")]
+        [HttpGet]
+        public ActionResult GetProveedorRecargaJSON(string documento = "", int opcionDocumento = 1)
+        {
+            long doc = Int64.Parse(documento);
+            Proveedor proveedor = _logicaProveedores.GetProveedorPorDocumento(doc, opcionDocumento);
+            string nombre = "";
+            int id = -1;
+            int leads = -1;
+
+            if (proveedor != null)
+            {
+                id = proveedor.ProveedorId;
+                leads = proveedor.LeadsDisponibles;
+                if (proveedor.Persona.TipoPersona == "Natural")
+                    nombre = proveedor.Persona.PrimerNombre + " " + proveedor.Persona.ApellidoPaterno;
+                else if (proveedor.Persona.TipoPersona == "Juridica")
+                    nombre = proveedor.Persona.RazonSocial;
+            }
+            var recargasJson = new List<Object>();
+            Object o = new { ProveedorID = id, NombreProveedor = nombre, LeadsProveedor = leads };
+            recargasJson.Add(o);
+            return Json(recargasJson, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        [HttpGet]
+        public ActionResult EjecutarRecarga(int idProveedor = 0, int idSuministrador = 0, int monto = 0)
+        {
+            //FALTARIAN VALIDACIONES DEL LADO SERVIDOR (ACÁ) - LAS MISMAS Q ESTAN DEL LADO DEL CLIENTE CON JQUERY
+            RecargaLeads recarga = new RecargaLeads
+            {
+                SuministradorId = idSuministrador,
+                ProveedorId = idProveedor,
+                FechaRecarga = DateTime.Now,
+                MontoRecarga = monto,
+                TipoMoneda = "Soles",
+                CantidadLeads = monto
+            };
+
+            _logicaSuministradores.AgregarRecarga(recarga);
+            _logicaSuministradores.ActualizarLeads(idSuministrador, monto);
+
+            var recargasJson = new List<Object>();
+            Object o = new { Msg = "ok" };
+            recargasJson.Add(o);
+            return Json(recargasJson, JsonRequestBehavior.AllowGet);
         }
     }
 }
