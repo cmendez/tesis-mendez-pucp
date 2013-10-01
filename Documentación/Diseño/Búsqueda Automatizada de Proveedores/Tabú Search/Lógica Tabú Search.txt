@@ -1,7 +1,7 @@
 LOGICA:
 3 servicios: S1, S2, S3
 lista de proveedores por servicios (ordenados de mayor a menor SOLO
-por distancia, no por puntuacion)
+por puntuación, no por distancia)
 S1: a1, a2 ,a3
 S2: b1, b2 ,b3
 S3: c1, c2 ,c3
@@ -18,7 +18,7 @@ a1 por a2 o a3 o ninguno dependiendo de si mejora el fitness;
 en la segunda iteracion reemplazaremos bx, en la tercera cx,
 en la cuarta otra vez ax y así sucesivamente.
 ¿Por qué? Porque de por sí ya teniamos una lista inicial ordenada
-por distancias (primer criterio aparentemente cumplido). En cada
+por puntuación (uno de los 5 criterios aparentemente cumplido). En cada
 iteracion del while se supone que la lista final debe mejorar (mejor
 suma de fitness luego del switch). Osea el fitness debe ir en aumento
 siempre, en cada vuelta del while. No importa si se va elijiendo

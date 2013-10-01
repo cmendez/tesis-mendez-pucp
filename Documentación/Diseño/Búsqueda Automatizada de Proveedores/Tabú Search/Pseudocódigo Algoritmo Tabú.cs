@@ -5,7 +5,7 @@ Proceso Busqueda_Automatizada_Proveedores()
 	lista_Servicios <- S; // [][] 
 	lista_Proveedores <- GenerarListaProveedores(lista_Servicios); //[][]
 	lista_Inicial <- GenerarListaInicial(lista_Proveedores);
-	lista_Mejores <- listaInicial;
+	lista_Mejores <- lista_Inicial;
 	lista_Tabu <- [];
 	M <- ObtenerTamañoMaximo(lista_Proveedores);
 	nroTipoServicios <- lista_Servicios.Size;
