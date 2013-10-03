@@ -17,6 +17,7 @@ namespace SistemaGeneraliz.Models.Helpers
         void AgregarUbicacion(UbicacionPersona ubicacion);
         bool ExisteDNIRUC(string dni, string ruc);
         Distrito GetDistritoPorId(int distritoId);
+        UbicacionPersona GetPrimeraUbicacionPersona(int idPersona);
         #endregion
 
         #region Proveedores
@@ -28,6 +29,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         #region Clientes
         void AgregarCliente(Cliente cliente);
+        Cliente GetClientePorPersonaId(int idPersona);
         #endregion
 
         #region Suministradores

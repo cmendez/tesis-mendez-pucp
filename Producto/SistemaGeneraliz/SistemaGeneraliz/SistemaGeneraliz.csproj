@@ -200,6 +200,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BusinessLogic\AlgoritmoTabu.cs" />
     <Compile Include="Models\BusinessLogic\LogicaUbicaciones.cs" />
     <Compile Include="Models\Entities\Distrito.cs" />
     <Compile Include="Models\Entities\PaisCiudad.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Models\ViewModels\PersonaJuridicaViewModel.cs" />
     <Compile Include="Models\ViewModels\PersonaNaturalViewModel.cs" />
     <Compile Include="Models\Entities\Proveedor.cs" />
+    <Compile Include="Models\ViewModels\ProveedorBusquedaViewModel.cs" />
     <Compile Include="Models\ViewModels\ProveedorJuridicoViewModel.cs" />
     <Compile Include="Models\ViewModels\ProveedorNaturalViewModel.cs" />
     <Compile Include="Models\Entities\Suministrador.cs" />
@@ -1798,6 +1800,7 @@
     <Content Include="Views\Usuarios\_RegistrarPersonaNatural.cshtml" />
     <Content Include="Views\Usuarios\_RegistrarPersonaJuridica.cshtml" />
     <Content Include="Views\Suministradores\RecargarLeads.cshtml" />
+    <Content Include="Views\Clientes\BusquedaAutomatizadaProveedores.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

@@ -82,11 +82,12 @@ namespace SistemaGeneraliz.Controllers
             int idPersona = WebSecurity.CurrentUserId;
             Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
 
-            if (suministrador != null)
+            if (suministrador == null)
             {
-                ViewBag.Suministrador = suministrador;
-
+                suministrador = new Suministrador();
             }
+
+            ViewBag.Suministrador = suministrador;
 
             return View();
         }
@@ -165,6 +166,10 @@ namespace SistemaGeneraliz.Controllers
         public ActionResult EjecutarRecarga(int idProveedor = 0, int idSuministrador = 0, int monto = 0)
         {
             //FALTARIAN VALIDACIONES DEL LADO SERVIDOR (ACÁ) - LAS MISMAS Q ESTAN DEL LADO DEL CLIENTE CON JQUERY
+
+            if (Roles.IsUserInRole("Administrador"))
+                return null;
+
             RecargaLeads recarga = new RecargaLeads
             {
                 SuministradorId = idSuministrador,

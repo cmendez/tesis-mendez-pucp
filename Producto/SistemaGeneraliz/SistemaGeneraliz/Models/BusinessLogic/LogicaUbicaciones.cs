@@ -56,5 +56,10 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 IsEliminado = 0
             };
         }
+
+        public UbicacionPersona GetPrimeraUbicacionPersona(int idPersona)
+        {
+            return _sgpFactory.GetPrimeraUbicacionPersona(idPersona);
+        }
     }
 }

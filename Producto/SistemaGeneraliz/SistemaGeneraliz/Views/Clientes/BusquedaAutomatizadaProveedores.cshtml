@@ -1,0 +1,258 @@
+﻿@using SistemaGeneraliz.Models.Entities
+@using SistemaGeneraliz.Models.ViewModels
+
+@{
+    ViewBag.Title = "Buscar Proveedores";
+        //Cliente cliente = ViewBag.Cliente;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Búsqueda Automatizada de Proveedores</title>
+</head>
+<body>
+    @*    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Búsqueda Automatizada de Proveedores", ""));}
+
+    @*@Html.ValidationSummary(true)*@
+    <input type="hidden" name="clienteId" id="clienteId" value="@ViewBag.ClienteId">
+
+    <table style="width: 100%; border: 0;">
+        <tbody>
+            <tr>
+                <td style="vertical-align: top; width: 38%;">
+                    <table>
+                        <tbody style="vertical-align: top;">
+                            <tr>
+                                <td>Tipos de Servicios:</td>
+                                <td>
+                                    @*                                    
+                                    <select name="tiposServicios" id="tiposServicios" multiple="multiple" style="width:220px;">
+                                        <option value="1">DNI</option>
+                                        <option value="2">RUC</option>
+                                        <option value="2">RUC</option>
+                                        <option value="2">RUC</option>
+                                        <option value="2">RUC</option>
+                                        <option value="2">RUC</option>
+                                        <option value="2">RUC</option>
+                                        <option value="2">RUC</option>
+                                    </select>*@
+                                    @*                                    <select id="tiposServicios" name="tiposServicios" style="width: 220px;">
+                                        @for (int j = 0; j < ViewBag.Locations.Count; j++)
+                                        {                               
+                                            <option value="@ViewBag.TipoServicios[j].Value">@ViewBag.Locations[j].Text</option>
+                                        }
+                                    </select>*@
+                                    @Html.ListBox("tiposServicios", new MultiSelectList(ViewBag.TipoServicios, "TipoServicioId", "NombreServicio"), new { style = "width: 218px" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Fecha Aproximada:</td>
+                                <td>
+                                    <input type="text" name="fecha" id="fecha" required="required" value="" placeholder="Seleccione la fecha" style="width: 220px;">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="vertical-align: top; width: 38%;">
+                    <table style="width: auto; border: 0;">
+                        <tbody style="vertical-align: top;">
+
+                            <tr>
+                                <td>Ubicación:</td>
+                                <td>
+                                    <input type="hidden" name="latitud" id="latitud" value="@ViewBag.Latitud">
+                                    <input type="hidden" name="longitud" id="longitud" value="@ViewBag.Longitud">
+                                    <input type="text" name="ubicacion" id="ubicacion" readonly="readonly" value="@ViewBag.Ubicacion" style="text-align: right;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Descripción del Trabajo:</td>
+                                <td>
+                                    <textarea name="descripcion" id="descripcion" required="required" rows="3" placeholder="Ingrese la descripción del trabajo aquí"></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="vertical-align: top; padding-top: 15px; width: 12%;">
+                    <button id="btnBuscar" type="submit" class="btn blue pull-right" style="">
+                        Buscar <i class="icon-search  m-icon-white"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption"><i class="icon-reorder"></i>Mejores Proveedores Encontrados</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse"></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div id="Grid" style="margin-bottom:10px;"></div>
+        </div>
+    </div>
+    @*    <div>
+        @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
+    </div>*@
+
+    <script>
+        $(document).ready(function () {
+            $("#fecha").kendoDatePicker({
+                format: "dd/MM/yyyy",
+                min: new Date
+            });
+
+            $("#tiposServicios").kendoMultiSelect({
+                placeholder: "Servicios que desea..."
+            });
+            
+            $("#Grid").kendoGrid({
+                sortable: true,
+                groupable: false,
+                filterable: false,
+                pageable: false,
+                resizable: true,
+                dataSource: {
+                    schema: {
+                        model: {
+                            fields: {
+                                ProveedorId: { type: "number", editable: false, hidden: true },
+                                RutaFoto: { type: "string", editable: false },
+                                Puntaje: { type: "string", editable: false },
+                                NombreCompleto: { type: "string", editable: false },
+                                Documento: { type: "string", editable: false },
+                                Servicio: { type: "string", editable: false },
+                                Descripcion: { type: "string", editable: false },
+                                VerTrabajos: { type: "string", editable: false },
+                                VerComentarios: { type: "string", editable: false }
+                            }
+                        }
+                    }
+                },
+                columns: [
+                    { title: "Foto", field: "RutaFoto", width: "100px" },
+                    { title: "Calificación", field: "Puntaje", width: "100px" },
+                    { title: "Nombre / Razón Social", field: "NombreCompleto", width: "190px" },
+                    { title: "DNI / RUC", field: "Documento", width: "160px" },
+                    { title: "Servicio Ofrecido", field: "Servicio", width: "140px" },
+                    { title: "Sobre Mí", field: "Descripcion", width: "170px" },
+                    { title: "Trabajos ", field: "VerTrabajos",  },
+                    { title: "Comentarios", field: "VerComentarios",  }
+                ]
+            });
+        });
+
+        $("#btnBuscar").click(function () {
+            var multiselect = $("#tiposServicios").data("kendoMultiSelect");
+            var valueServicios = multiselect.value().toString();
+            alert(valueServicios);
+
+            if (valueServicios === "") {
+                alert("Error: debe elegir por lo menos un servicio.");
+                return;
+            }
+
+            var fecha = $("#fecha").val();
+            if (fecha === "") {
+                alert("Error: debe ingresar una fecha.");
+                return;
+            }
+            /* NO FUNCIONA. d1 ESTA EN FORMATO dd/MM/yyyy y d2 en formato MM/dd/yyyy por lo que no podemos comparar asi nomás
+            else {
+                var d1 = new Date(fecha);
+                var d2 = new Date();
+                if (d1 < d2) {
+                    alert("Error: la fecha seleccionada " + d1 + " no puede ser menor que la fecha actual "+d2);
+                    return;
+                }
+            }*/
+
+            var desc = $("#descripcion").val();
+            if (desc === "") {
+                alert("Error: debe ingresar la descripción del trabajo.");
+                return;
+            }
+            
+            var dataSource = $('#Grid').data('kendoGrid').dataSource;
+            dataSource.add({
+                ProveedorId: 1, Puntaje: "a", RutaFoto: "aa", NombreCompleto: "aa", TipoDocumento: "aa", Documento: "aa", Servicio: "aa"
+            , Descripcion: "aa", VerTrabajos: "aa", VerComentarios: "aa"
+            });
+
+            var latitud = $("#latitud").val();
+            var longitud = $("#longitud").val();
+
+            //return;
+            $.getJSON('/Clientes/GetProveedoresBusquedaTabuJSON', { valueServicios: valueServicios, latitud: latitud, longitud: longitud, ajax: 'true' }, function (result) {
+                $(result).each(function () {
+                    //if (this.ProveedorID != -1) {
+                    //    $('#nombreProveedor').val(this.NombreProveedor);
+                    //    $('#leadsActuales').val(this.LeadsProveedor);
+                    //    $('#proveedorId').val(this.ProveedorID);
+                    //}
+                    //else {
+                    //    alert("No se encontró al proveedor con documento: " + documento);
+                    //}
+                });
+            });
+            return;
+        });
+
+        $("#btnRecargar").click(function e() {
+            var idProveedor = $('#proveedorId').val();
+            if (idProveedor === "") {
+                alert("Error: debe buscar a un proveedor primero.");
+                return;
+            };
+
+            if ($('#montoRecarga').val() === "") {
+                alert("Error: ingrese monto a recargar.");
+                return;
+            };
+
+            var monto = parseInt($("#montoRecarga").val(), 10);
+            var leads = parseInt($("#leadsDisponibles").val(), 10) + parseInt($("#leadsReserva").val(), 10);
+
+            if (monto > leads) {
+                alert("Error: usted no tiene leads suficientes para hacer la recarga.\nLeads totales: " + leads);
+                return;
+            }
+
+            var idSuministrador = $("#suministradorId").val();
+            //alert(idProveedor + " " + idSuministrador + " " + monto);
+            $.ajax({
+                type: 'GET',
+                url: '/Suministradores/EjecutarRecarga',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: {
+                    idProveedor: idProveedor,
+                    idSuministrador: idSuministrador,
+                    monto: monto
+                },
+
+                success: function (data) {
+                    //alert(data);
+                    alert("La recarga se realizó exitosamente.");
+                    window.location = "/Suministradores/RecargarLeads/";
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+        });
+
+
+    </script>
+</body>
+</html>
+

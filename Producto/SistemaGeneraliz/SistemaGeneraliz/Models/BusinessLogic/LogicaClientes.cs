@@ -37,5 +37,9 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             };
         }
 
+        public Cliente GetClientePorPersonaId(int idPersona)
+        {
+            return _sgpFactory.GetClientePorPersonaId(idPersona);
+        }
     }
 }

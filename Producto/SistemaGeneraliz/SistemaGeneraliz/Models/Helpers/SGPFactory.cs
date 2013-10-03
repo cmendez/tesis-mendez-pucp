@@ -83,6 +83,11 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.Distritos.Find(distritoId);
         }
 
+        public UbicacionPersona GetPrimeraUbicacionPersona(int idPersona)
+        {
+            return _db.UbicacionesPersonas.FirstOrDefault(u => u.PersonaId == idPersona);
+        }
+
         #endregion
 
         #region Proveedores
@@ -125,6 +130,12 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.Clientes.Add(cliente);
             _db.SaveChanges();
         }
+
+        public Cliente GetClientePorPersonaId(int idPersona)
+        {
+            return _db.Clientes.FirstOrDefault(s => s.PersonaId == idPersona);
+        }
+
         #endregion
 
         #region Suministradores

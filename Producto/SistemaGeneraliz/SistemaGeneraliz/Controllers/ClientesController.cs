@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Security;
 using SistemaGeneraliz.Models.BusinessLogic;
@@ -14,6 +15,7 @@ namespace SistemaGeneraliz.Controllers
         private readonly LogicaClientes _logicaClientes = new LogicaClientes();
         private readonly LogicaPersonas _logicaPersonas = new LogicaPersonas();
         private readonly LogicaUbicaciones _logicaUbicaciones = new LogicaUbicaciones();
+        private readonly LogicaProveedores _logicaProveedores = new LogicaProveedores();
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -112,6 +114,53 @@ namespace SistemaGeneraliz.Controllers
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             return View(clienteJuridicoViewModel);
+        }
+
+        public ActionResult BuscarProveedores()
+        {
+            int idPersona = WebSecurity.CurrentUserId;
+            Cliente cliente = _logicaClientes.GetClientePorPersonaId(idPersona);
+            if (cliente != null)
+            {
+                UbicacionPersona ubicacion = _logicaUbicaciones.GetPrimeraUbicacionPersona(idPersona);
+                ViewBag.ClienteId = cliente.ClienteId;
+                ViewBag.Latitud = ubicacion.Latitud;
+                ViewBag.Longitud = ubicacion.Longitud;
+                ViewBag.Ubicacion = cliente.Persona.DireccionCompleta;
+            }
+            else
+            {
+                ViewBag.ClienteId = -1;
+                ViewBag.Latitud = -1;
+                ViewBag.Longitud = -1;
+                ViewBag.Ubicacion = "";
+            }
+            
+            //Combobox Servicios
+            List<TipoServicio> listaTiposServicios = new List<TipoServicio>();
+            listaTiposServicios.Add(new TipoServicio { TipoServicioId = -1, NombreServicio = "Carpinteria"});
+            ViewBag.TipoServicios = _logicaProveedores.GetTipoServicios();
+
+            return View("BusquedaAutomatizadaProveedores");
+        }
+
+        [HttpGet]
+        public ActionResult GetProveedoresBusquedaTabuJSON(string valueServicios = "", double latitud = 1, double longitud = 1)
+        {
+            string[] serviciosIds = valueServicios.Split(',');
+            
+            //IMPLEMENTAR AQUI LLAMADA AL ALGORITMO TABU
+
+            //List<Proveedor> proveedores = _logicaProveedores.GetTodosProveedoresBD();
+
+            var proveedoresJson = new List<Object>();
+            //foreach (Proveedor proveedor in proveedores)
+            //{
+            //    //Object o = new { Id = proveedor.ProveedorId, Value = resource.ResourceName, LocationId = id };
+            //    //proveedoresJson.Add(o);
+            //}
+
+            return Json(proveedoresJson, JsonRequestBehavior.AllowGet);
         }
     }
 }

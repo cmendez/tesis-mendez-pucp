@@ -84,10 +84,15 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             };
         }
 
+        public Persona GetPersonaLoggeada(int currentUserId)
+        {
+            return _sgpFactory.GetPersonaLoggeada(currentUserId);
+        }
+
         public string GetNombrePersonaLoggeada(int currentUserId)
         {
             var nombre = "";
-            var persona = _sgpFactory.GetPersonaLoggeada(currentUserId);
+            var persona = this.GetPersonaLoggeada(currentUserId);
             if (persona.TipoPersona == "Natural")
                 return (persona.PrimerNombre + " " + persona.ApellidoPaterno);
             else if (persona.TipoPersona == "Juridica")
@@ -112,5 +117,10 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         {
             return _sgpFactory.ExisteDNIRUC(dni, ruc);
         }
+
+        //public Persona GetPersonaPorId(int idPersona)
+        //{
+        //    return _sgpFactory.GetPersonaPorId(idPersona);
+        //}
     }
 }
