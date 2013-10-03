@@ -30,23 +30,6 @@
                             <tr>
                                 <td>Tipos de Servicios:</td>
                                 <td>
-                                    @*                                    
-                                    <select name="tiposServicios" id="tiposServicios" multiple="multiple" style="width:220px;">
-                                        <option value="1">DNI</option>
-                                        <option value="2">RUC</option>
-                                        <option value="2">RUC</option>
-                                        <option value="2">RUC</option>
-                                        <option value="2">RUC</option>
-                                        <option value="2">RUC</option>
-                                        <option value="2">RUC</option>
-                                        <option value="2">RUC</option>
-                                    </select>*@
-                                    @*                                    <select id="tiposServicios" name="tiposServicios" style="width: 220px;">
-                                        @for (int j = 0; j < ViewBag.Locations.Count; j++)
-                                        {                               
-                                            <option value="@ViewBag.TipoServicios[j].Value">@ViewBag.Locations[j].Text</option>
-                                        }
-                                    </select>*@
                                     @Html.ListBox("tiposServicios", new MultiSelectList(ViewBag.TipoServicios, "TipoServicioId", "NombreServicio"), new { style = "width: 218px" })
                                 </td>
                             </tr>
@@ -96,7 +79,7 @@
             </div>
         </div>
         <div class="portlet-body">
-            <div id="Grid" style="margin-bottom:10px;"></div>
+            <div id="Grid" style="margin-bottom: 10px;"></div>
         </div>
     </div>
     @*    <div>
@@ -113,8 +96,9 @@
             $("#tiposServicios").kendoMultiSelect({
                 placeholder: "Servicios que desea..."
             });
-            
+
             $("#Grid").kendoGrid({
+                autoBind: false,
                 sortable: true,
                 groupable: false,
                 filterable: false,
@@ -138,22 +122,26 @@
                     }
                 },
                 columns: [
+                    { title: "ProveedorId", field: "ProveedorId", width: "100px" },
                     { title: "Foto", field: "RutaFoto", width: "100px" },
                     { title: "Calificación", field: "Puntaje", width: "100px" },
                     { title: "Nombre / Razón Social", field: "NombreCompleto", width: "190px" },
                     { title: "DNI / RUC", field: "Documento", width: "160px" },
                     { title: "Servicio Ofrecido", field: "Servicio", width: "140px" },
                     { title: "Sobre Mí", field: "Descripcion", width: "170px" },
-                    { title: "Trabajos ", field: "VerTrabajos",  },
-                    { title: "Comentarios", field: "VerComentarios",  }
+                    { title: "Trabajos ", field: "VerTrabajos", },
+                    { title: "Comentarios", field: "VerComentarios", }
                 ]
             });
+            
+            var grid = $("#Grid").data("kendoGrid");
+            grid.hideColumn("ProveedorId");
         });
 
         $("#btnBuscar").click(function () {
             var multiselect = $("#tiposServicios").data("kendoMultiSelect");
             var valueServicios = multiselect.value().toString();
-            alert(valueServicios);
+            //alert(valueServicios);
 
             if (valueServicios === "") {
                 alert("Error: debe elegir por lo menos un servicio.");
@@ -181,18 +169,21 @@
                 return;
             }
             
-            var dataSource = $('#Grid').data('kendoGrid').dataSource;
-            dataSource.add({
-                ProveedorId: 1, Puntaje: "a", RutaFoto: "aa", NombreCompleto: "aa", TipoDocumento: "aa", Documento: "aa", Servicio: "aa"
-            , Descripcion: "aa", VerTrabajos: "aa", VerComentarios: "aa"
-            });
-
             var latitud = $("#latitud").val();
             var longitud = $("#longitud").val();
-
+            var dataSource = $('#Grid').data('kendoGrid').dataSource;
+            dataSource.read(); //para borrar las filas de la grilla.. no sé pero funciona XD
             //return;
+            //alert(dataSource.total());
+            
             $.getJSON('/Clientes/GetProveedoresBusquedaTabuJSON', { valueServicios: valueServicios, latitud: latitud, longitud: longitud, ajax: 'true' }, function (result) {
                 $(result).each(function () {
+                    dataSource.add({
+                        ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, RutaFoto: this.RutaFoto, NombreCompleto: this.NombreCompleto,
+                        TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, Descripcion: this.Descripcion,
+                        VerTrabajos: this.VerTrabajos, VerComentarios: this.VerComentarios
+                    });
+
                     //if (this.ProveedorID != -1) {
                     //    $('#nombreProveedor').val(this.NombreProveedor);
                     //    $('#leadsActuales').val(this.LeadsProveedor);

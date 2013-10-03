@@ -57,7 +57,7 @@ namespace SistemaGeneraliz.Controllers
                     UbicacionPersona ubicacion = _logicaUbicaciones.CrearObjetoUbicacionPersonaNatural(clienteNaturalViewModel, persona);
                     _logicaUbicaciones.AgregarUbicacion(ubicacion);
                     _logicaClientes.AgregarCliente(cliente);
-                    
+
                     Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Cliente" });
                     WebSecurity.CreateAccount(persona.UserName, clienteNaturalViewModel.Password);
                     bool loginSuccess = WebSecurity.Login(persona.UserName, clienteNaturalViewModel.Password);
@@ -135,10 +135,8 @@ namespace SistemaGeneraliz.Controllers
                 ViewBag.Longitud = -1;
                 ViewBag.Ubicacion = "";
             }
-            
+
             //Combobox Servicios
-            List<TipoServicio> listaTiposServicios = new List<TipoServicio>();
-            listaTiposServicios.Add(new TipoServicio { TipoServicioId = -1, NombreServicio = "Carpinteria"});
             ViewBag.TipoServicios = _logicaProveedores.GetTipoServicios();
 
             return View("BusquedaAutomatizadaProveedores");
@@ -147,18 +145,30 @@ namespace SistemaGeneraliz.Controllers
         [HttpGet]
         public ActionResult GetProveedoresBusquedaTabuJSON(string valueServicios = "", double latitud = 1, double longitud = 1)
         {
-            string[] serviciosIds = valueServicios.Split(',');
-            
-            //IMPLEMENTAR AQUI LLAMADA AL ALGORITMO TABU
-
-            //List<Proveedor> proveedores = _logicaProveedores.GetTodosProveedoresBD();
+            List<ProveedorBusquedaViewModel> proveedores = _logicaClientes.EjecutarAlgoritmoTabu(valueServicios, latitud, longitud);
 
             var proveedoresJson = new List<Object>();
-            //foreach (Proveedor proveedor in proveedores)
-            //{
-            //    //Object o = new { Id = proveedor.ProveedorId, Value = resource.ResourceName, LocationId = id };
-            //    //proveedoresJson.Add(o);
-            //}
+            if (proveedores != null)
+            {
+                foreach (ProveedorBusquedaViewModel proveedor in proveedores)
+                {
+                    Object o = new
+                    {
+                        ProveedorId = proveedor.ProveedorId,
+                        Puntaje = proveedor.Puntaje,
+                        RutaFoto = proveedor.RutaFoto,
+                        NombreCompleto = proveedor.NombreCompleto,
+                        TipoDocumento = proveedor.TipoDocumento,
+                        Documento = proveedor.Documento,
+                        Servicio = proveedor.Servicio,
+                        Descripcion = proveedor.Descripcion,
+                        VerTrabajos = proveedor.VerTrabajos,
+                        VerComentarios = proveedor.VerComentarios
+                    };
+                    
+                    proveedoresJson.Add(o);
+                }
+            }
 
             return Json(proveedoresJson, JsonRequestBehavior.AllowGet);
         }

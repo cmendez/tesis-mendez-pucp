@@ -83,5 +83,15 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         {
             return _sgpFactory.GetProveedorPorDocumento(documento, opcionDocumento);
         }
+
+        public List<TipoServicio> GetServiciosPorIds(int[] serviciosIds)
+        {
+            return _sgpFactory.GetServiciosPorIds(serviciosIds);
+        }
+
+        public List<Proveedor> GetProveedoresPorServicio(TipoServicio servicio, int cantidadMaxima, int puntajeMinimo)
+        {
+            return _sgpFactory.GetProveedoresPorServicio(servicio, cantidadMaxima, puntajeMinimo);
+        }
     }
 }

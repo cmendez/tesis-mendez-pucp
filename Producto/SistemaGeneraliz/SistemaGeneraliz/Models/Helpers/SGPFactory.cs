@@ -122,6 +122,19 @@ namespace SistemaGeneraliz.Models.Helpers
             return proveedor;
         }
 
+        public List<TipoServicio> GetServiciosPorIds(int[] serviciosIds)
+        {
+            return _db.TipoServicios.Where(s => serviciosIds.Contains(s.TipoServicioId)).OrderBy(s => s.NombreServicio).ToList();
+        }
+
+        public List<Proveedor> GetProveedoresPorServicio(TipoServicio servicio, int cantidadMaxima, int puntajeMinimo)
+        {
+            return _db.Proveedores.Where(x => (x.TiposServicios.Any(r => servicio.TipoServicioId.Equals(r.TipoServicioId))))
+                                    .Where(p => p.PuntuacionPromedio >= puntajeMinimo)
+                                    .Where(p => (p.Persona.IsHabilitado == 1))
+                                    .OrderByDescending(p => p.PuntuacionPromedio).Take(cantidadMaxima).ToList();
+        }
+
         #endregion
 
         #region Clientes
@@ -173,6 +186,6 @@ namespace SistemaGeneraliz.Models.Helpers
         }
 
         #endregion
-        
+
     }
 }

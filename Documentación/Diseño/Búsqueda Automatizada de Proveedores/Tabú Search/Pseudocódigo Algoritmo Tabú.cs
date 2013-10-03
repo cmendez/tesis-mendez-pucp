@@ -97,7 +97,7 @@ SubProceso ObtenerTamañoMaximo(lista_Proveedores)
 	//Para cada sublista de proveedores
 	foreach(sublista in lista_Proveedores)
 	{
-		//Obtener el primer proveedor y almacenarlo
+		//Obtener cantidad de proveedores en sublista
 		cantidad <- sublista.Cantidad;
 		
 		if (cantidad > mayor)
