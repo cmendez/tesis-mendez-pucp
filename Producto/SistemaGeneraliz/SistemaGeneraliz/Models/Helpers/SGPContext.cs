@@ -294,6 +294,7 @@ namespace SistemaGeneraliz.Models.Helpers
             foreach (var persona in personas)
             {
                 r1 = random.Next(10, 26);
+                r3 = random.Next(10, 21);
 
                 if (persona.TipoUsuario == "Proveedor")
                 {
@@ -305,7 +306,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     {
                         PersonaId = persona.PersonaId,
                         LeadsDisponibles = 2,
-                        PuntuacionPromedio = 0,
+                        PuntuacionPromedio = r3,
                         NroTrabajosTerminados = 0,
                         NroBusquedasCliente = 0,
                         NroClicksVisita = 0,

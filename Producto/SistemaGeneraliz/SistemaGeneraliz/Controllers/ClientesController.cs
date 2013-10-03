@@ -159,7 +159,7 @@ namespace SistemaGeneraliz.Controllers
                         RutaFoto = proveedor.RutaFoto,
                         NombreCompleto = proveedor.NombreCompleto,
                         TipoDocumento = proveedor.TipoDocumento,
-                        Documento = proveedor.Documento,
+                        Documento = proveedor.TipoDocumento + " - " +proveedor.Documento,
                         Servicio = proveedor.Servicio,
                         Descripcion = proveedor.Descripcion,
                         VerTrabajos = proveedor.VerTrabajos,

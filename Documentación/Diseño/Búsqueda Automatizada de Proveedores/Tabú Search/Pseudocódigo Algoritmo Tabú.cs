@@ -108,7 +108,7 @@ SubProceso ObtenerTamañoMaximo(lista_Proveedores)
 SubProceso ObtenerVecindario(lista_Proveedores, proveedor, k)
 {
 	vecindario <- [];
-	lista <- lista_Proveedores[k];	//la lista viene preordenada por puntaje
+	lista <-  	[k];	//la lista viene preordenada por puntaje
 	np <- lista.Count;
 	
 	//Para cada proveedor
@@ -125,6 +125,23 @@ SubProceso ObtenerVecindario(lista_Proveedores, proveedor, k)
 	}	
 
 	return vecindario;
+}
+
+Subproceso Calcular_Distancia_GPS(Ubicacion X, Ubicacion Y)
+{
+	R <- 6371; // radio en km
+	dLat <- (Y.lat2 - X.lat1).toRadians();
+	dLon <- (Y.lon2 - X.lon1).toRadians();
+	lat1 <- X.lat1.toRadians();
+	lat2 <- Y.lat2.toRadians();
+
+	a <- sin(dLat/2) * sin(dLat/2) +
+			  sin(dLon/2) * sin(dLon/2) * cos(lat1) * cos(lat2); 
+	c <- 2 * atan2(sqrt(a), sqrt(1-a)); 
+	d <- R * c;	
+	
+	distancia <- d;
+	return distancia;
 }
 
 SubProceso EsTabu(lista_Tabu, candidato)

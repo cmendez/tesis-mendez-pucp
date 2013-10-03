@@ -16,11 +16,18 @@ namespace SistemaGeneraliz.Models.Helpers
         private List<Proveedor> lista_Inicial;
         private List<Proveedor> lista_Mejores;
         private List<Proveedor> lista_Tabu;
+        private List<Proveedor> lista_Candidatos;
+        private List<Proveedor> vecindario;
+        private Proveedor proveedor;
+        private Proveedor mejorCandidato;
         private int M;
         private int nroTipoServicios;
         private int maxIteraciones;
         private int maxTamañoTabu;
         private int iteracion;
+        private int k;
+        private double sumatoriaOriginal;
+        private double sumatoriaIntercambio;
 
         public AlgoritmoTabu(int[] serviciosIds, double latitudCliente, double longitudCliente)
         {
@@ -28,7 +35,7 @@ namespace SistemaGeneraliz.Models.Helpers
             //cliente = C;
             lista_Servicios = GenerarListaServicios(serviciosIds);
             lista_Proveedores = GenerarListaProveedores(lista_Servicios); //[][]
-            lista_Inicial = GenerarListaInicial(lista_Proveedores);
+            lista_Inicial = GenerarListaInicial(lista_Proveedores, latitudCliente, longitudCliente);
             lista_Mejores = lista_Inicial;
             lista_Tabu = new List<Proveedor>();
             M = ObtenerTamañoMaximo(lista_Proveedores);
@@ -40,42 +47,80 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public List<ProveedorBusquedaViewModel> EjecutarAlgoritmoTabu()
         {
+            //Cuerpo Principal
+            while (iteracion < maxIteraciones)
+            {
+                //Buscar a proveedor candidato para intercambio según servicio en turno (pos)
+                lista_Candidatos = new List<Proveedor>();
+                k = iteracion % nroTipoServicios;
+                proveedor = lista_Mejores[k];
+
+                //Buscar vecinos y agregar si no están marcados como Tabú
+                vecindario = ObtenerVecindario(lista_Proveedores, proveedor, k);
+                foreach (var candidato in vecindario)
+                {
+                    if (!EsTabu(lista_Tabu, candidato))
+                    {
+                        AgregarCandidato(lista_Candidatos, candidato);
+                    }
+                }
+
+                //Encontrar óptimo local
+                mejorCandidato = BuscarOptimoLocal(lista_Candidatos);
+
+                //Calculamos el factor total obtenido para ambas listas (original y con reemplazo)
+                sumatoriaOriginal = CalcularSumaFactores(lista_Mejores, null, k);
+                sumatoriaIntercambio = CalcularSumaFactores(lista_Mejores, mejorCandidato, k);
+
+                //Actualizar Mejores
+                if (sumatoriaIntercambio > sumatoriaOriginal)
+                {
+                    MarcarTabu(lista_Tabu, mejorCandidato);
+                    ListaMejorada(lista_Mejores, mejorCandidato, k);
+
+                    //Desmarcar elementos de lista Tabú
+                    while (TamañoActual(lista_Tabu) > maxTamañoTabu)
+                        DesmarcarTabu(lista_Tabu);
+                }
+
+                iteracion++;
+            }
 
             return GenerarListaMejores(lista_Mejores, lista_Servicios);
         }
 
-        private List<ProveedorBusquedaViewModel> GenerarListaMejores(List<Proveedor> lista_Mejores, List<TipoServicio> lista_Servicios)
+        private List<ProveedorBusquedaViewModel> GenerarListaMejores(List<Proveedor> listaMejores, List<TipoServicio> listaServicios)
         {
             List<ProveedorBusquedaViewModel> lista = new List<ProveedorBusquedaViewModel>();
             int i = 0;
-            foreach (var proveedor in lista_Mejores)
+            foreach (var prov in listaMejores)
             {
                 string nombre = "";
                 string tipoDocumento = "";
 
-                switch (proveedor.Persona.TipoPersona)
+                switch (prov.Persona.TipoPersona)
                 {
                     case "Natural":
-                        nombre = proveedor.Persona.PrimerNombre + " " + proveedor.Persona.ApellidoPaterno;
+                        nombre = prov.Persona.PrimerNombre + " " + prov.Persona.ApellidoPaterno;
                         tipoDocumento = "DNI";
                         break;
 
                     case "Juridica":
-                        nombre = proveedor.Persona.RazonSocial;
+                        nombre = prov.Persona.RazonSocial;
                         tipoDocumento = "RUC";
                         break;
                 }
 
                 ProveedorBusquedaViewModel proveedorViewModel = new ProveedorBusquedaViewModel
                 {
-                    ProveedorId = proveedor.ProveedorId,
-                    Puntaje = ((int)proveedor.PuntuacionPromedio).ToString(),
+                    ProveedorId = prov.ProveedorId,
+                    Puntaje = Convert.ToInt32(prov.PuntuacionPromedio).ToString(),
                     RutaFoto = "", //AQUI IRA LA URL DE LA FOTO
                     NombreCompleto = nombre,
                     TipoDocumento = tipoDocumento,
-                    Documento = proveedor.Persona.UserName,
-                    Servicio = lista_Servicios[i].NombreServicio,
-                    Descripcion = proveedor.AcercaDeMi,
+                    Documento = prov.Persona.UserName,
+                    Servicio = listaServicios[i].NombreServicio,
+                    Descripcion = prov.AcercaDeMi,
                     VerTrabajos = "", //AQUI IRA LINK DE TRABAJOS 
                     VerComentarios = "" //AQUI IRA LINK DE COMENTARIOS 
                 };
@@ -113,28 +158,63 @@ namespace SistemaGeneraliz.Models.Helpers
             return listaProveedores;
         }
 
-        private List<Proveedor> GenerarListaInicial(List<List<Proveedor>> lista_Proveedores)
+        private List<Proveedor> GenerarListaInicial(List<List<Proveedor>> listaProveedores, double latitudCliente, double longitudCliente)
         {
             List<Proveedor> lista_Inicial = new List<Proveedor>();
             //i <- 0;
 
             //Para cada sublista de proveedores
-            foreach (var sublista in lista_Proveedores)
+            foreach (var sublista in listaProveedores)
             {
+                foreach (var prov in sublista)
+                {
+                    UbicacionPersona ubicacionCliente = new UbicacionPersona
+                    {
+                        Latitud = latitudCliente,
+                        Longitud = longitudCliente
+                    };
+                    //Calculamos el distanciamiento de cada proveedor respecto del cliente
+                    double distancia = Calcular_Distancia_GPS(prov.Persona.UbicacionesPersonas.ElementAt(0), ubicacionCliente);
+                    prov.Distancia = distancia;
+                    prov.Factor = prov.PuntuacionPromedio / prov.Distancia;
+                }
+                //Reordenamos la sublista por mejor Factor p/d
+                sublista.Sort((x, y) => y.Factor.CompareTo(x.Factor));
+                //sublista = sublista.OrderByDescending(p => p.Factor);
+
                 //Obtener el primer proveedor y almacenarlo
-                Proveedor proveedor = sublista[0];
-                lista_Inicial.Add(proveedor);
+                Proveedor p = sublista[0];
+                lista_Inicial.Add(p);
                 //i++
             }
 
             return lista_Inicial;
         }
 
-        private int ObtenerTamañoMaximo(List<List<Proveedor>> lista_Proveedores)
+        private double Calcular_Distancia_GPS(UbicacionPersona ubicacionProveedor, UbicacionPersona ubicacionFuente)
+        {
+            double distancia, d, c, a, dLat, dLon, lat1, lat2;
+            int R = 6371; // radio en km
+
+            dLat = (ubicacionProveedor.Latitud - ubicacionFuente.Latitud) * (Math.PI / 180);
+            dLon = (ubicacionProveedor.Longitud - ubicacionFuente.Longitud) * (Math.PI / 180);
+            lat1 = ubicacionFuente.Latitud * (Math.PI / 180);
+            lat2 = ubicacionProveedor.Latitud * (Math.PI / 180);
+
+            a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                Math.Sin(dLon / 2) * Math.Sin(dLon / 2) * Math.Cos(lat1) * Math.Cos(lat2);
+            c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            d = R * c;
+
+            distancia = d;
+            return distancia;
+        }
+
+        private int ObtenerTamañoMaximo(List<List<Proveedor>> listaProveedores)
         {
             int mayor = 0;
             //Para cada sublista de proveedores
-            foreach (var sublista in lista_Proveedores)
+            foreach (var sublista in listaProveedores)
             {
                 //Obtener cantidad de proveedores en sublista
                 int cantidad = sublista.Count();
@@ -143,6 +223,105 @@ namespace SistemaGeneraliz.Models.Helpers
                     mayor = cantidad;
             }
             return mayor;
+        }
+
+        private List<Proveedor> ObtenerVecindario(List<List<Proveedor>> listaProveedores, Proveedor proveedor, int pos)
+        {
+            List<Proveedor> vecindarioProveedor = new List<Proveedor>();
+            List<Proveedor> lista = listaProveedores[pos];	//la lista viene preordenada por puntaje
+            int np = lista.Count;
+
+            //Para cada proveedor
+            for (int i = 0; i < np; i++)
+            {
+                if (lista[i] != proveedor)
+                {
+                    //Calculamos el distanciamiento de cada potencial vecino respecto del proveedor de turno
+                    double distancia = Calcular_Distancia_GPS(lista[i].Persona.UbicacionesPersonas.ElementAt(0), proveedor.Persona.UbicacionesPersonas.ElementAt(0));
+                    vecindarioProveedor.Add(lista[i]);
+                    vecindarioProveedor.ElementAt(vecindarioProveedor.Count - 1).Distancia = distancia;
+                }
+            }
+
+            if (vecindarioProveedor.Count == 0) //por si en la lista solo habia un proveedor (el mismo)
+                vecindarioProveedor.Add(proveedor);
+
+            return vecindarioProveedor;
+        }
+
+        private bool EsTabu(List<Proveedor> listaTabu, Proveedor candidato)
+        {
+            return listaTabu.Contains(candidato);
+        }
+
+        private void AgregarCandidato(List<Proveedor> listaCandidatos, Proveedor candidato)
+        {
+            listaCandidatos.Add(candidato);
+        }
+
+        private Proveedor BuscarOptimoLocal(List<Proveedor> listaCandidatos)
+        {
+            Proveedor mejor;
+            int n = listaCandidatos.Count;
+
+            foreach (var candidato in listaCandidatos)
+            {
+                candidato.Factor = (candidato.PuntuacionPromedio / candidato.Distancia);
+            }
+
+            //Ordenar lista por factor P/D y tomar primer elemento
+            //lista_Candidatos = QS_Proveedores(lista_Candidatos, 0, n - 1);
+            listaCandidatos.Sort((x, y) => y.Factor.CompareTo(x.Factor));
+
+            mejor = lista_Candidatos[0];
+
+            return mejor;
+        }
+
+        private double CalcularSumaFactores(List<Proveedor> listaMejores, Proveedor prov, int pos)
+        {
+            double sumatoria, suma, factor;
+            suma = 0;
+            int i = 0;
+
+            foreach (var p in listaMejores)
+            {
+                //Solo para proveedor en posición 'pos' y si no es 'null'
+                if ((pos == i) && (prov != null))
+                {
+                    factor = prov.Factor;
+                }
+                else
+                {
+                    factor = p.Factor;
+                }
+
+                suma = suma + factor;
+                i++;
+            }
+
+            sumatoria = suma;
+            return sumatoria;
+        }
+
+        private void MarcarTabu(List<Proveedor> listaTabu, Proveedor mejor)
+        {
+            listaTabu.Add(mejor);
+        }
+
+        private void ListaMejorada(List<Proveedor> listaMejores, Proveedor mejor, int pos)
+        {
+            listaMejores[pos] = mejor;
+        }
+
+        private int TamañoActual(List<Proveedor> listaTabu)
+        {
+            return listaTabu.Count;
+        }
+
+        private void DesmarcarTabu(List<Proveedor> listaTabu)
+        {
+            listaTabu.RemoveAt(0);
         }
     }
 }

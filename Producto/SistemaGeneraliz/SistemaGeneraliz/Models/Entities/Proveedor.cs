@@ -27,5 +27,10 @@ namespace SistemaGeneraliz.Models.Entities
 		public string AcercaDeMi { get; set; }
 		public int IsDestacado { get; set; }
         public virtual ICollection<TipoServicio> TiposServicios { get; set; }
+
+        [NotMapped]
+        public double Distancia { get; set; }
+        [NotMapped]
+        public double Factor { get; set; }
     }
 }

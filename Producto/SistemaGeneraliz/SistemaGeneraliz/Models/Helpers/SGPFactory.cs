@@ -99,6 +99,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public List<TipoServicio> GetTipoServicios()
         {
+            //return _db.TipoServicios.Where(t => t.IsEliminado == 0).Where(x => x.Proveedores.Count > 0).ToList(); <-- SOLO OBTENER SERVICIOS QUE TENGAN PROVEEDORES
             return _db.TipoServicios.Where(t => t.IsEliminado == 0).ToList();
         }
 
