@@ -28,6 +28,8 @@ namespace SistemaGeneraliz.Models.Helpers
         public IDbSet<UbicacionPersona> UbicacionesPersonas { get; set; }
         public IDbSet<RecargaLeads> RecargasLeads { get; set; }
         public IDbSet<Configuracion> Configuraciones { get; set; }
+        public IDbSet<Trabajo> Trabajos { get; set; }
+        public IDbSet<TrabajoProveedor> TrabajosProveedores { get; set; }
         #endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -35,6 +37,8 @@ namespace SistemaGeneraliz.Models.Helpers
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Entity<Proveedor>().HasMany(r => r.TiposServicios).WithMany(t => t.Proveedores)
                 .Map(t => t.MapLeftKey("ProveedorId").MapRightKey("TipoServicioId").ToTable("TiposServiciosPorProveedor"));
+            modelBuilder.Entity<TrabajoProveedor>().HasMany(r => r.TiposServicios).WithMany(t => t.TrabajosProveedores)
+                .Map(t => t.MapLeftKey("TrabajoProveedorId").MapRightKey("TipoServicioId").ToTable("TiposServiciosPorTrabajoProveedor"));
         }
 
         internal void Seed()

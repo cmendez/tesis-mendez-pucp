@@ -16,6 +16,8 @@ namespace SistemaGeneraliz.Models.Helpers
         IDbSet<UbicacionPersona> UbicacionesPersonas { get; set; }
         IDbSet<RecargaLeads> RecargasLeads { get; set; }
         IDbSet<Configuracion> Configuraciones { get; set; }
+        IDbSet<Trabajo> Trabajos { get; set; }
+        IDbSet<TrabajoProveedor> TrabajosProveedores { get; set; }
         int SaveChanges();
         DbEntityEntry Entry(object entity);
     }

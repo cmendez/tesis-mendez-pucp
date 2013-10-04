@@ -13,14 +13,10 @@ namespace SistemaGeneraliz.Models.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TipoServicioId { get; set; }
-
         public string NombreServicio { get; set; }
-
         public string DescripcionServicio { get; set; }
-
-        [Display(Name = "Proveedores")]
         public virtual ICollection<Proveedor> Proveedores { get; set; }
-
+        public virtual ICollection<TrabajoProveedor> TrabajosProveedores { get; set; }
         public int IsEliminado { get; set; }
     }
 }

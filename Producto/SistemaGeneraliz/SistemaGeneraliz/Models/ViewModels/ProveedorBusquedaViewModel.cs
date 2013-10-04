@@ -21,6 +21,7 @@ namespace SistemaGeneraliz.Models.ViewModels
         public string Documento { get; set; }
         [DisplayName("Servicio Ofrecido")]
         public string Servicio { get; set; }
+        public string ServicioId { get; set; }
         [DisplayName("Sobre Mí")]
         public string Descripcion { get; set; }
         [DisplayName(" ")]

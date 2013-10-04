@@ -27,7 +27,6 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             _sgpFactory.AgregarSuministrador(suministrador);
         }
 
-
         internal Suministrador CrearObjetoSuministradorJuridico(SuministradorJuridicoViewModel suministrador)
         {
             return new Suministrador
@@ -47,13 +46,53 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             return _sgpFactory.GetSuministradorPorPersonaId(personaId);
         }
 
-        public List<RecargaLeads> GetListaRecargasSuministrador(int suministradorId)
+        public List<RecargasLeadsViewModel> GetListaRecargasSuministrador(int suministradorId)
         {
-            return _sgpFactory.GetListaRecargasSuministrador(suministradorId);
+            var listaRecargasViewModel = new List<RecargasLeadsViewModel>();
+            var listaRecargas = _sgpFactory.GetListaRecargasSuministrador(suministradorId);
+            foreach (var recarga in listaRecargas)
+            {
+                string n = "";
+                string d = "";
+
+                if (recarga.Proveedor.Persona.TipoPersona == "Natural")
+                {
+                    n = recarga.Proveedor.Persona.PrimerNombre + " " + recarga.Proveedor.Persona.ApellidoPaterno;
+                    d = recarga.Proveedor.Persona.DNI.ToString();
+                }
+
+                if (recarga.Proveedor.Persona.TipoPersona == "Juridica")
+                {
+                    n = recarga.Proveedor.Persona.RazonSocial;
+                    d = recarga.Proveedor.Persona.RUC.ToString();
+                }
+
+                RecargasLeadsViewModel rec = new RecargasLeadsViewModel
+                {
+                    RecargaLeadsId = recarga.RecargaLeadsId,
+                    FechaRecarga = recarga.FechaRecarga.ToString("dd/MM/yyyy HH:mm"),
+                    NombreProveedor = n,
+                    DocumentoProveedor = d + " " + recarga.Proveedor.Persona.UserName,
+                    MontoRecarga = "S/. " + recarga.MontoRecarga.ToString(),
+                    CantidadLeads = recarga.CantidadLeads
+                };
+                listaRecargasViewModel.Add(rec);
+            }
+            return listaRecargasViewModel;
         }
 
-        internal void AgregarRecarga(RecargaLeads recarga)
+        public void AgregarRecarga(int idProveedor, int idSuministrador, int monto)
         {
+            RecargaLeads recarga = new RecargaLeads
+            {
+                SuministradorId = idSuministrador,
+                ProveedorId = idProveedor,
+                FechaRecarga = DateTime.Now,
+                MontoRecarga = monto,
+                TipoMoneda = "Soles",
+                CantidadLeads = monto
+            };
+
             _sgpFactory.AgregarRecarga(recarga);
         }
 
@@ -77,5 +116,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         {
             return _sgpFactory.GetSuministrador(idSuministrador);
         }
+
+
     }
 }

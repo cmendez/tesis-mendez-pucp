@@ -99,8 +99,8 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public List<TipoServicio> GetTipoServicios()
         {
-            //return _db.TipoServicios.Where(t => t.IsEliminado == 0).Where(x => x.Proveedores.Count > 0).ToList(); <-- SOLO OBTENER SERVICIOS QUE TENGAN PROVEEDORES
-            return _db.TipoServicios.Where(t => t.IsEliminado == 0).ToList();
+            return _db.TipoServicios.Where(t => t.IsEliminado == 0).Where(x => x.Proveedores.Count > 0).ToList(); //<-- SOLO OBTENER SERVICIOS QUE TENGAN PROVEEDORES
+            //return _db.TipoServicios.Where(t => t.IsEliminado == 0).ToList();
         }
 
         public TipoServicio GetTipoServicioPorId(int tipoServicioId)
@@ -131,8 +131,8 @@ namespace SistemaGeneraliz.Models.Helpers
         public List<Proveedor> GetProveedoresPorServicio(TipoServicio servicio, int cantidadMaxima, int puntajeMinimo)
         {
             return _db.Proveedores.Where(x => (x.TiposServicios.Any(r => servicio.TipoServicioId.Equals(r.TipoServicioId))))
-                                    .Where(p => p.PuntuacionPromedio >= puntajeMinimo)
-                                    .Where(p => (p.Persona.IsHabilitado == 1))
+                                    .Where(p => p.PuntuacionPromedio >= puntajeMinimo).Where(p => (p.Persona.IsHabilitado == 1))
+                                    .Where(p => (p.LeadsDisponibles > 0))
                                     .OrderByDescending(p => p.PuntuacionPromedio).Take(cantidadMaxima).ToList();
         }
 
@@ -146,6 +146,17 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.Configuraciones.Find(1).ValorNumerico;
         }
 
+        public void ConsumirLeadsProveedor(int proveedorId, int cantidad)
+        {
+            Proveedor proveedor = _db.Proveedores.Find(proveedorId);
+            if (proveedor.LeadsDisponibles >= cantidad)
+            {
+                proveedor.LeadsDisponibles = proveedor.LeadsDisponibles - cantidad;
+                _db.Proveedores.Attach(proveedor);
+                _db.Entry(proveedor).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+        }
         #endregion
 
         #region Clientes
@@ -158,6 +169,18 @@ namespace SistemaGeneraliz.Models.Helpers
         public Cliente GetClientePorPersonaId(int idPersona)
         {
             return _db.Clientes.FirstOrDefault(s => s.PersonaId == idPersona);
+        }
+
+        public void AgregarTrabajo(Trabajo trabajo)
+        {
+            _db.Trabajos.Add(trabajo);
+            _db.SaveChanges();
+        }
+
+        public void AgregarTrabajoProveedor(TrabajoProveedor trabajoProveedor)
+        {
+            _db.TrabajosProveedores.Add(trabajoProveedor);
+            _db.SaveChanges();
         }
 
         #endregion

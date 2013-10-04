@@ -29,11 +29,14 @@ namespace SistemaGeneraliz.Models.Helpers
         List<Proveedor> GetProveedoresPorServicio(TipoServicio servicio, int cantidadMaxima, int puntajeMinimo);
         int GetCantidadMaximaProveedoresConfiguracion();
         int GetPuntajeMinimoConfiguracion();
+        void ConsumirLeadsProveedor(int proveedorId, int cantidad);
         #endregion
 
         #region Clientes
         void AgregarCliente(Cliente cliente);
         Cliente GetClientePorPersonaId(int idPersona);
+        void AgregarTrabajo(Trabajo trabajo);
+        void AgregarTrabajoProveedor(TrabajoProveedor trabajoProveedor);
         #endregion
 
         #region Suministradores

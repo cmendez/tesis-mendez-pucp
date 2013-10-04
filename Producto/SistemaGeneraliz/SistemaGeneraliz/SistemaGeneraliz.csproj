@@ -201,6 +201,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Configuracion.cs" />
+    <Compile Include="Models\Entities\Trabajo.cs" />
+    <Compile Include="Models\Entities\TrabajoProveedor.cs" />
     <Compile Include="Models\Helpers\AlgoritmoTabu.cs" />
     <Compile Include="Models\BusinessLogic\LogicaUbicaciones.cs" />
     <Compile Include="Models\Entities\Distrito.cs" />

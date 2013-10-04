@@ -97,39 +97,10 @@ namespace SistemaGeneraliz.Controllers
         {
             int idPersona = WebSecurity.CurrentUserId;
             Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
-            List<RecargaLeads> listaRecargas = new List<RecargaLeads>();
             List<RecargasLeadsViewModel> listaRecargasViewModel = new List<RecargasLeadsViewModel>();
             if (suministrador != null)
             {
-                listaRecargas = _logicaSuministradores.GetListaRecargasSuministrador(suministrador.SuministradorId);
-                foreach (var recarga in listaRecargas)
-                {
-                    string n = "";
-                    string d = "";
-
-                    if (recarga.Proveedor.Persona.TipoPersona == "Natural")
-                    {
-                        n = recarga.Proveedor.Persona.PrimerNombre + " " + recarga.Proveedor.Persona.ApellidoPaterno;
-                        d = recarga.Proveedor.Persona.DNI.ToString();
-                    }
-
-                    if (recarga.Proveedor.Persona.TipoPersona == "Juridica")
-                    {
-                        n = recarga.Proveedor.Persona.RazonSocial;
-                        d = recarga.Proveedor.Persona.RUC.ToString();
-                    }
-
-                    RecargasLeadsViewModel rec = new RecargasLeadsViewModel
-                    {
-                        RecargaLeadsId = recarga.RecargaLeadsId,
-                        FechaRecarga = recarga.FechaRecarga.ToString("dd/MM/yyyy HH:mm"),
-                        NombreProveedor = n,
-                        DocumentoProveedor = recarga.Proveedor.Persona.UserName,
-                        MontoRecarga = "S/. " + recarga.MontoRecarga.ToString(),
-                        CantidadLeads = recarga.CantidadLeads
-                    };
-                    listaRecargasViewModel.Add(rec);
-                }
+                listaRecargasViewModel = _logicaSuministradores.GetListaRecargasSuministrador(suministrador.SuministradorId);
             }
 
             return Json(listaRecargasViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -170,17 +141,7 @@ namespace SistemaGeneraliz.Controllers
             if (Roles.IsUserInRole("Administrador"))
                 return null;
 
-            RecargaLeads recarga = new RecargaLeads
-            {
-                SuministradorId = idSuministrador,
-                ProveedorId = idProveedor,
-                FechaRecarga = DateTime.Now,
-                MontoRecarga = monto,
-                TipoMoneda = "Soles",
-                CantidadLeads = monto
-            };
-
-            _logicaSuministradores.AgregarRecarga(recarga);
+            _logicaSuministradores.AgregarRecarga(idProveedor, idSuministrador, monto);
             _logicaSuministradores.ActualizarLeads(idSuministrador, monto);
 
             var recargasJson = new List<Object>();

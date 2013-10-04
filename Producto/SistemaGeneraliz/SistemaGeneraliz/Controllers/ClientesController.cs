@@ -155,18 +155,19 @@ namespace SistemaGeneraliz.Controllers
                     foreach (ProveedorBusquedaViewModel proveedor in proveedores)
                     {
                         Object o = new
-                                       {
-                                           ProveedorId = proveedor.ProveedorId,
-                                           Puntaje = proveedor.Puntaje,
-                                           RutaFoto = proveedor.RutaFoto,
-                                           NombreCompleto = proveedor.NombreCompleto,
-                                           TipoDocumento = proveedor.TipoDocumento,
-                                           Documento = proveedor.TipoDocumento + " - " + proveedor.Documento,
-                                           Servicio = proveedor.Servicio,
-                                           Descripcion = proveedor.Descripcion,
-                                           VerTrabajos = proveedor.VerTrabajos,
-                                           VerComentarios = proveedor.VerComentarios
-                                       };
+                        {
+                            ProveedorId = proveedor.ProveedorId,
+                            Puntaje = proveedor.Puntaje,
+                            RutaFoto = proveedor.RutaFoto,
+                            NombreCompleto = proveedor.NombreCompleto,
+                            TipoDocumento = proveedor.TipoDocumento,
+                            Documento = proveedor.TipoDocumento + " - " + proveedor.Documento,
+                            Servicio = proveedor.Servicio,
+                            ServicioId = proveedor.ServicioId,
+                            Descripcion = proveedor.Descripcion,
+                            VerTrabajos = proveedor.VerTrabajos,
+                            VerComentarios = proveedor.VerComentarios
+                        };
 
                         proveedoresJson.Add(o);
                     }
@@ -178,6 +179,21 @@ namespace SistemaGeneraliz.Controllers
             }
 
             return Json(proveedoresJson, JsonRequestBehavior.AllowGet);
+        }
+        
+        [Authorize(Roles = "Administrador, Cliente")]
+        [HttpGet]
+        public ActionResult ContratarProveedores(int clienteId, string proveedoresIds, string serviciosIds, string fecha, string ubicacion, string desc)
+        {
+            if (Roles.IsUserInRole("Administrador"))
+                return null;
+
+            _logicaClientes.AgregarTrabajo(clienteId, proveedoresIds, serviciosIds, fecha, ubicacion, desc);
+            
+            var recargasJson = new List<Object>();
+            Object o = new { Msg = "ok" };
+            recargasJson.Add(o);
+            return Json(recargasJson, JsonRequestBehavior.AllowGet);
         }
     }
 }

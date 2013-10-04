@@ -1,7 +1,5 @@
-2013/10/03-08:54:33.414 1a7c Recovering log #42
-2013/10/03-08:54:33.531 1a7c Level-0 table #44: started
-2013/10/03-08:54:33.583 1a7c Level-0 table #44: 412205 bytes OK
-2013/10/03-08:54:33.592 1a7c Delete type=0 #38
-2013/10/03-08:54:33.622 1a7c Delete type=0 #42
-2013/10/03-08:54:33.633 1a7c Delete type=3 #36
-2013/10/03-08:54:33.650 1a7c Delete type=3 #40
+2013/10/04-11:12:03.158 1bdc Recovering log #45
+2013/10/04-11:12:03.256 1bdc Level-0 table #47: started
+2013/10/04-11:12:03.269 1bdc Level-0 table #47: 352167 bytes OK
+2013/10/04-11:12:03.303 1bdc Delete type=0 #45
+2013/10/04-11:12:03.304 1bdc Delete type=3 #43

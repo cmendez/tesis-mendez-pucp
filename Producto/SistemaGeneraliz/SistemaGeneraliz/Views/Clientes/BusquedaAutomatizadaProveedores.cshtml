@@ -11,7 +11,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Búsqueda Automatizada de Proveedores</title>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
     <script src="~/Scripts/mi_mapa.js"></script>
 </head>
 <body>
@@ -101,6 +101,13 @@
     @*    <div>
         @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
     </div>*@
+    
+    
+    <div style="width: 11%;margin-left: auto;margin-right: auto;">    
+        <button id="btnContratar" type="submit" class="btn red pull-right" style="">
+        Contratar <i class="icon-ok  m-icon-white"></i>
+    </button>
+    </div>    
 
     <script>
         $(document).ready(function () {
@@ -130,6 +137,7 @@
                                 NombreCompleto: { type: "string", editable: false },
                                 Documento: { type: "string", editable: false },
                                 Servicio: { type: "string", editable: false },
+                                ServicioId: { type: "string", editable: false, hidden: true },
                                 Descripcion: { type: "string", editable: false },
                                 VerTrabajos: { type: "string", editable: false },
                                 VerComentarios: { type: "string", editable: false }
@@ -162,7 +170,7 @@
                 alert("Error: debe elegir por lo menos un servicio.");
                 return;
             }
-            
+
             var ubicacion = $("#ubicacion").val();
             if (ubicacion === "") {
                 alert("Error: debe ingresar una ubicación.");
@@ -194,12 +202,12 @@
             var longitud = $("#Longitud").val();
             var dataSource = $('#Grid').data('kendoGrid').dataSource;
             dataSource.read(); //para borrar las filas de la grilla.. no sé pero funciona XD
-            
+
             $.getJSON('/Clientes/GetProveedoresBusquedaTabuJSON', { valueServicios: valueServicios, latitud: latitud, longitud: longitud, ajax: 'true' }, function (result) {
                 $(result).each(function () {
                     dataSource.add({
                         ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, RutaFoto: this.RutaFoto, NombreCompleto: this.NombreCompleto,
-                        TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, Descripcion: this.Descripcion,
+                        TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, ServicioId: this.ServicioId, Descripcion: this.Descripcion,
                         VerTrabajos: this.VerTrabajos, VerComentarios: this.VerComentarios
                     });
                 });
@@ -207,52 +215,78 @@
             return;
         });
 
-        $("#btnRecargar").click(function e() {
-            var idProveedor = $('#proveedorId').val();
-            if (idProveedor === "") {
-                alert("Error: debe buscar a un proveedor primero.");
-                return;
-            };
+        $("#btnContratar").click(function e() {
+            var multiselect = $("#tiposServicios").data("kendoMultiSelect");
+            var valueServicios = multiselect.value().toString();
 
-            if ($('#montoRecarga').val() === "") {
-                alert("Error: ingrese monto a recargar.");
-                return;
-            };
-
-            var monto = parseInt($("#montoRecarga").val(), 10);
-            var leads = parseInt($("#leadsDisponibles").val(), 10) + parseInt($("#leadsReserva").val(), 10);
-
-            if (monto > leads) {
-                alert("Error: usted no tiene leads suficientes para hacer la recarga.\nLeads totales: " + leads);
+            if (valueServicios === "") {
+                alert("Error: debe elegir por lo menos un servicio.");
                 return;
             }
 
-            var idSuministrador = $("#suministradorId").val();
+            var ubicacion = $("#ubicacion").val();
+            if (ubicacion === "") {
+                alert("Error: debe ingresar una ubicación.");
+                return;
+            }
 
+            var fecha = $("#fecha").val();
+            if (fecha === "") {
+                alert("Error: debe ingresar una fecha.");
+                return;
+            }
+            var desc = $("#descripcion").val();
+            if (desc === "") {
+                alert("Error: debe ingresar la descripción del trabajo.");
+                return;
+            }
+
+            var data = $('#Grid').data('kendoGrid').dataSource.data();
+            if (data.length === 0) {
+                alert("Error: debe haber al menos un proveedor a contratar");
+                return;
+            }
+
+            var proveedoresIds = "";
+            var serviciosIds = "";
+
+            $.each(data, function (index, item) {
+                proveedoresIds += item.ProveedorId + ",";
+                serviciosIds += item.ServicioId + ",";
+            });
+
+            var clienteId = $("#clienteId").val();
+            //alert(serviciosIds);
+            //alert(clienteId+" "+proveedoresIds+" "+valueServicios+" "+fecha+" "+ubicacion+" "+desc);
+
+            //return;
             $.ajax({
                 type: 'GET',
-                url: '/Suministradores/EjecutarRecarga',
+                url: '/Clientes/ContratarProveedores',
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 data: {
-                    idProveedor: idProveedor,
-                    idSuministrador: idSuministrador,
-                    monto: monto
+                    clienteId: clienteId,
+                    proveedoresIds: proveedoresIds,
+                    serviciosIds: serviciosIds,
+                    fecha: fecha,
+                    ubicacion: ubicacion,
+                    desc: desc
                 },
-
-                success: function (data) {
-                    alert("La recarga se realizó exitosamente.");
-                    window.location = "/Suministradores/RecargarLeads/";
+                /*
+                success: function (e) {
+                    alert("Se realizó la contratación exitosamente.");
+                    window.location = "/Home/Index/";
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
                     alert(thrownError);
-                }
+                }*/
             });
         });
 
         $("#ver_mapa").click(function () {
-            $("#ubicacion").attr('readonly',false);
+            $("#ubicacion").attr('readonly', false);
             $("#modal_mapa").attr('style', '');
         });
     </script>

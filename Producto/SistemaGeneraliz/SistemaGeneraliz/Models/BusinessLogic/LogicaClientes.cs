@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using SistemaGeneraliz.Models.Entities;
 using SistemaGeneraliz.Models.Helpers;
 using SistemaGeneraliz.Models.ViewModels;
@@ -62,6 +63,65 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             catch (Exception e)
             {
                 return null;
+            }
+        }
+
+        public void AgregarTrabajo(int clienteId, string proveedoresIds, string serviciosIds, string fecha, string ubicacion, string desc)
+        {
+            int i = 0;
+
+            Trabajo trabajo = new Trabajo
+            {
+                ClienteId = clienteId,
+                Fecha = DateTime.ParseExact(fecha, "dd/MM/yyyy", CultureInfo.InvariantCulture),
+                Direccion = ubicacion,
+                DescripcionCliente = desc,
+                IsTerminado = 0
+            };
+            
+            _sgpFactory.AgregarTrabajo(trabajo);
+
+            //Agregar TrabajoProveedor
+            string[] provIds = proveedoresIds.Split(',');
+            string[] servicios = serviciosIds.Split(',');
+            foreach (var proveedor in provIds)
+            {
+                if (proveedor != "")
+                {
+                    TrabajoProveedor trabajoProveedor = new TrabajoProveedor
+                    {
+                        ProveedorId = Int32.Parse(proveedor),
+                        TrabajoId = trabajo.TrabajoId,
+                        TiposServicios = new List<TipoServicio>()
+                    };
+
+                    //Agregar TiposServiciosXTrabajosProveedores
+                    string serviciosProveedor = servicios[i];
+                    if (serviciosProveedor.IndexOf("-") > 0) //el proveedor ejecutará más de 1 servicio
+                    {
+                        string[] idsServicios = serviciosProveedor.Split('-');
+                        foreach (var idServ in idsServicios)
+                        {
+                            if (idServ != "")
+                            {
+                                TipoServicio tipo = _sgpFactory.GetTipoServicioPorId(Convert.ToInt32(idServ));
+                                trabajoProveedor.TiposServicios.Add(tipo);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (serviciosProveedor != "")
+                        {
+                            TipoServicio tipo = _sgpFactory.GetTipoServicioPorId(Convert.ToInt32(serviciosProveedor));
+                            trabajoProveedor.TiposServicios.Add(tipo);
+                        }
+                    }
+
+                    _sgpFactory.AgregarTrabajoProveedor(trabajoProveedor);
+                    _sgpFactory.ConsumirLeadsProveedor(Int32.Parse(proveedor), 1);
+                }
+                i++;
             }
         }
     }

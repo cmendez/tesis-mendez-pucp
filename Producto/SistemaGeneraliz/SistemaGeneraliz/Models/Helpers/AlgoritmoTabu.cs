@@ -124,6 +124,7 @@ namespace SistemaGeneraliz.Models.Helpers
                         TipoDocumento = tipoDocumento,
                         Documento = prov.Persona.UserName,
                         Servicio = listaServicios[i].NombreServicio,
+                        ServicioId = listaServicios[i].TipoServicioId.ToString(),
                         Descripcion = prov.AcercaDeMi,
                         VerTrabajos = "", //AQUI IRA LINK DE TRABAJOS 
                         VerComentarios = "" //AQUI IRA LINK DE COMENTARIOS 
@@ -133,6 +134,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 else
                 {
                     pro.Servicio += " - " + listaServicios[i].NombreServicio;
+                    pro.ServicioId += "-" + listaServicios[i].TipoServicioId.ToString();
                 }
 
                 i++;
@@ -275,18 +277,20 @@ namespace SistemaGeneraliz.Models.Helpers
 
         private Proveedor BuscarOptimoLocal(List<Proveedor> listaCandidatos)
         {
-            Proveedor mejor;
+            Proveedor mejor = null;
 
-            foreach (var candidato in listaCandidatos)
+            if ((listaCandidatos != null) && (listaCandidatos.Count > 0)) //pueden que todos sus vecinos esten marcados como Tabú
             {
-                candidato.Factor = (candidato.PuntuacionPromedio / candidato.Distancia);
+                foreach (var candidato in listaCandidatos)
+                {
+                    candidato.Factor = (candidato.PuntuacionPromedio/candidato.Distancia);
+                }
+
+                //Ordenar lista por factor P/D y tomar primer elemento
+                //lista_Candidatos = QS_Proveedores(lista_Candidatos, 0, n - 1);
+                listaCandidatos.Sort((x, y) => y.Factor.CompareTo(x.Factor));
+                mejor = listaCandidatos[0];
             }
-
-            //Ordenar lista por factor P/D y tomar primer elemento
-            //lista_Candidatos = QS_Proveedores(lista_Candidatos, 0, n - 1);
-            listaCandidatos.Sort((x, y) => y.Factor.CompareTo(x.Factor));
-
-            mejor = listaCandidatos[0];
 
             return mejor;
         }
