@@ -93,5 +93,15 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         {
             return _sgpFactory.GetProveedoresPorServicio(servicio, cantidadMaxima, puntajeMinimo);
         }
+
+        public int GetCantidadMaximaProveedoresConfiguracion()
+        {
+            return _sgpFactory.GetCantidadMaximaProveedoresConfiguracion();
+        }
+
+        public int GetPuntajeMinimoConfiguracion()
+        {
+            return _sgpFactory.GetPuntajeMinimoConfiguracion();
+        }
     }
 }

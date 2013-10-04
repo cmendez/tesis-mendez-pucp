@@ -27,6 +27,8 @@ namespace SistemaGeneraliz.Models.Helpers
         Proveedor GetProveedorPorDocumento(long documento, int opcionDocumento);
         List<TipoServicio> GetServiciosPorIds(int[] serviciosIds);
         List<Proveedor> GetProveedoresPorServicio(TipoServicio servicio, int cantidadMaxima, int puntajeMinimo);
+        int GetCantidadMaximaProveedoresConfiguracion();
+        int GetPuntajeMinimoConfiguracion();
         #endregion
 
         #region Clientes

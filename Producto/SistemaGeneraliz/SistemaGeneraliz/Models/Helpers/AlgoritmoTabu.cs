@@ -95,36 +95,46 @@ namespace SistemaGeneraliz.Models.Helpers
             int i = 0;
             foreach (var prov in listaMejores)
             {
-                string nombre = "";
-                string tipoDocumento = "";
+                var pro = lista.Find(p => p.ProveedorId == prov.ProveedorId);
 
-                switch (prov.Persona.TipoPersona)
+                if (pro == null)
                 {
-                    case "Natural":
-                        nombre = prov.Persona.PrimerNombre + " " + prov.Persona.ApellidoPaterno;
-                        tipoDocumento = "DNI";
-                        break;
+                    string nombre = "";
+                    string tipoDocumento = "";
 
-                    case "Juridica":
-                        nombre = prov.Persona.RazonSocial;
-                        tipoDocumento = "RUC";
-                        break;
+                    switch (prov.Persona.TipoPersona)
+                    {
+                        case "Natural":
+                            nombre = prov.Persona.PrimerNombre + " " + prov.Persona.ApellidoPaterno;
+                            tipoDocumento = "DNI";
+                            break;
+
+                        case "Juridica":
+                            nombre = prov.Persona.RazonSocial;
+                            tipoDocumento = "RUC";
+                            break;
+                    }
+
+                    ProveedorBusquedaViewModel proveedorViewModel = new ProveedorBusquedaViewModel
+                    {
+                        ProveedorId = prov.ProveedorId,
+                        Puntaje = Convert.ToInt32(prov.PuntuacionPromedio).ToString(),
+                        RutaFoto = "", //AQUI IRA LA URL DE LA FOTO
+                        NombreCompleto = nombre,
+                        TipoDocumento = tipoDocumento,
+                        Documento = prov.Persona.UserName,
+                        Servicio = listaServicios[i].NombreServicio,
+                        Descripcion = prov.AcercaDeMi,
+                        VerTrabajos = "", //AQUI IRA LINK DE TRABAJOS 
+                        VerComentarios = "" //AQUI IRA LINK DE COMENTARIOS 
+                    };
+                    lista.Add(proveedorViewModel);
+                }
+                else
+                {
+                    pro.Servicio += " - " + listaServicios[i].NombreServicio;
                 }
 
-                ProveedorBusquedaViewModel proveedorViewModel = new ProveedorBusquedaViewModel
-                {
-                    ProveedorId = prov.ProveedorId,
-                    Puntaje = Convert.ToInt32(prov.PuntuacionPromedio).ToString(),
-                    RutaFoto = "", //AQUI IRA LA URL DE LA FOTO
-                    NombreCompleto = nombre,
-                    TipoDocumento = tipoDocumento,
-                    Documento = prov.Persona.UserName,
-                    Servicio = listaServicios[i].NombreServicio,
-                    Descripcion = prov.AcercaDeMi,
-                    VerTrabajos = "", //AQUI IRA LINK DE TRABAJOS 
-                    VerComentarios = "" //AQUI IRA LINK DE COMENTARIOS 
-                };
-                lista.Add(proveedorViewModel);
                 i++;
             }
             return lista;
@@ -138,8 +148,8 @@ namespace SistemaGeneraliz.Models.Helpers
 
         private List<List<Proveedor>> GenerarListaProveedores(List<TipoServicio> listaServicios)
         {
-            int cantidadMaxima = 100; //podría ser configurable
-            int puntajeMinimo = 0;//14; //podría ser configurable
+            int puntajeMinimo = _logicaProveedores.GetPuntajeMinimoConfiguracion();
+            int cantidadMaxima = _logicaProveedores.GetCantidadMaximaProveedoresConfiguracion();
             int i = 0;
             List<List<Proveedor>> listaProveedores = new List<List<Proveedor>>();
 
@@ -238,8 +248,12 @@ namespace SistemaGeneraliz.Models.Helpers
                 {
                     //Calculamos el distanciamiento de cada potencial vecino respecto del proveedor de turno
                     double distancia = Calcular_Distancia_GPS(lista[i].Persona.UbicacionesPersonas.ElementAt(0), proveedor.Persona.UbicacionesPersonas.ElementAt(0));
-                    vecindarioProveedor.Add(lista[i]);
-                    vecindarioProveedor.ElementAt(vecindarioProveedor.Count - 1).Distancia = distancia;
+
+                    if (Convert.ToInt32(distancia) != 0) //los seeds a veces fallan y 2 proveedores tendran la misma Lat y Lon
+                    {
+                        vecindarioProveedor.Add(lista[i]);
+                        vecindarioProveedor.ElementAt(vecindarioProveedor.Count - 1).Distancia = distancia;    
+                    }
                 }
             }
 
@@ -262,7 +276,6 @@ namespace SistemaGeneraliz.Models.Helpers
         private Proveedor BuscarOptimoLocal(List<Proveedor> listaCandidatos)
         {
             Proveedor mejor;
-            int n = listaCandidatos.Count;
 
             foreach (var candidato in listaCandidatos)
             {
@@ -273,7 +286,7 @@ namespace SistemaGeneraliz.Models.Helpers
             //lista_Candidatos = QS_Proveedores(lista_Candidatos, 0, n - 1);
             listaCandidatos.Sort((x, y) => y.Factor.CompareTo(x.Factor));
 
-            mejor = lista_Candidatos[0];
+            mejor = listaCandidatos[0];
 
             return mejor;
         }

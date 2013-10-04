@@ -145,29 +145,36 @@ namespace SistemaGeneraliz.Controllers
         [HttpGet]
         public ActionResult GetProveedoresBusquedaTabuJSON(string valueServicios = "", double latitud = 1, double longitud = 1)
         {
-            List<ProveedorBusquedaViewModel> proveedores = _logicaClientes.EjecutarAlgoritmoTabu(valueServicios, latitud, longitud);
-
             var proveedoresJson = new List<Object>();
-            if (proveedores != null)
+
+            if (Roles.IsUserInRole("Cliente"))
             {
-                foreach (ProveedorBusquedaViewModel proveedor in proveedores)
+                List<ProveedorBusquedaViewModel> proveedores = _logicaClientes.EjecutarAlgoritmoTabu(valueServicios, latitud, longitud);
+                if (proveedores != null)
                 {
-                    Object o = new
+                    foreach (ProveedorBusquedaViewModel proveedor in proveedores)
                     {
-                        ProveedorId = proveedor.ProveedorId,
-                        Puntaje = proveedor.Puntaje,
-                        RutaFoto = proveedor.RutaFoto,
-                        NombreCompleto = proveedor.NombreCompleto,
-                        TipoDocumento = proveedor.TipoDocumento,
-                        Documento = proveedor.TipoDocumento + " - " +proveedor.Documento,
-                        Servicio = proveedor.Servicio,
-                        Descripcion = proveedor.Descripcion,
-                        VerTrabajos = proveedor.VerTrabajos,
-                        VerComentarios = proveedor.VerComentarios
-                    };
-                    
-                    proveedoresJson.Add(o);
+                        Object o = new
+                                       {
+                                           ProveedorId = proveedor.ProveedorId,
+                                           Puntaje = proveedor.Puntaje,
+                                           RutaFoto = proveedor.RutaFoto,
+                                           NombreCompleto = proveedor.NombreCompleto,
+                                           TipoDocumento = proveedor.TipoDocumento,
+                                           Documento = proveedor.TipoDocumento + " - " + proveedor.Documento,
+                                           Servicio = proveedor.Servicio,
+                                           Descripcion = proveedor.Descripcion,
+                                           VerTrabajos = proveedor.VerTrabajos,
+                                           VerComentarios = proveedor.VerComentarios
+                                       };
+
+                        proveedoresJson.Add(o);
+                    }
                 }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Solo los clientes pueden hacer búsquedas de proveedores.");
             }
 
             return Json(proveedoresJson, JsonRequestBehavior.AllowGet);

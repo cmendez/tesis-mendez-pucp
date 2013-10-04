@@ -27,6 +27,7 @@ namespace SistemaGeneraliz.Models.Helpers
         public IDbSet<Distrito> Distritos { get; set; }
         public IDbSet<UbicacionPersona> UbicacionesPersonas { get; set; }
         public IDbSet<RecargaLeads> RecargasLeads { get; set; }
+        public IDbSet<Configuracion> Configuraciones { get; set; }
         #endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -38,10 +39,11 @@ namespace SistemaGeneraliz.Models.Helpers
 
         internal void Seed()
         {
+            SeedConfiguraciones();
             SeedsRoles();
             var tiposServicios = SeedsTiposServicios();
             var distritos = SeedPaisesCiudadesDistritos();
-            var personasNaturales = SeedPersonasNaturales(10);
+            var personasNaturales = SeedPersonasNaturales(20);
             var personasJuridicas = SeedPersonasJuridicas();
             var personas = personasNaturales.Concat(personasJuridicas).ToList();
             SeedUbicacionesPersonas(personas, distritos);
@@ -49,6 +51,18 @@ namespace SistemaGeneraliz.Models.Helpers
             var suministradores = SeedSuministradores(personas);
             var clientes = SeedClientes(personas);
             SeedRecargaLeads(suministradores, proveedores);
+        }
+
+        private void SeedConfiguraciones()
+        {
+            var listaConfiguraciones = new List<Configuracion>()
+            {
+                new Configuracion { Nombre = "PuntuacionMinimaAlgoritmo", Descripcion = "Puntuación mínima requerida del proveedor para ser considerado en la lógica del algoritmo", ValorNumerico = 12},
+                new Configuracion { Nombre = "CantidadMaximaProveedoresAlgoritmo", Descripcion = "Cantidad máxima de proveedores que se devuelven al buscar proveedores dado un servicio, para la lógica del algoritmo", ValorNumerico = 100},
+                new Configuracion { Nombre = "LeadsGratisRegistro", Descripcion = "Leads gratis al registrarse", ValorNumerico = 2}
+            };
+            listaConfiguraciones.ForEach(s => this.Configuraciones.Add(s));
+            this.SaveChanges();
         }
 
         private void SeedsRoles()
@@ -136,7 +150,7 @@ namespace SistemaGeneraliz.Models.Helpers
             string[] nombres = { "Juan", "Alberto", "Pedro", "David", "Alfredo", "Renato", "Marcos", "Lucas", "Raúl", "Eduardo", "Cristopher", "Toribio" };
             string[] apellidos = { "Lopez", "Vidal", "Guerra", "Garcia", "Alvarez", "Dominguez", "Rodriguez", "Balcazar", "Quintana", "Taboada", "Córdova", "Suarez" };
             string[] documentos = { "46394691", "86735959", "34896582", "70688569", "42384465", "41774584", "26335963", "37855213", "58765115", "31669569", "33287845", "42542398" };
-            string[] tipoPersona = { "Cliente", "Cliente", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor" };
+            string[] tipoPersona = { "Cliente", "Cliente", "Cliente", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor" };
             List<long> docs = new List<long>();
             long d1;
             int r1, r2, r3, r4;
@@ -193,7 +207,7 @@ namespace SistemaGeneraliz.Models.Helpers
             var listPersonas = new List<Persona>();
             string[] razonesSociales = { "J&R", "ABC", "XYZ", "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Lambda", "Omega" };
             string[] documentos = { "20046394691", "20086735959", "20034896582", "20070688569", "20042384465", "20041774584", "20026335963", "20037855213", "20058765115", "20031669569" };
-            string[] tipoPersona = { "Cliente", "Proveedor", "Proveedor", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador" };
+            string[] tipoPersona = { "Cliente", "Proveedor", "Proveedor", "Proveedor", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador" };
             List<long> docs = new List<long>();
             long d1;
             int r1, r2, r3, r4;
@@ -244,9 +258,11 @@ namespace SistemaGeneraliz.Models.Helpers
                 r1 = random.Next(0, distritos.Count());
                 r2 = random.Next(0, 2);
                 r3 = random.Next(0, 2);
-                r4 = random.Next(1, 6);
-                r5 = random.Next(1, 6);
+                r4 = random.Next(1, 1);
+                r5 = random.Next(1, 1);
                 r6 = random.Next(201, 500);
+                if (r6 < 100)
+                    r6 *= 2;
 
                 Distrito distrito = distritos[r1];
                 string direccion = "";

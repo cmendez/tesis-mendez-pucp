@@ -3,7 +3,7 @@ var marker;
 
 function initialize() {
     var mapOptions = {
-        zoom: 12,
+        zoom: 16,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById('map-canvas'),
@@ -12,7 +12,20 @@ function initialize() {
     google.maps.event.addListener(map, 'click', function (event) {
         placeMarker(event.latLng);
     });
+    
+    var lat = $("#Latitud").val();
+    var lon = $("#Longitud").val();
+    var pos = new google.maps.LatLng(lat,lon);
+    map.setCenter(pos);
+    marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        animation: google.maps.Animation.DROP,
+        //icon: new google.maps.MarkerImage("http://google-maps-icons.googlecode.com/files/administration.png", null, null, new google.maps.Point(8, 8))
+    });
 
+
+    /*
     // Try HTML5 geolocation
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -39,7 +52,7 @@ function initialize() {
     } else {
         // Browser doesn't support Geolocation
         handleNoGeolocation(false);
-    }
+    }*/
 }
 
 function placeMarker(location) {
@@ -77,7 +90,7 @@ function handleNoGeolocation(errorFlag) {
     var options = {
         map: map,
         position: new google.maps.LatLng(-12.08611459617003, -77.00229406356812),
-        content: content
+        //content: content
     };
 
     var infowindow = new google.maps.InfoWindow(options);

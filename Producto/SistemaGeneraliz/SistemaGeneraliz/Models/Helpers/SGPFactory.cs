@@ -136,6 +136,16 @@ namespace SistemaGeneraliz.Models.Helpers
                                     .OrderByDescending(p => p.PuntuacionPromedio).Take(cantidadMaxima).ToList();
         }
 
+        public int GetCantidadMaximaProveedoresConfiguracion()
+        {
+            return _db.Configuraciones.Find(2).ValorNumerico;
+        }
+
+        public int GetPuntajeMinimoConfiguracion()
+        {
+            return _db.Configuraciones.Find(1).ValorNumerico;
+        }
+
         #endregion
 
         #region Clientes

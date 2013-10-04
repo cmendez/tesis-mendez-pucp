@@ -38,3 +38,7 @@ El 20 es arbitario, mejor seria la cantidad maxima M de proveedores
 de entre los N arreglos (1 arreglo por tipo de servicio). 
 Obvio, porque como maximo debera hacer N reemplazos (el mas grande
 de los N arreglos)
+
+
+***************
+Hemos agregado una tabla de Configuraciones para poder cambiar desde el SQL Manag. Studio la cantidad maxima de proveedores extraidos de la BD así como el puntaje mínimo necesario para ser considerado en la lógica del algoritmo. Dependiendo del puntaje mínimo establecido en la BD, el algoritmo podrá darle chance a los proveedores. Es decir, no hacemos simplemente tomar el de mayor factor en la BD respecto del cliente, sino que buscamos los óptimos locales siempre intercambiando el actual por el nuevo. Si un proveedor con nota 11 p.ej. es escogido, no es que el algoritmo esté mal, sino que nosotros definimos que la nota minima sea 11 por lo que el algoritmo pudo tomarlo en cuenta (sobre todo si vive cerca de otros proveedores --> la distancia será muy corta por tanto el factor F será elevado (esa es la razón de porque se podrían elegir a esos proveedores)

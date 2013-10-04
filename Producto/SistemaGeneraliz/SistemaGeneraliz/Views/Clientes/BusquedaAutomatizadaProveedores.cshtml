@@ -11,6 +11,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Búsqueda Automatizada de Proveedores</title>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <script src="~/Scripts/mi_mapa.js"></script>
 </head>
 <body>
     @*    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
@@ -18,7 +20,7 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
     @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Búsqueda Automatizada de Proveedores", ""));}
 
-    @*@Html.ValidationSummary(true)*@
+    @Html.ValidationSummary(true)
     <input type="hidden" name="clienteId" id="clienteId" value="@ViewBag.ClienteId">
 
     <table style="width: 100%; border: 0;">
@@ -34,25 +36,25 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Fecha Aproximada:</td>
-                                <td>
+                                <td style="padding-top: 13px;">Fecha Aproximada:</td>
+                                <td style="padding-top: 13px;">
                                     <input type="text" name="fecha" id="fecha" required="required" value="" placeholder="Seleccione la fecha" style="width: 220px;">
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </td>
-                <td style="vertical-align: top; width: 38%;">
+                <td style="vertical-align: top; width: 47%;">
                     <table style="width: auto; border: 0;">
                         <tbody style="vertical-align: top;">
-
                             <tr>
-                                <td>Ubicación:</td>
-                                <td>
-                                    <input type="hidden" name="latitud" id="latitud" value="@ViewBag.Latitud">
-                                    <input type="hidden" name="longitud" id="longitud" value="@ViewBag.Longitud">
-                                    <input type="text" name="ubicacion" id="ubicacion" readonly="readonly" value="@ViewBag.Ubicacion" @*style="text-align: right;"*@>
+                                <td style="width: 10%;">Ubicación:</td>
+                                <td style="width: 10%;">
+                                    <input type="hidden" name="Latitud" id="Latitud" value="@ViewBag.Latitud">
+                                    <input type="hidden" name="Longitud" id="Longitud" value="@ViewBag.Longitud">
+                                    <input type="text" name="ubicacion" id="ubicacion" required="required" readonly="readonly" value="@ViewBag.Ubicacion" @*style="text-align: right;"*@>
                                 </td>
+                                <td><a id="ver_mapa" type="button" class="btn" style="width: 100%; color: black; text-shadow: none; background-color: lightblue;" href="#modal_mapa" data-toggle="modal">Cambiar Ubicación</a></td>
                             </tr>
                             <tr>
                                 <td>Descripción del Trabajo:</td>
@@ -71,6 +73,20 @@
             </tr>
         </tbody>
     </table>
+
+    <div class="modal fade" id="modal_mapa" style="z-index: -1;">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal"></a>
+            <h4>Indique su ubicación en el mapa</h4>
+        </div>
+        <div class="modal-body" style="height: 400px;">
+            <div id="map-canvas" style="margin: 0; padding: 0; height: 100%; width: 100%;"></div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" data-dismiss="modal" style="color: white; text-shadow: none; background-color: #35aa47;">Guardar</a>
+        </div>
+    </div>
+
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption"><i class="icon-reorder"></i>Mejores Proveedores Encontrados</div>
@@ -127,13 +143,13 @@
                     { title: "Calificación", field: "Puntaje", width: "100px" },
                     { title: "Nombre / Razón Social", field: "NombreCompleto", width: "190px" },
                     { title: "DNI / RUC", field: "Documento", width: "160px" },
-                    { title: "Servicio Ofrecido", field: "Servicio", width: "140px" },
+                    { title: "Servicios Ofrecidos", field: "Servicio", width: "140px" },
                     { title: "Sobre Mí", field: "Descripcion", width: "170px" },
                     { title: "Trabajos ", field: "VerTrabajos", },
                     { title: "Comentarios", field: "VerComentarios", }
                 ]
             });
-            
+
             var grid = $("#Grid").data("kendoGrid");
             grid.hideColumn("ProveedorId");
         });
@@ -141,10 +157,15 @@
         $("#btnBuscar").click(function () {
             var multiselect = $("#tiposServicios").data("kendoMultiSelect");
             var valueServicios = multiselect.value().toString();
-            //alert(valueServicios);
 
             if (valueServicios === "") {
                 alert("Error: debe elegir por lo menos un servicio.");
+                return;
+            }
+            
+            var ubicacion = $("#ubicacion").val();
+            if (ubicacion === "") {
+                alert("Error: debe ingresar una ubicación.");
                 return;
             }
 
@@ -168,13 +189,11 @@
                 alert("Error: debe ingresar la descripción del trabajo.");
                 return;
             }
-            
-            var latitud = $("#latitud").val();
-            var longitud = $("#longitud").val();
+
+            var latitud = $("#Latitud").val();
+            var longitud = $("#Longitud").val();
             var dataSource = $('#Grid').data('kendoGrid').dataSource;
             dataSource.read(); //para borrar las filas de la grilla.. no sé pero funciona XD
-            //return;
-            //alert(dataSource.total());
             
             $.getJSON('/Clientes/GetProveedoresBusquedaTabuJSON', { valueServicios: valueServicios, latitud: latitud, longitud: longitud, ajax: 'true' }, function (result) {
                 $(result).each(function () {
@@ -183,15 +202,6 @@
                         TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, Descripcion: this.Descripcion,
                         VerTrabajos: this.VerTrabajos, VerComentarios: this.VerComentarios
                     });
-
-                    //if (this.ProveedorID != -1) {
-                    //    $('#nombreProveedor').val(this.NombreProveedor);
-                    //    $('#leadsActuales').val(this.LeadsProveedor);
-                    //    $('#proveedorId').val(this.ProveedorID);
-                    //}
-                    //else {
-                    //    alert("No se encontró al proveedor con documento: " + documento);
-                    //}
                 });
             });
             return;
@@ -218,7 +228,7 @@
             }
 
             var idSuministrador = $("#suministradorId").val();
-            //alert(idProveedor + " " + idSuministrador + " " + monto);
+
             $.ajax({
                 type: 'GET',
                 url: '/Suministradores/EjecutarRecarga',
@@ -231,7 +241,6 @@
                 },
 
                 success: function (data) {
-                    //alert(data);
                     alert("La recarga se realizó exitosamente.");
                     window.location = "/Suministradores/RecargarLeads/";
                 },
@@ -242,7 +251,10 @@
             });
         });
 
-
+        $("#ver_mapa").click(function () {
+            $("#ubicacion").attr('readonly',false);
+            $("#modal_mapa").attr('style', '');
+        });
     </script>
 </body>
 </html>
