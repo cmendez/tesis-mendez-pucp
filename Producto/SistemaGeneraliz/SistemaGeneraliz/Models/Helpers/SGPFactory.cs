@@ -157,6 +157,12 @@ namespace SistemaGeneraliz.Models.Helpers
                 _db.SaveChanges();
             }
         }
+
+        public List<Proveedor> GetProveedoresServicios(int[] servicios)
+        {
+            return _db.Proveedores.Where(p => p.TiposServicios.Any(s => servicios.Contains(s.TipoServicioId))).ToList();
+        }
+
         #endregion
 
         #region Clientes

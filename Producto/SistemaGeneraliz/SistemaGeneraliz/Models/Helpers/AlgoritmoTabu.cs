@@ -127,7 +127,12 @@ namespace SistemaGeneraliz.Models.Helpers
                         ServicioId = listaServicios[i].TipoServicioId.ToString(),
                         Descripcion = prov.AcercaDeMi,
                         VerTrabajos = "", //AQUI IRA LINK DE TRABAJOS 
-                        VerComentarios = "" //AQUI IRA LINK DE COMENTARIOS 
+                        VerComentarios = "", //AQUI IRA LINK DE COMENTARIOS 
+                        Telefono1 = prov.Persona.Telefono1 ?? "",
+                        Telefono2 = prov.Persona.Telefono2 ?? "",
+                        Telefono3 = prov.Persona.Telefono3 ?? "",
+                        Email1 = prov.Persona.Email1 ?? "",
+                        Email2 = prov.Persona.Email2 ?? "",
                     };
                     lista.Add(proveedorViewModel);
                 }

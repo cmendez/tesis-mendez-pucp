@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -28,5 +29,15 @@ namespace SistemaGeneraliz.Models.ViewModels
         public string VerTrabajos { get; set; }
         [DisplayName(" ")]
         public string VerComentarios { get; set; }
+        [Display(Name = "Email 1")]
+        public string Email1 { get; set; }
+        [Display(Name = "Email 2")]
+        public string Email2 { get; set; }
+        [Display(Name = "Teléfono 1")]
+        public string Telefono1 { get; set; }
+        [Display(Name = "Teléfono 2")]
+        public string Telefono2 { get; set; }
+        [Display(Name = "Teléfono 3")]
+        public string Telefono3 { get; set; }
     }
 }

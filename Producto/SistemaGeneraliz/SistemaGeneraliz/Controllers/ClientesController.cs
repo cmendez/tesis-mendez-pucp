@@ -116,7 +116,7 @@ namespace SistemaGeneraliz.Controllers
             return View(clienteJuridicoViewModel);
         }
 
-        public ActionResult BuscarProveedores()
+        public ActionResult BuscarProveedores(string tipoBusqueda)
         {
             int idPersona = WebSecurity.CurrentUserId;
             Cliente cliente = _logicaClientes.GetClientePorPersonaId(idPersona);
@@ -139,7 +139,11 @@ namespace SistemaGeneraliz.Controllers
             //Combobox Servicios
             ViewBag.TipoServicios = _logicaProveedores.GetTipoServicios();
 
-            return View("BusquedaAutomatizadaProveedores");
+            if (tipoBusqueda == "Automatizada")
+                return View("BusquedaAutomatizadaProveedores");
+            else if (tipoBusqueda == "Manual")
+                return View("BusquedaManualProveedores");
+            return null;
         }
 
         [HttpGet]
@@ -166,7 +170,12 @@ namespace SistemaGeneraliz.Controllers
                             ServicioId = proveedor.ServicioId,
                             Descripcion = proveedor.Descripcion,
                             VerTrabajos = proveedor.VerTrabajos,
-                            VerComentarios = proveedor.VerComentarios
+                            VerComentarios = proveedor.VerComentarios,
+                            Telefono1 = proveedor.Telefono1,
+                            Telefono2 = proveedor.Telefono2,
+                            Telefono3 = proveedor.Telefono3,
+                            Email1 = proveedor.Email1,
+                            Email2 = proveedor.Email2
                         };
 
                         proveedoresJson.Add(o);
@@ -187,13 +196,59 @@ namespace SistemaGeneraliz.Controllers
         {
             if (Roles.IsUserInRole("Administrador"))
                 return null;
-
-            _logicaClientes.AgregarTrabajo(clienteId, proveedoresIds, serviciosIds, fecha, ubicacion, desc);
             
+            Trabajo trabajo = _logicaClientes.AgregarTrabajo(clienteId, proveedoresIds, serviciosIds, fecha, ubicacion, desc);
+
             var recargasJson = new List<Object>();
             Object o = new { Msg = "ok" };
             recargasJson.Add(o);
             return Json(recargasJson, JsonRequestBehavior.AllowGet);
+
+            //return RedirectToAction("DatosContactoProveedores", trabajo);
+        }
+
+        [HttpGet]
+        public ActionResult GetProveedoresBusquedaManualJSON(string nombre, string valueServicios = "", double latitud = 1, double longitud = 1)
+        {
+            var proveedoresJson = new List<Object>();
+
+            if (Roles.IsUserInRole("Cliente"))
+            {
+                List<ProveedorBusquedaViewModel> proveedores = _logicaClientes.BusquedaManualProveedores(nombre, valueServicios);
+                if (proveedores != null)
+                {
+                    foreach (ProveedorBusquedaViewModel proveedor in proveedores)
+                    {
+                        Object o = new
+                        {
+                            ProveedorId = proveedor.ProveedorId,
+                            Puntaje = proveedor.Puntaje,
+                            RutaFoto = proveedor.RutaFoto,
+                            NombreCompleto = proveedor.NombreCompleto,
+                            TipoDocumento = proveedor.TipoDocumento,
+                            Documento = proveedor.TipoDocumento + " - " + proveedor.Documento,
+                            Servicio = proveedor.Servicio,
+                            ServicioId = proveedor.ServicioId,
+                            Descripcion = proveedor.Descripcion,
+                            VerTrabajos = proveedor.VerTrabajos,
+                            VerComentarios = proveedor.VerComentarios,
+                            Telefono1 = proveedor.Telefono1,
+                            Telefono2 = proveedor.Telefono2,
+                            Telefono3 = proveedor.Telefono3,
+                            Email1 = proveedor.Email1,
+                            Email2 = proveedor.Email2
+                        };
+
+                        proveedoresJson.Add(o);
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Solo los clientes pueden hacer búsquedas de proveedores.");
+            }
+
+            return Json(proveedoresJson, JsonRequestBehavior.AllowGet);
         }
     }
 }

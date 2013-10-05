@@ -30,6 +30,7 @@ namespace SistemaGeneraliz.Models.Helpers
         int GetCantidadMaximaProveedoresConfiguracion();
         int GetPuntajeMinimoConfiguracion();
         void ConsumirLeadsProveedor(int proveedorId, int cantidad);
+        List<Proveedor> GetProveedoresServicios(int[] servicios);
         #endregion
 
         #region Clientes

@@ -1,66 +1,66 @@
 ﻿<RecentFiles>
   <RecentFiles>
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Proveedores/f:RegistrarProveedorNatural.cshtml" caret="2882" fromTop="19" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Suministradores/f:RegistrarSuministradorJuridico.cshtml" caret="0" fromTop="0" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:ViewModels/f:ProveedorBusquedaViewModel.cs" caret="811" fromTop="23" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaUbicaciones.cs" caret="1978" fromTop="21" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Controllers/f:ProveedoresController.cs" caret="409" fromTop="6" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Controllers/f:SuministradoresController.cs" caret="7561" fromTop="0" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:Distrito.cs" caret="0" fromTop="0" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Usuarios/f:_RegistrarPersonaNatural.cshtml" caret="7081" fromTop="181" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Clientes/f:RegistrarClienteNatural.cshtml" caret="3995" fromTop="29" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:Proveedor.cs" caret="1217" fromTop="25" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Suministradores/f:RecargarLeads.cshtml" caret="5386" fromTop="0" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Home/f:Index.cshtml" caret="3309" fromTop="80" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Clientes/f:RegistrarClienteJuridico.cshtml" caret="2854" fromTop="13" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Usuarios/f:Login.cshtml" caret="0" fromTop="0" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Proveedores/f:RegistrarProveedorJuridico.cshtml" caret="299" fromTop="13" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Shared/f:_NavigationBar.cshtml" caret="4908" fromTop="16" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaPersonas.cs" caret="3680" fromTop="22" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:ISGPContext.cs" caret="708" fromTop="17" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:SGPContext.cs" caret="2889" fromTop="18" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Scripts/f:mi_mapa.js" caret="90" fromTop="5" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaProveedores.cs" caret="3682" fromTop="19" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/f:Global.asax.cs" caret="748" fromTop="13" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Controllers/f:ClientesController.cs" caret="7016" fromTop="9" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaClientes.cs" caret="1719" fromTop="20" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:SGPFactory.cs" caret="4924" fromTop="14" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:Configuracion.cs" caret="618" fromTop="18" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:Cliente.cs" caret="149" fromTop="5" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:ISGPFactory.cs" caret="1285" fromTop="23" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Clientes/f:BusquedaAutomatizadaProveedores.cshtml" caret="8107" fromTop="38" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:AlgoritmoTabu.cs" caret="6308" fromTop="0" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaSuministradores.cs" caret="3085" fromTop="35" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Controllers/f:SuministradoresController.cs" caret="4580" fromTop="0" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Controllers/f:ProveedoresController.cs" caret="2635" fromTop="18" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:ISGPContext.cs" caret="875" fromTop="19" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Scripts/f:mi_mapa.js" caret="90" fromTop="0" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:PageTitle.cs" caret="0" fromTop="0" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:Trabajo.cs" caret="513" fromTop="16" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:TipoServicio.cs" caret="687" fromTop="18" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:ViewModels/f:RecargasLeadsViewModel.cs" caret="259" fromTop="11" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:Persona.cs" caret="950" fromTop="15" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:ViewModels/f:ProveedorBusquedaViewModel.cs" caret="1444" fromTop="26" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Clientes/f:Index.cshtml" caret="0" fromTop="0" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Home/f:Index.cshtml" caret="817" fromTop="14" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:ISGPFactory.cs" caret="1417" fromTop="12" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Shared/f:Titulo.cshtml" caret="275" fromTop="8" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:AlgoritmoTabu.cs" caret="4045" fromTop="10" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaProveedores.cs" caret="3593" fromTop="17" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:ViewModels/f:PersonaNaturalViewModel.cs" caret="4134" fromTop="6" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:ViewModels/f:DatosContactoProveedoresViewModel.cs" caret="812" fromTop="22" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:TrabajoProveedor.cs" caret="688" fromTop="19" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:Proveedor.cs" caret="1254" fromTop="27" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Suministradores/f:RecargarLeads.cshtml" caret="5961" fromTop="15" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:SGPContext.cs" caret="489" fromTop="0" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Shared/f:_NavigationBar.cshtml" caret="4944" fromTop="16" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:SGPFactory.cs" caret="5216" fromTop="16" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaClientes.cs" caret="8840" fromTop="28" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Clientes/f:BusquedaAutomatizadaProveedores.cshtml" caret="12376" fromTop="17" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/f:Global.asax.cs" caret="748" fromTop="16" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Controllers/f:ClientesController.cs" caret="9403" fromTop="0" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Clientes/f:BusquedaManualProveedores.cshtml" caret="14976" fromTop="0" />
   </RecentFiles>
   <RecentEdits>
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:AccountModels.cs" caret="1742" fromTop="18" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Usuarios/f:Login.cshtml" caret="1628" fromTop="25" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Shared/f:_Layout.cshtml" caret="4256" fromTop="19" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Usuarios/f:_RegistrarPersonaJuridica.cshtml" caret="4449" fromTop="19" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:Persona.cs" caret="793" fromTop="15" />
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Proveedores/f:RegistrarProveedorNatural.cshtml" caret="8386" fromTop="23" />
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/f:Web.config" caret="1630" fromTop="29" />
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:RecargaLeads.cs" caret="684" fromTop="19" />
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:ViewModels/f:RecargasLeadsViewModel.cs" caret="765" fromTop="22" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaSuministradores.cs" caret="2520" fromTop="23" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Shared/f:_NavigationBar.cshtml" caret="4512" fromTop="12" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Suministradores/f:RecargarLeads.cshtml" caret="120" fromTop="4" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Controllers/f:SuministradoresController.cs" caret="7811" fromTop="10" />
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaPersonas.cs" caret="3680" fromTop="22" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Home/f:Index.cshtml" caret="795" fromTop="14" />
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaUbicaciones.cs" caret="2071" fromTop="22" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:ViewModels/f:ProveedorBusquedaViewModel.cs" caret="973" fromTop="27" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaClientes.cs" caret="1307" fromTop="7" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:Proveedor.cs" caret="1285" fromTop="27" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Controllers/f:ClientesController.cs" caret="8389" fromTop="26" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Clientes/f:BusquedaAutomatizadaProveedores.cshtml" caret="8107" fromTop="11" />
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Scripts/f:mi_mapa.js" caret="90" fromTop="5" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:ISGPContext.cs" caret="708" fromTop="17" />
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:Configuracion.cs" caret="618" fromTop="18" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:SGPContext.cs" caret="2889" fromTop="18" />
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaProveedores.cs" caret="3711" fromTop="26" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:ISGPFactory.cs" caret="1285" fromTop="23" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:AlgoritmoTabu.cs" caret="6423" fromTop="12" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:SGPFactory.cs" caret="4924" fromTop="14" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/f:Global.asax.cs" caret="748" fromTop="13" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:Proveedor.cs" caret="1264" fromTop="28" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:ISGPContext.cs" caret="850" fromTop="19" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Controllers/f:SuministradoresController.cs" caret="4356" fromTop="12" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaSuministradores.cs" caret="2582" fromTop="21" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Shared/f:_NavigationBar.cshtml" caret="60" fromTop="0" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:Trabajo.cs" caret="513" fromTop="16" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:TrabajoProveedor.cs" caret="725" fromTop="19" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Entities/f:TipoServicio.cs" caret="687" fromTop="18" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:ViewModels/f:DatosContactoProveedoresViewModel.cs" caret="812" fromTop="22" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:ViewModels/f:ProveedorBusquedaViewModel.cs" caret="1124" fromTop="10" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:AlgoritmoTabu.cs" caret="5706" fromTop="23" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Suministradores/f:RecargarLeads.cshtml" caret="923" fromTop="4" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Home/f:Index.cshtml" caret="817" fromTop="14" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:ISGPFactory.cs" caret="1417" fromTop="12" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:SGPFactory.cs" caret="5712" fromTop="16" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:SGPContext.cs" caret="8390" fromTop="9" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Clientes/f:BusquedaAutomatizadaProveedores.cshtml" caret="9547" fromTop="19" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/f:Global.asax.cs" caret="748" fromTop="16" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Controllers/f:ClientesController.cs" caret="9346" fromTop="12" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:BusinessLogic/f:LogicaClientes.cs" caret="8840" fromTop="28" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Clientes/f:BusquedaManualProveedores.cshtml" caret="14909" fromTop="17" />
   </RecentEdits>
 </RecentFiles>

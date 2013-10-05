@@ -10,7 +10,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Búsqueda Automatizada de Proveedores</title>
+    <title>Búsqueda Manual de Proveedores</title>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
     <script src="~/Scripts/mi_mapa.js"></script>
 </head>
@@ -18,7 +18,7 @@
     @*    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
-    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Búsqueda Automatizada de Proveedores", "(*) Campos para realizar la búsqueda"));}
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Búsqueda Manual de Proveedores", "(*) Campos para realizar la búsqueda"));}
 
     @Html.ValidationSummary(true)
     <input type="hidden" name="clienteId" id="clienteId" value="@ViewBag.ClienteId">
@@ -26,9 +26,15 @@
     <table style="width: 100%; border: 0;">
         <tbody>
             <tr>
-                <td style="vertical-align: top; width: 39%;">
+                <td style="vertical-align: top; width: 43%;">
                     <table>
                         <tbody style="vertical-align: top;">
+                            <tr>
+                                <td>(*) Nombre | Razón Social:</td>
+                                <td>
+                                    <input type="text" name="nombre" id="nombre" maxlength="100" placeholder="Ingrese nombre (opcional)">
+                                </td>
+                            </tr>
                             <tr>
                                 <td>(*) Tipos de Servicios:</td>
                                 <td>
@@ -48,13 +54,13 @@
                     <table style="width: auto; border: 0;">
                         <tbody style="vertical-align: top;">
                             <tr>
-                                <td style="width: 22%;">(*) Ubicación:</td>
+                                <td style="width: 10%;">Ubicación:</td>
                                 <td style="width: 10%;">
                                     <input type="hidden" name="Latitud" id="Latitud" value="@ViewBag.Latitud">
                                     <input type="hidden" name="Longitud" id="Longitud" value="@ViewBag.Longitud">
                                     <input type="text" name="ubicacion" id="ubicacion" required="required" readonly="readonly" value="@ViewBag.Ubicacion" @*style="text-align: right;"*@>
                                 </td>
-                                <td><a id="ver_mapa" type="button" class="btn" style="width: 110%; color: black; text-shadow: none; background-color: lightblue;" href="#modal_mapa" data-toggle="modal">Cambiar Ubicación</a></td>
+                                <td><a id="ver_mapa" type="button" class="btn" style="width: 101%; color: black; text-shadow: none; background-color: lightblue;" href="#modal_mapa" data-toggle="modal">Cambiar Ubicación</a></td>
                             </tr>
                             <tr>
                                 <td>Descripción del Trabajo:</td>
@@ -66,7 +72,7 @@
                     </table>
                 </td>
                 <td style="vertical-align: top; padding-top: 15px; width: 12%;">
-                    <button id="btnBuscar" type="submit" class="btn blue pull-right" style="">
+                    <button id="btnBuscar" type="submit" class="btn blue pull-right" style="width: 104%;">
                         Buscar <i class="icon-search  m-icon-white"></i>
                     </button>
                 </td>
@@ -99,10 +105,10 @@
             <a href="#" class="btn btn-primary" data-dismiss="modal" style="color: black; text-shadow: none; background-color: lightgray;">Cerrar</a>
         </div>
     </div>
-
+    <br />
     <div class="portlet box green">
         <div class="portlet-title">
-            <div class="caption"><i class="icon-reorder"></i>Mejores Proveedores Encontrados</div>
+            <div class="caption"><i class="icon-reorder"></i>Proveedores Encontrados</div>
             <div class="tools">
                 <a href="javascript:;" class="collapse"></a>
             </div>
@@ -123,7 +129,7 @@
     </div>
 
     <div style="width: 18%; margin-left: auto; margin-right: auto;">
-@*        <button id="btnVerDatos" type="submit" class="btn blue pull-right" style="display: none;" >
+        @*        <button id="btnVerDatos" type="submit" class="btn blue pull-right" style="display: none;" >
             Ver Datos de Contacto <i class="icon-zoom-in  m-icon-white"></i>
         </button>*@
         <a id="btnVerDatos" type="button" class="btn" style="width: 100%; color: black; text-shadow: none; background-color: lightblue; display: none" href="#modal_datos_contacto" data-toggle="modal">Ver Datos de Contacto</a>
@@ -140,7 +146,7 @@
                 placeholder: "Servicios que desea..."
             });
 
-            $("#Grid").kendoGrid({
+            var grid = $("#Grid").kendoGrid({
                 autoBind: false,
                 sortable: true,
                 groupable: false,
@@ -151,6 +157,7 @@
                     pageSizes: true,
                 },
                 resizable: true,
+                dataBound: onDataBound,
                 dataSource: {
                     schema: {
                         model: {
@@ -164,12 +171,18 @@
                                 ServicioId: { type: "string", editable: false, hidden: true },
                                 Descripcion: { type: "string", editable: false },
                                 VerTrabajos: { type: "string", editable: false },
-                                VerComentarios: { type: "string", editable: false }
+                                VerComentarios: { type: "string", editable: false },
+                                Telefono1: { type: "string", editable: false, hidden: true },
+                                Telefono2: { type: "string", editable: false, hidden: true },
+                                Telefono3: { type: "string", editable: false, hidden: true },
+                                Email1: { type: "string", editable: false, hidden: true },
+                                Email2: { type: "string", editable: false, hidden: true },
                             }
                         }
                     }
                 },
                 columns: [
+                    { template: "<input type='checkbox' class='checkbox' />" },
                     { title: "ProveedorId", field: "ProveedorId", width: "100px" },
                     { title: "Foto", field: "RutaFoto", width: "100px" },
                     { title: "Calificación", field: "Puntaje", width: "100px" },
@@ -180,9 +193,10 @@
                     { title: "Trabajos ", field: "VerTrabajos", },
                     { title: "Comentarios", field: "VerComentarios", }
                 ]
-            });
+            }).data("kendoGrid");
 
-            var grid = $("#Grid").data("kendoGrid");
+            grid.table.on("click", ".checkbox", selectRow);
+            //var dataGrid = $("#Grid").data("kendoGrid");
             grid.hideColumn("ProveedorId");
 
             $("#GridDatos").kendoGrid({
@@ -215,7 +229,7 @@
                 columns: [
                     { title: "Nombre / Razón Social", field: "NombreCompleto", width: "190px" },
                     { title: "DNI / RUC", field: "Documento" },
-                    { title: "Servicios Ofrecidos", field: "Servicio"},
+                    { title: "Servicios Ofrecidos", field: "Servicio" },
                     { title: "Teléfono 1", field: "Telefono1" },
                     { title: "Teléfono 2", field: "Telefono2" },
                     { title: "Teléfono 3", field: "Telefono3" },
@@ -225,7 +239,44 @@
             });
         });
 
+        var checkedIds = {};
+        var servicioIdsArray = {};
+
+        //on click of the checkbox:
+        function selectRow() {
+            var checked = this.checked,
+				row = $(this).closest("tr"),
+				grid = $("#Grid").data("kendoGrid"),
+				dataItem = grid.dataItem(row);
+
+            checkedIds[dataItem.ProveedorId] = checked;
+            servicioIdsArray[dataItem.ProveedorId] = dataItem.ServicioId;
+
+            if (checked) {
+                //-select the row
+                row.addClass("k-state-selected");
+            } else {
+                //-remove selection
+                row.removeClass("k-state-selected");
+            }
+        }
+
+        function onDataBound(e) {
+            var view = this.dataSource.view();
+            for (var i = 0; i < view.length; i++) {
+                if (checkedIds[view[i].ProveedorId]) {
+                    this.tbody.find("tr[data-uid='" + view[i].uid + "']")
+						.addClass("k-state-selected")
+						.find(".checkbox")
+						.attr("checked", "checked");
+                }
+            }
+        }
+
         $("#btnBuscar").click(function () {
+            checkedIds = {};
+            servicioIdsArray = {};
+            var nombre = $("#nombre").val();
             var multiselect = $("#tiposServicios").data("kendoMultiSelect");
             var valueServicios = multiselect.value().toString();
 
@@ -233,22 +284,6 @@
                 alert("Error: debe elegir por lo menos un servicio.");
                 return;
             }
-
-            var ubicacion = $("#ubicacion").val();
-            if (ubicacion === "") {
-                alert("Error: debe ingresar una ubicación.");
-                return;
-            }
-
-            /* NO FUNCIONA. d1 ESTA EN FORMATO dd/MM/yyyy y d2 en formato MM/dd/yyyy por lo que no podemos comparar asi nomás
-            else {
-                var d1 = new Date(fecha);
-                var d2 = new Date();
-                if (d1 < d2) {
-                    alert("Error: la fecha seleccionada " + d1 + " no puede ser menor que la fecha actual "+d2);
-                    return;
-                }
-            }*/
 
             var latitud = $("#Latitud").val();
             var longitud = $("#Longitud").val();
@@ -258,23 +293,36 @@
             var dataSource2 = $('#GridDatos').data('kendoGrid').dataSource;
             dataSource2.read(); //para borrar las filas de la grilla.. no sé pero funciona XD
 
-            $.getJSON('/Clientes/GetProveedoresBusquedaTabuJSON', { valueServicios: valueServicios, latitud: latitud, longitud: longitud, ajax: 'true' }, function (result) {
+            $.getJSON('/Clientes/GetProveedoresBusquedaManualJSON', { nombre: nombre, valueServicios: valueServicios, latitud: latitud, longitud: longitud, ajax: 'true' }, function (result) {
                 $(result).each(function () {
                     dataSource.add({
                         ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, RutaFoto: this.RutaFoto, NombreCompleto: this.NombreCompleto,
                         TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, ServicioId: this.ServicioId, Descripcion: this.Descripcion,
-                        VerTrabajos: this.VerTrabajos, VerComentarios: this.VerComentarios
+                        VerTrabajos: this.VerTrabajos, VerComentarios: this.VerComentarios, Telefono1: this.Telefono1, Telefono2: this.Telefono2, Telefono3: this.Telefono3,
+                        Email1: this.Email1, Email2: this.Email2
                     });
-                    dataSource2.add({
-                        NombreCompleto: this.NombreCompleto, Documento: this.Documento, Servicio: this.Servicio, Telefono1: this.Telefono1, Telefono2: this.Telefono2,
-                        Telefono3: this.Telefono3, Email1: this.Email1, Email2: this.Email2
-                    });
+                    //dataSource2.add({
+                    //    NombreCompleto: this.NombreCompleto, Documento: this.Documento, Servicio: this.Servicio, Telefono1: this.Telefono1, Telefono2: this.Telefono2,
+                    //    Telefono3: this.Telefono3, Email1: this.Email1, Email2: this.Email2
+                    //});
                 });
             });
             return;
         });
 
         $("#btnContratar").click(function e() {
+            var checked = [];
+            var serviciosIds = [];
+            for (var i in checkedIds) {
+                if (checkedIds[i]) {
+                    checked.push(i);
+                    serviciosIds.push(servicioIdsArray[i]);
+                }
+            }
+            //alert(checked.toString()); alert(serviciosIds.toString());
+
+            //return;
+
             var multiselect = $("#tiposServicios").data("kendoMultiSelect");
             var valueServicios = multiselect.value().toString();
 
@@ -306,16 +354,16 @@
                 return;
             }
 
-            var proveedoresIds = "";
-            var serviciosIds = "";
 
-            $.each(data, function (index, item) {
-                proveedoresIds += item.ProveedorId + ",";
-                serviciosIds += item.ServicioId + ",";
-            });
+            if (checked.length === 0) {
+                alert("Error: debe haber elegido al menos un proveedor");
+                return;
+            }
+            //return;
+
 
             var clienteId = $("#clienteId").val();
-
+            //return;
             $.ajax({
                 type: 'GET',
                 url: '/Clientes/ContratarProveedores',
@@ -323,8 +371,8 @@
                 contentType: "application/json; charset=utf-8",
                 data: {
                     clienteId: clienteId,
-                    proveedoresIds: proveedoresIds,
-                    serviciosIds: serviciosIds,
+                    proveedoresIds: checked.toString(),
+                    serviciosIds: serviciosIds.toString(),
                     fecha: fecha,
                     ubicacion: ubicacion,
                     desc: desc
@@ -333,6 +381,34 @@
                 success: function (e) {
                     alert("Se realizó la contratación exitosamente.");
                     //window.location = "/Home/Index/";
+                    var array = $("#Grid").data("kendoGrid").dataSource.data();
+                    var len = array.length;
+                    var myArray = checked.toString().split(',');
+
+                    while (len--) {
+                        var esta = false;
+                        for (var k = 0; k < myArray.length; k++) {
+                            var n1 = parseInt(myArray[k], 10);
+                            var provId = parseInt(array[len].ProveedorId, 10);
+                            if (n1 === provId)
+                                esta = true;
+                        }
+
+                        if (!esta) { // the condition for checking if the item has the checkbox ticked
+                            $("#Grid").data("kendoGrid").dataSource.remove(array[len]);
+                            //$("#GridDatos").data("kendoGrid").dataSource.remove(array[len]);
+                        }
+                    }
+
+                    var datosGrillaOriginal = $('#Grid').data('kendoGrid').dataSource.data();
+                    var dataSource2 = $('#GridDatos').data('kendoGrid').dataSource;
+                    $.each(datosGrillaOriginal, function (index, item) {
+                        dataSource2.add({
+                            NombreCompleto: item.NombreCompleto, Documento: item.Documento, Servicio: item.Servicio, Telefono1: item.Telefono1, Telefono2: item.Telefono2,
+                            Telefono3: item.Telefono3, Email1: item.Email1, Email2: item.Email2
+                        });
+                    });
+
                     $("#btnContratar").attr('style', 'display :none;');
                     $("#btnVerDatos").attr('style', 'width: 100%; color: black; text-shadow: none; background-color: lightblue;');
                 },
