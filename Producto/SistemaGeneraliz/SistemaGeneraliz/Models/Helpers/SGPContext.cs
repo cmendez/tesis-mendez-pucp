@@ -55,6 +55,8 @@ namespace SistemaGeneraliz.Models.Helpers
             var suministradores = SeedSuministradores(personas);
             var clientes = SeedClientes(personas);
             SeedRecargaLeads(suministradores, proveedores);
+            var trabajos = SeedTrabajos(clientes, 3);
+            var trabajosProveedores = SeedTrabajosProveedores(proveedores, trabajos, tiposServicios); //faltaria encuestas
         }
 
         private void SeedConfiguraciones()
@@ -437,6 +439,105 @@ namespace SistemaGeneraliz.Models.Helpers
             listaRecargas.Sort((x, y) => DateTime.Compare(x.FechaRecarga, y.FechaRecarga));
             listaRecargas.ForEach(s => this.RecargasLeads.Add(s));
             this.SaveChanges();
+        }
+
+        private List<Trabajo> SeedTrabajos(List<Cliente> clientes, int nroTrabajos)
+        {
+            var listaTrabajos = new List<Trabajo>();
+            int r1, r2, r3;
+            Random random = new Random();
+
+            for (int i = 0; i < nroTrabajos; i++)
+            {
+                foreach (var cliente in clientes)
+                {
+                    r1 = random.Next(1, 6);
+                    r2 = random.Next(0, clientes.Count);
+                    r3 = random.Next(5, 21);
+
+                    Trabajo trabajo = new Trabajo
+                    {
+                        ClienteId = cliente.ClienteId,
+                        DescripcionCliente = "Trabajo nro. " + r3,
+                        Direccion = cliente.Persona.DireccionCompleta,
+                        Fecha =
+                            DateTime.Now.AddMonths((r1 + r2 / 2) * -1).AddDays(r1 + r2 / 2).AddHours(r1)
+                            .AddMinutes(r1 + r3),
+                        IsTerminado = 0
+                    };
+
+                    listaTrabajos.Add(trabajo);
+                }
+            }
+
+            listaTrabajos.ForEach(s => this.Trabajos.Add(s));
+            this.SaveChanges();
+            return listaTrabajos;
+        }
+
+        private List<TrabajoProveedor> SeedTrabajosProveedores(List<Proveedor> proveedores, List<Trabajo> trabajos, List<TipoServicio> tiposServicios)
+        {
+            var listaTrabajosProveedores = new List<TrabajoProveedor>();
+            int r1, r2, r3, r4, r5;
+            Random random = new Random();
+            foreach (var trabajo in trabajos)
+            {
+                r1 = random.Next(1, 4); //nro de servicios requeridos en cada trabajo
+                var auxServ = new List<TipoServicio>(tiposServicios);
+                //auxServ.AddRange(tiposServicios);
+                var listaServiciosTrabajo = new List<TipoServicio>();
+
+                for (int i = 1; i <= r1; i++)
+                {
+                    r2 = random.Next(0, auxServ.Count);
+                    var serv = auxServ[r2];
+                    listaServiciosTrabajo.Add(serv);
+                    auxServ.RemoveAt(r2);
+                }
+
+                var auxProv = new List<Proveedor>(proveedores);
+                //auxProv.AddRange(proveedores);
+                var listaProveedoresTrabajo = new List<Proveedor>();
+
+                foreach (var tipoServicio in listaServiciosTrabajo)
+                {
+                    while (true)
+                    {
+                        r3 = random.Next(0, auxProv.Count);
+                        var prov = auxProv[r3];
+                        var servXprov = prov.TiposServicios.ToList();
+                        var esta = servXprov.Exists(s => s.TipoServicioId == tipoServicio.TipoServicioId);
+                        if (esta)
+                        {
+                            listaProveedoresTrabajo.Add(prov);
+                            auxProv.RemoveAt(r3);
+                            break;
+                        }
+                    }
+                }
+
+                for (int i = 0; i < r1; i++)
+                {
+                    r4 = random.Next(8, 35) * 10;
+                    r5 = random.Next(222222, 999999);
+
+                    TrabajoProveedor trabajoProveedor = new TrabajoProveedor
+                    {
+                        TrabajoId = trabajo.TrabajoId,
+                        ProveedorId = listaProveedoresTrabajo[i].ProveedorId,
+                        DescripcionProveedor = "",
+                        MontoCobrado = r4,
+                        NroRpH_Factura = r5.ToString(),
+                        TipoRpH_Factura = "Recibo por Honorarios",
+                        TiposServicios = new List<TipoServicio>()
+                    };
+                    trabajoProveedor.TiposServicios.Add(listaServiciosTrabajo[i]);
+                    listaTrabajosProveedores.Add(trabajoProveedor);
+                }
+            }
+            listaTrabajosProveedores.ForEach(s => this.TrabajosProveedores.Add(s));
+            this.SaveChanges();
+            return listaTrabajosProveedores;
         }
     }
 

@@ -19,8 +19,8 @@ namespace SistemaGeneraliz.Models.Entities
         public DateTime Fecha { get; set; }
         public string Direccion { get; set; }
         public string DescripcionCliente { get; set; }
-        public string NroRecibosPorHonorarios { get; set; }
-        public double HonorariosConseguidos { get; set; }
+        //public string NroRecibosPorHonorarios { get; set; }
+        //public double HonorariosConseguidos { get; set; }
         public int IsTerminado { get; set; }
         public int IsEliminado { get; set; }
     }

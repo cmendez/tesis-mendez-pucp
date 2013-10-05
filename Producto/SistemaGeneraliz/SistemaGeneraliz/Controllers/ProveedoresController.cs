@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using SistemaGeneraliz.Models.BusinessLogic;
 using SistemaGeneraliz.Models.Entities;
 using SistemaGeneraliz.Models.ViewModels;
@@ -128,17 +130,29 @@ namespace SistemaGeneraliz.Controllers
 
         public List<TipoServicio> ObtenerTiposServicios()
         {
-            /*List<SelectListItem> listTipos = new List<SelectListItem>();
-            List<TipoServicio> tipoServicios = _logicaProveedores.GetTipoServicios();
-
-            foreach (TipoServicio tipo in tipoServicios)
-            {
-                listTipos.Add(new SelectListItem() { Text = tipo.NombreServicio, Value = tipo.TipoServicioId.ToString() });
-            }
-
-            return listTipos;*/
             List<TipoServicio> tipoServicios = _logicaProveedores.GetTipoServicios();
             return tipoServicios;
         }
+
+        [Authorize(Roles = "Administrador, Proveedor")]
+        public ActionResult HistorialTrabajos()
+        {
+            return View();
+        }
+
+        // ReSharper disable InconsistentNaming
+        public ActionResult HistorialTrabajos_Read([DataSourceRequest]DataSourceRequest request)
+        {
+            int idPersona = WebSecurity.CurrentUserId;
+            Proveedor proveedor = _logicaProveedores.GetProveedorPorPersonaId(idPersona);
+            List<HistorialTrabajosViewModel> listaHistorialTrabajosViewModel = new List<HistorialTrabajosViewModel>();
+            if (proveedor != null)
+            {
+                listaHistorialTrabajosViewModel = _logicaProveedores.GetHistorialTrabajos(proveedor.ProveedorId);
+            }
+
+            return Json(listaHistorialTrabajosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
     }
+
 }

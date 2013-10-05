@@ -163,6 +163,16 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.Proveedores.Where(p => p.TiposServicios.Any(s => servicios.Contains(s.TipoServicioId))).ToList();
         }
 
+        public Proveedor GetProveedorPorPersonaId(int idPersona)
+        {
+            return _db.Proveedores.FirstOrDefault(s => s.PersonaId == idPersona);
+        }
+
+        public List<TrabajoProveedor> GetHistorialTrabajos(int proveedorId)
+        {
+            return _db.TrabajosProveedores.Where(t => t.ProveedorId == proveedorId).ToList();
+        }
+
         #endregion
 
         #region Clientes

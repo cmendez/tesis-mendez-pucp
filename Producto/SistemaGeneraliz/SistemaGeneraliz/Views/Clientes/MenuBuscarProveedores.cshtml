@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Buscar Proveedores";
+}
+@{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Buscar Proveedores", "Elija un tipo de búsqueda"));}
+
+<ul>
+    <li>
+        <h5>@Html.ActionLink("Búsqueda automatizada hecha por el sistema", "BuscarProveedores", new {tipoBusqueda = "Automatizada"})</h5>
+    </li>
+    <li>
+        <h5>@Html.ActionLink("Búsqueda manual hecha por el usuario", "BuscarProveedores", new {tipoBusqueda = "Manual"})</h5>
+    </li>
+</ul>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SistemaGeneraliz.Models.Entities;
@@ -31,6 +32,8 @@ namespace SistemaGeneraliz.Models.Helpers
         int GetPuntajeMinimoConfiguracion();
         void ConsumirLeadsProveedor(int proveedorId, int cantidad);
         List<Proveedor> GetProveedoresServicios(int[] servicios);
+        Proveedor GetProveedorPorPersonaId(int idPersona);
+        List<TrabajoProveedor> GetHistorialTrabajos(int proveedorId);
         #endregion
 
         #region Clientes

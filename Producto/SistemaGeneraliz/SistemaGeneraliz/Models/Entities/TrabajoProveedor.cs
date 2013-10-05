@@ -18,6 +18,7 @@ namespace SistemaGeneraliz.Models.Entities
         public int ProveedorId { get; set; }
         public virtual Proveedor Proveedor { get; set; }
         public virtual ICollection<TipoServicio> TiposServicios { get; set; }
+        public DateTime? FechaReal { get; set; }
         public string DescripcionProveedor { get; set; }
         public string NroRpH_Factura { get; set; }
         public string TipoRpH_Factura { get; set; }

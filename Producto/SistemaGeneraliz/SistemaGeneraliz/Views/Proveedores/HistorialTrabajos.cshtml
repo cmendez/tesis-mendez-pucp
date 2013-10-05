@@ -1,0 +1,59 @@
+﻿@using SistemaGeneraliz.Models.Entities
+@using SistemaGeneraliz.Models.ViewModels
+
+@{
+    ViewBag.Title = "Historial de Trabajos";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Historial de Trabajos</title>
+</head>
+<body>
+    @*    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Historial de Trabajos", "Trabajos realizados por usted."));}
+
+    @*@Html.ValidationSummary(true)*@
+
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption"><i class="icon-reorder"></i>Historial de Trabajos</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse"></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            @(Html.Kendo().Grid<HistorialTrabajosViewModel>()
+            .Name("Grid")
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.FechaTrabajo);
+                columns.Bound(p => p.NombreCliente);
+                columns.Bound(p => p.Servicios);
+                columns.Bound(p => p.DescripcionCliente);
+                columns.Bound(p => p.ReciboHonorarios_Factura);
+                columns.Bound(p => p.MontoCobrado);
+                columns.Bound(p => p.LinkModificarDetalles);
+            })
+            .Pageable(paper => paper.Refresh(true))
+            .Sortable()
+            .Scrollable()
+            .Resizable(resize => resize.Columns(true))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .ServerOperation(false)
+                .Read(read => read.Action("HistorialTrabajos_Read", "Proveedores"))
+            )
+        )
+        </div>
+    </div>
+    @*    <div>
+        @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
+    </div>*@
+
+</body>
+</html>

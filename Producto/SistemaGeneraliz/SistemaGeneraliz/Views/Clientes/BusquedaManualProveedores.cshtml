@@ -105,7 +105,20 @@
             <a href="#" class="btn btn-primary" data-dismiss="modal" style="color: black; text-shadow: none; background-color: lightgray;">Cerrar</a>
         </div>
     </div>
-    <br />
+
+    <div class="modal fade" id="modal_trabajos" style="z-index: -1;">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal"></a>
+            <h4>Historial de Trabajos</h4>
+        </div>
+        <div class="modal-body" style="height: 400px;">
+            <div id="GridTrabajos" style="margin-bottom: 10px;"></div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" data-dismiss="modal" style="color: black; text-shadow: none; background-color: lightgray;">Cerrar</a>
+        </div>
+    </div>
+
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption"><i class="icon-reorder"></i>Proveedores Encontrados</div>
@@ -190,7 +203,12 @@
                     { title: "DNI / RUC", field: "Documento", width: "160px" },
                     { title: "Servicios Ofrecidos", field: "Servicio", width: "140px" },
                     { title: "Sobre Mí", field: "Descripcion", width: "170px" },
-                    { title: "Trabajos ", field: "VerTrabajos", },
+                    {
+                        title: "Trabajos ", field: "VerTrabajos",
+                        attributes: {
+                            style: "text-align: center"
+                        }, template: "<a id='btnVerTrabajos' type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='\\\#modal_trabajos' data-toggle='modal' onclick='return mostrarTrabajos(#=ProveedorId#);'>Ver</a>"
+                    },
                     { title: "Comentarios", field: "VerComentarios", }
                 ]
             }).data("kendoGrid");
@@ -237,7 +255,57 @@
                     { title: "Email 2", field: "Email2", }
                 ]
             });
+
+            $("#GridTrabajos").kendoGrid({
+                autoBind: false,
+                sortable: true,
+                groupable: false,
+                filterable: false,
+                pageable: {
+                    pageSize: 5,
+                    numeric: true,
+                    pageSizes: true,
+                },
+                resizable: true,
+                dataSource: {
+                    schema: {
+                        model: {
+                            fields: {
+                                FechaTrabajo: { type: "string", editable: false },
+                                NombreCliente: { type: "string", editable: false },
+                                Servicios: { type: "string", editable: false },
+                                DescripcionCliente: { type: "string", editable: false },
+                                ReciboHonorarios_Factura: { type: "string", editable: false }
+                            }
+                        }
+                    }
+                },
+                columns: [
+                    { title: "Fecha", field: "FechaTrabajo" },
+                    { title: "Cliente", field: "NombreCliente" },
+                    { title: "Servicios Ofrecidos", field: "Servicios" },
+                    { title: "Descripción Trabajo", field: "DescripcionCliente" },
+                    { title: "Recibo Hon. / Factura", field: "ReciboHonorarios_Factura" }
+                ]
+            });
         });
+
+        function mostrarTrabajos(i) {
+            var dataSource3 = $('#GridTrabajos').data('kendoGrid').dataSource;
+            dataSource3.read(); //para borrar las filas de la grilla.. no sé pero funciona XD
+            var proveedorId = parseInt(i, 10);
+            //alert(proveedorId);
+            $.getJSON('/Clientes/HistorialTrabajosProveedor', { proveedorId: proveedorId, ajax: 'true' }, function (result) {
+                $(result).each(function () {
+                    dataSource3.add({
+                        FechaTrabajo: this.FechaTrabajo, NombreCliente: this.NombreCliente, Servicios: this.Servicios, DescripcionCliente: this.DescripcionCliente,
+                        ReciboHonorarios_Factura: this.ReciboHonorarios_Factura
+                    });
+                });
+            });
+
+            $("#modal_trabajos").attr('style', 'width: 90%;left:5%;margin-left:auto;margin-right:auto;');
+        }
 
         var checkedIds = {};
         var servicioIdsArray = {};

@@ -116,6 +116,12 @@ namespace SistemaGeneraliz.Controllers
             return View(clienteJuridicoViewModel);
         }
 
+        public ActionResult MenuBuscarProveedores()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Administrador, Cliente")]
         public ActionResult BuscarProveedores(string tipoBusqueda)
         {
             int idPersona = WebSecurity.CurrentUserId;
@@ -189,14 +195,14 @@ namespace SistemaGeneraliz.Controllers
 
             return Json(proveedoresJson, JsonRequestBehavior.AllowGet);
         }
-        
+
         [Authorize(Roles = "Administrador, Cliente")]
         [HttpGet]
         public ActionResult ContratarProveedores(int clienteId, string proveedoresIds, string serviciosIds, string fecha, string ubicacion, string desc)
         {
             if (Roles.IsUserInRole("Administrador"))
                 return null;
-            
+
             Trabajo trabajo = _logicaClientes.AgregarTrabajo(clienteId, proveedoresIds, serviciosIds, fecha, ubicacion, desc);
 
             var recargasJson = new List<Object>();
@@ -249,6 +255,32 @@ namespace SistemaGeneraliz.Controllers
             }
 
             return Json(proveedoresJson, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult HistorialTrabajosProveedor(int proveedorId)
+        {
+            var trabajosJson = new List<Object>();
+
+            List<HistorialTrabajosViewModel> listaHistorialTrabajosViewModel = _logicaProveedores.GetHistorialTrabajos(proveedorId);
+            if ((listaHistorialTrabajosViewModel != null) && (listaHistorialTrabajosViewModel.Count > 0))
+            {
+                foreach (HistorialTrabajosViewModel trabajo in listaHistorialTrabajosViewModel)
+                {
+                    Object o = new
+                    {
+                        FechaTrabajo = trabajo.FechaTrabajo,
+                        //Puntuacion = trabajo.Puntuación,
+                        NombreCliente = trabajo.NombreCliente,
+                        Servicios = trabajo.Servicios,
+                        DescripcionCliente = trabajo.DescripcionCliente,
+                        ReciboHonorarios_Factura = trabajo.ReciboHonorarios_Factura,
+                    };
+
+                    trabajosJson.Add(o);
+                }
+            }
+            return Json(trabajosJson, JsonRequestBehavior.AllowGet);
         }
     }
 }

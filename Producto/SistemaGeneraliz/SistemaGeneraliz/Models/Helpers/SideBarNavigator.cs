@@ -21,7 +21,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
             // Clientes
             Opciones.Add(new SidebarOption("Clientes", "Clientes", "icon-user", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Buscar Proveedores", "Clientes", "Index", "icon-search"),
+                new SidebarSuboption("Buscar Proveedores", "Clientes", "MenuBuscarProveedores", "icon-search"),
                 new SidebarSuboption("Buscar Productos", "Clientes", "Index", "icon-search"),
                 new SidebarSuboption("Calificar Proveedor", "Clientes", "Index", "icon-star"),
                 new SidebarSuboption("Editar Mi Información", "Clientes", "Index", "icon-edit")
@@ -29,7 +29,7 @@ namespace SistemaGeneraliz.Models.Helpers
             
             // Proveedores
             Opciones.Add(new SidebarOption("Proveedores", "Proveedores", "icon-wrench", new List<SidebarSuboption>(new SidebarSuboption[]{
-               new SidebarSuboption("Historial de Trabajos", "Proveedores", "Index", "icon-list-ul"),
+               new SidebarSuboption("Historial de Trabajos", "Proveedores", "HistorialTrabajos", "icon-list-ul"),
                new SidebarSuboption("Historial de Recargas", "Proveedores", "Index", "icon-list-alt"),
                new SidebarSuboption("Buscar Productos", "Proveedores", "Index", "icon-search"),
                new SidebarSuboption("Buscar Ofertas, Promos y Dsctos", "Proveedores", "Index", "icon-tags"),
