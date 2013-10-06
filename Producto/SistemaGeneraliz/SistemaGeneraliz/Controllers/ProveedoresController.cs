@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -152,6 +153,27 @@ namespace SistemaGeneraliz.Controllers
             }
 
             return Json(listaHistorialTrabajosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EditarDetallesTrabajoProveedor(int trabajoProveedorId = 0)
+        {
+            TrabajoProveedor trabajoProveedor = _logicaProveedores.GetTrabajoProveedor(trabajoProveedorId);
+            Proveedor proveedor = _logicaProveedores.GetProveedorPorPersonaId(WebSecurity.CurrentUserId);
+            if ((proveedor == null) || (trabajoProveedor.ProveedorId != proveedor.ProveedorId))
+                return null;
+            
+            if (trabajoProveedor.FechaReal != null)
+                trabajoProveedor.FechaReal = DateTime.ParseExact(trabajoProveedor.FechaReal.Value.ToString("dd/MM/yyyy"), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+            return View(trabajoProveedor);
+        }
+
+        [HttpPost]
+        public ActionResult EditarDetallesTrabajoProveedor(TrabajoProveedor trabajoProveedor)
+        {
+            _logicaProveedores.ActualizarDetallesTrabajoProveedor(trabajoProveedor);
+            //return HistorialTrabajos(); //ASI NO FUNCIONA
+            return RedirectToAction("HistorialTrabajos");
         }
     }
 

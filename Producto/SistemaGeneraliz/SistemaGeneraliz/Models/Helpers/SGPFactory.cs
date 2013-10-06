@@ -173,6 +173,18 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.TrabajosProveedores.Where(t => t.ProveedorId == proveedorId).ToList();
         }
 
+        public TrabajoProveedor GetTrabajoProveedor(int trabajoProveedorId)
+        {
+            return _db.TrabajosProveedores.Find(trabajoProveedorId);
+        }
+
+        public void ActualizarDetallesTrabajoProveedor(TrabajoProveedor trabajoProveedor)
+        {
+            _db.TrabajosProveedores.Attach(trabajoProveedor);
+            _db.Entry(trabajoProveedor).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+
         #endregion
 
         #region Clientes

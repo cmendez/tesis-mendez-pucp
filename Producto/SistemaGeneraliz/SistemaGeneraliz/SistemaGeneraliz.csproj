@@ -201,6 +201,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Configuracion.cs" />
+    <Compile Include="Models\Entities\EncuestaCliente.cs" />
     <Compile Include="Models\Entities\Trabajo.cs" />
     <Compile Include="Models\Entities\TrabajoProveedor.cs" />
     <Compile Include="Models\Helpers\AlgoritmoTabu.cs" />
@@ -1809,6 +1810,7 @@
     <Content Include="Views\Clientes\BusquedaManualProveedores.cshtml" />
     <Content Include="Views\Clientes\MenuBuscarProveedores.cshtml" />
     <Content Include="Views\Proveedores\HistorialTrabajos.cshtml" />
+    <Content Include="Views\Proveedores\EditarDetallesTrabajoProveedor.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

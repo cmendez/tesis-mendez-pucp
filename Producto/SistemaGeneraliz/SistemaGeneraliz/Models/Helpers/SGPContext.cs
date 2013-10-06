@@ -526,7 +526,7 @@ namespace SistemaGeneraliz.Models.Helpers
                         TrabajoId = trabajo.TrabajoId,
                         ProveedorId = listaProveedoresTrabajo[i].ProveedorId,
                         DescripcionProveedor = "",
-                        MontoCobrado = r4,
+                        MontoCobrado = r4.ToString(),
                         NroRpH_Factura = r5.ToString(),
                         TipoRpH_Factura = "Recibo por Honorarios",
                         TiposServicios = new List<TipoServicio>()

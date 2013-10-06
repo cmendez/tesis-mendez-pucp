@@ -124,13 +124,12 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                                            (trabajo.Trabajo.Cliente.Persona.PrimerNombre + " " +
                                             trabajo.Trabajo.Cliente.Persona.ApellidoPaterno);
 
-                    string servicios = trabajo.TiposServicios.Aggregate("",
-                                                                        (current, servicio) =>
-                                                                        current + (servicio.NombreServicio + " - "));
+                    string servicios = trabajo.TiposServicios.Aggregate("", (current, servicio) => current + (servicio.NombreServicio + " - "));
                     servicios = servicios.Substring(0, servicios.Length - 3);
 
                     HistorialTrabajosViewModel his = new HistorialTrabajosViewModel
                     {
+                        TrabajoProveedorId = trabajo.TrabajoProveedorId,
                         FechaTrabajo = fechaTrabajo.ToString("dd/MM/yyyy"),
                         //Puntuación = trabajo.EncuestaCliente.PuntuacionTotal.ToString(), //PARA CUANDO ESTE LO DE ENCUESTAS
                         NombreCliente = nombreCliente,
@@ -145,6 +144,23 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 listaHistorialTrabajosViewModel.Sort((x, y) => string.Compare(y.FechaTrabajo, x.FechaTrabajo));
             }
             return listaHistorialTrabajosViewModel;
+        }
+
+        public TrabajoProveedor GetTrabajoProveedor(int trabajoProveedorId)
+        {
+            return _sgpFactory.GetTrabajoProveedor(trabajoProveedorId);
+        }
+
+        public void ActualizarDetallesTrabajoProveedor(TrabajoProveedor trabajoProveedor)
+        {
+            TrabajoProveedor trabajo = GetTrabajoProveedor(trabajoProveedor.TrabajoProveedorId);
+            trabajo.FechaReal = trabajoProveedor.FechaReal;
+            trabajo.DescripcionProveedor = trabajoProveedor.DescripcionProveedor;
+            trabajo.TipoRpH_Factura = trabajoProveedor.TipoRpH_Factura;
+            trabajo.NroRpH_Factura = trabajoProveedor.NroRpH_Factura;
+            trabajo.MontoCobrado = trabajoProveedor.MontoCobrado;
+            trabajo.IsTerminado = trabajoProveedor.IsTerminado;
+            _sgpFactory.ActualizarDetallesTrabajoProveedor(trabajo);
         }
     }
 }

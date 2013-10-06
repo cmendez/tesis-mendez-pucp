@@ -34,6 +34,8 @@ namespace SistemaGeneraliz.Models.Helpers
         List<Proveedor> GetProveedoresServicios(int[] servicios);
         Proveedor GetProveedorPorPersonaId(int idPersona);
         List<TrabajoProveedor> GetHistorialTrabajos(int proveedorId);
+        TrabajoProveedor GetTrabajoProveedor(int trabajoProveedorId);
+        void ActualizarDetallesTrabajoProveedor(TrabajoProveedor trabajoProveedor);
         #endregion
 
         #region Clientes

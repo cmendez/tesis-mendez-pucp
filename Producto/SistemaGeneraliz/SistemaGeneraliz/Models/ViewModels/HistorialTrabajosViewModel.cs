@@ -8,6 +8,8 @@ namespace SistemaGeneraliz.Models.ViewModels
 {
     public class HistorialTrabajosViewModel
     {
+        [DisplayName("TrabajoProveedorId")]
+        public int TrabajoProveedorId { get; set; }
         [DisplayName("Fecha")]
         public string FechaTrabajo { get; set; }
         [DisplayName("Puntuación")]

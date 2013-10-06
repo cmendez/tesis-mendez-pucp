@@ -1,0 +1,137 @@
+﻿@model SistemaGeneraliz.Models.Entities.TrabajoProveedor
+
+@{
+    ViewBag.Title = "Editar Detalles Trabajo";
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Registrar Cliente Natural</title>
+</head>
+<body>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Editar Detalles Trabajo", "Culminar los detalles del trabajo realizado."));}
+
+    @using (Html.BeginForm())
+    {
+        
+        @Html.ValidationSummary(true)
+
+        
+        <div style="width: 115%;">
+            <div class="row-fluid">
+                <!-- contenedor superior izquierdo: campos -->
+                <div class="span7">
+                    @Html.HiddenFor(model => model.TrabajoProveedorId)
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">Fecha real de realización:</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @*                                @Html.TextBoxFor(model => model.FechaReal)
+                                @Html.ValidationMessageFor(model => model.FechaReal)*@
+                                <input type="text" id="FechaReal" name="FechaReal" readonly='readonly' value="@Model.FechaReal" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">Descripción del trabajo hecho:</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextAreaFor(model => model.DescripcionProveedor)
+                                @Html.ValidationMessageFor(model => model.DescripcionProveedor)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">Tipo Recibo por Honorarios o Factura:</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextBoxFor(model => model.TipoRpH_Factura, new { placeholder = "Recibo por Honorarios / Factura" })
+                                @Html.ValidationMessageFor(model => model.TipoRpH_Factura)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">Nro. de Recibo por Honorarios o Factura:</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextBoxFor(model => model.NroRpH_Factura)
+                                @Html.ValidationMessageFor(model => model.NroRpH_Factura)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">Monto cobrado al cliente:</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextBoxFor(model => model.MontoCobrado)
+                                @Html.ValidationMessageFor(model => model.MontoCobrado)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">¿Está culminado el trabajo?:</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                <select id="IsTerminado" name="IsTerminado">
+                                    <option value="1">Sí</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="btnGuardar" type="submit" class="btn green pull-right" style="margin-right: 26%;">
+                        Guardar <i class="icon-ok-sign  m-icon-white"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+    <script>
+        $(function () {
+            $("#FechaReal").datepicker({ dateFormat: 'dd/mm/yy' });
+        });
+        
+        $(document).ready(function () {
+            var fechaReal = $("#FechaReal").val();
+            fechaReal = fechaReal.substring(0, fechaReal.indexOf(' '));
+            $("#FechaReal").val(fechaReal);
+        });
+    </script>
+</body>
+</html>
+

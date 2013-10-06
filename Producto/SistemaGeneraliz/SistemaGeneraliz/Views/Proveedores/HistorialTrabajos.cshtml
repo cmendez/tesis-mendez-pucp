@@ -31,13 +31,14 @@
             .Name("Grid")
             .Columns(columns =>
             {
+                columns.Bound(p => p.TrabajoProveedorId).Hidden(true);
                 columns.Bound(p => p.FechaTrabajo);
                 columns.Bound(p => p.NombreCliente);
                 columns.Bound(p => p.Servicios);
                 columns.Bound(p => p.DescripcionCliente);
                 columns.Bound(p => p.ReciboHonorarios_Factura);
                 columns.Bound(p => p.MontoCobrado);
-                columns.Bound(p => p.LinkModificarDetalles);
+                columns.Template(@<text></text>).ClientTemplate("<a id='btnVerTrabajos' type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='" + Url.Action("EditarDetallesTrabajoProveedor", "Proveedores") + "?trabajoProveedorId=#=TrabajoProveedorId#'>Editar Detalles</a>");
             })
             .Pageable(paper => paper.Refresh(true))
             .Sortable()

@@ -80,8 +80,9 @@
     </div>
     <div class="span7">
         <div class="editor-field" style="width: 58%; text-align: left">
-            @Html.EditorFor(model => model.FechaNacimiento)<br />
-            @Html.ValidationMessageFor(model => model.FechaNacimiento)
+            @*            @Html.EditorFor(model => model.FechaNacimiento)<br />
+            @Html.ValidationMessageFor(model => model.FechaNacimiento)*@
+            <input type="text" id="FechaNacimiento" name="FechaNacimiento" readonly='readonly'/>
         </div>
     </div>
 </div>
@@ -255,3 +256,8 @@
     </div>
 </div>
 
+<script>
+$(function() {
+    $("#FechaNacimiento").datepicker({ dateFormat: 'dd/mm/yy' });
+});
+</script>

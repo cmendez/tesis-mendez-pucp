@@ -50,7 +50,7 @@ namespace SistemaGeneraliz.Models.ViewModels
 		[DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
 		[Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [Display(Name = "Fecha de Nacimiento")]        
-        public DateTime? FechaNacimiento { get; set; }
+        public DateTime FechaNacimiento { get; set; }
 
 		public int SexoId { get; set; }	
 		
