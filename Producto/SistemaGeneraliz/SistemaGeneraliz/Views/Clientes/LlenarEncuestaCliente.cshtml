@@ -1,0 +1,131 @@
+﻿@using SistemaGeneraliz.Models.Entities
+@using SistemaGeneraliz.Models.ViewModels
+
+@{
+    ViewBag.Title = "Encuestas de Satisfacción al Cliente";
+    EncuestasClientesViewModel encuestaViewModel = ViewBag.EncuestaViewModel;
+    int i = 0;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Encuestas de Satisfacción al Cliente</title>
+</head>
+<body>
+    @*    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Encuestas de Satisfacción al Cliente", ""));}
+    <div style="padding-left: 4%;">
+    @*@Html.ValidationSummary(true)*@
+    <input type="hidden" name="encuestaId" id="encuestaId" value="@encuestaViewModel.EncuestaClienteId">
+    <table style="width: 100%; border: 0;">
+        <tbody>
+            <tr>
+                <td style="vertical-align: top; width: 1%;">
+                    <table>
+                        <tbody style="vertical-align: top;">
+                            <tr>
+                                <td>Documento:</td>
+                                <td>
+                                    <input type="text" name="nroDocumento" id="nroDocumento" readonly="readonly" value="@encuestaViewModel.DocumentoProveedor">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Proveedor:</td>
+                                <td>
+                                    <input type="text" name="nombreProveedor" id="nombreProveedor" readonly="readonly" value="@encuestaViewModel.NombreProveedor">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="vertical-align: top; width: 40%;">
+                    <table>
+                        <tr>
+                            <td>
+                                <img src="/Images/perfil_1.jpg" width="90" alt=""></td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="vertical-align: top; width: 59%; padding-left: 5%;">
+                    <table style="width: auto; border: 0;">
+                        <tbody style="vertical-align: top;">
+                            <tr>
+                                <td>Fecha Trabajo:</td>
+                                <td>
+                                    <input type="text" name="fechaTrabajo" id="fechaTrabajo" readonly="readonly" value="@encuestaViewModel.FechaTrabajo">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Descripción:</td>
+                                <td>
+                                    <textarea name="descripcion" id="descripcion" readonly="readonly">@encuestaViewModel.DescripcionCliente</textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+        @using (Html.BeginForm())
+        {
+            <div class="portlet box blue" style="width: 95%;">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-reorder"></i>Cuestionario</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table style="vertical-align: top; width: 100%;">
+                        <tr style="vertical-align: top; width: 100%;">
+                            <td style="vertical-align: top; width: 50%; padding-left: 7%;">
+                                <table>
+                                    <tr><td>1. Califique la calidad del servicio recibido por el proveedor</td></tr>
+                                    <tr><td>estrellas aca</td></tr>
+                                    <tr><td><br/></td></tr>
+                                    <tr><td>1. Califique la calidad del servicio recibido por el proveedor</td></tr>
+                                    <tr><td>estrellas aca</td></tr>
+                                    <tr><td><br/></td></tr>
+                                    <tr><td>1. Califique la calidad del servicio recibido por el proveedor</td></tr>
+                                    <tr><td>estrellas aca</td></tr>
+                                    <tr><td><br/></td></tr>
+                                </table>
+                            </td>
+                            <td style="vertical-align: top; width: 50%; padding-left: 8%;">
+                                <table>
+                                    <tr><td>1. Califique la calidad del servicio recibido por el proveedor</td></tr>
+                                    <tr><td>estrellas aca</td></tr>
+                                    <tr><td><br/></td></tr>
+                                    <tr><td>1. Califique la calidad del servicio recibido por el proveedor</td></tr>
+                                    <tr><td>estrellas aca</td></tr>
+                                    <tr><td><br/></td></tr>
+                                    <tr><td>1. Califique la calidad del servicio recibido por el proveedor</td></tr>
+                                    <tr><td>estrellas aca</td></tr>
+                                    <tr><td><br/></td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+    @*    <div>
+        @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
+    </div>*@
+
+    <script>
+
+        $("#btnBuscar").click(function e() {
+
+        });
+
+    </script>
+</body>
+</html>

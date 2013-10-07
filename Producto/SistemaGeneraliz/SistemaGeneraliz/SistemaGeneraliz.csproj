@@ -224,6 +224,7 @@
     <Compile Include="Models\ViewModels\ClienteNaturalViewModel.cs" />
     <Compile Include="Models\Entities\Persona.cs" />
     <Compile Include="Models\ViewModels\DatosContactoProveedoresViewModel.cs" />
+    <Compile Include="Models\ViewModels\EncuestasClientesViewModel.cs" />
     <Compile Include="Models\ViewModels\HistorialTrabajosViewModel.cs" />
     <Compile Include="Models\ViewModels\PersonaJuridicaViewModel.cs" />
     <Compile Include="Models\ViewModels\PersonaNaturalViewModel.cs" />
@@ -1814,6 +1815,8 @@
     <Content Include="Views\Clientes\MenuBuscarProveedores.cshtml" />
     <Content Include="Views\Proveedores\HistorialTrabajos.cshtml" />
     <Content Include="Views\Proveedores\EditarDetallesTrabajoProveedor.cshtml" />
+    <Content Include="Views\Clientes\CalificarProveedores.cshtml" />
+    <Content Include="Views\Clientes\LlenarEncuestaCliente.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

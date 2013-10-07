@@ -119,6 +119,17 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     }
 
                     _sgpFactory.AgregarTrabajoProveedor(trabajoProveedor);
+                    EncuestaCliente encuesta = new EncuestaCliente
+                    {
+                        Fecha = trabajoProveedor.Trabajo.Fecha,
+                        PuntajeTotal = -1,
+                        IsVisible = 0,
+                        IsCompletada = 0,
+                        IsEliminado = 0,
+                    };
+                    _sgpFactory.AgregarEncuestaCliente(encuesta);
+                    trabajoProveedor.EncuestaClienteId = encuesta.EncuestaClienteId;
+                    _sgpFactory.ActualizarEncuestaIdTrabajoProveedor(trabajoProveedor);
                     _sgpFactory.ConsumirLeadsProveedor(Int32.Parse(proveedor), 1);
                 }
                 i++;
@@ -223,6 +234,47 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             {
                 return null;
             }
+        }
+
+        public List<EncuestasClientesViewModel> GetEncuestasPendientes(int clienteId)
+        {
+            var listaEncuestasClientesViewModel = new List<EncuestasClientesViewModel>();
+            var listaTrabajos = _sgpFactory.GetTrabajosConEncuestasPendientes(clienteId);
+
+            if ((listaTrabajos != null) && (listaTrabajos.Count > 0))
+            {
+                foreach (var trabajo in listaTrabajos)
+                {
+                    DateTime fechaTrabajo = trabajo.FechaReal ?? trabajo.Trabajo.Fecha;
+                    string nombreProveedor = trabajo.Proveedor.Persona.RazonSocial ??
+                                           (trabajo.Proveedor.Persona.PrimerNombre + " " +
+                                            trabajo.Proveedor.Persona.ApellidoPaterno);
+                    string documentoProveedor = (trabajo.Proveedor.Persona.DNI != null) ? ("DNI - " + trabajo.Proveedor.Persona.DNI.ToString()) : ("RUC - " + trabajo.Proveedor.Persona.RUC.ToString());
+                    string servicios = trabajo.TiposServicios.Aggregate("", (current, servicio) => current + (servicio.NombreServicio + " - "));
+                    servicios = servicios.Substring(0, servicios.Length - 3);
+
+                    EncuestasClientesViewModel his = new EncuestasClientesViewModel
+                    {
+                        TrabajoProveedorId = trabajo.TrabajoProveedorId,
+                        EncuestaClienteId = (int)trabajo.EncuestaClienteId,
+                        FechaTrabajo = fechaTrabajo.ToString("dd/MM/yyyy"),
+                        FotoProveedor = trabajo.Proveedor.Persona.ImagenPrincipal,
+                        NombreProveedor = nombreProveedor,
+                        DocumentoProveedor = documentoProveedor,
+                        Servicios = servicios,
+                        DescripcionCliente = trabajo.Trabajo.DescripcionCliente,
+                        DireccionCiente = trabajo.Trabajo.Cliente.Persona.DireccionCompleta
+                    };
+                    listaEncuestasClientesViewModel.Add(his);
+                }
+                listaEncuestasClientesViewModel.Sort((x, y) => string.Compare(y.FechaTrabajo, x.FechaTrabajo));
+            }
+            return listaEncuestasClientesViewModel;
+        }
+
+        public List<CriterioCalificacion> GetCriteriosEncuestas()
+        {
+            return _sgpFactory.GetCriteriosEncuestas();
         }
     }
 }

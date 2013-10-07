@@ -72,6 +72,7 @@ namespace SistemaGeneraliz.Models.Helpers
             var encuestas = SeedEncuestasCliente(trabajosProveedores);
             var respuestasXcriterio = SeedRespuestasPorCriterio(encuestas, criteriosCalificacion);
             //faltaria puntajepromediocriterio
+            //faltaria actualizar campos tabla proveedor
         }
 
         private void SeedConfiguraciones()
@@ -557,13 +558,13 @@ namespace SistemaGeneraliz.Models.Helpers
         {
             var listaCriterios = new List<CriterioCalificacion>()
             {
-                new CriterioCalificacion { NombreCriterio = "Calidad", PreguntaAsociada = "Califique la calidad del servicio recibido por el proveedor", PuntajeMaximo = 5, IsEliminado = 0},
-                new CriterioCalificacion { NombreCriterio = "Compromiso", PreguntaAsociada = "Califique el compromiso con el trabajo que tuvo el proveedor", PuntajeMaximo = 5, IsEliminado = 0},
-                new CriterioCalificacion { NombreCriterio = "Trato y Cortesía", PreguntaAsociada = "Califique el trato y cortesía del proveedor ", PuntajeMaximo = 5, IsEliminado = 0},
-                new CriterioCalificacion { NombreCriterio = "Puntualidad", PreguntaAsociada = "Califique la puntualidad del proveedor", PuntajeMaximo = 5, IsEliminado = 0},
-                new CriterioCalificacion { NombreCriterio = "Precio cobrado", PreguntaAsociada = "Califique el precio cobrado por el proveedor", PuntajeMaximo = 5, IsEliminado = 0},
-                new CriterioCalificacion { NombreCriterio = "Volvería a contratarlo", PreguntaAsociada = "¿Volvería a contratar a este proveedor?", PuntajeMaximo = 1, IsEliminado = 0},
-                new CriterioCalificacion { NombreCriterio = "Recomendaría", PreguntaAsociada = "¿Recomendaría a este proveedor?", PuntajeMaximo = 1, IsEliminado = 0}
+                new CriterioCalificacion { NombreCriterio = "Calidad", TipoPregunta = "Estrellas",PreguntaAsociada = "Califique la calidad del servicio recibido por el proveedor", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Compromiso", TipoPregunta = "Estrellas", PreguntaAsociada = "Califique el compromiso con el trabajo que tuvo el proveedor", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Trato y Cortesía", TipoPregunta = "Estrellas", PreguntaAsociada = "Califique el trato y cortesía del proveedor ", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Puntualidad", TipoPregunta = "Estrellas", PreguntaAsociada = "Califique la puntualidad del proveedor", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Precio cobrado", TipoPregunta = "Estrellas", PreguntaAsociada = "Califique el precio cobrado por el proveedor", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Volvería a contratarlo", TipoPregunta = "Si-No", PreguntaAsociada = "¿Volvería a contratar a este proveedor?", PuntajeMaximo = 1, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Recomendaría", TipoPregunta = "Si-No", PreguntaAsociada = "¿Recomendaría a este proveedor?", PuntajeMaximo = 1, IsEliminado = 0}
                 //new CriterioCalificacion { NombreCriterio = "Comentarios", PreguntaAsociada = "Comentarios", PuntajeMaximo = -1, IsEliminado = 0}
             };
 
@@ -587,10 +588,11 @@ namespace SistemaGeneraliz.Models.Helpers
                 {
                     //TrabajoProveedorId = trabajo.TrabajoProveedorId,
                     Fecha = trabajo.Trabajo.Fecha.AddDays(r1).AddHours(r1).AddMinutes(r1 + r3),
-                    ComentariosCliente = "Buen proveedor. Recomendado.",
                     ComentariosProveedor = "Trabajo culminado al 100%",
                     PuntajeTotal = -1,
-                    IsVisible = 1
+                    IsVisible = 1,
+                    IsCompletada = 1,
+                    IsEliminado = 0,
                 };
                 listaEncuestas.Add(encuesta);
             }
@@ -609,13 +611,15 @@ namespace SistemaGeneraliz.Models.Helpers
                 i++;
             }
             this.SaveChanges();
-            this.Database.ExecuteSqlCommand("ALTER TABLE TrabajosProveedores ADD CONSTRAINT uc_EncuestaCliente UNIQUE(EncuestaClienteId)");
+            //para hacer la relación 1 a 1
+            this.Database.ExecuteSqlCommand("ALTER TABLE TrabajosProveedores ADD CONSTRAINT uc_EncuestaCliente UNIQUE(EncuestaClienteId)");  
             return listaEncuestas;
         }
 
         private List<RespuestaPorCriterio> SeedRespuestasPorCriterio(List<EncuestaCliente> encuestas, List<CriterioCalificacion> criteriosCalificacion)
         {
             var listaRespuestas = new List<RespuestaPorCriterio>();
+            string[] comentariosCliente = { "Excelente trabajo. Recomendado", "Buen proveedor. Recomendado.", "Servicio regular." ,"No lo recomiendo."};
             int r1, r2, r3;
             Random random = new Random();
 
@@ -627,7 +631,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     r1 = random.Next(2, 6);
                     int puntaje;
 
-                    if (criterio.PuntajeMaximo == 5) //preguntas del 1 al 5
+                    if (criterio.TipoPregunta == "Estrellas") //preguntas del 1 al 5
                     {
                         puntaje = r1;
                         total += 5;
@@ -647,7 +651,15 @@ namespace SistemaGeneraliz.Models.Helpers
                     listaRespuestas.Add(respuesta);
                 }
                 double puntuacion = (suma * 20.0) / total;
-                encuesta.PuntajeTotal = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven)); //;
+                encuesta.PuntajeTotal = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven));
+                if ((encuesta.PuntajeTotal >= 18) && (encuesta.PuntajeTotal <= 20))
+                    encuesta.ComentariosCliente = comentariosCliente[0];
+                if ((encuesta.PuntajeTotal >= 15) && (encuesta.PuntajeTotal <= 17))
+                    encuesta.ComentariosCliente = comentariosCliente[1];
+                if ((encuesta.PuntajeTotal >= 11) && (encuesta.PuntajeTotal <= 14))
+                    encuesta.ComentariosCliente = comentariosCliente[2];
+                if ((encuesta.PuntajeTotal >= 0) && (encuesta.PuntajeTotal <= 11))
+                    encuesta.ComentariosCliente = comentariosCliente[3];
                 this.EncuestasClientes.Attach(encuesta);
                 this.Entry(encuesta).State = EntityState.Modified;
             }

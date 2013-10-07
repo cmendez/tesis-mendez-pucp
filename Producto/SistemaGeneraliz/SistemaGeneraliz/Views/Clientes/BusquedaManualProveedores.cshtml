@@ -275,6 +275,7 @@
                                 NombreCliente: { type: "string", editable: false },
                                 Servicios: { type: "string", editable: false },
                                 DescripcionCliente: { type: "string", editable: false },
+                                Puntuacion: { type: "string", editable: false },
                                 ReciboHonorarios_Factura: { type: "string", editable: false }
                             }
                         }
@@ -285,6 +286,7 @@
                     { title: "Cliente", field: "NombreCliente" },
                     { title: "Servicios Ofrecidos", field: "Servicios" },
                     { title: "Descripción Trabajo", field: "DescripcionCliente" },
+                    { title: "Calificación", field: "Puntuacion" },
                     { title: "Recibo Hon. / Factura", field: "ReciboHonorarios_Factura" }
                 ]
             });
@@ -299,7 +301,7 @@
                 $(result).each(function () {
                     dataSource3.add({
                         FechaTrabajo: this.FechaTrabajo, NombreCliente: this.NombreCliente, Servicios: this.Servicios, DescripcionCliente: this.DescripcionCliente,
-                        ReciboHonorarios_Factura: this.ReciboHonorarios_Factura
+                        Puntuacion: this.Puntuacion, ReciboHonorarios_Factura: this.ReciboHonorarios_Factura
                     });
                 });
             });

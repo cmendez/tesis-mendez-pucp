@@ -14,7 +14,7 @@ namespace SistemaGeneraliz.Models.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CriterioCalificacionId { get; set; }
         public string NombreCriterio { get; set; }
-        //public string TipoPregunta { get; set; }
+        public string TipoPregunta { get; set; }
         public string PreguntaAsociada { get; set; }
         public int PuntajeMaximo { get; set; }
         public virtual ICollection<RespuestaPorCriterio> RespuestasPorCriterio { get; set; }

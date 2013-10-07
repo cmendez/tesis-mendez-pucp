@@ -123,16 +123,20 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     string nombreCliente = trabajo.Trabajo.Cliente.Persona.RazonSocial ??
                                            (trabajo.Trabajo.Cliente.Persona.PrimerNombre + " " +
                                             trabajo.Trabajo.Cliente.Persona.ApellidoPaterno);
-
+                    string documentoCliente = (trabajo.Trabajo.Cliente.Persona.DNI != null) ? ("DNI - " + trabajo.Trabajo.Cliente.Persona.DNI.ToString()) : ("RUC - " + trabajo.Proveedor.Persona.RUC.ToString());
                     string servicios = trabajo.TiposServicios.Aggregate("", (current, servicio) => current + (servicio.NombreServicio + " - "));
                     servicios = servicios.Substring(0, servicios.Length - 3);
+                    string puntuacion = "-";
+                    if ((trabajo.EncuestaCliente != null) && (trabajo.EncuestaClienteId != null) && (trabajo.EncuestaClienteId > 0))
+                        puntuacion = trabajo.EncuestaCliente.PuntajeTotal.ToString();
 
                     HistorialTrabajosViewModel his = new HistorialTrabajosViewModel
                     {
                         TrabajoProveedorId = trabajo.TrabajoProveedorId,
                         FechaTrabajo = fechaTrabajo.ToString("dd/MM/yyyy"),
-                        //Puntuación = trabajo.EncuestaCliente.PuntuacionTotal.ToString(), //PARA CUANDO ESTE LO DE ENCUESTAS
+                        Puntuacion = puntuacion, //PARA CUANDO ESTE LO DE ENCUESTAS
                         NombreCliente = nombreCliente,
+                        DocumentoCliente = documentoCliente,
                         Servicios = servicios,
                         DescripcionCliente = trabajo.Trabajo.DescripcionCliente,
                         ReciboHonorarios_Factura = trabajo.TipoRpH_Factura + " " + trabajo.NroRpH_Factura,

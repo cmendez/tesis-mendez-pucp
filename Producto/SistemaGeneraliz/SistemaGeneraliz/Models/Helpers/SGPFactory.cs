@@ -211,6 +211,31 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.SaveChanges();
         }
 
+        public void AgregarEncuestaCliente(EncuestaCliente encuesta)
+        {
+            _db.EncuestasClientes.Add(encuesta);
+            _db.SaveChanges();
+        }
+
+        public void ActualizarEncuestaIdTrabajoProveedor(TrabajoProveedor trabajoProveedor)
+        {
+            _db.TrabajosProveedores.Attach(trabajoProveedor);
+            _db.Entry(trabajoProveedor).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+
+        public List<TrabajoProveedor> GetTrabajosConEncuestasPendientes(int clienteId)
+        {
+             //b.Proveedores.Where(x => (x.TiposServicios.Any(r => servicio.TipoServicioId.Equals(r.TipoServicioId))))
+            //_db.TrabajosProveedores.Where(t => t.Trabajo.ClienteId == clienteId)..ToList();
+            return _db.TrabajosProveedores.Where(t => (t.EncuestaCliente.IsCompletada == 0) && (t.Trabajo.ClienteId == clienteId)).ToList();
+        }
+
+        public List<CriterioCalificacion> GetCriteriosEncuestas()
+        {
+            return _db.CriteriosCalificacion.Where(c => c.IsEliminado == 0).ToList();
+        }
+
         #endregion
 
         #region Suministradores

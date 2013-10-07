@@ -21,6 +21,7 @@ namespace SistemaGeneraliz.Models.Entities
         public string ComentariosProveedor { get; set; }
         public int PuntajeTotal { get; set; }
         public int IsVisible { get; set; }
+        public int IsCompletada { get; set; }
         public int IsEliminado { get; set; }
     }
 }

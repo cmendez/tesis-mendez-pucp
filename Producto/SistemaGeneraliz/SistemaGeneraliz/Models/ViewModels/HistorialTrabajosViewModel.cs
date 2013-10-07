@@ -16,6 +16,8 @@ namespace SistemaGeneraliz.Models.ViewModels
         public string Puntuacion { get; set; }
         [DisplayName("Cliente")]
         public string NombreCliente { get; set; }
+        [DisplayName("Documento")]
+        public string DocumentoCliente { get; set; }
         [DisplayName("Servicios")]
         public string Servicios { get; set; }
         [DisplayName("Descripción")]

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Security;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using SistemaGeneraliz.Models.BusinessLogic;
 using SistemaGeneraliz.Models.Entities;
 using SistemaGeneraliz.Models.ViewModels;
@@ -209,8 +211,6 @@ namespace SistemaGeneraliz.Controllers
             Object o = new { Msg = "ok" };
             recargasJson.Add(o);
             return Json(recargasJson, JsonRequestBehavior.AllowGet);
-
-            //return RedirectToAction("DatosContactoProveedores", trabajo);
         }
 
         [HttpGet]
@@ -270,7 +270,7 @@ namespace SistemaGeneraliz.Controllers
                     Object o = new
                     {
                         FechaTrabajo = trabajo.FechaTrabajo,
-                        //Puntuacion = trabajo.Puntuación,
+                        Puntuacion = trabajo.Puntuacion,
                         NombreCliente = trabajo.NombreCliente,
                         Servicios = trabajo.Servicios,
                         DescripcionCliente = trabajo.DescripcionCliente,
@@ -281,6 +281,48 @@ namespace SistemaGeneraliz.Controllers
                 }
             }
             return Json(trabajosJson, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Administrador, Cliente")]
+        public ActionResult CalificarProveedores()
+        {
+            return View();
+        }
+
+        // ReSharper disable InconsistentNaming
+        public ActionResult EncuestasPendientes_Read([DataSourceRequest]DataSourceRequest request)
+        {
+            Cliente cliente = _logicaClientes.GetClientePorPersonaId(WebSecurity.CurrentUserId);
+            List<EncuestasClientesViewModel> listaEncuestasClientesViewModel = new List<EncuestasClientesViewModel>();
+            if (cliente != null)
+            {
+                listaEncuestasClientesViewModel = _logicaClientes.GetEncuestasPendientes(cliente.ClienteId);
+            }
+
+            return Json(listaEncuestasClientesViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Administrador, Cliente")]
+        public ActionResult LlenarEncuestaCliente(int encuestaClienteId)
+        {
+            Cliente cliente = _logicaClientes.GetClientePorPersonaId(WebSecurity.CurrentUserId);
+            List<EncuestasClientesViewModel> listaEncuestasClientesViewModel = new List<EncuestasClientesViewModel>();
+            if (cliente != null)
+            {
+                listaEncuestasClientesViewModel = _logicaClientes.GetEncuestasPendientes(cliente.ClienteId);
+            }
+            EncuestasClientesViewModel encuestaViewModel = listaEncuestasClientesViewModel.Find(e => e.EncuestaClienteId == encuestaClienteId);
+            List<CriterioCalificacion> criteriosEncuesta = _logicaClientes.GetCriteriosEncuestas();
+            ViewBag.EncuestaViewModel = encuestaViewModel;
+
+            return View();
+        }
+
+        [Authorize(Roles = "Administrador, Cliente")]
+        [HttpPost]
+        public ActionResult LlenarEncuestaCliente()
+        {
+            
         }
     }
 }

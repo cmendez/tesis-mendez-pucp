@@ -43,6 +43,10 @@ namespace SistemaGeneraliz.Models.Helpers
         Cliente GetClientePorPersonaId(int idPersona);
         void AgregarTrabajo(Trabajo trabajo);
         void AgregarTrabajoProveedor(TrabajoProveedor trabajoProveedor);
+        void AgregarEncuestaCliente(EncuestaCliente encuesta);
+        void ActualizarEncuestaIdTrabajoProveedor(TrabajoProveedor trabajoProveedor);
+        List<TrabajoProveedor> GetTrabajosConEncuestasPendientes(int clienteId);
+        List<CriterioCalificacion> GetCriteriosEncuestas();
         #endregion
 
         #region Suministradores
