@@ -71,8 +71,9 @@ namespace SistemaGeneraliz.Models.Helpers
             var criteriosCalificacion = SeedCriteriosCalificacion();
             var encuestas = SeedEncuestasCliente(trabajosProveedores);
             var respuestasXcriterio = SeedRespuestasPorCriterio(encuestas, criteriosCalificacion);
+            //faltaria puntajepromediocriterio
         }
-        
+
         private void SeedConfiguraciones()
         {
             var listaConfiguraciones = new List<Configuracion>()
@@ -617,7 +618,7 @@ namespace SistemaGeneraliz.Models.Helpers
             var listaRespuestas = new List<RespuestaPorCriterio>();
             int r1, r2, r3;
             Random random = new Random();
-            
+
             foreach (var encuesta in encuestas)
             {
                 int suma = 0; int total = 0;
@@ -645,7 +646,8 @@ namespace SistemaGeneraliz.Models.Helpers
                     };
                     listaRespuestas.Add(respuesta);
                 }
-                encuesta.PuntajeTotal = Convert.ToInt32((suma / total) * 20);
+                double puntuacion = (suma * 20.0) / total;
+                encuesta.PuntajeTotal = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven)); //;
                 this.EncuestasClientes.Attach(encuesta);
                 this.Entry(encuesta).State = EntityState.Modified;
             }
