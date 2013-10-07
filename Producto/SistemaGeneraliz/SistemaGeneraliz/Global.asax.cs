@@ -23,7 +23,7 @@ namespace SistemaGeneraliz
             {
                 using (var context = new SGPContext())
                 {
-                    if (false)
+                    if (true)
                     {
                         //IF DATABASE ALREADY EXISTED, ONLY DROP TABLES AND RECREATE THEM
                         if (context.Database.Exists())
@@ -32,6 +32,7 @@ namespace SistemaGeneraliz
                             var dbCreationScript = ((IObjectContextAdapter)context).ObjectContext.CreateDatabaseScript();
                             string script = dbCreationScript.Replace("on delete cascade", "");
                             context.Database.ExecuteSqlCommand(script);
+                            //context.Database.ExecuteSqlCommand("ALTER TABLE TrabajosProveedores ADD CONSTRAINT uc_EncuestaCliente UNIQUE(EncuestaClienteId)");
                             WebSecurity.InitializeDatabaseConnection("SGPContext", "Personas", "PersonaId", "UserName", autoCreateTables: true);
                             //if (WebSecurity.IsAuthenticated)
                             //    WebSecurity.Logout();
@@ -46,7 +47,7 @@ namespace SistemaGeneraliz
                         }
 
                         context.Seed();
-                        context.SaveChanges();
+                        //context.SaveChanges();
                     }
                     else
                     {

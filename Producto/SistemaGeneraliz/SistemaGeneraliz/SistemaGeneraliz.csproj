@@ -201,7 +201,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Configuracion.cs" />
+    <Compile Include="Models\Entities\CriterioCalificacion.cs" />
     <Compile Include="Models\Entities\EncuestaCliente.cs" />
+    <Compile Include="Models\Entities\PuntajePromedioCriterio.cs" />
+    <Compile Include="Models\Entities\RespuestaPorCriterio.cs" />
     <Compile Include="Models\Entities\Trabajo.cs" />
     <Compile Include="Models\Entities\TrabajoProveedor.cs" />
     <Compile Include="Models\Helpers\AlgoritmoTabu.cs" />

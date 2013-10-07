@@ -30,8 +30,13 @@ namespace SistemaGeneraliz.Models.Helpers
         public IDbSet<Configuracion> Configuraciones { get; set; }
         public IDbSet<Trabajo> Trabajos { get; set; }
         public IDbSet<TrabajoProveedor> TrabajosProveedores { get; set; }
+        public IDbSet<EncuestaCliente> EncuestasClientes { get; set; }
+        public IDbSet<RespuestaPorCriterio> RespuestasPorCriterio { get; set; }
+        public IDbSet<CriterioCalificacion> CriteriosCalificacion { get; set; }
+        public IDbSet<PuntajePromedioCriterio> PuntajesPromedioCriterio { get; set; }
         #endregion
 
+        #region OnModelCreating
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
@@ -39,15 +44,21 @@ namespace SistemaGeneraliz.Models.Helpers
                 .Map(t => t.MapLeftKey("ProveedorId").MapRightKey("TipoServicioId").ToTable("TiposServiciosPorProveedor"));
             modelBuilder.Entity<TrabajoProveedor>().HasMany(r => r.TiposServicios).WithMany(t => t.TrabajosProveedores)
                 .Map(t => t.MapLeftKey("TrabajoProveedorId").MapRightKey("TipoServicioId").ToTable("TiposServiciosPorTrabajoProveedor"));
+            //modelBuilder.Entity<TrabajoProveedor>().HasRequired(t => t.EncuestaCliente).WithRequiredPrincipal(t => t.TrabajoProveedor);
+            //modelBuilder.Entity<EncuestaCliente>().HasRequired(a => a.TrabajoProveedor).WithOptional(u => u.EncuestaCliente).Map(m => m.MapKey("TrabajoProveedorId"));
+            //modelBuilder.Entity<EncuestaCliente>().HasRequired(a => a.TrabajoProveedor).WithOptional(u => u.EncuestaCliente);
+            //modelBuilder.Entity<TrabajoProveedor>().HasRequired(a => a.EncuestaCliente).WithMany().HasForeignKey(u => u.EncuestaClienteId);
         }
+        #endregion
 
+        #region Seeds
         internal void Seed()
         {
             SeedConfiguraciones();
             SeedsRoles();
             var tiposServicios = SeedsTiposServicios();
             var distritos = SeedPaisesCiudadesDistritos();
-            var personasNaturales = SeedPersonasNaturales(20);
+            var personasNaturales = SeedPersonasNaturales(20); // n personas en la BD
             var personasJuridicas = SeedPersonasJuridicas();
             var personas = personasNaturales.Concat(personasJuridicas).ToList();
             SeedUbicacionesPersonas(personas, distritos);
@@ -55,10 +66,13 @@ namespace SistemaGeneraliz.Models.Helpers
             var suministradores = SeedSuministradores(personas);
             var clientes = SeedClientes(personas);
             SeedRecargaLeads(suministradores, proveedores);
-            var trabajos = SeedTrabajos(clientes, 3);
-            var trabajosProveedores = SeedTrabajosProveedores(proveedores, trabajos, tiposServicios); //faltaria encuestas
+            var trabajos = SeedTrabajos(clientes, 3); //nro clientes * factorMultiplicativo
+            var trabajosProveedores = SeedTrabajosProveedores(proveedores, trabajos, tiposServicios);
+            var criteriosCalificacion = SeedCriteriosCalificacion();
+            var encuestas = SeedEncuestasCliente(trabajosProveedores);
+            var respuestasXcriterio = SeedRespuestasPorCriterio(encuestas, criteriosCalificacion);
         }
-
+        
         private void SeedConfiguraciones()
         {
             var listaConfiguraciones = new List<Configuracion>()
@@ -460,9 +474,7 @@ namespace SistemaGeneraliz.Models.Helpers
                         ClienteId = cliente.ClienteId,
                         DescripcionCliente = "Trabajo nro. " + r3,
                         Direccion = cliente.Persona.DireccionCompleta,
-                        Fecha =
-                            DateTime.Now.AddMonths((r1 + r2 / 2) * -1).AddDays(r1 + r2 / 2).AddHours(r1)
-                            .AddMinutes(r1 + r3),
+                        Fecha = DateTime.Now.AddMonths((r1 + r2 / 2) * -1).AddDays(r1 + r2 / 2).AddHours(r1).AddMinutes(r1 + r3),
                         IsTerminado = 0
                     };
 
@@ -539,8 +551,112 @@ namespace SistemaGeneraliz.Models.Helpers
             this.SaveChanges();
             return listaTrabajosProveedores;
         }
+
+        private List<CriterioCalificacion> SeedCriteriosCalificacion()
+        {
+            var listaCriterios = new List<CriterioCalificacion>()
+            {
+                new CriterioCalificacion { NombreCriterio = "Calidad", PreguntaAsociada = "Califique la calidad del servicio recibido por el proveedor", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Compromiso", PreguntaAsociada = "Califique el compromiso con el trabajo que tuvo el proveedor", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Trato y Cortesía", PreguntaAsociada = "Califique el trato y cortesía del proveedor ", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Puntualidad", PreguntaAsociada = "Califique la puntualidad del proveedor", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Precio cobrado", PreguntaAsociada = "Califique el precio cobrado por el proveedor", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Volvería a contratarlo", PreguntaAsociada = "¿Volvería a contratar a este proveedor?", PuntajeMaximo = 1, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Recomendaría", PreguntaAsociada = "¿Recomendaría a este proveedor?", PuntajeMaximo = 1, IsEliminado = 0}
+                //new CriterioCalificacion { NombreCriterio = "Comentarios", PreguntaAsociada = "Comentarios", PuntajeMaximo = -1, IsEliminado = 0}
+            };
+
+            listaCriterios.ForEach(s => this.CriteriosCalificacion.Add(s));
+            this.SaveChanges();
+            return listaCriterios;
+        }
+
+        private List<EncuestaCliente> SeedEncuestasCliente(List<TrabajoProveedor> trabajosProveedores)
+        {
+            var listaEncuestas = new List<EncuestaCliente>();
+            int r1, r2, r3;
+            Random random = new Random();
+            foreach (var trabajo in trabajosProveedores)
+            {
+                r1 = random.Next(3, 8);
+                r2 = random.Next(0, trabajosProveedores.Count);
+                r3 = random.Next(5, 21);
+
+                EncuestaCliente encuesta = new EncuestaCliente
+                {
+                    //TrabajoProveedorId = trabajo.TrabajoProveedorId,
+                    Fecha = trabajo.Trabajo.Fecha.AddDays(r1).AddHours(r1).AddMinutes(r1 + r3),
+                    ComentariosCliente = "Buen proveedor. Recomendado.",
+                    ComentariosProveedor = "Trabajo culminado al 100%",
+                    PuntajeTotal = -1,
+                    IsVisible = 1
+                };
+                listaEncuestas.Add(encuesta);
+            }
+            listaEncuestas.ForEach(s => this.EncuestasClientes.Add(s));
+            this.SaveChanges();
+            //Update a TrabajosProveedores
+            int i = 0;
+            foreach (var encuestaCliente in listaEncuestas)
+            {
+                var trabajo = trabajosProveedores[i];
+                trabajo.EncuestaClienteId = encuestaCliente.EncuestaClienteId;
+                this.TrabajosProveedores.Attach(trabajo);
+                //this.Entry(trabajo).State = EntityState.Modified;
+                var entry = this.Entry(trabajo);
+                entry.Property(e => e.EncuestaClienteId).IsModified = true; //otra forma de indicar el Update
+                i++;
+            }
+            this.SaveChanges();
+            this.Database.ExecuteSqlCommand("ALTER TABLE TrabajosProveedores ADD CONSTRAINT uc_EncuestaCliente UNIQUE(EncuestaClienteId)");
+            return listaEncuestas;
+        }
+
+        private List<RespuestaPorCriterio> SeedRespuestasPorCriterio(List<EncuestaCliente> encuestas, List<CriterioCalificacion> criteriosCalificacion)
+        {
+            var listaRespuestas = new List<RespuestaPorCriterio>();
+            int r1, r2, r3;
+            Random random = new Random();
+            
+            foreach (var encuesta in encuestas)
+            {
+                int suma = 0; int total = 0;
+                foreach (var criterio in criteriosCalificacion)
+                {
+                    r1 = random.Next(2, 6);
+                    int puntaje;
+
+                    if (criterio.PuntajeMaximo == 5) //preguntas del 1 al 5
+                    {
+                        puntaje = r1;
+                        total += 5;
+                    }
+                    else //preguntas del 6 y 7
+                    {
+                        puntaje = (suma >= 11) ? 1 : 0;
+                        total += 1;
+                    }
+
+                    suma += puntaje;
+                    RespuestaPorCriterio respuesta = new RespuestaPorCriterio
+                    {
+                        EncuestaClienteId = encuesta.EncuestaClienteId,
+                        PuntajeOtorgado = puntaje,
+                    };
+                    listaRespuestas.Add(respuesta);
+                }
+                encuesta.PuntajeTotal = Convert.ToInt32((suma / total) * 20);
+                this.EncuestasClientes.Attach(encuesta);
+                this.Entry(encuesta).State = EntityState.Modified;
+            }
+            listaRespuestas.ForEach(s => this.RespuestasPorCriterio.Add(s));
+            this.SaveChanges();
+            return listaRespuestas;
+        }
+        #endregion
     }
 
+    #region Strategy
     //public class SGPContextInitializer : DropCreateDatabaseTables<SGPContext>
     //public class SGPContextInitializer : DropCreateDatabaseAlways<SGPContext>
     //public class SGPContextInitializer : DropOnlyTables<SGPContext>
@@ -552,4 +668,5 @@ namespace SistemaGeneraliz.Models.Helpers
             //context.seed();
         }*/
     }
+    #endregion
 }

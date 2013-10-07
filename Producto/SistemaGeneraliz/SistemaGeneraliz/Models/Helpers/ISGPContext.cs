@@ -18,6 +18,10 @@ namespace SistemaGeneraliz.Models.Helpers
         IDbSet<Configuracion> Configuraciones { get; set; }
         IDbSet<Trabajo> Trabajos { get; set; }
         IDbSet<TrabajoProveedor> TrabajosProveedores { get; set; }
+        IDbSet<EncuestaCliente> EncuestasClientes { get; set; }
+        IDbSet<RespuestaPorCriterio> RespuestasPorCriterio { get; set; }
+        IDbSet<CriterioCalificacion> CriteriosCalificacion { get; set; }
+        IDbSet<PuntajePromedioCriterio> PuntajesPromedioCriterio { get; set; }
         int SaveChanges();
         DbEntityEntry Entry(object entity);
     }

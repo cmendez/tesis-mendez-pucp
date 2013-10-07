@@ -23,8 +23,9 @@ namespace SistemaGeneraliz.Models.Entities
         public string NroRpH_Factura { get; set; }
         public string TipoRpH_Factura { get; set; }
         public string MontoCobrado { get; set; }
-        /*public int EncuestaClienteId { get; set; }
-        public virtual EncuestaCliente EncuestaCliente { get; set; }*/
+        public int? EncuestaClienteId { get; set; }
+        [ForeignKey("EncuestaClienteId")]
+        public virtual EncuestaCliente EncuestaCliente { get; set; }
         public int IsTerminado { get; set; }
     }
 }
