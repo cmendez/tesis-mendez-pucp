@@ -15,7 +15,9 @@ namespace SistemaGeneraliz.Models.Entities
         public int RespuestaPorCriterioId { get; set; }
         public int EncuestaClienteId { get; set; }
         public virtual EncuestaCliente EncuestaCliente { get; set; }
+        public int CriterioCalificacionId { get; set; }
+        public virtual CriterioCalificacion CriterioCalificacion { get; set; }
         public int PuntajeOtorgado { get; set; }
-        public string RespuestaPregunta { get; set; }
+        //public string RespuestaPregunta { get; set; }
     }
 }

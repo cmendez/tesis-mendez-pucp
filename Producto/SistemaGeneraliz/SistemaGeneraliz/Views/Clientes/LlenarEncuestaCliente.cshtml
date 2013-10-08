@@ -1,131 +1,279 @@
-ï»¿@using SistemaGeneraliz.Models.Entities
+@using SistemaGeneraliz.Models.Entities
 @using SistemaGeneraliz.Models.ViewModels
-
+@model IList<PreguntasEncuestaViewModel>
 @{
-    ViewBag.Title = "Encuestas de SatisfacciÃ³n al Cliente";
+    ViewBag.Title = "Encuestas de Satisfacción al Cliente";
     EncuestasClientesViewModel encuestaViewModel = ViewBag.EncuestaViewModel;
+    int limitePreguntasLadoIzq = ViewBag.LimitePreguntasLadoIzq;
+    int limitePreguntasLadoDer = ViewBag.LimitePreguntasLadoDer;
     int i = 0;
+    int k = 0;
 }
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Encuestas de SatisfacciÃ³n al Cliente</title>
+    <title>Encuestas de Satisfacción al Cliente</title>
 </head>
 <body>
-    @*    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
-    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Encuestas de SatisfacciÃ³n al Cliente", ""));}
+    <link rel="stylesheet" href="/Scripts/barrating/css/examples.css" type="text/css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/Scripts/barrating/jquery.barrating.js"></script>
+
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Encuestas de Satisfacción al Cliente", ""));}
     <div style="padding-left: 4%;">
-    @*@Html.ValidationSummary(true)*@
-    <input type="hidden" name="encuestaId" id="encuestaId" value="@encuestaViewModel.EncuestaClienteId">
-    <table style="width: 100%; border: 0;">
-        <tbody>
-            <tr>
-                <td style="vertical-align: top; width: 1%;">
-                    <table>
-                        <tbody style="vertical-align: top;">
+        @*@Html.ValidationSummary(true)*@
+        <input type="hidden" name="encuestaId" id="encuestaId" value="@encuestaViewModel.EncuestaClienteId">
+        <input type="hidden" name="trabajoProveedorId" id="trabajoProveedorId" value="@encuestaViewModel.TrabajoProveedorId">
+        <table style="width: 100%; border: 0;">
+            <tbody>
+                <tr>
+                    <td style="vertical-align: top; width: 1%;">
+                        <table>
+                            <tbody style="vertical-align: top;">
+                                <tr>
+                                    <td>Documento:</td>
+                                    <td>
+                                        <input type="text" name="nroDocumento" id="nroDocumento" readonly="readonly" value="@encuestaViewModel.DocumentoProveedor">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Proveedor:</td>
+                                    <td>
+                                        <input type="text" name="nombreProveedor" id="nombreProveedor" readonly="readonly" value="@encuestaViewModel.NombreProveedor">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="vertical-align: top; width: 40%;">
+                        <table>
                             <tr>
-                                <td>Documento:</td>
                                 <td>
-                                    <input type="text" name="nroDocumento" id="nroDocumento" readonly="readonly" value="@encuestaViewModel.DocumentoProveedor">
-                                </td>
+                                    <img src="/Images/perfil_1.jpg" width="90" alt=""></td>
                             </tr>
-                            <tr>
-                                <td>Proveedor:</td>
-                                <td>
-                                    <input type="text" name="nombreProveedor" id="nombreProveedor" readonly="readonly" value="@encuestaViewModel.NombreProveedor">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-                <td style="vertical-align: top; width: 40%;">
-                    <table>
-                        <tr>
-                            <td>
-                                <img src="/Images/perfil_1.jpg" width="90" alt=""></td>
-                        </tr>
-                    </table>
-                </td>
-                <td style="vertical-align: top; width: 59%; padding-left: 5%;">
-                    <table style="width: auto; border: 0;">
-                        <tbody style="vertical-align: top;">
-                            <tr>
-                                <td>Fecha Trabajo:</td>
-                                <td>
-                                    <input type="text" name="fechaTrabajo" id="fechaTrabajo" readonly="readonly" value="@encuestaViewModel.FechaTrabajo">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>DescripciÃ³n:</td>
-                                <td>
-                                    <textarea name="descripcion" id="descripcion" readonly="readonly">@encuestaViewModel.DescripcionCliente</textarea>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    
-        @using (Html.BeginForm())
-        {
-            <div class="portlet box blue" style="width: 95%;">
-                <div class="portlet-title">
-                    <div class="caption"><i class="icon-reorder"></i>Cuestionario</div>
-                    <div class="tools">
-                        <a href="javascript:;" class="collapse"></a>
-                    </div>
-                </div>
-                <div class="portlet-body">
-                    <table style="vertical-align: top; width: 100%;">
-                        <tr style="vertical-align: top; width: 100%;">
-                            <td style="vertical-align: top; width: 50%; padding-left: 7%;">
-                                <table>
-                                    <tr><td>1. Califique la calidad del servicio recibido por el proveedor</td></tr>
-                                    <tr><td>estrellas aca</td></tr>
-                                    <tr><td><br/></td></tr>
-                                    <tr><td>1. Califique la calidad del servicio recibido por el proveedor</td></tr>
-                                    <tr><td>estrellas aca</td></tr>
-                                    <tr><td><br/></td></tr>
-                                    <tr><td>1. Califique la calidad del servicio recibido por el proveedor</td></tr>
-                                    <tr><td>estrellas aca</td></tr>
-                                    <tr><td><br/></td></tr>
-                                </table>
-                            </td>
-                            <td style="vertical-align: top; width: 50%; padding-left: 8%;">
-                                <table>
-                                    <tr><td>1. Califique la calidad del servicio recibido por el proveedor</td></tr>
-                                    <tr><td>estrellas aca</td></tr>
-                                    <tr><td><br/></td></tr>
-                                    <tr><td>1. Califique la calidad del servicio recibido por el proveedor</td></tr>
-                                    <tr><td>estrellas aca</td></tr>
-                                    <tr><td><br/></td></tr>
-                                    <tr><td>1. Califique la calidad del servicio recibido por el proveedor</td></tr>
-                                    <tr><td>estrellas aca</td></tr>
-                                    <tr><td><br/></td></tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
+                        </table>
+                    </td>
+                    <td style="vertical-align: top; width: 59%; padding-left: 5%;">
+                        <table style="width: auto; border: 0;">
+                            <tbody style="vertical-align: top;">
+                                <tr>
+                                    <td>Fecha Trabajo:</td>
+                                    <td>
+                                        <input type="text" name="fechaTrabajo" id="fechaTrabajo" readonly="readonly" value="@encuestaViewModel.FechaTrabajo">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Descripción:</td>
+                                    <td>
+                                        <textarea name="descripcion" id="descripcion" readonly="readonly">@encuestaViewModel.DescripcionCliente</textarea>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <div class="portlet box blue" style="width: 95%;">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-reorder"></i>Cuestionario</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
                 </div>
             </div>
-        }
+            <div class="portlet-body">
+                <table style="vertical-align: top; width: 100%;">
+                    <tr style="vertical-align: top; width: 100%;">
+                        <td style="vertical-align: top; width: 50%; padding-left: 7%;">
+                            <table>
+                                @for (i = 0; i < limitePreguntasLadoIzq; i++)
+                                {
+                                    //@Html.HiddenFor(modelItem => modelItem[i].PuntajeOtorgado, new { id = "idPuntaje" })
+                                    @Html.HiddenFor(x => x[i].CriterioId)
+                                    <tr>
+                                        <td>
+                                            @(i + 1). @Model[i].PreguntaAsociada
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="input rating-f">
+                                            @if (Model[i].TipoPregunta == "Estrellas")
+                                            {
+@*<select id="pregunta_@i" name="pregunta_@i">*@
+                                                   
+                                                <select id="demo_@i" name="@Model[i].PuntajeOtorgado">
+                                                    @for (int j = 1; j <= Model[i].NroOpciones; j++)
+                                                    {
+                                                        <option value="@j">@j</option>
+                                                    }
+                                                </select>
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                        <td style="vertical-align: top; width: 50%; padding-left: 8%;">
+                            <table>
+                                @for (k = i; k < limitePreguntasLadoDer; k++)
+                                {
+                                    //@Html.HiddenFor(modelItem => modelItem[k].PuntajeOtorgado, new { id = "idPuntaje" })
+                                    @Html.HiddenFor(x => x[i].CriterioId)
+                                    <tr>
+                                        <td>
+                                            @(k + 1). @Model[k].PreguntaAsociada
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="input rating-f">
+                                            @if (Model[k].TipoPregunta == "Estrellas")
+                                            {
+@*<select id="pregunta_@i" name="pregunta_@i">*@
+                                                <select id="demo_@k" name="@Model[k].PuntajeOtorgado">
+                                                    @for (int j = 1; j <= Model[k].NroOpciones; j++)
+                                                    {
+                                                        <option value="@j">@j</option>
+                                                    }
+                                                </select>
+                                            }
+                                            else
+                                            {
+                                                if (Model[k].TipoPregunta == "Si-No")
+                                                {
+  
+                                                <input type="radio" name="SiNo_@Model[k].CriterioId" value="1" id="Si_@Model[k].CriterioId" /><text>Sí&nbsp;&nbsp;</text>
+                                                <input type="radio" name="SiNo_@Model[k].CriterioId" value="0" id="No_@Model[k].CriterioId" /> <text>No</text>
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td>8. Comentarios</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @*@Html.TextAreaFor(x => x[limitePreguntasLadoDer].RespuestaPregunta)*@
+                                        <textarea id="comentarios" placeholder="Ingrese comentarios finales" style="width: 260px;"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="margin-left: auto; margin-right: auto;">
+                                <button id="btnEnviar" type="submit" class="btn green pull-right" style="">
+                                    Enviar <i class="icon-ok  m-icon-white"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td style="padding-right: 39%;">
+                            <div style="margin-left: auto; margin-right: auto;">
+                                <button id="btnCancelar" class="btn red pull-right" style="">
+                                    Cancelar <i class="  m-icon-white"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
     </div>
+
+
     @*    <div>
         @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
     </div>*@
 
     <script>
 
-        $("#btnBuscar").click(function e() {
 
+        $(document).ready(function () {
+            for (var i = 0; i < '@ViewBag.NroPreguntasEstrellas'; i++) {
+                //alert(i);
+
+                $('#demo_' + i).barrating({
+                    showValues: false, // If set to true, rating values will be displayed on the bars.
+                    showSelectedRating: false, //If set to true, user selected rating will be displayed next to the widget.
+                    onSelect: function (value, text) {
+                        //alert('Rating: ' + value);
+                    }
+                });
+            }
         });
 
+
+        $("#btnEnviar").click(function e() {
+            var elegidas = [];
+            for (var i = 0; i < '@ViewBag.NroPreguntasEstrellas'; i++) {
+                var elegida = $("#demo_" + i).val();
+                elegidas.push(elegida);
+            }
+            var checkVolveria = $('input[name=SiNo_6]:checked');
+            var checkRecomendaria = $('input[name=SiNo_7]:checked');
+
+            if (checkVolveria.length <= 0) {
+                alert("Error: por favor elija una opción para la pregunta 6");
+                return;
+            }
+
+            if (checkRecomendaria.length <= 0) {
+                alert("Error: por favor elija una opción para la pregunta 7");
+                return;
+            }
+
+            elegidas.push(checkVolveria.val());
+            elegidas.push(checkRecomendaria.val());
+            var respuestas = "";
+            for (i = 0; i < elegidas.length; i++) {
+                respuestas += elegidas[i] + ",";
+            }
+
+            var comentarios = $("#comentarios").val();
+            var encuestaId = $("#encuestaId").val();
+            var trabajoProveedorId = $("#trabajoProveedorId").val();
+
+            //mensaje de confirmacion aca xD
+
+            $.ajax({
+                type: 'GET',
+                url: '/Clientes/EnviarEncuestaCliente',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: {
+                    encuestaId: encuestaId,
+                    trabajoProveedorId: trabajoProveedorId,
+                    respuestas: respuestas,
+                    comentarios: comentarios,
+                },
+
+                success: function (e) {
+                    alert("Su encuesta ha sido enviada.");
+                    window.location = "/Clientes/CalificarProveedores/";
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+        });
+
+        $("#btnCancelar").click(function e() {
+            window.location = "/Clientes/CalificarProveedores/";
+        });
     </script>
 </body>
 </html>

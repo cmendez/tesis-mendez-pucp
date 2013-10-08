@@ -558,10 +558,10 @@ namespace SistemaGeneraliz.Models.Helpers
         {
             var listaCriterios = new List<CriterioCalificacion>()
             {
-                new CriterioCalificacion { NombreCriterio = "Calidad", TipoPregunta = "Estrellas",PreguntaAsociada = "Califique la calidad del servicio recibido por el proveedor", PuntajeMaximo = 5, IsEliminado = 0},
-                new CriterioCalificacion { NombreCriterio = "Compromiso", TipoPregunta = "Estrellas", PreguntaAsociada = "Califique el compromiso con el trabajo que tuvo el proveedor", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Calidad", TipoPregunta = "Estrellas",PreguntaAsociada = "Califique la calidad del servicio recibido", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Compromiso", TipoPregunta = "Estrellas", PreguntaAsociada = "Califique el compromiso con el trabajo", PuntajeMaximo = 5, IsEliminado = 0},
                 new CriterioCalificacion { NombreCriterio = "Trato y Cortesía", TipoPregunta = "Estrellas", PreguntaAsociada = "Califique el trato y cortesía del proveedor ", PuntajeMaximo = 5, IsEliminado = 0},
-                new CriterioCalificacion { NombreCriterio = "Puntualidad", TipoPregunta = "Estrellas", PreguntaAsociada = "Califique la puntualidad del proveedor", PuntajeMaximo = 5, IsEliminado = 0},
+                new CriterioCalificacion { NombreCriterio = "Puntualidad", TipoPregunta = "Estrellas", PreguntaAsociada = "Califique la puntualidad", PuntajeMaximo = 5, IsEliminado = 0},
                 new CriterioCalificacion { NombreCriterio = "Precio cobrado", TipoPregunta = "Estrellas", PreguntaAsociada = "Califique el precio cobrado por el proveedor", PuntajeMaximo = 5, IsEliminado = 0},
                 new CriterioCalificacion { NombreCriterio = "Volvería a contratarlo", TipoPregunta = "Si-No", PreguntaAsociada = "¿Volvería a contratar a este proveedor?", PuntajeMaximo = 1, IsEliminado = 0},
                 new CriterioCalificacion { NombreCriterio = "Recomendaría", TipoPregunta = "Si-No", PreguntaAsociada = "¿Recomendaría a este proveedor?", PuntajeMaximo = 1, IsEliminado = 0}
@@ -646,6 +646,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     RespuestaPorCriterio respuesta = new RespuestaPorCriterio
                     {
                         EncuestaClienteId = encuesta.EncuestaClienteId,
+                        CriterioCalificacionId = criterio.CriterioCalificacionId,
                         PuntajeOtorgado = puntaje,
                     };
                     listaRespuestas.Add(respuesta);

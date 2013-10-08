@@ -276,5 +276,34 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         {
             return _sgpFactory.GetCriteriosEncuestas();
         }
+
+        public void EnviarEncuestaCliente(int encuestaId, int trabajoProveedorId, string respuestas, string comentarios)
+        {
+            List<RespuestaPorCriterio> listaRespuestas = new List<RespuestaPorCriterio>();
+            string[] respuestasSplit = respuestas.Split(',');
+            for (int t = 0; t < respuestasSplit.Length; t++)
+            {
+                if (respuestasSplit[t] != "")
+                {
+                    RespuestaPorCriterio respuesta = new RespuestaPorCriterio
+                    {
+                        EncuestaClienteId = encuestaId,
+                        CriterioCalificacionId = t + 1, //asumimos un orden de criterios en la bd
+                        PuntajeOtorgado = Int32.Parse(respuestasSplit[t])
+                    };
+                    listaRespuestas.Add(respuesta);
+                }
+            }
+            _sgpFactory.AgregarRespuestasEncuesta(listaRespuestas);
+
+            EncuestaCliente encuesta = _sgpFactory.GetEncuestaCliente(encuestaId);
+            encuesta.Fecha = DateTime.Now;
+            double puntuacion = (listaRespuestas.Sum(r => r.PuntajeOtorgado) * 20.0) / (5 * 5 + 2 * 1); //asumimos 27 total
+            encuesta.PuntajeTotal = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven));
+            encuesta.ComentariosCliente = comentarios;
+            encuesta.IsCompletada = 1;
+            encuesta.IsVisible = 1;
+            _sgpFactory.ActualizarEncuestaCompletada(encuesta);
+        }
     }
 }

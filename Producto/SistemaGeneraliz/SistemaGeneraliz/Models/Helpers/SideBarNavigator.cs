@@ -23,7 +23,7 @@ namespace SistemaGeneraliz.Models.Helpers
             Opciones.Add(new SidebarOption("Clientes", "Clientes", "icon-user", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Buscar Proveedores", "Clientes", "MenuBuscarProveedores", "icon-search"),
                 new SidebarSuboption("Buscar Productos", "Clientes", "Index", "icon-search"),
-                new SidebarSuboption("Calificar Proveedor", "Clientes", "Index", "icon-star"),
+                new SidebarSuboption("Calificar Proveedores", "Clientes", "CalificarProveedores", "icon-star"),
                 new SidebarSuboption("Editar Mi Información", "Clientes", "Index", "icon-edit")
             })));
             

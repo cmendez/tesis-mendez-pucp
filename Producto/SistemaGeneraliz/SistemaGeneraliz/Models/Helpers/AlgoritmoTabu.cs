@@ -34,7 +34,7 @@ namespace SistemaGeneraliz.Models.Helpers
             //Inicialización
             //cliente = C;
             lista_Servicios = GenerarListaServicios(serviciosIds);
-            lista_Proveedores = GenerarListaProveedores(lista_Servicios); //[][]
+            lista_Proveedores = GenerarListaProveedores(ref lista_Servicios); //[][]
             lista_Inicial = GenerarListaInicial(lista_Proveedores, latitudCliente, longitudCliente);
             lista_Mejores = lista_Inicial;
             lista_Tabu = new List<Proveedor>();
@@ -153,25 +153,25 @@ namespace SistemaGeneraliz.Models.Helpers
             return servicios;
         }
 
-        private List<List<Proveedor>> GenerarListaProveedores(List<TipoServicio> listaServicios)
+        private List<List<Proveedor>> GenerarListaProveedores(ref List<TipoServicio> listaServicios)
         {
             int puntajeMinimo = _logicaProveedores.GetPuntajeMinimoConfiguracion();
             int cantidadMaxima = _logicaProveedores.GetCantidadMaximaProveedoresConfiguracion();
-            int i = 0;
-            List<List<Proveedor>> listaProveedores = new List<List<Proveedor>>();
 
+            List<List<Proveedor>> listaProveedores = new List<List<Proveedor>>();
+            List<TipoServicio> listaServiciosConProveedores = new List<TipoServicio>(listaServicios);
             //Para cada servicio requerido
             foreach (var servicio in listaServicios)
             {
-                //Obtenemos proveedores directamente de la BD 
-                //ordenados por puntaje de mayor a menor
+                //Obtenemos proveedores directamente de la BD ordenados por puntaje de mayor a menor
                 List<Proveedor> listaInterna = _logicaProveedores.GetProveedoresPorServicio(servicio, cantidadMaxima,
                                                                                             puntajeMinimo);
-                //lista_Proveedores[i] <- ObtenerProveedoresBD(servicio, cantidadMaxima, puntajeMinimo);
-                listaProveedores.Add(listaInterna);
-                i++;
+                if ((listaInterna == null) || (listaInterna.Count == 0))
+                    listaServiciosConProveedores.Remove(servicio);
+                else
+                    listaProveedores.Add(listaInterna);
             }
-
+            listaServicios = listaServiciosConProveedores;
             return listaProveedores;
         }
 

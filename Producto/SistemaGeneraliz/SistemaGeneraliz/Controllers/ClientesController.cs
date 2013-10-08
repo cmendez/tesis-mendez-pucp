@@ -312,17 +312,52 @@ namespace SistemaGeneraliz.Controllers
                 listaEncuestasClientesViewModel = _logicaClientes.GetEncuestasPendientes(cliente.ClienteId);
             }
             EncuestasClientesViewModel encuestaViewModel = listaEncuestasClientesViewModel.Find(e => e.EncuestaClienteId == encuestaClienteId);
-            List<CriterioCalificacion> criteriosEncuesta = _logicaClientes.GetCriteriosEncuestas();
             ViewBag.EncuestaViewModel = encuestaViewModel;
+            List<CriterioCalificacion> criteriosEncuesta = _logicaClientes.GetCriteriosEncuestas();
+            List<PreguntasEncuestaViewModel> listaPreguntas = new List<PreguntasEncuestaViewModel>();
+            int nroPreguntasEstrellas = 0;
+            foreach (var criterio in criteriosEncuesta)
+            {
+                nroPreguntasEstrellas = (criterio.TipoPregunta == "Estrellas") ? ++nroPreguntasEstrellas : nroPreguntasEstrellas;
+                PreguntasEncuestaViewModel preguntas = new PreguntasEncuestaViewModel
+                {
+                    CriterioId = criterio.CriterioCalificacionId,
+                    TipoPregunta = criterio.TipoPregunta,
+                    PreguntaAsociada = criterio.PreguntaAsociada,
+                    PuntajeOtorgado = -1,
+                    RespuestaPregunta = null,
+                    NroOpciones = criterio.PuntajeMaximo
+                };
+                listaPreguntas.Add(preguntas);
+            }
 
-            return View();
+            //PreguntasEncuestaViewModel pregunta = new PreguntasEncuestaViewModel
+            //{
+            //    CriterioId = -1,
+            //    TipoPregunta = "Comentario",
+            //    PreguntaAsociada = "Comentarios",
+            //    PuntajeOtorgado = -1,
+            //    RespuestaPregunta = "",
+            //    NroOpciones = -1
+            //};
+            //listaPreguntas.Add(pregunta);
+
+            ViewBag.LimitePreguntasLadoIzq = Convert.ToInt32(criteriosEncuesta.Count / 2) + 1;
+            ViewBag.LimitePreguntasLadoDer = Convert.ToInt32(criteriosEncuesta.Count);
+            ViewBag.NroPreguntasEstrellas = nroPreguntasEstrellas;
+
+            return View(listaPreguntas);
         }
 
         [Authorize(Roles = "Administrador, Cliente")]
-        [HttpPost]
-        public ActionResult LlenarEncuestaCliente()
+        [HttpGet]
+        public ActionResult EnviarEncuestaCliente(int encuestaId, int trabajoProveedorId, string respuestas, string comentarios)
         {
-            
+            _logicaClientes.EnviarEncuestaCliente(encuestaId, trabajoProveedorId, respuestas, comentarios);
+            var json = new List<Object>();
+            Object o = new { Msg = "ok" };
+            json.Add(o);
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
     }
 }

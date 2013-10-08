@@ -125,7 +125,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public List<TipoServicio> GetServiciosPorIds(int[] serviciosIds)
         {
-            return _db.TipoServicios.Where(s => serviciosIds.Contains(s.TipoServicioId)).OrderBy(s => s.NombreServicio).ToList();
+            return _db.TipoServicios.Where(s => serviciosIds.Contains(s.TipoServicioId)).Where(x => x.Proveedores.Count > 0).OrderBy(s => s.NombreServicio).ToList();
         }
 
         public List<Proveedor> GetProveedoresPorServicio(TipoServicio servicio, int cantidadMaxima, int puntajeMinimo)
@@ -234,6 +234,27 @@ namespace SistemaGeneraliz.Models.Helpers
         public List<CriterioCalificacion> GetCriteriosEncuestas()
         {
             return _db.CriteriosCalificacion.Where(c => c.IsEliminado == 0).ToList();
+        }
+
+        public void AgregarRespuestasEncuesta(List<RespuestaPorCriterio> listaRespuestas)
+        {
+            foreach (var respuesta in listaRespuestas)
+            {
+                _db.RespuestasPorCriterio.Add(respuesta);
+            }
+            _db.SaveChanges();
+        }
+
+        public EncuestaCliente GetEncuestaCliente(int encuestaId)
+        {
+            return _db.EncuestasClientes.Find(encuestaId);
+        }
+
+        public void ActualizarEncuestaCompletada(EncuestaCliente encuesta)
+        {
+            _db.EncuestasClientes.Attach(encuesta);
+            _db.Entry(encuesta).State = EntityState.Modified;
+            _db.SaveChanges();
         }
 
         #endregion

@@ -47,6 +47,9 @@ namespace SistemaGeneraliz.Models.Helpers
         void ActualizarEncuestaIdTrabajoProveedor(TrabajoProveedor trabajoProveedor);
         List<TrabajoProveedor> GetTrabajosConEncuestasPendientes(int clienteId);
         List<CriterioCalificacion> GetCriteriosEncuestas();
+        void AgregarRespuestasEncuesta(List<RespuestaPorCriterio> listaRespuestas);
+        EncuestaCliente GetEncuestaCliente(int encuestaId);
+        void ActualizarEncuestaCompletada(EncuestaCliente encuesta);
         #endregion
 
         #region Suministradores
