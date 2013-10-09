@@ -22,11 +22,13 @@ namespace SistemaGeneraliz.Models.ViewModels
         public string Servicios { get; set; }
         [DisplayName("Descripción")]
         public string DescripcionCliente { get; set; }
-        [DisplayName("Honorarios/Factura")]
+        [DisplayName("Rec. Hon./Fac.")]
         public string ReciboHonorarios_Factura { get; set; }
         [DisplayName("Monto Cobrado")]
         public string MontoCobrado { get; set; }
         [DisplayName("Detalles")]
         public string LinkModificarDetalles { get; set; }
+        [DisplayName("EncuestaRespondida")]
+        public int EncuestaRespondida { get; set; }
     }
 }

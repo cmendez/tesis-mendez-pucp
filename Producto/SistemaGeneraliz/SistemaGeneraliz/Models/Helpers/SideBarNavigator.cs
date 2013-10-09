@@ -30,7 +30,7 @@ namespace SistemaGeneraliz.Models.Helpers
             // Proveedores
             Opciones.Add(new SidebarOption("Proveedores", "Proveedores", "icon-wrench", new List<SidebarSuboption>(new SidebarSuboption[]{
                new SidebarSuboption("Historial de Trabajos", "Proveedores", "HistorialTrabajos", "icon-list-ul"),
-               new SidebarSuboption("Historial de Recargas", "Proveedores", "Index", "icon-list-alt"),
+               //new SidebarSuboption("Historial de Recargas", "Proveedores", "Index", "icon-list-alt"), // evaluar si va o no va
                new SidebarSuboption("Buscar Productos", "Proveedores", "Index", "icon-search"),
                new SidebarSuboption("Buscar Ofertas, Promos y Dsctos", "Proveedores", "Index", "icon-tags"),
                new SidebarSuboption("Comprar Ofertas, Promos y Dsctos", "Proveedores", "Index", "icon-shopping-cart"),

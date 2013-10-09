@@ -129,6 +129,14 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     string puntuacion = "-";
                     if ((trabajo.EncuestaCliente != null) && (trabajo.EncuestaClienteId != null) && (trabajo.EncuestaClienteId > 0))
                         puntuacion = trabajo.EncuestaCliente.PuntajeTotal.ToString();
+                    string rph_factura = "";
+                    if (trabajo.TipoRpH_Factura != null)
+                        rph_factura += trabajo.TipoRpH_Factura + " ";
+                    if (trabajo.NroRpH_Factura != null)
+                        rph_factura += trabajo.NroRpH_Factura;
+                    string montoCobrado = "";
+                    if (trabajo.MontoCobrado != null)
+                        montoCobrado = "S/. " + trabajo.MontoCobrado.ToString();
 
                     HistorialTrabajosViewModel his = new HistorialTrabajosViewModel
                     {
@@ -139,9 +147,10 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         DocumentoCliente = documentoCliente,
                         Servicios = servicios,
                         DescripcionCliente = trabajo.Trabajo.DescripcionCliente,
-                        ReciboHonorarios_Factura = trabajo.TipoRpH_Factura + " " + trabajo.NroRpH_Factura,
-                        MontoCobrado = "S/. " + trabajo.MontoCobrado.ToString(),
-                        LinkModificarDetalles = "" //AQUI IRA LINK PARA MODIFICAR DETALLES DE TRABAJO
+                        ReciboHonorarios_Factura = rph_factura,
+                        MontoCobrado = montoCobrado,
+                        LinkModificarDetalles = "", //AQUI IRA LINK PARA MODIFICAR DETALLES DE TRABAJO
+                        EncuestaRespondida = trabajo.EncuestaCliente.IsCompletada
                     };
                     listaHistorialTrabajosViewModel.Add(his);
                 }
@@ -165,6 +174,15 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             trabajo.MontoCobrado = trabajoProveedor.MontoCobrado;
             trabajo.IsTerminado = trabajoProveedor.IsTerminado;
             _sgpFactory.ActualizarDetallesTrabajoProveedor(trabajo);
+        }
+
+        public void ActualizarComentarioProveedorEncuesta(int trabajoProveedorId, string comentariosProveedor, int visibilidad)
+        {
+            TrabajoProveedor trabajoProveedor = this.GetTrabajoProveedor(trabajoProveedorId);
+            EncuestaCliente encuesta = trabajoProveedor.EncuestaCliente;
+            encuesta.ComentariosProveedor = comentariosProveedor;
+            encuesta.IsVisible = visibilidad;
+            _sgpFactory.ActualizarEncuestaCompletada(encuesta);
         }
     }
 }

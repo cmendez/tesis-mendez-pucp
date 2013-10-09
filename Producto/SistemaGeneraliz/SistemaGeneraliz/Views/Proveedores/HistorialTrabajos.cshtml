@@ -28,34 +28,243 @@
         </div>
         <div class="portlet-body">
             @(Html.Kendo().Grid<HistorialTrabajosViewModel>()
-            .Name("Grid")
-            .Columns(columns =>
-            {
-                columns.Bound(p => p.TrabajoProveedorId).Hidden(true);
-                columns.Bound(p => p.FechaTrabajo);
-                columns.Bound(p => p.NombreCliente);
-                columns.Bound(p => p.DocumentoCliente);
-                columns.Bound(p => p.Servicios);
-                columns.Bound(p => p.DescripcionCliente);
-                columns.Bound(p => p.ReciboHonorarios_Factura);
-                columns.Bound(p => p.MontoCobrado);
-                columns.Template(@<text></text>).ClientTemplate("<a type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='" + Url.Action("EditarDetallesTrabajoProveedor", "Proveedores") + "?trabajoProveedorId=#=TrabajoProveedorId#'>Editar Detalles</a>");
-            })
-            .Pageable(paper => paper.Refresh(true))
-            .Sortable()
-            .Scrollable()
-            .Resizable(resize => resize.Columns(true))
-            .DataSource(dataSource => dataSource
-                .Ajax()
-                .ServerOperation(false)
-                .Read(read => read.Action("HistorialTrabajos_Read", "Proveedores"))
-            )
-        )
+                  .Name("Grid")
+                  .Columns(columns =>
+                    {
+                        columns.Bound(p => p.TrabajoProveedorId).Hidden(true);
+                        columns.Bound(p => p.EncuestaRespondida).Hidden(true);
+                        columns.Bound(p => p.FechaTrabajo);
+                        columns.Bound(p => p.NombreCliente);
+                        columns.Bound(p => p.DocumentoCliente);
+                        columns.Bound(p => p.Servicios);
+                        columns.Bound(p => p.DescripcionCliente);
+                        columns.Bound(p => p.ReciboHonorarios_Factura);
+                        columns.Bound(p => p.MontoCobrado);
+                        columns.Template(@<text></text>).ClientTemplate("<a type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='" + Url.Action("EditarDetallesTrabajoProveedor", "Proveedores") + "?trabajoProveedorId=#=TrabajoProveedorId#'>Editar Detalles</a>");
+                        columns.Template(@<text></text>).ClientTemplate("<a id='btnVerEncuesta' type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='\\#modal_encuesta' data-toggle='modal' onclick='return mostrarEncuesta(#=TrabajoProveedorId#, #=EncuestaRespondida#);'>Ver Encuesta</a>");
+                    })
+                  .Pageable(paper => paper.Refresh(true))
+                  .Sortable()
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .ServerOperation(false)
+                        .Read(read => read.Action("HistorialTrabajos_Read", "Proveedores"))
+                    )
+                  )
         </div>
     </div>
+
+    <div class="modal fade" id="modal_encuesta" style="z-index: -1;">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal"></a>
+            <h4>Encuesta de Satisfacción al Cliente</h4>
+        </div>
+        <div class="modal-body" style="width: 200%;">
+            <div id="encuestaBody" style="">
+                <div class="row-fluid">
+                    <!-- contenedor superior izquierdo: campos -->
+                    <div class="span7">
+                        <input type="hidden" id="trabajoProveedorId" value="" />
+                        @for (int i = 0; i < 7; i++)
+                        {
+                            <div class="row-fluid">
+                                <div class="span5">
+                                    <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                        <label id="criterio_@i">criterio_@i</label>
+                                    </div>
+                                </div>
+                                <div class="span7">
+                                    <div class="editor-field" style="width: 100%; text-align: left;">
+                                        <input type="hidden" id="puntaje_@i" name="puntaje_@i" value="1" />
+                                        @if (i > 4)
+                                        {
+                                            <div id="sino_@i">aaa</div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="row-fluid">
+                            <div class="span5">
+                                <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                    <label>Comentarios cliente</label>
+                                </div>
+                            </div>
+                            <div class="span7">
+                                <div class="editor-field" style="width: 100%; text-align: left;">
+                                    <input type="hidden" id="respuesta_7" value="" />
+                                    <textarea id="comentariosCliente" readonly="readonly">comentarios</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span5">
+                                <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                    <label>Comentarios proveedor</label>
+                                </div>
+                            </div>
+                            <div class="span7">
+                                <div class="editor-field" style="width: 100%; text-align: left;">
+                                    <input type="hidden" id="puntaje_8" value="" />
+                                    <input type="hidden" id="respuesta_8" value="" />
+                                    <textarea id="comentariosProveedor"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span5">
+                                <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                    <label>¿Encuesta Visible?</label>
+                                </div>
+                            </div>
+                            <div class="span7">
+                                <div class="editor-field" style="width: 100%; text-align: left;">
+                                    <input type="hidden" id="respuesta_9" value="" />
+                                    <input type="checkbox" id="visibilidad" value=""/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" id="btnEnviar" class="btn btn-primary" style="color: white; text-shadow: none; background-color: green;">Enviar</a>
+            <a href="#" class="btn btn-primary" data-dismiss="modal" style="color: black; text-shadow: none; background-color: lightgray;">Cerrar</a>
+        </div>
+    </div>
+
     @*    <div>
         @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
     </div>*@
+
+    <script>
+        function mostrarEncuesta(i, encuestaRespondida) {
+            //alert(i + " " + encuestaRespondida);
+
+            if (encuestaRespondida === 0) {
+                $("#modal_encuesta").hide();
+                $('#modal_encuesta').modal('toggle');
+                alert("El cliente aún no responde la encuesta.");
+                $("#encuestaBody").hide();
+                return false;
+            }
+
+            var trabajoProveedorId = parseInt(i, 10);
+            $("#trabajoProveedorId").val(trabajoProveedorId);
+            var t = 0;
+            $.getJSON('/Proveedores/GetResultadosEncuestaCliente', { trabajoProveedorId: trabajoProveedorId, ajax: 'true' }, function (result) {
+                $(result).each(function () {
+                    $("#criterio_" + t).text(this.Pregunta);
+                    $("#puntaje_" + t).val(this.Puntaje);
+                    $("#respuesta_" + t).val(this.Respuesta);
+                    f1(t);
+                    t++;
+                });
+            });
+            $("#encuestaBody").show();
+
+            $("#modal_encuesta").attr('style', 'left:30%;margin-left:auto;margin-right:auto;');
+        }
+        function f1(p) {
+            if (p < 5) {
+                $("#puntaje_" + p).siblings().remove();
+                var nt = $("#puntaje_" + p).val();
+                for (var k = 0; k < nt; k++) {
+                    $("#puntaje_" + p).parent().append('<img src="/Images/oro.png" alt="oro" width="20" />');
+                }
+                return;
+            }
+            if (p < 7) {
+                $("#sino_" + p).empty();
+
+                nt = $("#puntaje_" + p).val();
+                if (nt === "1") {
+                    $("#sino_" + p).text("Sí");
+                }
+
+                else {
+                    $("#sino_" + p).text("No");
+                }
+                return;
+            }
+            if (p === 7) {
+                $("#comentariosCliente").text($("#respuesta_" + p).val());
+                return;
+            }
+            if (p === 8) {
+                var respondio = $("#puntaje_" + p).val();
+                if (respondio === '1') {
+                    $("#comentariosProveedor").attr('readonly', true);
+                    $("#comentariosProveedor").val($("#respuesta_" + p).val());
+                }
+                else {
+                    $("#comentariosProveedor").val('');
+                    $("#comentariosProveedor").attr('readonly', false);
+                }
+                return;
+            }
+            if (p === 9) {
+                $("#respuesta_" + p).siblings().remove();
+                $("#respuesta_" + p).parent().append('<input type="checkbox" id="visibilidad" value=""/>');
+                var isChecked = $("#respuesta_" + p).val();
+                if (isChecked === '1') {
+                    $("#visibilidad").attr('checked', true);
+                } else {
+                    $("#visibilidad").attr('checked', false);
+                }
+
+                $("#visibilidad").val(isChecked);
+                return;
+            }
+        }
+
+        $("#btnEnviar").click(function e() {
+            var trabajoProveedorId = $("#trabajoProveedorId").val();
+            var comentarios = $("#comentariosProveedor").val();
+            if (comentarios === '') {
+                alert("Debe ingresar un comentario para continuar.");
+                return;
+            }
+            
+            var visibilidad = 0;
+            if ($("#visibilidad").is(":checked")) {
+                visibilidad = 1;
+            }
+
+            var msg = "";
+            if ($('#comentariosProveedor').is('[readonly]')) {
+                msg = "Se actualizó el estado de visibilidad de la encuesta.";
+            }
+            else {
+                msg = "Su comentario fue enviado exitosamente.";
+            }
+            
+            $.ajax({
+                type: 'GET',
+                url: '/Proveedores/GuardarComentariosProveedores',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: {
+                    trabajoProveedorId: trabajoProveedorId,
+                    comentariosProveedor: comentarios,
+                    visibilidad: visibilidad
+                },
+
+                success: function (e) {
+                    alert(msg);
+                    window.location = "/Proveedores/HistorialTrabajos/";
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+
+        });
+    </script>
 
 </body>
 </html>

@@ -1,0 +1,235 @@
+@using SistemaGeneraliz.Models.Entities
+@using SistemaGeneraliz.Models.ViewModels
+@model IList<PreguntasEncuestaViewModel>
+@{
+    ViewBag.Title = "Encuestas de Satisfacción al Cliente";
+    EncuestasClientesViewModel encuestaViewModel = ViewBag.EncuestaViewModel;
+    int limitePreguntasLadoIzq = ViewBag.LimitePreguntasLadoIzq;
+    int limitePreguntasLadoDer = ViewBag.LimitePreguntasLadoDer;
+    int i = 0;
+    int k = 0;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Encuestas de Satisfacción al Cliente</title>
+</head>
+<body>
+    <link rel="stylesheet" href="/Scripts/barrating/css/examples.css" type="text/css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/Scripts/barrating/jquery.barrating.js"></script>
+
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Encuestas de Satisfacción al Cliente", ""));}
+    <div style="padding-left: 4%;">
+        @*@Html.ValidationSummary(true)*@
+        <input type="hidden" name="encuestaId" id="encuestaId" value="@encuestaViewModel.EncuestaClienteId">
+        <table style="width: 100%; border: 0;">
+            <tbody>
+                <tr>
+                    <td style="vertical-align: top; width: 1%;">
+                        <table>
+                            <tbody style="vertical-align: top;">
+                                <tr>
+                                    <td>Documento:</td>
+                                    <td>
+                                        <input type="text" name="nroDocumento" id="nroDocumento" readonly="readonly" value="@encuestaViewModel.DocumentoProveedor">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Proveedor:</td>
+                                    <td>
+                                        <input type="text" name="nombreProveedor" id="nombreProveedor" readonly="readonly" value="@encuestaViewModel.NombreProveedor">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="vertical-align: top; width: 40%;">
+                        <table>
+                            <tr>
+                                <td>
+                                    <img src="/Images/perfil_1.jpg" width="90" alt=""></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="vertical-align: top; width: 59%; padding-left: 5%;">
+                        <table style="width: auto; border: 0;">
+                            <tbody style="vertical-align: top;">
+                                <tr>
+                                    <td>Fecha Trabajo:</td>
+                                    <td>
+                                        <input type="text" name="fechaTrabajo" id="fechaTrabajo" readonly="readonly" value="@encuestaViewModel.FechaTrabajo">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Descripción:</td>
+                                    <td>
+                                        <textarea name="descripcion" id="descripcion" readonly="readonly">@encuestaViewModel.DescripcionCliente</textarea>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        @using (Html.BeginForm("LlenarEncuestaCliente", "Clientes", FormMethod.Post, new { id = "idForm" }))
+        {
+            <div class="portlet box blue" style="width: 95%;">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-reorder"></i>Cuestionario</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table style="vertical-align: top; width: 100%;">
+                        <tr style="vertical-align: top; width: 100%;">
+                            <td style="vertical-align: top; width: 50%; padding-left: 7%;">
+                                <table>
+                                    @for (i = 0; i < limitePreguntasLadoIzq; i++)
+                                    {
+                                        //@Html.HiddenFor(modelItem => modelItem[i].PuntajeOtorgado, new { id = "idPuntaje" })
+                                        @Html.HiddenFor(x => x[i].CriterioId)
+                                        <tr>
+                                            <td>
+                                                @(i + 1). @Model[i].PreguntaAsociada
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="input rating-f">
+                                                @if (Model[i].TipoPregunta == "Estrellas")
+                                                {
+@*<select id="pregunta_@i" name="pregunta_@i">*@
+                                                   
+                                                    <select id="demo_@i" name="@Model[i].PuntajeOtorgado">
+                                                        @for (int j = 1; j <= Model[i].NroOpciones; j++)
+                                                        {
+                                                            <option value="@j">@j</option>
+                                                        }
+                                                    </select>
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    }
+                                </table>
+                            </td>
+                            <td style="vertical-align: top; width: 50%; padding-left: 8%;">
+                                <table>
+                                    @for (k = i; k < limitePreguntasLadoDer; k++)
+                                    {
+                                        //@Html.HiddenFor(modelItem => modelItem[k].PuntajeOtorgado, new { id = "idPuntaje" })
+                                        @Html.HiddenFor(x => x[i].CriterioId)
+                                        <tr>
+                                            <td>
+                                                @(k + 1). @Model[k].PreguntaAsociada
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="input rating-f">
+                                                @if (Model[k].TipoPregunta == "Estrellas")
+                                                {
+@*<select id="pregunta_@i" name="pregunta_@i">*@
+                                                    <select id="demo_@k" name="@Model[k].PuntajeOtorgado">
+                                                        @for (int j = 1; j <= Model[k].NroOpciones; j++)
+                                                        {
+                                                            <option value="@j">@j</option>
+                                                        }
+                                                    </select>
+                                                }
+                                                else
+                                                {
+                                                    if (Model[k].TipoPregunta == "Si-No")
+                                                    {
+@*  
+                                                    <input type="radio" name="SiNo_@Model[k].CriterioId" value="1" id="y" /><text>Sí&nbsp;&nbsp;</text>
+                                                        <input type="radio" name="SiNo_@Model[k].CriterioId" value="0" id="z" /> <text>No</text>
+                                                    *@
+                                                    
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td>@(k + 1). @Model[k].PreguntaAsociada</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @Html.TextAreaFor(x => x[limitePreguntasLadoDer].RespuestaPregunta)
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="margin-left: auto; margin-right: auto;">
+                                    <button id="btnEnviar" type="submit" class="btn green pull-right" style="">
+                                        Enviar <i class="icon-ok  m-icon-white"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+        }
+    </div>
+
+
+    @*    <div>
+        @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
+    </div>*@
+
+    <script>
+
+
+        $(document).ready(function () {
+            for (var i = 0; i < '@ViewBag.NroPreguntasEstrellas'; i++) {
+                //alert(i);
+
+                $('#demo_' + i).barrating({
+                    showValues: false, // If set to true, rating values will be displayed on the bars.
+                    showSelectedRating: false, //If set to true, user selected rating will be displayed next to the widget.
+                    onSelect: function (value, text) {
+                        alert('Rating: ' + value);
+                    }
+                });
+            }
+        });
+
+
+        //$('#demo_0').barrating({
+        //    showValues: false, // If set to true, rating values will be displayed on the bars.
+        //    showSelectedRating: false, //If set to true, user selected rating will be displayed next to the widget.
+        //    onSelect: function (value, text) {
+        //        alert('Rating: ' + value);
+        //    }
+        //});
+
+        //$('#demo_1').barrating({
+        //    showValues: false, // If set to true, rating values will be displayed on the bars.
+        //    showSelectedRating: false, //If set to true, user selected rating will be displayed next to the widget.
+        //    onSelect: function (value, text) {
+        //        alert('Rating: ' + value);
+        //    }
+        //});
+
+        $("#btnBuscar").click(function e() {
+
+        });
+
+    </script>
+</body>
+</html>

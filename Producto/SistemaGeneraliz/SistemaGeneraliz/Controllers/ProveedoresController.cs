@@ -19,6 +19,7 @@ namespace SistemaGeneraliz.Controllers
         private readonly LogicaProveedores _logicaProveedores = new LogicaProveedores();
         private readonly LogicaPersonas _logicaPersonas = new LogicaPersonas();
         private readonly LogicaUbicaciones _logicaUbicaciones = new LogicaUbicaciones();
+        private readonly LogicaClientes _logicaClientes = new LogicaClientes();
 
         public ActionResult Index()
         {
@@ -174,6 +175,76 @@ namespace SistemaGeneraliz.Controllers
             _logicaProveedores.ActualizarDetallesTrabajoProveedor(trabajoProveedor);
             //return HistorialTrabajos(); //ASI NO FUNCIONA
             return RedirectToAction("HistorialTrabajos");
+        }
+
+        public ActionResult EncuestaCliente_Read([DataSourceRequest]DataSourceRequest request)
+        {
+            int idPersona = WebSecurity.CurrentUserId;
+            Proveedor proveedor = _logicaProveedores.GetProveedorPorPersonaId(idPersona);
+            List<HistorialTrabajosViewModel> listaHistorialTrabajosViewModel = new List<HistorialTrabajosViewModel>();
+            if (proveedor != null)
+            {
+                listaHistorialTrabajosViewModel = _logicaProveedores.GetHistorialTrabajos(proveedor.ProveedorId);
+            }
+
+            return Json(listaHistorialTrabajosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult GetResultadosEncuestaCliente(int trabajoProveedorId)
+        {
+            TrabajoProveedor trabajoProveedor = _logicaProveedores.GetTrabajoProveedor(trabajoProveedorId);
+            EncuestaCliente encuestaCliente = trabajoProveedor.EncuestaCliente;
+            List<RespuestaPorCriterio> respuestas = encuestaCliente.RespuestasPorCriterio.ToList();//_logicaProveedores.GetResultadosEncuestaCliente(encuestaCliente.EncuestaClienteId);
+            var resultadosEncuesta = new List<Object>();
+            Object obj;
+            
+            if (encuestaCliente.IsCompletada == 1)
+            {
+                foreach (var respuesta in respuestas)
+                {
+                    obj = new { Pregunta = respuesta.CriterioCalificacion.NombreCriterio, Puntaje = respuesta.PuntajeOtorgado, Respuesta = "" };
+                    resultadosEncuesta.Add(obj);
+                }
+
+                //Comentarios cliente
+                obj = new {Pregunta = "", Puntaje = -1, Respuesta = encuestaCliente.ComentariosCliente};
+                resultadosEncuesta.Add(obj);
+
+                //Comentarios proveedor
+                int proveedorRespondio = 0;
+                string comentariosProveedor = "";
+                if (encuestaCliente.ComentariosProveedor != null)
+                {
+                    proveedorRespondio = 1;
+                    comentariosProveedor = encuestaCliente.ComentariosProveedor;
+                }
+                obj = new {Pregunta = "", Puntaje = proveedorRespondio, Respuesta = comentariosProveedor};
+                resultadosEncuesta.Add(obj);
+
+                //Visibilidad encuesta
+                obj = new { Pregunta = "", Puntaje = -1, Respuesta = encuestaCliente.IsVisible };
+                resultadosEncuesta.Add(obj);
+            }
+            else
+            {
+                //el cliente no contestó la encuesta
+                obj = new { Pregunta = "", Puntaje = -2, Respuesta = "" };
+                resultadosEncuesta.Add(obj);
+            }
+            return Json(resultadosEncuesta, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult GuardarComentariosProveedores(int trabajoProveedorId, string comentariosProveedor, int visibilidad)
+        {
+            _logicaProveedores.ActualizarComentarioProveedorEncuesta(trabajoProveedorId, comentariosProveedor, visibilidad);
+            var json = new List<Object>();
+            Object o = new { Msg = "ok" };
+            json.Add(o);
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
     }
 
