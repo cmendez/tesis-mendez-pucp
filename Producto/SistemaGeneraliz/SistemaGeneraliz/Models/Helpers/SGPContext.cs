@@ -71,8 +71,38 @@ namespace SistemaGeneraliz.Models.Helpers
             var criteriosCalificacion = SeedCriteriosCalificacion();
             var encuestas = SeedEncuestasCliente(trabajosProveedores);
             var respuestasXcriterio = SeedRespuestasPorCriterio(encuestas, criteriosCalificacion);
+            ActualizarIndicesEstadísticosProveedor();
             //faltaria puntajepromediocriterio
             //faltaria actualizar campos tabla proveedor
+        }
+
+        private void ActualizarIndicesEstadísticosProveedor()
+        {
+            List<Proveedor> listaProveedores = this.Proveedores.ToList();
+            foreach (var proveedor in listaProveedores)
+            {
+                //Actualizar NroTrabajosTerminados
+                List<TrabajoProveedor> listaTrabajosProveedor = proveedor.TrabajosProveedores.ToList();
+                int puntaje = 0, recomendaciones = 0, volveria = 0;
+                proveedor.NroTrabajosTerminados = listaTrabajosProveedor.Count;
+                proveedor.NroComentarios = listaTrabajosProveedor.Count;
+
+                foreach (var trabajo in listaTrabajosProveedor)
+                {
+                    puntaje += trabajo.EncuestaCliente.PuntajeTotal;
+                    recomendaciones += trabajo.EncuestaCliente.RespuestasPorCriterio.Count(r => (r.CriterioCalificacionId == 7) && (r.PuntajeOtorgado == 1));
+                    volveria += trabajo.EncuestaCliente.RespuestasPorCriterio.Count(r => (r.CriterioCalificacionId == 6) && (r.PuntajeOtorgado == 1));
+                }
+                proveedor.NroRecomendaciones = recomendaciones;
+                proveedor.NroVolveriaContratarlo = volveria;
+                //Cálculo de la puntuación promedio: acá consideramos PuntajeTotal / NroTrabajos
+                double puntuacion = (puntaje * 1.0) / proveedor.NroTrabajosTerminados;
+                proveedor.PuntuacionPromedio = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven));
+
+                this.Proveedores.Attach(proveedor);
+                this.Entry(proveedor).State = EntityState.Modified;
+            }
+            this.SaveChanges();
         }
 
         private void SeedConfiguraciones()
@@ -346,8 +376,8 @@ namespace SistemaGeneraliz.Models.Helpers
                         LeadsDisponibles = 2,
                         PuntuacionPromedio = r3,
                         NroTrabajosTerminados = 0,
-                        NroBusquedasCliente = 0,
-                        NroClicksVisita = 0,
+                        NroBusquedasCliente = r1,
+                        NroClicksVisita = r3,
                         NroComentarios = 0,
                         NroCalificaciones = 0,
                         NroRecomendaciones = 0,
@@ -543,7 +573,8 @@ namespace SistemaGeneraliz.Models.Helpers
                         MontoCobrado = r4.ToString(),
                         NroRpH_Factura = r5.ToString(),
                         TipoRpH_Factura = "Recibo por Honorarios",
-                        TiposServicios = new List<TipoServicio>()
+                        TiposServicios = new List<TipoServicio>(),
+                        IsTerminado = 1
                     };
                     trabajoProveedor.TiposServicios.Add(listaServiciosTrabajo[i]);
                     listaTrabajosProveedores.Add(trabajoProveedor);
@@ -612,14 +643,14 @@ namespace SistemaGeneraliz.Models.Helpers
             }
             this.SaveChanges();
             //para hacer la relación 1 a 1
-            this.Database.ExecuteSqlCommand("ALTER TABLE TrabajosProveedores ADD CONSTRAINT uc_EncuestaCliente UNIQUE(EncuestaClienteId)");  
+            this.Database.ExecuteSqlCommand("ALTER TABLE TrabajosProveedores ADD CONSTRAINT uc_EncuestaCliente UNIQUE(EncuestaClienteId)");
             return listaEncuestas;
         }
 
         private List<RespuestaPorCriterio> SeedRespuestasPorCriterio(List<EncuestaCliente> encuestas, List<CriterioCalificacion> criteriosCalificacion)
         {
             var listaRespuestas = new List<RespuestaPorCriterio>();
-            string[] comentariosCliente = { "Excelente trabajo. Recomendado", "Buen proveedor. Recomendado.", "Servicio regular." ,"No lo recomiendo."};
+            string[] comentariosCliente = { "Excelente trabajo. Recomendado", "Buen proveedor. Recomendado.", "Servicio regular.", "No lo recomiendo." };
             int r1, r2, r3;
             Random random = new Random();
 

@@ -162,6 +162,7 @@ namespace SistemaGeneraliz.Controllers
             if (Roles.IsUserInRole("Cliente"))
             {
                 List<ProveedorBusquedaViewModel> proveedores = _logicaClientes.EjecutarAlgoritmoTabu(valueServicios, latitud, longitud);
+                //VER SI DEBERIAMOS ACTUALIZAR INDICE NroBusquedasCliente DEL PROVEEDOR LUEGO DE QUE SEA ELEGIDO POR EL ALGORITMO TABÚ
                 if (proveedores != null)
                 {
                     foreach (ProveedorBusquedaViewModel proveedor in proveedores)
@@ -330,17 +331,6 @@ namespace SistemaGeneraliz.Controllers
                 };
                 listaPreguntas.Add(preguntas);
             }
-
-            //PreguntasEncuestaViewModel pregunta = new PreguntasEncuestaViewModel
-            //{
-            //    CriterioId = -1,
-            //    TipoPregunta = "Comentario",
-            //    PreguntaAsociada = "Comentarios",
-            //    PuntajeOtorgado = -1,
-            //    RespuestaPregunta = "",
-            //    NroOpciones = -1
-            //};
-            //listaPreguntas.Add(pregunta);
 
             ViewBag.LimitePreguntasLadoIzq = Convert.ToInt32(criteriosEncuesta.Count / 2) + 1;
             ViewBag.LimitePreguntasLadoDer = Convert.ToInt32(criteriosEncuesta.Count);

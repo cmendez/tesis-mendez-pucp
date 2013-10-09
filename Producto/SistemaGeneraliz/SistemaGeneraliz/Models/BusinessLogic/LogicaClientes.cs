@@ -203,7 +203,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                             serviciosIdsProveedor += t.TipoServicioId + "-";
                         }
                     }
-                    serviciosIdsProveedor = serviciosIdsProveedor.Substring(0, serviciosIdsProveedor.Length - 1);
+                    serviciosIdsProveedor = serviciosIdsProveedor.Substring(0, serviciosIdsProveedor.Length - 3);
 
                     ProveedorBusquedaViewModel proveedorViewModel = new ProveedorBusquedaViewModel
                     {
