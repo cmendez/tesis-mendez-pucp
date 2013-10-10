@@ -126,8 +126,6 @@ namespace SistemaGeneraliz.Models.Helpers
                         Servicio = listaServicios[i].NombreServicio,
                         ServicioId = listaServicios[i].TipoServicioId.ToString(),
                         Descripcion = prov.AcercaDeMi,
-                        VerTrabajos = "", //AQUI IRA LINK DE TRABAJOS 
-                        VerComentarios = "", //AQUI IRA LINK DE COMENTARIOS 
                         Telefono1 = prov.Persona.Telefono1 ?? "",
                         Telefono2 = prov.Persona.Telefono2 ?? "",
                         Telefono3 = prov.Persona.Telefono3 ?? "",

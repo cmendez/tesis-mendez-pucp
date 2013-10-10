@@ -138,12 +138,12 @@ namespace SistemaGeneraliz.Controllers
         {
             //FALTARIAN VALIDACIONES DEL LADO SERVIDOR (ACÁ) - LAS MISMAS Q ESTAN DEL LADO DEL CLIENTE CON JQUERY
 
-            if (Roles.IsUserInRole("Administrador"))
-                return null;
-
-            _logicaSuministradores.AgregarRecarga(idProveedor, idSuministrador, monto);
-            _logicaSuministradores.ActualizarLeads(idSuministrador, monto);
-
+            if (Roles.IsUserInRole("Suministrador"))
+            {
+                _logicaSuministradores.AgregarRecarga(idProveedor, idSuministrador, monto);
+                _logicaPersonas.HabilitarDeshabilitarUsuario("Proveedor", idProveedor, "Habilitar");
+                _logicaSuministradores.ActualizarLeads(idSuministrador, monto);    
+            }
             var recargasJson = new List<Object>();
             Object o = new { Msg = "ok" };
             recargasJson.Add(o);

@@ -134,6 +134,9 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 }
                 i++;
             }
+            
+            //Inhabilitamos al cliente ya que tendrá encuestas pendientes
+            _sgpFactory.HabilitarDeshabilitarUsuario("Cliente", trabajo.ClienteId, "Inhabilitado");
 
             return trabajo;
         }
@@ -200,9 +203,10 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         if (t != null)
                         {
                             serviciosProveedor += t.NombreServicio + " - ";
-                            serviciosIdsProveedor += t.TipoServicioId + "-";
+                            serviciosIdsProveedor += t.TipoServicioId + " - ";
                         }
                     }
+                    serviciosProveedor = serviciosProveedor.Substring(0, serviciosProveedor.Length - 3);
                     serviciosIdsProveedor = serviciosIdsProveedor.Substring(0, serviciosIdsProveedor.Length - 3);
 
                     ProveedorBusquedaViewModel proveedorViewModel = new ProveedorBusquedaViewModel
@@ -216,8 +220,6 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         Servicio = serviciosProveedor,
                         ServicioId = serviciosIdsProveedor,
                         Descripcion = prov.AcercaDeMi,
-                        VerTrabajos = "", //AQUI IRA LINK DE TRABAJOS 
-                        VerComentarios = "", //AQUI IRA LINK DE COMENTARIOS 
                         Telefono1 = prov.Persona.Telefono1 ?? "",
                         Telefono2 = prov.Persona.Telefono2 ?? "",
                         Telefono3 = prov.Persona.Telefono3 ?? "",
@@ -255,6 +257,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 
                     EncuestasClientesViewModel his = new EncuestasClientesViewModel
                     {
+                        ClienteId = trabajo.Trabajo.ClienteId,
                         TrabajoProveedorId = trabajo.TrabajoProveedorId,
                         EncuestaClienteId = (int)trabajo.EncuestaClienteId,
                         FechaTrabajo = fechaTrabajo.ToString("dd/MM/yyyy"),
@@ -277,7 +280,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             return _sgpFactory.GetCriteriosEncuestas();
         }
 
-        public void EnviarEncuestaCliente(int encuestaId, int trabajoProveedorId, string respuestas, string comentarios)
+        public void EnviarEncuestaCliente(int clienteId, int encuestaId, int trabajoProveedorId, string respuestas, string comentarios)
         {
             List<RespuestaPorCriterio> listaRespuestas = new List<RespuestaPorCriterio>();
             string[] respuestasSplit = respuestas.Split(',');
@@ -304,6 +307,31 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             encuesta.IsCompletada = 1;
             encuesta.IsVisible = 1;
             _sgpFactory.ActualizarEncuestaCompletada(encuesta);
+            TrabajoProveedor trabajo = _sgpFactory.GetTrabajoProveedor(trabajoProveedorId);
+            Proveedor proveedor = trabajo.Proveedor;
+            double nuevaPuntuacion = (proveedor.PuntuacionPromedio + puntuacion) / 2;
+            proveedor.PuntuacionPromedio = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven)); //ver si usamos enteros o decimales
+            proveedor.NroRecomendaciones += Int32.Parse(respuestasSplit[6]);
+            proveedor.NroVolveriaContratarlo += Int32.Parse(respuestasSplit[5]);
+            proveedor.NroComentarios += 1;
+            //proveedor.NroTrabajosterminados++
+            //proveedor.nrocalifaciones++
+            _sgpFactory.ActualizarProveedor(proveedor);
+            
+            //var c = trabajo.Trabajo.ClienteId;
+            //Cliente cliente = _sgpFactory.GetClientePorId(clienteId);
+
+            //Si el cliente responde una encuesta, entonces verificamos si ya no tiene más pendientes
+            int cantidad = CantidadEncuestasPendientesCliente(clienteId);
+            if (cantidad == 0)
+            {
+                _sgpFactory.HabilitarDeshabilitarUsuario("Cliente", clienteId, "Habilitado");
+            }
+        }
+
+        public int CantidadEncuestasPendientesCliente(int clienteId)
+        {
+            return _sgpFactory.CantidadEncuestasPendientesCliente(clienteId);
         }
     }
 }

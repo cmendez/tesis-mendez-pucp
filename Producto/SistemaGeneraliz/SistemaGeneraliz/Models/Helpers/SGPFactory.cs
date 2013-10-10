@@ -88,6 +88,43 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.UbicacionesPersonas.FirstOrDefault(u => u.PersonaId == idPersona);
         }
 
+        public void HabilitarDeshabilitarUsuario(string tipoUsuario, int idUsuario, string nuevoEstado)
+        {
+            Object usuario = null;
+            int isHabilitado = (nuevoEstado == "Habilitado") ? 1 : 0;
+
+            switch (tipoUsuario)
+            {
+                case "Proveedor":
+                    {
+                        Proveedor proveedor = _db.Proveedores.Find(idUsuario);
+                        proveedor.Persona.IsHabilitado = isHabilitado;
+                        usuario = (Proveedor)proveedor;
+                        _db.Proveedores.Attach(proveedor);
+                        break;
+                    }
+                case "Cliente":
+                    {
+                        Cliente cliente = _db.Clientes.Find(idUsuario);
+                        cliente.Persona.IsHabilitado = isHabilitado;
+                        usuario = (Cliente)cliente;
+                        _db.Clientes.Attach(cliente);
+                        break;
+                    }
+                case "Suministrador":
+                    {
+                        Suministrador suministrador = _db.Suministradores.Find(idUsuario);
+                        suministrador.Persona.IsHabilitado = isHabilitado;
+                        usuario = (Suministrador)suministrador;
+                        _db.Suministradores.Attach(suministrador);
+                        break;
+                    }
+            }
+
+            _db.Entry(usuario).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+
         #endregion
 
         #region Proveedores
@@ -152,6 +189,10 @@ namespace SistemaGeneraliz.Models.Helpers
             if (proveedor.LeadsDisponibles >= cantidad)
             {
                 proveedor.LeadsDisponibles = proveedor.LeadsDisponibles - cantidad;
+                if (proveedor.LeadsDisponibles == 0)
+                {
+                    proveedor.Persona.IsHabilitado = 0;
+                }
                 _db.Proveedores.Attach(proveedor);
                 _db.Entry(proveedor).State = EntityState.Modified;
                 _db.SaveChanges();
@@ -160,7 +201,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public List<Proveedor> GetProveedoresServicios(int[] servicios)
         {
-            return _db.Proveedores.Where(p => p.TiposServicios.Any(s => servicios.Contains(s.TipoServicioId))).ToList();
+            return _db.Proveedores.Where(p => p.TiposServicios.Any(s => servicios.Contains(s.TipoServicioId))).Where(p => p.Persona.IsHabilitado == 1).ToList();
         }
 
         public Proveedor GetProveedorPorPersonaId(int idPersona)
@@ -170,7 +211,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public List<TrabajoProveedor> GetHistorialTrabajos(int proveedorId)
         {
-            return _db.TrabajosProveedores.Where(t => t.ProveedorId == proveedorId).ToList();
+            return _db.TrabajosProveedores.Where(t => t.ProveedorId == proveedorId).OrderByDescending(t => t.Trabajo.Fecha).ToList();
         }
 
         public TrabajoProveedor GetTrabajoProveedor(int trabajoProveedorId)
@@ -183,6 +224,28 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.TrabajosProveedores.Attach(trabajoProveedor);
             _db.Entry(trabajoProveedor).State = EntityState.Modified;
             _db.SaveChanges();
+        }
+
+        public void ActualizarProveedor(Proveedor proveedor)
+        {
+            _db.Proveedores.Attach(proveedor);
+            _db.Entry(proveedor).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+
+        public int GetLeadsGratisRegistro()
+        {
+            return _db.Configuraciones.Find(3).ValorNumerico;
+        }
+
+        public int GetPuntuacionPromedioInicial()
+        {
+            return _db.Configuraciones.Find(4).ValorNumerico;
+        }
+
+        public Cliente GetClientePorId(int clienteId)
+        {
+            return _db.Clientes.Find(clienteId);
         }
 
         #endregion
@@ -226,7 +289,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public List<TrabajoProveedor> GetTrabajosConEncuestasPendientes(int clienteId)
         {
-             //b.Proveedores.Where(x => (x.TiposServicios.Any(r => servicio.TipoServicioId.Equals(r.TipoServicioId))))
+            //b.Proveedores.Where(x => (x.TiposServicios.Any(r => servicio.TipoServicioId.Equals(r.TipoServicioId))))
             //_db.TrabajosProveedores.Where(t => t.Trabajo.ClienteId == clienteId)..ToList();
             return _db.TrabajosProveedores.Where(t => (t.EncuestaCliente.IsCompletada == 0) && (t.Trabajo.ClienteId == clienteId)).ToList();
         }
@@ -255,6 +318,11 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.EncuestasClientes.Attach(encuesta);
             _db.Entry(encuesta).State = EntityState.Modified;
             _db.SaveChanges();
+        }
+
+        public int CantidadEncuestasPendientesCliente(int clienteId)
+        {
+            return _db.TrabajosProveedores.Count(t => (t.EncuestaCliente.IsCompletada == 0) && (t.Trabajo.ClienteId == clienteId));
         }
 
         #endregion

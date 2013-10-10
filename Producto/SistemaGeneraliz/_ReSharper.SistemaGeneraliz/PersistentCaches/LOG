@@ -1,5 +1,5 @@
-2013/10/08-10:07:50.474 1838 Recovering log #68
-2013/10/08-10:07:50.639 1838 Level-0 table #70: started
-2013/10/08-10:07:50.681 1838 Level-0 table #70: 215525 bytes OK
-2013/10/08-10:07:50.689 1838 Delete type=0 #68
-2013/10/08-10:07:50.715 1838 Delete type=3 #66
+2013/10/09-09:48:13.484 dcc Recovering log #71
+2013/10/09-09:48:13.869 dcc Level-0 table #73: started
+2013/10/09-09:48:13.886 dcc Level-0 table #73: 693735 bytes OK
+2013/10/09-09:48:13.894 dcc Delete type=0 #71
+2013/10/09-09:48:13.996 dcc Delete type=3 #69

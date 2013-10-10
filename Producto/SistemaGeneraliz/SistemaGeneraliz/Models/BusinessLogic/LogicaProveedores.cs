@@ -28,13 +28,11 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 
         internal Proveedor CrearObjetoProveedorNatural(ProveedorNaturalViewModel proveedor)
         {
-            //proveedor.Sexo = (proveedor.SexoId == 1) ? "Masculino" : "Femenino";
-
             return new Proveedor
             {
-                LeadsDisponibles = 2, //Configuracion.LeadsGratisRegistro
+                LeadsDisponibles = _sgpFactory.GetLeadsGratisRegistro(),
                 //Especialidad = proveedor.Especialidad, //setear esto desde la logica
-                PuntuacionPromedio = 0,
+                PuntuacionPromedio = _sgpFactory.GetPuntuacionPromedioInicial() * 1.0,
                 NroTrabajosTerminados = 0,
                 NroBusquedasCliente = 0,
                 NroClicksVisita = 0,
@@ -53,9 +51,9 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         {
             return new Proveedor
             {
-                LeadsDisponibles = 2, //Configuracion.LeadsGratisRegistro
+                LeadsDisponibles = _sgpFactory.GetLeadsGratisRegistro(),
                 //Especialidad = proveedor.Especialidad, //setear esto desde la logica
-                PuntuacionPromedio = 0,
+                PuntuacionPromedio = _sgpFactory.GetPuntuacionPromedioInicial() * 1.0,
                 NroTrabajosTerminados = 0,
                 NroBusquedasCliente = 0,
                 NroClicksVisita = 0,
@@ -127,9 +125,14 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     string servicios = trabajo.TiposServicios.Aggregate("", (current, servicio) => current + (servicio.NombreServicio + " - "));
                     servicios = servicios.Substring(0, servicios.Length - 3);
                     string puntuacion = "-";
-                    if ((trabajo.EncuestaCliente != null) && (trabajo.EncuestaClienteId != null) && (trabajo.EncuestaClienteId > 0))
+                    //if ((trabajo.EncuestaCliente != null) && (trabajo.EncuestaClienteId != null) && (trabajo.EncuestaClienteId > 0) && (trabajo.EncuestaCliente.PuntajeTotal != -1))
+                    if (trabajo.EncuestaCliente.PuntajeTotal != -1)
                         puntuacion = trabajo.EncuestaCliente.PuntajeTotal.ToString();
-                    string rph_factura = "";
+                    string comentarios = "-";
+                    //if ((trabajo.EncuestaCliente != null) && (trabajo.EncuestaClienteId != null) && (trabajo.EncuestaClienteId > 0) && (!String.IsNullOrEmpty(trabajo.EncuestaCliente.ComentariosCliente)))
+                    if (!String.IsNullOrEmpty(trabajo.EncuestaCliente.ComentariosCliente))
+                        comentarios = trabajo.EncuestaCliente.ComentariosCliente;
+                    string rph_factura = "-";
                     if (trabajo.TipoRpH_Factura != null)
                         rph_factura += trabajo.TipoRpH_Factura + " ";
                     if (trabajo.NroRpH_Factura != null)
@@ -150,11 +153,12 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         ReciboHonorarios_Factura = rph_factura,
                         MontoCobrado = montoCobrado,
                         LinkModificarDetalles = "", //AQUI IRA LINK PARA MODIFICAR DETALLES DE TRABAJO
-                        EncuestaRespondida = trabajo.EncuestaCliente.IsCompletada
+                        EncuestaRespondida = trabajo.EncuestaCliente.IsCompletada,
+                        Comentarios = comentarios
                     };
                     listaHistorialTrabajosViewModel.Add(his);
                 }
-                listaHistorialTrabajosViewModel.Sort((x, y) => string.Compare(y.FechaTrabajo, x.FechaTrabajo));
+                //listaHistorialTrabajosViewModel.Sort((x, y) => string.Compare(y.FechaTrabajo, x.FechaTrabajo));
             }
             return listaHistorialTrabajosViewModel;
         }

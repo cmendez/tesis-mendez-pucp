@@ -25,10 +25,6 @@ namespace SistemaGeneraliz.Models.ViewModels
         public string ServicioId { get; set; }
         [DisplayName("Sobre Mí")]
         public string Descripcion { get; set; }
-        [DisplayName(" ")]
-        public string VerTrabajos { get; set; }
-        [DisplayName(" ")]
-        public string VerComentarios { get; set; }
         [Display(Name = "Email 1")]
         public string Email1 { get; set; }
         [Display(Name = "Email 2")]

@@ -8,6 +8,7 @@ namespace SistemaGeneraliz.Models.ViewModels
 {
     public class EncuestasClientesViewModel
     {
+        public int ClienteId { get; set; }
         public int TrabajoProveedorId { get; set; }
         public int EncuestaClienteId { get; set; }
         [DisplayName("Fecha Trabajo")]
@@ -16,6 +17,7 @@ namespace SistemaGeneraliz.Models.ViewModels
         public string FotoProveedor { get; set; }
         [DisplayName("Proveedor")]
         public string NombreProveedor { get; set; }
+        [DisplayName("Documento")]
         public string DocumentoProveedor { get; set; }
         [DisplayName("Servicios Brindados")]
         public string Servicios { get; set; }

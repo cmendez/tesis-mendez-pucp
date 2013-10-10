@@ -122,5 +122,10 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         //{
         //    return _sgpFactory.GetPersonaPorId(idPersona);
         //}
+
+        public void HabilitarDeshabilitarUsuario(string tipoUsuario, int idUsuario, string nuevoEstado)
+        {
+            _sgpFactory.HabilitarDeshabilitarUsuario(tipoUsuario, idUsuario, nuevoEstado);
+        }
     }
 }

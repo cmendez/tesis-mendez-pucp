@@ -120,6 +120,21 @@ namespace SistemaGeneraliz.Controllers
 
         public ActionResult MenuBuscarProveedores()
         {
+            Cliente cliente = _logicaClientes.GetClientePorPersonaId(WebSecurity.CurrentUserId);
+            if (cliente != null)
+            {
+                if (cliente.Persona.IsHabilitado == 0)
+                {
+                    int n = _logicaClientes.CantidadEncuestasPendientesCliente(cliente.ClienteId);
+
+                    ViewBag.Motivo1 = "Tiene " + n + " encuestas pendientes de responder.";
+                    ViewBag.LinkText = "Ir a Encuestas Pendientes";
+                    ViewBag.Controlador = "Clientes";
+                    ViewBag.Metodo = "CalificarProveedores";
+                    return View("../Usuarios/UsuarioInhabilitado");
+                }
+            }
+
             return View();
         }
 
@@ -178,8 +193,6 @@ namespace SistemaGeneraliz.Controllers
                             Servicio = proveedor.Servicio,
                             ServicioId = proveedor.ServicioId,
                             Descripcion = proveedor.Descripcion,
-                            VerTrabajos = proveedor.VerTrabajos,
-                            VerComentarios = proveedor.VerComentarios,
                             Telefono1 = proveedor.Telefono1,
                             Telefono2 = proveedor.Telefono2,
                             Telefono3 = proveedor.Telefono3,
@@ -237,8 +250,6 @@ namespace SistemaGeneraliz.Controllers
                             Servicio = proveedor.Servicio,
                             ServicioId = proveedor.ServicioId,
                             Descripcion = proveedor.Descripcion,
-                            VerTrabajos = proveedor.VerTrabajos,
-                            VerComentarios = proveedor.VerComentarios,
                             Telefono1 = proveedor.Telefono1,
                             Telefono2 = proveedor.Telefono2,
                             Telefono3 = proveedor.Telefono3,
@@ -276,6 +287,7 @@ namespace SistemaGeneraliz.Controllers
                         Servicios = trabajo.Servicios,
                         DescripcionCliente = trabajo.DescripcionCliente,
                         ReciboHonorarios_Factura = trabajo.ReciboHonorarios_Factura,
+                        Comentarios = trabajo.Comentarios
                     };
 
                     trabajosJson.Add(o);
@@ -341,9 +353,9 @@ namespace SistemaGeneraliz.Controllers
 
         [Authorize(Roles = "Administrador, Cliente")]
         [HttpGet]
-        public ActionResult EnviarEncuestaCliente(int encuestaId, int trabajoProveedorId, string respuestas, string comentarios)
+        public ActionResult EnviarEncuestaCliente(int clienteId, int encuestaId, int trabajoProveedorId, string respuestas, string comentarios)
         {
-            _logicaClientes.EnviarEncuestaCliente(encuestaId, trabajoProveedorId, respuestas, comentarios);
+            _logicaClientes.EnviarEncuestaCliente(clienteId, encuestaId, trabajoProveedorId, respuestas, comentarios);
             var json = new List<Object>();
             Object o = new { Msg = "ok" };
             json.Add(o);

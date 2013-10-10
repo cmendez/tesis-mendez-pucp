@@ -76,42 +76,14 @@ namespace SistemaGeneraliz.Models.Helpers
             //faltaria actualizar campos tabla proveedor
         }
 
-        private void ActualizarIndicesEstadísticosProveedor()
-        {
-            List<Proveedor> listaProveedores = this.Proveedores.ToList();
-            foreach (var proveedor in listaProveedores)
-            {
-                //Actualizar NroTrabajosTerminados
-                List<TrabajoProveedor> listaTrabajosProveedor = proveedor.TrabajosProveedores.ToList();
-                int puntaje = 0, recomendaciones = 0, volveria = 0;
-                proveedor.NroTrabajosTerminados = listaTrabajosProveedor.Count;
-                proveedor.NroComentarios = listaTrabajosProveedor.Count;
-
-                foreach (var trabajo in listaTrabajosProveedor)
-                {
-                    puntaje += trabajo.EncuestaCliente.PuntajeTotal;
-                    recomendaciones += trabajo.EncuestaCliente.RespuestasPorCriterio.Count(r => (r.CriterioCalificacionId == 7) && (r.PuntajeOtorgado == 1));
-                    volveria += trabajo.EncuestaCliente.RespuestasPorCriterio.Count(r => (r.CriterioCalificacionId == 6) && (r.PuntajeOtorgado == 1));
-                }
-                proveedor.NroRecomendaciones = recomendaciones;
-                proveedor.NroVolveriaContratarlo = volveria;
-                //Cálculo de la puntuación promedio: acá consideramos PuntajeTotal / NroTrabajos
-                double puntuacion = (puntaje * 1.0) / proveedor.NroTrabajosTerminados;
-                proveedor.PuntuacionPromedio = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven));
-
-                this.Proveedores.Attach(proveedor);
-                this.Entry(proveedor).State = EntityState.Modified;
-            }
-            this.SaveChanges();
-        }
-
         private void SeedConfiguraciones()
         {
             var listaConfiguraciones = new List<Configuracion>()
             {
                 new Configuracion { Nombre = "PuntuacionMinimaAlgoritmo", Descripcion = "Puntuación mínima requerida del proveedor para ser considerado en la lógica del algoritmo", ValorNumerico = 12},
                 new Configuracion { Nombre = "CantidadMaximaProveedoresAlgoritmo", Descripcion = "Cantidad máxima de proveedores que se devuelven al buscar proveedores dado un servicio, para la lógica del algoritmo", ValorNumerico = 100},
-                new Configuracion { Nombre = "LeadsGratisRegistro", Descripcion = "Leads gratis al registrarse", ValorNumerico = 2}
+                new Configuracion { Nombre = "LeadsGratisRegistro", Descripcion = "Leads gratis al registrarse", ValorNumerico = 2},
+                new Configuracion { Nombre = "PuntajePromedioInicialProveedores", Descripcion = "Puntaje Promedio Inicial Proveedores", ValorNumerico = 14}
             };
             listaConfiguraciones.ForEach(s => this.Configuraciones.Add(s));
             this.SaveChanges();
@@ -134,7 +106,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     ApellidoPaterno = "Mendez",
                     DNI = 46394691,
                     UltimaActualizacionPersonal = DateTime.Now,
-                    IsHabilitado = 0,
+                    IsHabilitado = 1,
                     IsEliminado = 0
                 });
             }
@@ -507,7 +479,6 @@ namespace SistemaGeneraliz.Models.Helpers
                         DescripcionCliente = "Trabajo nro. " + r3,
                         Direccion = cliente.Persona.DireccionCompleta,
                         Fecha = DateTime.Now.AddMonths((r1 + r2 / 2) * -1).AddDays(r1 + r2 / 2).AddHours(r1).AddMinutes(r1 + r3),
-                        IsTerminado = 0
                     };
 
                     listaTrabajos.Add(trabajo);
@@ -698,6 +669,35 @@ namespace SistemaGeneraliz.Models.Helpers
             listaRespuestas.ForEach(s => this.RespuestasPorCriterio.Add(s));
             this.SaveChanges();
             return listaRespuestas;
+        }
+
+        private void ActualizarIndicesEstadísticosProveedor()
+        {
+            List<Proveedor> listaProveedores = this.Proveedores.ToList();
+            foreach (var proveedor in listaProveedores)
+            {
+                //Actualizar NroTrabajosTerminados
+                List<TrabajoProveedor> listaTrabajosProveedor = proveedor.TrabajosProveedores.ToList();
+                int puntaje = 0, recomendaciones = 0, volveria = 0;
+                proveedor.NroTrabajosTerminados = listaTrabajosProveedor.Count;
+                proveedor.NroComentarios = listaTrabajosProveedor.Count;
+
+                foreach (var trabajo in listaTrabajosProveedor)
+                {
+                    puntaje += trabajo.EncuestaCliente.PuntajeTotal;
+                    recomendaciones += trabajo.EncuestaCliente.RespuestasPorCriterio.Count(r => (r.CriterioCalificacionId == 7) && (r.PuntajeOtorgado == 1));
+                    volveria += trabajo.EncuestaCliente.RespuestasPorCriterio.Count(r => (r.CriterioCalificacionId == 6) && (r.PuntajeOtorgado == 1));
+                }
+                proveedor.NroRecomendaciones = recomendaciones;
+                proveedor.NroVolveriaContratarlo = volveria;
+                //Cálculo de la puntuación promedio: acá consideramos PuntajeTotal / NroTrabajos
+                double puntuacion = (puntaje * 1.0) / proveedor.NroTrabajosTerminados;
+                proveedor.PuntuacionPromedio = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven));
+
+                this.Proveedores.Attach(proveedor);
+                this.Entry(proveedor).State = EntityState.Modified;
+            }
+            this.SaveChanges();
         }
         #endregion
     }

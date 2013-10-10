@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Usuario Inhabilitado";
+    string linkText = ViewBag.LinkText;
+    string controlador = ViewBag.Controlador;
+    string metodo = ViewBag.Metodo;
+}
+
+@{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Usuario Inhabilitado", "Usted está inhabilitado por la(s) siguiente(s) razón/es:"));}
+
+<ul>
+    <li>
+        <span style="color: red;">@ViewBag.Motivo1</span>
+    </li>
+</ul>
+<br/>
+<h5>@Html.ActionLink(linkText, metodo, controlador)</h5>
+
+

@@ -32,16 +32,16 @@
             {
                 columns.Bound(p => p.TrabajoProveedorId).Hidden(true);
                 columns.Bound(p => p.EncuestaClienteId).Hidden(true);
-                columns.Bound(p => p.FechaTrabajo);
+                columns.Bound(p => p.FechaTrabajo).Width("106px");
                 columns.Bound(p => p.FotoProveedor);
-                columns.Bound(p => p.NombreProveedor);
-                columns.Bound(p => p.DocumentoProveedor);
-                columns.Bound(p => p.Servicios);
-                columns.Bound(p => p.DescripcionCliente);
+                columns.Bound(p => p.NombreProveedor).Width("170px");
+                columns.Bound(p => p.DocumentoProveedor).Width("130px");
+                columns.Bound(p => p.Servicios).Width("145px");
+                columns.Bound(p => p.DescripcionCliente).Width("148px");
                 columns.Bound(p => p.DireccionCiente);
                 columns.Template(@<text></text>).ClientTemplate("<a type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='" + Url.Action("LlenarEncuestaCliente", "Clientes") + "?encuestaClienteId=#=EncuestaClienteId#'>Llenar Encuesta</a>");
             })
-            .Pageable(paper => paper.Refresh(true))
+            .Pageable(page => page.PageSizes(true).Messages(m => m.ItemsPerPage("Elementos por página")).Refresh(true))
             .Sortable()
             .Scrollable()
             .Resizable(resize => resize.Columns(true))

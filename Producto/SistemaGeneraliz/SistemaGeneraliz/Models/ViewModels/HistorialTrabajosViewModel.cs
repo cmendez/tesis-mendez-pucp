@@ -14,6 +14,8 @@ namespace SistemaGeneraliz.Models.ViewModels
         public string FechaTrabajo { get; set; }
         [DisplayName("Puntuación")]
         public string Puntuacion { get; set; }
+        [DisplayName("Comentarios")]
+        public string Comentarios { get; set; }
         [DisplayName("Cliente")]
         public string NombreCliente { get; set; }
         [DisplayName("Documento")]

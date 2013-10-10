@@ -13,11 +13,11 @@
     <title>Registrar Cliente Natural</title>
 </head>
 <body>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+@*    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
     <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
     <script src="~/Scripts/jquery-1.8.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
     @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Editar Detalles Trabajo", "Culminar los detalles del trabajo realizado."));}
 
     @using (Html.BeginForm())
@@ -37,14 +37,14 @@
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
-                                @*                                @Html.TextBoxFor(model => model.FechaReal)
+@*                                                                @Html.EditorFor(model => model.FechaReal)
                                 @Html.ValidationMessageFor(model => model.FechaReal)*@
-                                <input type="text" id="FechaReal" name="FechaReal" readonly='readonly' value="@Model.FechaReal" />
+                                <input type="date" id="FechaReal" name="FechaReal" value="@Model.FechaReal" style="width: 221px;"/>
                             </div>
                         </div>
                     </div>
-
-                    <div class="row-fluid">
+                    
+                    <div class="row-fluid" style="padding-top: 8px; ">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">Descripción del trabajo hecho:</div>
                         </div>
@@ -122,15 +122,23 @@
     </div>
 
     <script>
-        $(function () {
-            $("#FechaReal").datepicker({ dateFormat: 'dd/mm/yy' });
-        });
+        //$(function () {
+        //    $("#FechaReal").datepicker({ dateFormat: 'dd/mm/yy' });
+        //});
         
         $(document).ready(function () {
-            var fechaReal = $("#FechaReal").val();
-            fechaReal = fechaReal.substring(0, fechaReal.indexOf(' '));
-            $("#FechaReal").val(fechaReal);
+            //var fechaReal = $("#FechaReal").val();
+            //fechaReal = fechaReal.substring(0, fechaReal.indexOf(' '));
+            //$("#FechaReal").val(fechaReal);
         });
+        
+        $("#FechaReal").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            min: new Date
+        });
+        var datepicker = $("#FechaReal").data("kendoDatePicker");
+        //datepicker.readonly(false);
+        //datepicker.enable(true);
     </script>
 </body>
 </html>

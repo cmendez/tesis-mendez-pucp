@@ -24,6 +24,7 @@
     @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Encuestas de Satisfacción al Cliente", ""));}
     <div style="padding-left: 4%;">
         @*@Html.ValidationSummary(true)*@
+        <input type="hidden" name="clienteId" id="clienteId" value="@encuestaViewModel.ClienteId">
         <input type="hidden" name="encuestaId" id="encuestaId" value="@encuestaViewModel.EncuestaClienteId">
         <input type="hidden" name="trabajoProveedorId" id="trabajoProveedorId" value="@encuestaViewModel.TrabajoProveedorId">
         <table style="width: 100%; border: 0;">
@@ -124,7 +125,6 @@
                             <table>
                                 @for (k = i; k < limitePreguntasLadoDer; k++)
                                 {
-                                    //@Html.HiddenFor(modelItem => modelItem[k].PuntajeOtorgado, new { id = "idPuntaje" })
                                     @Html.HiddenFor(x => x[i].CriterioId)
                                     <tr>
                                         <td>
@@ -135,7 +135,6 @@
                                         <td class="input rating-f">
                                             @if (Model[k].TipoPregunta == "Estrellas")
                                             {
-@*<select id="pregunta_@i" name="pregunta_@i">*@
                                                 <select id="demo_@k" name="@Model[k].PuntajeOtorgado">
                                                     @for (int j = 1; j <= Model[k].NroOpciones; j++)
                                                     {
@@ -163,7 +162,6 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        @*@Html.TextAreaFor(x => x[limitePreguntasLadoDer].RespuestaPregunta)*@
                                         <textarea id="comentarios" placeholder="Ingrese comentarios finales" style="width: 260px;"></textarea>
                                     </td>
                                 </tr>
@@ -192,11 +190,6 @@
 
 
     </div>
-
-
-    @*    <div>
-        @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
-    </div>*@
 
     <script>
 
@@ -245,7 +238,7 @@
             var comentarios = $("#comentarios").val();
             var encuestaId = $("#encuestaId").val();
             var trabajoProveedorId = $("#trabajoProveedorId").val();
-
+            var clienteId = $("#clienteId").val();
             //mensaje de confirmacion aca xD
 
             $.ajax({
@@ -254,6 +247,7 @@
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 data: {
+                    clienteId: clienteId,
                     encuestaId: encuestaId,
                     trabajoProveedorId: trabajoProveedorId,
                     respuestas: respuestas,

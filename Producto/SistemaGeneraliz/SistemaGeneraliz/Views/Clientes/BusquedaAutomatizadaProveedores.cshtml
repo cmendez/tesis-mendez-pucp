@@ -172,8 +172,7 @@
                                 Servicio: { type: "string", editable: false },
                                 ServicioId: { type: "string", editable: false, hidden: true },
                                 Descripcion: { type: "string", editable: false },
-                                VerTrabajos: { editable: false },
-                                VerComentarios: { editable: false }
+                                VerTrabajos: { editable: false }
                             }
                         }
                     }
@@ -186,11 +185,11 @@
                     { title: "DNI / RUC", field: "Documento", width: "160px" },
                     { title: "Servicios Ofrecidos", field: "Servicio", width: "140px" },
                     { title: "Sobre Mí", field: "Descripcion", width: "170px" },
-                    { title: "Trabajos ", field: "VerTrabajos",
+                    { title: "Trabajos Pasados", field: "VerTrabajos",
                         attributes: {
                             style: "text-align: center"
-                        }, template: "<a id='btnVerTrabajos' type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='\\\#modal_trabajos' data-toggle='modal' onclick='return mostrarTrabajos(#=ProveedorId#);'>Ver</a>" },
-                    { title: "Comentarios", field: "VerComentarios", }
+                        }, template: "<a id='btnVerTrabajos' type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='\\\#modal_trabajos' data-toggle='modal' onclick='return mostrarTrabajos(#=ProveedorId#);'>Ver</a>"
+                    }
                 ]
             });
 
@@ -256,18 +255,20 @@
                                 Servicios: { type: "string", editable: false },
                                 DescripcionCliente: { type: "string", editable: false },
                                 Puntuacion: { type: "string", editable: false },
-                                ReciboHonorarios_Factura: { type: "string", editable: false }
+                                ReciboHonorarios_Factura: { type: "string", editable: false },
+                                Comentarios: { editable: false }
                             }
                         }
                     }
                 },
                 columns: [
-                    { title: "Fecha", field: "FechaTrabajo"},
-                    { title: "Cliente", field: "NombreCliente" },
+                    { title: "Fecha", field: "FechaTrabajo", width: "90px" },
+                    { title: "Cliente", field: "NombreCliente", width: "180px" },
                     { title: "Servicios Ofrecidos", field: "Servicios" },
-                    { title: "Descripción Trabajo", field: "DescripcionCliente" },
-                    { title: "Calificación", field: "Puntuacion" },
-                    { title: "Recibo Hon. / Factura", field: "ReciboHonorarios_Factura" }
+                    { title: "Descripción Trabajo", field: "DescripcionCliente", width: "200px" },
+                    { title: "Calificación", field: "Puntuacion", width: "90px" },
+                    { title: "Recibo Hon. / Factura", field: "ReciboHonorarios_Factura" },
+                    { title: "Comentarios", field: "Comentarios", }
                 ]
             });
         });
@@ -281,7 +282,7 @@
                 $(result).each(function () {
                     dataSource3.add({
                         FechaTrabajo: this.FechaTrabajo, NombreCliente: this.NombreCliente, Servicios: this.Servicios, DescripcionCliente: this.DescripcionCliente,
-                        Puntuacion: this.Puntuacion, ReciboHonorarios_Factura: this.ReciboHonorarios_Factura
+                        Puntuacion: this.Puntuacion, ReciboHonorarios_Factura: this.ReciboHonorarios_Factura, Comentarios: this.Comentarios
                     });
                 });
             });
@@ -326,8 +327,7 @@
                 $(result).each(function () {
                     dataSource.add({
                         ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, RutaFoto: this.RutaFoto, NombreCompleto: this.NombreCompleto,
-                        TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, ServicioId: this.ServicioId, Descripcion: this.Descripcion,
-                        VerTrabajos: this.VerTrabajos, VerComentarios: this.VerComentarios
+                        TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, ServicioId: this.ServicioId, Descripcion: this.Descripcion
                     });
                     dataSource2.add({
                         NombreCompleto: this.NombreCompleto, Documento: this.Documento, Servicio: this.Servicio, Telefono1: this.Telefono1, Telefono2: this.Telefono2,

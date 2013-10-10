@@ -184,7 +184,6 @@
                                 ServicioId: { type: "string", editable: false, hidden: true },
                                 Descripcion: { type: "string", editable: false },
                                 VerTrabajos: { type: "string", editable: false },
-                                VerComentarios: { type: "string", editable: false },
                                 Telefono1: { type: "string", editable: false, hidden: true },
                                 Telefono2: { type: "string", editable: false, hidden: true },
                                 Telefono3: { type: "string", editable: false, hidden: true },
@@ -195,21 +194,20 @@
                     }
                 },
                 columns: [
-                    { template: "<input type='checkbox' class='checkbox' />" },
-                    { title: "ProveedorId", field: "ProveedorId", width: "100px" },
-                    { title: "Foto", field: "RutaFoto", width: "100px" },
-                    { title: "Calificación", field: "Puntaje", width: "100px" },
+                    { template: "<input type='checkbox' class='checkbox' />", width: "30px" },
+                    { title: "ProveedorId", field: "ProveedorId"},
+                    { title: "Foto", field: "RutaFoto", width: "130px" },
+                    { title: "Calificación", field: "Puntaje", width: "90px" },
                     { title: "Nombre / Razón Social", field: "NombreCompleto", width: "190px" },
                     { title: "DNI / RUC", field: "Documento", width: "160px" },
                     { title: "Servicios Ofrecidos", field: "Servicio", width: "140px" },
                     { title: "Sobre Mí", field: "Descripcion", width: "170px" },
                     {
-                        title: "Trabajos ", field: "VerTrabajos",
+                        title: "Trabajos ", field: "VerTrabajos", width: "80px",
                         attributes: {
                             style: "text-align: center"
                         }, template: "<a id='btnVerTrabajos' type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='\\\#modal_trabajos' data-toggle='modal' onclick='return mostrarTrabajos(#=ProveedorId#);'>Ver</a>"
-                    },
-                    { title: "Comentarios", field: "VerComentarios", }
+                    }
                 ]
             }).data("kendoGrid");
 
@@ -276,18 +274,20 @@
                                 Servicios: { type: "string", editable: false },
                                 DescripcionCliente: { type: "string", editable: false },
                                 Puntuacion: { type: "string", editable: false },
-                                ReciboHonorarios_Factura: { type: "string", editable: false }
+                                ReciboHonorarios_Factura: { type: "string", editable: false },
+                                Comentarios: { editable: false }
                             }
                         }
                     }
                 },
                 columns: [
-                    { title: "Fecha", field: "FechaTrabajo" },
-                    { title: "Cliente", field: "NombreCliente" },
+                    { title: "Fecha", field: "FechaTrabajo", width: "90px" },
+                    { title: "Cliente", field: "NombreCliente", width: "180px" },
                     { title: "Servicios Ofrecidos", field: "Servicios" },
-                    { title: "Descripción Trabajo", field: "DescripcionCliente" },
-                    { title: "Calificación", field: "Puntuacion" },
-                    { title: "Recibo Hon. / Factura", field: "ReciboHonorarios_Factura" }
+                    { title: "Descripción Trabajo", field: "DescripcionCliente", width: "200px" },
+                    { title: "Calificación", field: "Puntuacion", width: "90px" },
+                    { title: "Recibo Hon. / Factura", field: "ReciboHonorarios_Factura" },
+                    { title: "Comentarios", field: "Comentarios", }
                 ]
             });
         });
@@ -301,7 +301,7 @@
                 $(result).each(function () {
                     dataSource3.add({
                         FechaTrabajo: this.FechaTrabajo, NombreCliente: this.NombreCliente, Servicios: this.Servicios, DescripcionCliente: this.DescripcionCliente,
-                        Puntuacion: this.Puntuacion, ReciboHonorarios_Factura: this.ReciboHonorarios_Factura
+                        Puntuacion: this.Puntuacion, ReciboHonorarios_Factura: this.ReciboHonorarios_Factura, Comentarios: this.Comentarios
                     });
                 });
             });
@@ -368,8 +368,7 @@
                     dataSource.add({
                         ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, RutaFoto: this.RutaFoto, NombreCompleto: this.NombreCompleto,
                         TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, ServicioId: this.ServicioId, Descripcion: this.Descripcion,
-                        VerTrabajos: this.VerTrabajos, VerComentarios: this.VerComentarios, Telefono1: this.Telefono1, Telefono2: this.Telefono2, Telefono3: this.Telefono3,
-                        Email1: this.Email1, Email2: this.Email2
+                        Telefono1: this.Telefono1, Telefono2: this.Telefono2, Telefono3: this.Telefono3, Email1: this.Email1, Email2: this.Email2
                     });
                     //dataSource2.add({
                     //    NombreCompleto: this.NombreCompleto, Documento: this.Documento, Servicio: this.Servicio, Telefono1: this.Telefono1, Telefono2: this.Telefono2,

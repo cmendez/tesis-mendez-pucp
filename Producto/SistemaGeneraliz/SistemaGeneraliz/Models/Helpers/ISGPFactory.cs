@@ -19,6 +19,7 @@ namespace SistemaGeneraliz.Models.Helpers
         bool ExisteDNIRUC(string dni, string ruc);
         Distrito GetDistritoPorId(int distritoId);
         UbicacionPersona GetPrimeraUbicacionPersona(int idPersona);
+        void HabilitarDeshabilitarUsuario(string tipoUsuario, int idUsuario, string nuevoEstado);
         #endregion
 
         #region Proveedores
@@ -36,9 +37,13 @@ namespace SistemaGeneraliz.Models.Helpers
         List<TrabajoProveedor> GetHistorialTrabajos(int proveedorId);
         TrabajoProveedor GetTrabajoProveedor(int trabajoProveedorId);
         void ActualizarDetallesTrabajoProveedor(TrabajoProveedor trabajoProveedor);
+        void ActualizarProveedor(Proveedor proveedor);
+        int GetLeadsGratisRegistro();
+        int GetPuntuacionPromedioInicial();
         #endregion
 
         #region Clientes
+        Cliente GetClientePorId(int clienteId);
         void AgregarCliente(Cliente cliente);
         Cliente GetClientePorPersonaId(int idPersona);
         void AgregarTrabajo(Trabajo trabajo);
@@ -50,6 +55,7 @@ namespace SistemaGeneraliz.Models.Helpers
         void AgregarRespuestasEncuesta(List<RespuestaPorCriterio> listaRespuestas);
         EncuestaCliente GetEncuestaCliente(int encuestaId);
         void ActualizarEncuestaCompletada(EncuestaCliente encuesta);
+        int CantidadEncuestasPendientesCliente(int clienteId);
         #endregion
 
         #region Suministradores
