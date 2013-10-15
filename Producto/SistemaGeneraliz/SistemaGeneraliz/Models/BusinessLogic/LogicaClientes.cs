@@ -75,8 +75,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 ClienteId = clienteId,
                 Fecha = DateTime.ParseExact(fecha, "dd/MM/yyyy", CultureInfo.InvariantCulture),
                 Direccion = ubicacion,
-                DescripcionCliente = desc,
-                IsTerminado = 0
+                DescripcionCliente = desc
             };
 
             _sgpFactory.AgregarTrabajo(trabajo);
