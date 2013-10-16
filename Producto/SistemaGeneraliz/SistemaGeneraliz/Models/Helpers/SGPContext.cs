@@ -104,8 +104,8 @@ namespace SistemaGeneraliz.Models.Helpers
                         r4 = random.Next(0, 21);
                         //asumiremos que las imagenes van del 1 al 3, p. ej: tablero1.jpg, tablero2.jpg, tablero3.jpg
                         r5 = random.Next(0, 4); 
-                        //string filename = categoria.DescripcionCategoria.ToLower() + r5;
-                        string filename = "tablero1";
+                        string filename = categoria.DescripcionCategoria.ToLower() + r5;
+                        //string filename = "tablero1";
 
                         string path = HostingEnvironment.ApplicationPhysicalPath + "Images\\Productos\\" + filename + ".jpg";
                         byte[] bytes = System.IO.File.ReadAllBytes(path);
@@ -148,15 +148,15 @@ namespace SistemaGeneraliz.Models.Helpers
         {
             var listaCategoriaProducto = new List<CategoriaProducto>()
             {
-                new CategoriaProducto { NombreCategoria = "Madera y Tablas", DescripcionCategoria = "Tablero", IsEliminado = 0},
-                new CategoriaProducto { NombreCategoria = "Fierro/Hierro", DescripcionCategoria = "Barra", IsEliminado = 0},
-                new CategoriaProducto { NombreCategoria = "Herramientas y Maquinarias", DescripcionCategoria = "Taladro", IsEliminado = 0},
-                new CategoriaProducto { NombreCategoria = "Plomería/Gasfitería", DescripcionCategoria = "Tubo", IsEliminado = 0},
-                new CategoriaProducto { NombreCategoria = "Ventanas", DescripcionCategoria = "Ventana", IsEliminado = 0},
-                new CategoriaProducto { NombreCategoria = "Electricidad", DescripcionCategoria = "Cable", IsEliminado = 0},
-                new CategoriaProducto { NombreCategoria = "Cerrajería", DescripcionCategoria = "Cerradura", IsEliminado = 0},
-                new CategoriaProducto { NombreCategoria = "Pintura", DescripcionCategoria = "Pintura", IsEliminado = 0},
-                new CategoriaProducto { NombreCategoria = "Pisos", DescripcionCategoria = "Baldosa", IsEliminado = 0}
+                new CategoriaProducto { NombreCategoria = "Madera y Tablas", DescripcionCategoria = "Tablero", IsEliminado = 0, PrecioPromedio = 10.90},
+                new CategoriaProducto { NombreCategoria = "Fierro/Hierro", DescripcionCategoria = "Fierro", IsEliminado = 0, PrecioPromedio = 15.50},
+                new CategoriaProducto { NombreCategoria = "Herramientas y Maquinarias", DescripcionCategoria = "Taladro", IsEliminado = 0, PrecioPromedio = 250.00},
+                new CategoriaProducto { NombreCategoria = "Plomería/Gasfitería", DescripcionCategoria = "Tubo", IsEliminado = 0, PrecioPromedio = 8.50},
+                new CategoriaProducto { NombreCategoria = "Ventanas", DescripcionCategoria = "Vidrio", IsEliminado = 0, PrecioPromedio = 12.30},
+                new CategoriaProducto { NombreCategoria = "Electricidad", DescripcionCategoria = "Cable", IsEliminado = 0, PrecioPromedio = 30.50},
+                new CategoriaProducto { NombreCategoria = "Cerrajería", DescripcionCategoria = "Cerradura", IsEliminado = 0, PrecioPromedio = 38.50},
+                new CategoriaProducto { NombreCategoria = "Pintura", DescripcionCategoria = "Pintura", IsEliminado = 0, PrecioPromedio = 30.10},
+                new CategoriaProducto { NombreCategoria = "Pisos", DescripcionCategoria = "Baldosa", IsEliminado = 0, PrecioPromedio = 23.40},
             };
             listaCategoriaProducto.ForEach(s => this.CategoriasProducto.Add(s));
             this.SaveChanges();

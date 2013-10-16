@@ -18,5 +18,6 @@ namespace SistemaGeneraliz.Models.Entities
         //public virtual ICollection<SubcategoriaProducto> SubcategoriasProducto { get; set; }
         public virtual ICollection<Producto> Productos { get; set; }
         public int IsEliminado { get; set; }
+        public double PrecioPromedio { get; set; }
     }
 }
