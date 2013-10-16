@@ -50,7 +50,7 @@ namespace SistemaGeneraliz.Controllers
                         ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
                         return View(clienteNaturalViewModel);
                     }
-
+                    clienteNaturalViewModel.ImagenPrincipal = -1;
                     Persona persona = _logicaPersonas.CrearObjetoPersonaNatural(clienteNaturalViewModel, "Cliente");
                     Cliente cliente = _logicaClientes.CrearObjetoClienteNatural(clienteNaturalViewModel);
                     //setear la especialidad
@@ -63,8 +63,9 @@ namespace SistemaGeneraliz.Controllers
                     Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Cliente" });
                     WebSecurity.CreateAccount(persona.UserName, clienteNaturalViewModel.Password);
                     bool loginSuccess = WebSecurity.Login(persona.UserName, clienteNaturalViewModel.Password);
-
-                    return RedirectToAction("Index");
+                    Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
+                    Session["ImagenId"] = persona.ImagenId;
+                    return RedirectToAction("Index", "Home");
                 }
                 catch (Exception ex)
                 {
@@ -98,7 +99,7 @@ namespace SistemaGeneraliz.Controllers
                     ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
                     return View(clienteJuridicoViewModel);
                 }
-
+                clienteJuridicoViewModel.ImagenPrincipal = -1;
                 Persona persona = _logicaPersonas.CrearObjetoPersonaJuridica(clienteJuridicoViewModel, "Cliente");
                 Cliente cliente = _logicaClientes.CrearObjetoClienteJuridico(clienteJuridicoViewModel);
                 //setear la especialidad
@@ -111,8 +112,9 @@ namespace SistemaGeneraliz.Controllers
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Cliente" });
                 WebSecurity.CreateAccount(persona.UserName, clienteJuridicoViewModel.Password);
                 bool loginSuccess = WebSecurity.Login(persona.UserName, clienteJuridicoViewModel.Password);
-
-                return RedirectToAction("Index");
+                Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
+                Session["ImagenId"] = persona.ImagenId;
+                return RedirectToAction("Index", "Home");
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             return View(clienteJuridicoViewModel);
@@ -186,7 +188,7 @@ namespace SistemaGeneraliz.Controllers
                         {
                             ProveedorId = proveedor.ProveedorId,
                             Puntaje = proveedor.Puntaje,
-                            RutaFoto = proveedor.RutaFoto,
+                            FotoId = proveedor.FotoId,
                             NombreCompleto = proveedor.NombreCompleto,
                             TipoDocumento = proveedor.TipoDocumento,
                             Documento = proveedor.TipoDocumento + " - " + proveedor.Documento,
@@ -243,7 +245,7 @@ namespace SistemaGeneraliz.Controllers
                         {
                             ProveedorId = proveedor.ProveedorId,
                             Puntaje = proveedor.Puntaje,
-                            RutaFoto = proveedor.RutaFoto,
+                            FotoId = proveedor.FotoId,
                             NombreCompleto = proveedor.NombreCompleto,
                             TipoDocumento = proveedor.TipoDocumento,
                             Documento = proveedor.TipoDocumento + " - " + proveedor.Documento,
@@ -361,5 +363,6 @@ namespace SistemaGeneraliz.Controllers
             json.Add(o);
             return Json(json, JsonRequestBehavior.AllowGet);
         }
+
     }
 }

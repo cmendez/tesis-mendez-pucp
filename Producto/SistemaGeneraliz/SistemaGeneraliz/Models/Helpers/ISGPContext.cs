@@ -22,6 +22,10 @@ namespace SistemaGeneraliz.Models.Helpers
         IDbSet<RespuestaPorCriterio> RespuestasPorCriterio { get; set; }
         IDbSet<CriterioCalificacion> CriteriosCalificacion { get; set; }
         IDbSet<PuntajePromedioCriterio> PuntajesPromedioCriterio { get; set; }
+        IDbSet<Imagen> Imagenes { get; set; }
+        IDbSet<Producto> Productos { get; set; }
+        IDbSet<CategoriaProducto> CategoriasProducto { get; set; }
+        //IDbSet<SubcategoriaProducto> SubcategoriasProducto { get; set; }
         int SaveChanges();
         DbEntityEntry Entry(object entity);
     }

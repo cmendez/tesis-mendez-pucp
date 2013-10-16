@@ -21,7 +21,7 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Registrar Proveedor Jurídico", "Por favor complete los siguientes campos."));}
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("RegistrarProveedorJuridico", "Proveedores", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.ValidationSummary(true)
     
@@ -107,12 +107,16 @@
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.ImagenPrincipal)<br />
-                                @Html.ValidationMessageFor(model => model.ImagenPrincipal)
+                                @*@Html.TextBoxFor(model => model.ImagenPrincipal)<br />
+                                    @Html.ValidationMessageFor(model => model.ImagenPrincipal)*@
+                                @*<input type="file" id="Archivo" name="Archivo" accept="image/gif, image/jpeg" />*@
+
+                                @Html.TextBoxFor(m => m.File, new { type = "file"})
+                                @Html.ValidationMessageFor(m => m.File)
                             </div>
                         </div>
                     </div>
-
+                    <br/>
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Password)</div>

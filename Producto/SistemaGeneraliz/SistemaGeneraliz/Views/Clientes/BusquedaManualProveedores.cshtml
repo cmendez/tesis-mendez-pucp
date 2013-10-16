@@ -176,7 +176,7 @@
                         model: {
                             fields: {
                                 ProveedorId: { type: "number", editable: false, hidden: true },
-                                RutaFoto: { type: "string", editable: false },
+                                FotoId: { type: "number", editable: false },
                                 Puntaje: { type: "string", editable: false },
                                 NombreCompleto: { type: "string", editable: false },
                                 Documento: { type: "string", editable: false },
@@ -196,17 +196,22 @@
                 columns: [
                     { template: "<input type='checkbox' class='checkbox' />", width: "30px" },
                     { title: "ProveedorId", field: "ProveedorId"},
-                    { title: "Foto", field: "RutaFoto", width: "130px" },
+                    { title: "Foto", field: "FotoId", width: "100px",
+                        attributes: {
+                            style: "text-align: center"
+                        }, template: "<img src='/Usuarios/GetImagen?imagenId=#=FotoId#' alt='' width='146' height='106'>"
+
+                    },
                     { title: "Calificación", field: "Puntaje", width: "90px" },
                     { title: "Nombre / Razón Social", field: "NombreCompleto", width: "190px" },
                     { title: "DNI / RUC", field: "Documento", width: "160px" },
                     { title: "Servicios Ofrecidos", field: "Servicio", width: "140px" },
                     { title: "Sobre Mí", field: "Descripcion", width: "170px" },
                     {
-                        title: "Trabajos ", field: "VerTrabajos", width: "80px",
+                        title: "Trabajos ", field: "VerTrabajos", 
                         attributes: {
                             style: "text-align: center"
-                        }, template: "<a id='btnVerTrabajos' type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='\\\#modal_trabajos' data-toggle='modal' onclick='return mostrarTrabajos(#=ProveedorId#);'>Ver</a>"
+                        }, template: "<a id='btnVerTrabajos' type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='\\\#modal_trabajos' data-toggle='modal' onclick='return mostrarTrabajos(#=ProveedorId#);'>Ver Trabajos Pasados</a>"
                     }
                 ]
             }).data("kendoGrid");
@@ -366,7 +371,7 @@
             $.getJSON('/Clientes/GetProveedoresBusquedaManualJSON', { nombre: nombre, valueServicios: valueServicios, latitud: latitud, longitud: longitud, ajax: 'true' }, function (result) {
                 $(result).each(function () {
                     dataSource.add({
-                        ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, RutaFoto: this.RutaFoto, NombreCompleto: this.NombreCompleto,
+                        ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, FotoId: this.FotoId, NombreCompleto: this.NombreCompleto,
                         TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, ServicioId: this.ServicioId, Descripcion: this.Descripcion,
                         Telefono1: this.Telefono1, Telefono2: this.Telefono2, Telefono3: this.Telefono3, Email1: this.Email1, Email2: this.Email2
                     });

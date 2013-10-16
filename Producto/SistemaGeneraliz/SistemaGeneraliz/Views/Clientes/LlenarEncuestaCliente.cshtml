@@ -52,7 +52,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <img src="/Images/perfil_1.jpg" width="90" alt=""></td>
+                                    <img id="imagen" src="@Url.Action("GetImagen", "Usuarios", new {imagenId = encuestaViewModel.FotoProveedor })" alt="" width="100" ></td>
                             </tr>
                         </table>
                     </td>
@@ -68,7 +68,7 @@
                                 <tr>
                                     <td>Descripción:</td>
                                     <td>
-                                        <textarea name="descripcion" id="descripcion" readonly="readonly">@encuestaViewModel.DescripcionCliente</textarea>
+                                        <textarea name="descripcion" id="descripcion" readonly="readonly" rows="2">@encuestaViewModel.DescripcionCliente</textarea>
                                     </td>
                                 </tr>
                             </tbody>

@@ -119,7 +119,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     {
                         ProveedorId = prov.ProveedorId,
                         Puntaje = Convert.ToInt32(prov.PuntuacionPromedio).ToString(),
-                        RutaFoto = "", //AQUI IRA LA URL DE LA FOTO
+                        FotoId = (int)prov.Persona.ImagenId,
                         NombreCompleto = nombre,
                         TipoDocumento = tipoDocumento,
                         Documento = prov.Persona.UserName,
@@ -176,18 +176,18 @@ namespace SistemaGeneraliz.Models.Helpers
         private List<Proveedor> GenerarListaInicial(List<List<Proveedor>> listaProveedores, double latitudCliente, double longitudCliente)
         {
             List<Proveedor> lista_Inicial = new List<Proveedor>();
-            //i <- 0;
+
+            UbicacionPersona ubicacionCliente = new UbicacionPersona
+            {
+                Latitud = latitudCliente,
+                Longitud = longitudCliente
+            };
 
             //Para cada sublista de proveedores
             foreach (var sublista in listaProveedores)
             {
                 foreach (var prov in sublista)
                 {
-                    UbicacionPersona ubicacionCliente = new UbicacionPersona
-                    {
-                        Latitud = latitudCliente,
-                        Longitud = longitudCliente
-                    };
                     //Calculamos el distanciamiento de cada proveedor respecto del cliente
                     double distancia = Calcular_Distancia_GPS(prov.Persona.UbicacionesPersonas.ElementAt(0), ubicacionCliente);
                     prov.Distancia = distancia;
@@ -200,7 +200,6 @@ namespace SistemaGeneraliz.Models.Helpers
                 //Obtener el primer proveedor y almacenarlo
                 Proveedor p = sublista[0];
                 lista_Inicial.Add(p);
-                //i++
             }
 
             return lista_Inicial;

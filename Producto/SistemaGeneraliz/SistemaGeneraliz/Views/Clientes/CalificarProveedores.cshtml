@@ -32,8 +32,9 @@
             {
                 columns.Bound(p => p.TrabajoProveedorId).Hidden(true);
                 columns.Bound(p => p.EncuestaClienteId).Hidden(true);
+                columns.Bound(p => p.FotoProveedor).Hidden(true);
                 columns.Bound(p => p.FechaTrabajo).Width("106px");
-                columns.Bound(p => p.FotoProveedor);
+                columns.Bound(p => p.FotoProveedor).Template(@<text></text>).ClientTemplate("<img src='/Usuarios/GetImagen?imagenId=#=FotoProveedor#' alt='' width='146' height='106'>");
                 columns.Bound(p => p.NombreProveedor).Width("170px");
                 columns.Bound(p => p.DocumentoProveedor).Width("130px");
                 columns.Bound(p => p.Servicios).Width("145px");

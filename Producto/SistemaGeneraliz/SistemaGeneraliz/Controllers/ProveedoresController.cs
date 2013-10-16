@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -39,6 +40,9 @@ namespace SistemaGeneraliz.Controllers
         [HttpPost]
         public ActionResult RegistrarProveedorNatural(ProveedorNaturalViewModel proveedorNaturalViewModel)
         {
+            //string ext3 = proveedorNaturalViewModel.File.ContentType;
+            //string ext4 = proveedorNaturalViewModel.File.FileName;
+            //return null;
             if (ModelState.IsValid)
             {
                 bool existe = _logicaPersonas.ExisteDNIRUC(proveedorNaturalViewModel.DNI, proveedorNaturalViewModel.RUC);
@@ -50,6 +54,30 @@ namespace SistemaGeneraliz.Controllers
                     return View(proveedorNaturalViewModel);
                 }
 
+                if ((proveedorNaturalViewModel.File == null) || (proveedorNaturalViewModel.File.ContentLength <= 0))
+                {
+                    ModelState.AddModelError("", "Error: es obligatorio subir una foto");
+                    ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                    ViewBag.TiposServicios = ObtenerTiposServicios();
+                    return View(proveedorNaturalViewModel);
+                }
+                else
+                {
+                    var file = proveedorNaturalViewModel.File;
+                    string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                    string ext2 = file.FileName;
+
+                    if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                    {
+                        ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                        ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                        ViewBag.TiposServicios = ObtenerTiposServicios();
+                        return View(proveedorNaturalViewModel);
+                    }
+                }
+
+                Imagen foto = _logicaPersonas.AgregarFotoPersona(proveedorNaturalViewModel.File);
+                proveedorNaturalViewModel.ImagenPrincipal = foto.ImagenId;
                 Persona persona = _logicaPersonas.CrearObjetoPersonaNatural(proveedorNaturalViewModel, "Proveedor");
                 Proveedor proveedor = _logicaProveedores.CrearObjetoProveedorNatural(proveedorNaturalViewModel);
                 //setear la especialidad
@@ -70,8 +98,9 @@ namespace SistemaGeneraliz.Controllers
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Proveedor" });
                 var s = WebSecurity.CreateAccount(persona.UserName, proveedorNaturalViewModel.Password);
                 bool loginSuccess = WebSecurity.Login(persona.UserName, proveedorNaturalViewModel.Password);
-
-                return RedirectToAction("Index");
+                Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
+                Session["ImagenId"] = persona.ImagenId;
+                return RedirectToAction("Index", "Home");
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             ViewBag.TiposServicios = ObtenerTiposServicios();
@@ -102,6 +131,30 @@ namespace SistemaGeneraliz.Controllers
                     return View(proveedorJuridicoViewModel);
                 }
 
+                if ((proveedorJuridicoViewModel.File == null) || (proveedorJuridicoViewModel.File.ContentLength <= 0))
+                {
+                    ModelState.AddModelError("", "Error: es obligatorio subir una foto");
+                    ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                    ViewBag.TiposServicios = ObtenerTiposServicios();
+                    return View(proveedorJuridicoViewModel);
+                }
+                else
+                {
+                    var file = proveedorJuridicoViewModel.File;
+                    string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                    string ext2 = file.FileName;
+
+                    if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                    {
+                        ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                        ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                        ViewBag.TiposServicios = ObtenerTiposServicios();
+                        return View(proveedorJuridicoViewModel);
+                    }
+                }
+
+                Imagen foto = _logicaPersonas.AgregarFotoPersona(proveedorJuridicoViewModel.File);
+                proveedorJuridicoViewModel.ImagenPrincipal = foto.ImagenId;
                 Persona persona = _logicaPersonas.CrearObjetoPersonaJuridica(proveedorJuridicoViewModel, "Proveedor");
                 Proveedor proveedor = _logicaProveedores.CrearObjetoProveedorJuridico(proveedorJuridicoViewModel);
                 //setear la especialidad
@@ -122,8 +175,9 @@ namespace SistemaGeneraliz.Controllers
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Proveedor" });
                 WebSecurity.CreateAccount(persona.UserName, proveedorJuridicoViewModel.Password);
                 bool loginSuccess = WebSecurity.Login(persona.UserName, proveedorJuridicoViewModel.Password);
-
-                return RedirectToAction("Index");
+                Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
+                Session["ImagenId"] = persona.ImagenId;
+                return RedirectToAction("Index", "Home");
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             ViewBag.TiposServicios = ObtenerTiposServicios();
@@ -162,7 +216,7 @@ namespace SistemaGeneraliz.Controllers
             Proveedor proveedor = _logicaProveedores.GetProveedorPorPersonaId(WebSecurity.CurrentUserId);
             if ((proveedor == null) || (trabajoProveedor.ProveedorId != proveedor.ProveedorId))
                 return null;
-            
+
             if (trabajoProveedor.FechaReal != null)
                 trabajoProveedor.FechaReal = DateTime.ParseExact(trabajoProveedor.FechaReal.Value.ToString("dd/MM/yyyy"), "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
@@ -199,7 +253,7 @@ namespace SistemaGeneraliz.Controllers
             List<RespuestaPorCriterio> respuestas = encuestaCliente.RespuestasPorCriterio.ToList();//_logicaProveedores.GetResultadosEncuestaCliente(encuestaCliente.EncuestaClienteId);
             var resultadosEncuesta = new List<Object>();
             Object obj;
-            
+
             if (encuestaCliente.IsCompletada == 1)
             {
                 foreach (var respuesta in respuestas)
@@ -209,7 +263,7 @@ namespace SistemaGeneraliz.Controllers
                 }
 
                 //Comentarios cliente
-                obj = new {Pregunta = "", Puntaje = -1, Respuesta = encuestaCliente.ComentariosCliente};
+                obj = new { Pregunta = "", Puntaje = -1, Respuesta = encuestaCliente.ComentariosCliente };
                 resultadosEncuesta.Add(obj);
 
                 //Comentarios proveedor
@@ -220,7 +274,7 @@ namespace SistemaGeneraliz.Controllers
                     proveedorRespondio = 1;
                     comentariosProveedor = encuestaCliente.ComentariosProveedor;
                 }
-                obj = new {Pregunta = "", Puntaje = proveedorRespondio, Respuesta = comentariosProveedor};
+                obj = new { Pregunta = "", Puntaje = proveedorRespondio, Respuesta = comentariosProveedor };
                 resultadosEncuesta.Add(obj);
 
                 //Visibilidad encuesta

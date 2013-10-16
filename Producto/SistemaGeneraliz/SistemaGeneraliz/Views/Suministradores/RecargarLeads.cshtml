@@ -68,7 +68,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <img src="" width="146" height="106"></td>
+                                <img id="imagen" src="/Images/unknown-person.jpg" alt="" width="146" height="106"></td>
                         </tr>
                     </table>
                 </td>
@@ -194,8 +194,10 @@
                         $('#nombreProveedor').val(this.NombreProveedor);
                         $('#leadsActuales').val(this.LeadsProveedor);
                         $('#proveedorId').val(this.ProveedorID);
+                        $("#imagen").attr("src", "/Usuarios/GetImagen?imagenId=" + this.ImageProveedor);
                     }
                     else {
+                        $("#imagen").attr("src", "/Images/unknown-person.jpg");
                         alert("No se encontró al proveedor con documento: " + documento);
                     }
                 });

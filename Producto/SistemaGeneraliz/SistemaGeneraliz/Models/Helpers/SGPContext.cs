@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Data.Entity;
+using System.Web.Hosting;
 using System.Web.Security;
 using SistemaGeneraliz.Models.Entities;
 using WebMatrix.WebData;
@@ -34,6 +35,10 @@ namespace SistemaGeneraliz.Models.Helpers
         public IDbSet<RespuestaPorCriterio> RespuestasPorCriterio { get; set; }
         public IDbSet<CriterioCalificacion> CriteriosCalificacion { get; set; }
         public IDbSet<PuntajePromedioCriterio> PuntajesPromedioCriterio { get; set; }
+        public IDbSet<Imagen> Imagenes { get; set; }
+        public IDbSet<Producto> Productos { get; set; }
+        public IDbSet<CategoriaProducto> CategoriasProducto { get; set; }
+        //public IDbSet<SubcategoriaProducto> SubcategoriasProducto { get; set; }
         #endregion
 
         #region OnModelCreating
@@ -63,7 +68,7 @@ namespace SistemaGeneraliz.Models.Helpers
             var personas = personasNaturales.Concat(personasJuridicas).ToList();
             SeedUbicacionesPersonas(personas, distritos);
             var proveedores = SeedProveedores(personas, tiposServicios);
-            var suministradores = SeedSuministradores(personas);
+            var suministradores = SeedSuministradores(personasJuridicas);
             var clientes = SeedClientes(personas);
             SeedRecargaLeads(suministradores, proveedores);
             var trabajos = SeedTrabajos(clientes, 3); //nro clientes * factorMultiplicativo
@@ -74,6 +79,88 @@ namespace SistemaGeneraliz.Models.Helpers
             ActualizarIndicesEstadísticosProveedor();
             //faltaria puntajepromediocriterio
             //faltaria actualizar campos tabla proveedor
+            SeedImagenesPersonas(personas);
+            var categoriasProductos = SeedCategoriasProductos();
+            SeedProductos(suministradores, categoriasProductos, 2);
+        }
+
+        private void SeedProductos(List<Suministrador> suministradores, List<CategoriaProducto> categoriasProductos, int nroproductosXsuministrador)
+        {
+            int r1, r2, r3, r4, r5;
+            Random random = new Random();
+            string[] letras = { "1A", "1B", "1C", "2A", "2B", "2C", "3A", "3B", "3C", "4A", "4B", "4C", "5A", "5B", "5C"};
+            List<Producto> listaProductos = new List<Producto>();
+            List<Imagen> listaImagenes = new List<Imagen>();
+            foreach (var suministrador in suministradores)
+            {
+                //cada suministrador tendra N productos por cada categoria
+                for (int i = 0; i < nroproductosXsuministrador; i++)
+                {
+                    foreach (var categoria in categoriasProductos)
+                    {
+                        r1 = random.Next(10, 51);
+                        r2 = random.Next(0, letras.Count());
+                        r3 = random.Next(0, 21);
+                        r4 = random.Next(0, 21);
+                        //asumiremos que las imagenes van del 1 al 3, p. ej: tablero1.jpg, tablero2.jpg, tablero3.jpg
+                        r5 = random.Next(0, 4); 
+                        //string filename = categoria.DescripcionCategoria.ToLower() + r5;
+                        string filename = "tablero1";
+
+                        string path = HostingEnvironment.ApplicationPhysicalPath + "Images\\Productos\\" + filename + ".jpg";
+                        byte[] bytes = System.IO.File.ReadAllBytes(path);
+                        Imagen imagen = new Imagen { Data = bytes, Nombre = filename, Mime = "image/jpg" };
+                        listaImagenes.Add(imagen);
+
+                        Producto producto = new Producto
+                        {
+                            NombreProducto = categoria.DescripcionCategoria + " " + letras[r2],
+                            SuministradorId = suministrador.SuministradorId,
+                            CategoriaProductoId = categoria.CategoriaProductoId,
+                            DescripcionCorta = categoria.DescripcionCategoria + " " + letras[r2],
+                            DescripcionDetalle = categoria.DescripcionCategoria + " " + letras[r2],
+                            Precio = r1,
+                            NroClicksVisita = r3,
+                            NroBusquedas = r4,
+                            IsEliminado = 0
+                        };
+                        listaProductos.Add(producto);
+                    }
+                }
+            }
+
+            listaImagenes.ForEach(s => this.Imagenes.Add(s));
+            this.SaveChanges();
+
+            //Sabemos que hay una imagen por cada uno de los productos
+            int k= 0;
+            foreach (var imagen in listaImagenes)
+            {
+                //Producto producto = listaProductos[k];
+                listaProductos[k].ImagenId = imagen.ImagenId;
+                this.Productos.Add(listaProductos[k]);
+                k++;
+            }
+            this.SaveChanges();
+        }
+
+        private List<CategoriaProducto> SeedCategoriasProductos()
+        {
+            var listaCategoriaProducto = new List<CategoriaProducto>()
+            {
+                new CategoriaProducto { NombreCategoria = "Madera y Tablas", DescripcionCategoria = "Tablero", IsEliminado = 0},
+                new CategoriaProducto { NombreCategoria = "Fierro/Hierro", DescripcionCategoria = "Barra", IsEliminado = 0},
+                new CategoriaProducto { NombreCategoria = "Herramientas y Maquinarias", DescripcionCategoria = "Taladro", IsEliminado = 0},
+                new CategoriaProducto { NombreCategoria = "Plomería/Gasfitería", DescripcionCategoria = "Tubo", IsEliminado = 0},
+                new CategoriaProducto { NombreCategoria = "Ventanas", DescripcionCategoria = "Ventana", IsEliminado = 0},
+                new CategoriaProducto { NombreCategoria = "Electricidad", DescripcionCategoria = "Cable", IsEliminado = 0},
+                new CategoriaProducto { NombreCategoria = "Cerrajería", DescripcionCategoria = "Cerradura", IsEliminado = 0},
+                new CategoriaProducto { NombreCategoria = "Pintura", DescripcionCategoria = "Pintura", IsEliminado = 0},
+                new CategoriaProducto { NombreCategoria = "Pisos", DescripcionCategoria = "Baldosa", IsEliminado = 0}
+            };
+            listaCategoriaProducto.ForEach(s => this.CategoriasProducto.Add(s));
+            this.SaveChanges();
+            return listaCategoriaProducto;
         }
 
         private void SeedConfiguraciones()
@@ -102,9 +189,14 @@ namespace SistemaGeneraliz.Models.Helpers
                 {
                     TipoPersona = "Natural",
                     TipoUsuario = "Administrador",
+                    DNI = 46394691,
                     PrimerNombre = "Christian",
                     ApellidoPaterno = "Mendez",
-                    DNI = 46394691,
+                    ApellidoMaterno = "Anchante",
+                    Sexo = "Masculino",
+                    FechaNacimiento = DateTime.Parse("01/12/1989"),
+                    Email1 = "c.mendez@pucp.pe",
+                    Telefono1 = "998560870",
                     UltimaActualizacionPersonal = DateTime.Now,
                     IsHabilitado = 1,
                     IsEliminado = 0
@@ -174,7 +266,7 @@ namespace SistemaGeneraliz.Models.Helpers
             string[] nombres = { "Juan", "Alberto", "Pedro", "David", "Alfredo", "Renato", "Marcos", "Lucas", "Raúl", "Eduardo", "Cristopher", "Toribio" };
             string[] apellidos = { "Lopez", "Vidal", "Guerra", "Garcia", "Alvarez", "Dominguez", "Rodriguez", "Balcazar", "Quintana", "Taboada", "Córdova", "Suarez" };
             string[] documentos = { "46394691", "86735959", "34896582", "70688569", "42384465", "41774584", "26335963", "37855213", "58765115", "31669569", "33287845", "42542398" };
-            string[] tipoPersona = { "Cliente", "Cliente", "Cliente", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor" };
+            string[] tipoUsuario = { "Cliente", "Cliente", "Cliente", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor" };
             List<long> docs = new List<long>();
             long d1;
             int r1, r2, r3, r4;
@@ -186,7 +278,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     r1 = random.Next(0, 12);
                     r2 = random.Next(0, 12);
                     r3 = random.Next(0, 3);
-                    r4 = random.Next(0, tipoPersona.Count());
+                    r4 = random.Next(0, tipoUsuario.Count());
                     d1 = (Int64.Parse(documentos[r1]) + Int64.Parse(documentos[r2])) / 2;
                 } while (docs.Contains(d1));
 
@@ -196,7 +288,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 {
                     UserName = d1.ToString(),
                     TipoPersona = "Natural",
-                    TipoUsuario = tipoPersona[r4],
+                    TipoUsuario = tipoUsuario[r4],
                     DNI = unchecked((int)d1),
                     PrimerNombre = nombres[r1],
                     ApellidoMaterno = apellidos[r1],
@@ -222,6 +314,8 @@ namespace SistemaGeneraliz.Models.Helpers
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { persona.TipoUsuario });
                 WebSecurity.CreateAccount(persona.UserName, "asdasdasd");
             }
+            var admin = this.Personas.Find(1);
+            listPersonas.Add(admin);
 
             return listPersonas;
         }
@@ -231,7 +325,7 @@ namespace SistemaGeneraliz.Models.Helpers
             var listPersonas = new List<Persona>();
             string[] razonesSociales = { "J&R", "ABC", "XYZ", "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Lambda", "Omega" };
             string[] documentos = { "20046394691", "20086735959", "20034896582", "20070688569", "20042384465", "20041774584", "20026335963", "20037855213", "20058765115", "20031669569" };
-            string[] tipoPersona = { "Cliente", "Proveedor", "Proveedor", "Proveedor", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador" };
+            string[] tipoUsuario = { "Cliente", "Proveedor", "Proveedor", "Proveedor", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador" };
             List<long> docs = new List<long>();
             long d1;
             int r1, r2, r3, r4;
@@ -246,7 +340,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 {
                     UserName = documentos[i],
                     TipoPersona = "Juridica",
-                    TipoUsuario = tipoPersona[i],
+                    TipoUsuario = tipoUsuario[i],
                     RUC = Int64.Parse(documentos[i]),
                     RazonSocial = razonesSociales[i] + " S.A.C.",
                     FechaCreacion = DateTime.Now.AddYears((r1 + 5 + r3 * 4) * -1),
@@ -676,26 +770,81 @@ namespace SistemaGeneraliz.Models.Helpers
             List<Proveedor> listaProveedores = this.Proveedores.ToList();
             foreach (var proveedor in listaProveedores)
             {
-                //Actualizar NroTrabajosTerminados
-                List<TrabajoProveedor> listaTrabajosProveedor = proveedor.TrabajosProveedores.ToList();
-                int puntaje = 0, recomendaciones = 0, volveria = 0;
-                proveedor.NroTrabajosTerminados = listaTrabajosProveedor.Count;
-                proveedor.NroComentarios = listaTrabajosProveedor.Count;
-
-                foreach (var trabajo in listaTrabajosProveedor)
+                if (proveedor.TrabajosProveedores != null)
                 {
-                    puntaje += trabajo.EncuestaCliente.PuntajeTotal;
-                    recomendaciones += trabajo.EncuestaCliente.RespuestasPorCriterio.Count(r => (r.CriterioCalificacionId == 7) && (r.PuntajeOtorgado == 1));
-                    volveria += trabajo.EncuestaCliente.RespuestasPorCriterio.Count(r => (r.CriterioCalificacionId == 6) && (r.PuntajeOtorgado == 1));
-                }
-                proveedor.NroRecomendaciones = recomendaciones;
-                proveedor.NroVolveriaContratarlo = volveria;
-                //Cálculo de la puntuación promedio: acá consideramos PuntajeTotal / NroTrabajos
-                double puntuacion = (puntaje * 1.0) / proveedor.NroTrabajosTerminados;
-                proveedor.PuntuacionPromedio = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven));
+                    //Actualizar NroTrabajosTerminados
+                    List<TrabajoProveedor> listaTrabajosProveedor = proveedor.TrabajosProveedores.ToList();
+                    int puntaje = 0, recomendaciones = 0, volveria = 0;
+                    proveedor.NroTrabajosTerminados = listaTrabajosProveedor.Count;
+                    proveedor.NroComentarios = listaTrabajosProveedor.Count;
 
-                this.Proveedores.Attach(proveedor);
-                this.Entry(proveedor).State = EntityState.Modified;
+                    foreach (var trabajo in listaTrabajosProveedor)
+                    {
+                        puntaje += trabajo.EncuestaCliente.PuntajeTotal;
+                        recomendaciones +=
+                            trabajo.EncuestaCliente.RespuestasPorCriterio.Count(
+                                r => (r.CriterioCalificacionId == 7) && (r.PuntajeOtorgado == 1));
+                        volveria +=
+                            trabajo.EncuestaCliente.RespuestasPorCriterio.Count(
+                                r => (r.CriterioCalificacionId == 6) && (r.PuntajeOtorgado == 1));
+                    }
+                    proveedor.NroRecomendaciones = recomendaciones;
+                    proveedor.NroVolveriaContratarlo = volveria;
+                    //Cálculo de la puntuación promedio: acá consideramos PuntajeTotal / NroTrabajos
+                    double puntuacion = (puntaje*1.0)/proveedor.NroTrabajosTerminados;
+                    proveedor.PuntuacionPromedio = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven));
+
+                    this.Proveedores.Attach(proveedor);
+                    this.Entry(proveedor).State = EntityState.Modified;
+                }
+            }
+            this.SaveChanges();
+        }
+
+        private void SeedImagenesPersonas(List<Persona> personas)
+        {
+            List<Imagen> listaImagenes = new List<Imagen>();
+            string path;
+            int r1 = 0;
+            string[] imagenesNaturales = { "perfil_1", "perfil_2", "perfil_3", "perfil_4", "perfil_5" };
+            string[] imagenesJuridicos = { "tienda_1", "tienda_2", "tienda_3" };
+            Random random = new Random();
+            foreach (var persona in personas)
+            {
+                string filename = "";
+                if (persona.TipoPersona == "Natural")
+                {
+                    r1 = random.Next(0, imagenesNaturales.Count());
+                    filename = imagenesNaturales[r1];
+                }
+                else
+                {
+                    r1 = random.Next(0, imagenesJuridicos.Count());
+                    filename = imagenesJuridicos[r1];
+                }
+
+                path = HostingEnvironment.ApplicationPhysicalPath + "Images\\Personas\\" + filename + ".jpg";
+                byte[] bytes = System.IO.File.ReadAllBytes(path);
+                Imagen imagen = new Imagen { Data = bytes, Nombre = filename, Mime = "image/jpg" };
+                listaImagenes.Add(imagen);
+                //this.Imagenes.Add(imagen);
+
+                //persona.ImagenId = imagen.ImagenId;
+                //this.Personas.Attach(persona);
+                //this.Entry(persona).State = EntityState.Modified;
+            }
+
+            listaImagenes.ForEach(s => this.Imagenes.Add(s));
+            this.SaveChanges();
+
+            int i = 0;
+            foreach (var imagen in listaImagenes)
+            {
+                Persona persona = personas[i];
+                persona.ImagenId = imagen.ImagenId;
+                this.Personas.Attach(persona);
+                this.Entry(persona).State = EntityState.Modified;
+                i++;
             }
             this.SaveChanges();
         }

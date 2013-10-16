@@ -14,7 +14,7 @@ namespace SistemaGeneraliz.Models.ViewModels
         [DisplayName("Fecha Trabajo")]
         public string FechaTrabajo { get; set; }
         [DisplayName("Foto")]
-        public string FotoProveedor { get; set; }
+        public int FotoProveedor { get; set; }
         [DisplayName("Proveedor")]
         public string NombreProveedor { get; set; }
         [DisplayName("Documento")]

@@ -125,6 +125,22 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.SaveChanges();
         }
 
+        public Imagen GetImagenPorId(int imagenId)
+        {
+            return _db.Imagenes.Find(imagenId);
+        }
+
+        public Persona GetPersonaPorUsername(string userName)
+        {
+            return _db.Personas.Where(p => p.UserName == userName).ToList().ElementAt(0);
+        }
+
+        public void AgregarImagen(Imagen imagen)
+        {
+            _db.Imagenes.Add(imagen);
+            _db.SaveChanges();
+        }
+
         #endregion
 
         #region Proveedores

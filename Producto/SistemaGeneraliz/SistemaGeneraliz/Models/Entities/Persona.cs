@@ -36,7 +36,10 @@ namespace SistemaGeneraliz.Models.Entities
 		public string Telefono1 { get; set; }
 		public string Telefono2 { get; set; }
 		public string Telefono3 { get; set; }
-		public string ImagenPrincipal { get; set; }
+		//public string ImagenPrincipal { get; set; }
+        public int? ImagenId { get; set; }
+        [ForeignKey("ImagenId")]
+        public virtual Imagen Imagen { get; set; }
 		/*public string Password { get; set; }*/
 		public DateTime? UltimaActualizacionPersonal { get; set; }
 		public int IsHabilitado { get; set; }

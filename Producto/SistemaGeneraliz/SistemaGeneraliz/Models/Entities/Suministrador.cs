@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,5 +18,6 @@ namespace SistemaGeneraliz.Models.Entities
 		public string Facebook { get; set; }
 		public string AcercaDeMi { get; set; }
 		public int IsDestacado { get; set; }
+        public virtual ICollection<Producto> Productos { get; set; }
     }
 }

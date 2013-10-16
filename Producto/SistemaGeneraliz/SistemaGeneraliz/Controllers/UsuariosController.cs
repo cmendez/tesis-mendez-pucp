@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Transactions;
-using System.Web;
+﻿using System.IO;
 using System.Web.Mvc;
 using System.Web.Security;
-using DotNetOpenAuth.AspNet;
-using Microsoft.Web.WebPages.OAuth;
 using SistemaGeneraliz.Models.BusinessLogic;
+using SistemaGeneraliz.Models.Entities;
 using WebMatrix.WebData;
-using SistemaGeneraliz.Filters;
 using SistemaGeneraliz.Models.Helpers;
 
 namespace SistemaGeneraliz.Controllers
@@ -40,6 +34,9 @@ namespace SistemaGeneraliz.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
+                Persona persona = _logicaPersonas.GetPersonaPorUsername(model.UserName);
+                Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
+                Session["ImagenId"] = persona.ImagenId;
                 return RedirectToLocal(returnUrl);
             }
 
@@ -67,13 +64,13 @@ namespace SistemaGeneraliz.Controllers
         {
             if (!WebSecurity.IsAuthenticated)
             {
-                return View("RegistrarUsuario");    
+                return View("RegistrarUsuario");
             }
             else
             {
                 if (Roles.IsUserInRole("Administrador"))
                 {
-                    return View("RegistrarUsuario");    
+                    return View("RegistrarUsuario");
                 }
                 return RedirectToAction("Index", "Home");
             }
@@ -138,10 +135,48 @@ namespace SistemaGeneraliz.Controllers
             }
         }
         #endregion
-
+        /*
         public static string GetNombrePersonaLoggeada()
         {
             return _logicaPersonas.GetNombrePersonaLoggeada(WebSecurity.CurrentUserId);
+        }*/
+
+        public ActionResult GetImagen(int imagenId)
+        {
+            try
+            {
+                Imagen archivo = _logicaPersonas.GetImagenPorId(imagenId);
+                if (archivo.Data != null)
+                    return File(archivo.Data, archivo.Mime);
+                var file = Server.MapPath("~/Images/unknown-person.jpg");
+                using (var stream = new FileStream(file, FileMode.Open))
+                {
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        stream.CopyTo(memoryStream);
+                        return File(memoryStream.ToArray(), "image/jpg");
+                    }
+                }
+            }
+            catch
+            {
+                var file = Server.MapPath("~/Images/unknown-person.jpg");
+                using (var stream = new FileStream(file, FileMode.Open))
+                {
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        stream.CopyTo(memoryStream);
+                        return File(memoryStream.ToArray(), "image/PNG");
+                    }
+                }
+            }
         }
+        /*
+        public static int GetImagenIdPersonaLoggeada()
+        {
+            Persona persona = _logicaPersonas.GetPersonaLoggeada(WebSecurity.CurrentUserId);
+            int imageId = (int) persona.ImagenId;
+            return imageId;
+        }*/
     }
 }

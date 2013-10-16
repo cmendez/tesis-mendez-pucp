@@ -80,9 +80,9 @@
     </div>
     <div class="span7">
         <div class="editor-field" style="width: 58%; text-align: left">
-            @*            @Html.EditorFor(model => model.FechaNacimiento)<br />
-            @Html.ValidationMessageFor(model => model.FechaNacimiento)*@
+        @*            @Html.EditorFor(model => model.FechaNacimiento)<br />*@
             <input type="text" id="FechaNacimiento" name="FechaNacimiento" readonly='readonly'/>
+            @Html.ValidationMessageFor(model => model.FechaNacimiento)
         </div>
     </div>
 </div>

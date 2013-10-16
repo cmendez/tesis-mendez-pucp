@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using SistemaGeneraliz.Models.Entities;
 using SistemaGeneraliz.Models.Helpers;
@@ -32,7 +34,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             Distrito distrito = _sgpFactory.GetDistritoPorId(persona.IdDistrito);
             persona.DireccionCompleta = persona.Direccion + " " + distrito.NombreDistrito;
 
-            return new Persona
+            Persona p = new Persona
             {
                 UserName = persona.DNI,
                 TipoPersona = "Natural",
@@ -51,11 +53,15 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 Telefono1 = persona.Telefono1,
                 Telefono2 = persona.Telefono2,
                 Telefono3 = persona.Telefono3,
-                //ImagenPrincipal = persona.ImagenPrincipal,
                 UltimaActualizacionPersonal = DateTime.Now,
                 IsHabilitado = 1, //true
                 IsEliminado = 0 //false
             };
+
+            if (persona.ImagenPrincipal != -1)
+                p.ImagenId = persona.ImagenPrincipal;
+
+            return p;
         }
 
         internal Persona CrearObjetoPersonaJuridica(PersonaJuridicaViewModel persona, String tipoUsuario)
@@ -63,7 +69,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             Distrito distrito = _sgpFactory.GetDistritoPorId(persona.IdDistrito);
             persona.DireccionCompleta = persona.Direccion + " " + distrito.NombreDistrito;
 
-            return new Persona
+            Persona p = new Persona
             {
                 UserName = persona.RUC,
                 TipoPersona = "Juridica",
@@ -77,11 +83,15 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 Telefono1 = persona.Telefono1,
                 Telefono2 = persona.Telefono2,
                 Telefono3 = persona.Telefono3,
-                //ImagenPrincipal = persona.ImagenPrincipal,
                 UltimaActualizacionPersonal = DateTime.Now,
                 IsHabilitado = 1, //true
                 IsEliminado = 0 //false
             };
+
+            if (persona.ImagenPrincipal != -1)
+                p.ImagenId = persona.ImagenPrincipal;
+
+            return p;
         }
 
         public Persona GetPersonaLoggeada(int currentUserId)
@@ -126,6 +136,33 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         public void HabilitarDeshabilitarUsuario(string tipoUsuario, int idUsuario, string nuevoEstado)
         {
             _sgpFactory.HabilitarDeshabilitarUsuario(tipoUsuario, idUsuario, nuevoEstado);
+        }
+
+        public Imagen GetImagenPorId(int imagenId)
+        {
+            return _sgpFactory.GetImagenPorId(imagenId);
+        }
+
+        public void Dispose()
+        {
+            _sgpFactory.Dispose(true);
+        }
+
+        public Persona GetPersonaPorUsername(string userName)
+        {
+            return _sgpFactory.GetPersonaPorUsername(userName);
+        }
+
+        public Imagen AgregarFotoPersona(HttpPostedFileBase file)
+        {
+            Imagen imagen;
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                file.InputStream.CopyTo(memoryStream);
+                imagen = new Imagen { Data = memoryStream.ToArray(), Nombre = file.FileName, Mime = file.ContentType };
+            }
+            _sgpFactory.AgregarImagen(imagen);
+            return imagen;
         }
     }
 }

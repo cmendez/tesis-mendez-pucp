@@ -33,9 +33,9 @@
     </div>
     <div class="span7">
         <div class="editor-field" style="width: 58%; text-align: left;">
-@*            @Html.EditorFor(model => model.FechaCreacion)<br />
-            @Html.ValidationMessageFor(model => model.FechaCreacion)*@
+        @*            @Html.EditorFor(model => model.FechaCreacion)<br />*@
             <input type="text" id="FechaCreacion" name="FechaCreacion" readonly='readonly'/>
+            @Html.ValidationMessageFor(model => model.FechaCreacion)
         </div>
     </div>
 </div>

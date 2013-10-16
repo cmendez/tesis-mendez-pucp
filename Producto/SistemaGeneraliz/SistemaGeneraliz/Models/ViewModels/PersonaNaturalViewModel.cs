@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 using SistemaGeneraliz.Models.Entities;
 
 namespace SistemaGeneraliz.Models.ViewModels
@@ -106,8 +107,13 @@ namespace SistemaGeneraliz.Models.ViewModels
         [StringLength(15, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 7)]
 		[Display(Name = "Teléfono 3")]
 		public string Telefono3 { get; set; }
-				
-		public string ImagenPrincipal { get; set; }
+
+        [Display(Name = "Foto")]
+		public int ImagenPrincipal { get; set; }
+
+        //[Required(ErrorMessage = "El campo Foto es obligatorio.")]
+        //[FileExtensions(Extensions = "jpg", ErrorMessage = "La imagen debe estar en formato jpg")] PARECE QUE NO FUNCIONA
+        public HttpPostedFileBase File { get; set; }
 		
 		[StringLength(15, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 7)]
 		[Required(ErrorMessage = "El campo {0} es obligatorio.")]

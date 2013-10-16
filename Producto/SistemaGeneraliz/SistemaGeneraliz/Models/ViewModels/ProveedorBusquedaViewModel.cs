@@ -13,7 +13,7 @@ namespace SistemaGeneraliz.Models.ViewModels
         [DisplayName("Calificación")]
         public string Puntaje { get; set; }
         [DisplayName("Foto")]
-        public string RutaFoto { get; set; }
+        public int FotoId { get; set; }
         [DisplayName("Nombre / Razón Social")]
         public string NombreCompleto { get; set; }
         [DisplayName("DNI / RUC")]

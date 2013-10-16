@@ -165,7 +165,7 @@
                         model: {
                             fields: {
                                 ProveedorId: { type: "number", editable: false, hidden: true },
-                                RutaFoto: { type: "string", editable: false },
+                                FotoId: { type: "number", editable: false },
                                 Puntaje: { type: "string", editable: false },
                                 NombreCompleto: { type: "string", editable: false },
                                 Documento: { type: "string", editable: false },
@@ -179,7 +179,12 @@
                 },
                 columns: [
                     { title: "ProveedorId", field: "ProveedorId", width: "100px" },
-                    { title: "Foto", field: "RutaFoto", width: "100px" },
+                    { title: "Foto", field: "FotoId", width: "100px",
+                        attributes: {
+                            style: "text-align: center"
+                        }, template: "<img src='/Usuarios/GetImagen?imagenId=#=FotoId#' alt='' width='146' height='106'>"
+
+                    },
                     { title: "Calificación", field: "Puntaje", width: "100px" },
                     { title: "Nombre / Razón Social", field: "NombreCompleto", width: "190px" },
                     { title: "DNI / RUC", field: "Documento", width: "160px" },
@@ -326,7 +331,7 @@
             $.getJSON('/Clientes/GetProveedoresBusquedaTabuJSON', { valueServicios: valueServicios, latitud: latitud, longitud: longitud, ajax: 'true' }, function (result) {
                 $(result).each(function () {
                     dataSource.add({
-                        ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, RutaFoto: this.RutaFoto, NombreCompleto: this.NombreCompleto,
+                        ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, FotoId: this.FotoId, NombreCompleto: this.NombreCompleto,
                         TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, ServicioId: this.ServicioId, Descripcion: this.Descripcion
                     });
                     dataSource2.add({

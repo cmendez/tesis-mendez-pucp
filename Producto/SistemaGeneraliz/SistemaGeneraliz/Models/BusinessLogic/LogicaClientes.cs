@@ -212,7 +212,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     {
                         ProveedorId = prov.ProveedorId,
                         Puntaje = Convert.ToInt32(prov.PuntuacionPromedio).ToString(),
-                        RutaFoto = "", //AQUI IRA LA URL DE LA FOTO
+                        FotoId = (int)prov.Persona.ImagenId,
                         NombreCompleto = nombreProveedor,
                         TipoDocumento = tipoDocumento,
                         Documento = prov.Persona.UserName,
@@ -260,7 +260,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         TrabajoProveedorId = trabajo.TrabajoProveedorId,
                         EncuestaClienteId = (int)trabajo.EncuestaClienteId,
                         FechaTrabajo = fechaTrabajo.ToString("dd/MM/yyyy"),
-                        FotoProveedor = trabajo.Proveedor.Persona.ImagenPrincipal,
+                        FotoProveedor = (int)trabajo.Proveedor.Persona.ImagenId,
                         NombreProveedor = nombreProveedor,
                         DocumentoProveedor = documentoProveedor,
                         Servicios = servicios,

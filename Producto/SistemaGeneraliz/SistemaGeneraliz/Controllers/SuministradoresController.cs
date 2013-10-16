@@ -57,6 +57,28 @@ namespace SistemaGeneraliz.Controllers
                     return View(suministradorJuridicoViewModel);
                 }
 
+                if ((suministradorJuridicoViewModel.File == null) || (suministradorJuridicoViewModel.File.ContentLength <= 0))
+                {
+                    ModelState.AddModelError("", "Error: es obligatorio subir una foto");
+                    ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                    return View(suministradorJuridicoViewModel);
+                }
+                else
+                {
+                    var file = suministradorJuridicoViewModel.File;
+                    string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                    string ext2 = file.FileName;
+
+                    if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                    {
+                        ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                        ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                        return View(suministradorJuridicoViewModel);
+                    }
+                }
+
+                Imagen foto = _logicaPersonas.AgregarFotoPersona(suministradorJuridicoViewModel.File);
+                suministradorJuridicoViewModel.ImagenPrincipal = foto.ImagenId;
                 Persona persona = _logicaPersonas.CrearObjetoPersonaJuridica(suministradorJuridicoViewModel, "Suministrador");
                 Suministrador suministrador = _logicaSuministradores.CrearObjetoSuministradorJuridico(suministradorJuridicoViewModel);
 
@@ -69,8 +91,10 @@ namespace SistemaGeneraliz.Controllers
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Suministrador" });
                 WebSecurity.CreateAccount(persona.UserName, suministradorJuridicoViewModel.Password);
                 bool loginSuccess = WebSecurity.Login(persona.UserName, suministradorJuridicoViewModel.Password);
+                Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
+                Session["ImagenId"] = persona.ImagenId;
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
             return View(suministradorJuridicoViewModel);
@@ -116,7 +140,7 @@ namespace SistemaGeneraliz.Controllers
             string nombre = "";
             int id = -1;
             int leads = -1;
-
+            int imagen = -1;
             if (proveedor != null)
             {
                 id = proveedor.ProveedorId;
@@ -125,9 +149,11 @@ namespace SistemaGeneraliz.Controllers
                     nombre = proveedor.Persona.PrimerNombre + " " + proveedor.Persona.ApellidoPaterno;
                 else if (proveedor.Persona.TipoPersona == "Juridica")
                     nombre = proveedor.Persona.RazonSocial;
+                imagen = (int)proveedor.Persona.ImagenId;
             }
+            
             var recargasJson = new List<Object>();
-            Object o = new { ProveedorID = id, NombreProveedor = nombre, LeadsProveedor = leads };
+            Object o = new { ProveedorID = id, NombreProveedor = nombre, LeadsProveedor = leads, ImageProveedor = imagen };
             recargasJson.Add(o);
             return Json(recargasJson, JsonRequestBehavior.AllowGet);
         }
