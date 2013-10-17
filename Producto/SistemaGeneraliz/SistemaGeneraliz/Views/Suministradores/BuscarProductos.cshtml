@@ -82,12 +82,12 @@
             .ClientTemplateId("template")
             .DataSource(dataSource =>
             {
-                dataSource.Read(read => read.Action("Productos_Read", "Suministradores"));
+                dataSource.Read(read => read.Action("Productos_Read", "Suministradores").Data("additionalData"));
                 dataSource.PageSize(15);
             })
             .Pageable()
             .Selectable(selectable => selectable.Mode(ListViewSelectionMode.Single))
-                .Events(events => events.Change("onChange"))
+            .Events(events => events.Change("onChange"))
         )
     </div>
 
@@ -109,47 +109,27 @@
             //alert(selected.join(", "));
             $("#modal_producto").attr('style', 'width: 90%;left:5%;margin-left:auto;margin-right:auto;');
         }
-
+        
+        
+        function additionalData() {
+            return {
+                nombreProducto: $("#nombre").val(),
+                categoriaId: $("#categorias").val(),
+                distritoId: $("#distritos").val()
+            };
+        }
 
         $(document).ready(function () {
-            
             $("#categorias").kendoDropDownList({
-                //change: onChange
             });
             
             $("#distritos").kendoDropDownList({
-                //change: onChange
             });
-            
-            //function onChange() {
-            //    var value = $("#categorias").val();
-            //    alert(value);
-            //};
-
             
             $("#btnBuscar").click(function () {
-
-                var listView = $("#listView").data("kendoListView");
-                // remove first list view item
-                listView.remove(listView.element.children());
-
-                var nombreProducto = $("#nombre").val();
-                var categoriaId = $("#categorias").val();
-                var distritoId = $("#distritos").val();
-                //alert(nombreProducto+ " "+categoriaId + " " + distritoId);
-                return;
-                $.getJSON('/Suministradores/GetProductosCatalogoJSON', { nombreProducto: nombreProducto, categoriaId: categoriaId, distritoId: distritoId, ajax: 'true' }, function (result) {
-                    $(result).each(function () {
-                        dataSource.add({
-                            ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, FotoId: this.FotoId, NombreCompleto: this.NombreCompleto,
-                            TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, ServicioId: this.ServicioId, Descripcion: this.Descripcion,
-                            Telefono1: this.Telefono1, Telefono2: this.Telefono2, Telefono3: this.Telefono3, Email1: this.Email1, Email2: this.Email2
-                        });
-                    });
-                });
+                $("#listView").data("kendoListView").dataSource.read();
                 return;
             });
-
         });
     </script>
 </body>

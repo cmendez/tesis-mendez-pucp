@@ -186,9 +186,9 @@ namespace SistemaGeneraliz.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Productos_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult Productos_Read([DataSourceRequest] DataSourceRequest request, string nombreProducto = "", int categoriaId = -1, int distritoId = -1)
         {
-            List<ProductosViewModel> listaProductosViewModel = _logicaSuministradores.GetProductosCatalogo(null, -1, -1);
+            List<ProductosViewModel> listaProductosViewModel = _logicaSuministradores.GetProductosCatalogo(nombreProducto, categoriaId, distritoId);
             return Json(listaProductosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -224,7 +224,38 @@ namespace SistemaGeneraliz.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult GetProductosCatalogoJSON(string nombreProducto, int categoriaId, int distritoId)
+        {
+            var productosJson = new List<Object>();
+            List<ProductosViewModel> productos = _logicaSuministradores.GetProductosCatalogo(nombreProducto, categoriaId, distritoId);
+            if (productos != null)
+            {
+                foreach (ProductosViewModel producto in productos)
+                {
+                    Object o = new
+                    {
+                        ProductoId = producto.ProductoId,
+                        NombreProducto = producto.NombreProducto,
+                        DescripcionCorta = producto.DescripcionCorta,
+                        DescripcionDetalle = producto.DescripcionDetalle,
+                        CategoriaProductoId = producto.CategoriaProductoId,
+                        ImagenId = producto.ImagenId,
+                        Precio = producto.Precio,
+                        SuministradorId = producto.SuministradorId,
+                        NroClicksVisita = producto.NroClicksVisita,
+                        NroBusquedas = producto.NroBusquedas,
+                        FechaRegistro = producto.FechaRegistro,
+                        IsVisible = producto.IsVisible,
+                        IsEliminado = producto.IsEliminado
+                    };
 
+                    productosJson.Add(o);
+                }
+            }
+            return Json(productosJson, JsonRequestBehavior.AllowGet);
+        }
     }
 }
 

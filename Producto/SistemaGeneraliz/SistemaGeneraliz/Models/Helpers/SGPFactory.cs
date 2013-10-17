@@ -379,7 +379,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public List<Producto> GetProductosCatalogo(string nombreProducto, int categoriaId, int distritoId)
         {
-            IQueryable<Producto> query = _db.Productos.Where(p => p.IsEliminado == 0 && p.IsVisible == 1).Take(25);
+            IQueryable<Producto> query = _db.Productos.Where(p => p.IsEliminado == 0 && p.IsVisible == 1);
             if (!String.IsNullOrEmpty(nombreProducto))
             {
                 query = query.Where(p => p.NombreProducto.ToUpper().Contains(nombreProducto.ToUpper()));
@@ -393,7 +393,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 //(x => (x.TiposServicios.Any(r => servicio.TipoServicioId.Equals(r.TipoServicioId))))
                 query = query.Where(p => p.Suministrador.Persona.UbicacionesPersonas.Any(r => distritoId.Equals(r.DistritoId)));
             }
-            return query.ToList();
+            return query.Take(25).ToList();
         }
 
         public List<CategoriaProducto> GetCategoriasProducto()
