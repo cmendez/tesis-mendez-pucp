@@ -26,6 +26,8 @@ namespace SistemaGeneraliz.Models.Entities
         public virtual Suministrador Suministrador { get; set; }
         public int NroClicksVisita { get; set; }
         public int NroBusquedas { get; set; }
+        public DateTime FechaRegistro { get; set; }
+        public int IsVisible { get; set; }
         public int IsEliminado { get; set; }
     }
 }

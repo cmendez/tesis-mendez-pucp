@@ -377,6 +377,30 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.SaveChanges();
         }
 
+        public List<Producto> GetProductosCatalogo(string nombreProducto, int categoriaId, int distritoId)
+        {
+            IQueryable<Producto> query = _db.Productos.Where(p => p.IsEliminado == 0 && p.IsVisible == 1).Take(25);
+            if (!String.IsNullOrEmpty(nombreProducto))
+            {
+                query = query.Where(p => p.NombreProducto.ToUpper().Contains(nombreProducto.ToUpper()));
+            }
+            if (categoriaId != -1)
+            {
+                query = query.Where(p => p.CategoriaProductoId == categoriaId);
+            }
+            if (distritoId != -1)
+            {
+                //(x => (x.TiposServicios.Any(r => servicio.TipoServicioId.Equals(r.TipoServicioId))))
+                query = query.Where(p => p.Suministrador.Persona.UbicacionesPersonas.Any(r => distritoId.Equals(r.DistritoId)));
+            }
+            return query.ToList();
+        }
+
+        public List<CategoriaProducto> GetCategoriasProducto()
+        {
+            return _db.CategoriasProducto.Where(c => c.IsEliminado == 0).OrderBy(c => c.NombreCategoria).ToList();
+        }
+
         #endregion
 
     }

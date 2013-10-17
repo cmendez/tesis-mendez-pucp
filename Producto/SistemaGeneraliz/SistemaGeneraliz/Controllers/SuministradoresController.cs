@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -175,5 +176,55 @@ namespace SistemaGeneraliz.Controllers
             recargasJson.Add(o);
             return Json(recargasJson, JsonRequestBehavior.AllowGet);
         }
+
+        [AllowAnonymous]
+        public ActionResult BuscarProductos()
+        {
+            ViewBag.Categorias = _logicaSuministradores.GetCategoriasProducto();
+            ViewBag.Distritos = _logicaSuministradores.GetDistritos();
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult Productos_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            List<ProductosViewModel> listaProductosViewModel = _logicaSuministradores.GetProductosCatalogo(null, -1, -1);
+            return Json(listaProductosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        public ActionResult GetImagen(int imagenId)
+        {
+            try
+            {
+                Imagen archivo = _logicaPersonas.GetImagenPorId(imagenId);
+                if (archivo.Data != null)
+                    return File(archivo.Data, archivo.Mime);
+                var file = Server.MapPath("~/Images/unknown-person.jpg");
+                using (var stream = new FileStream(file, FileMode.Open))
+                {
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        stream.CopyTo(memoryStream);
+                        return File(memoryStream.ToArray(), "image/jpg");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                var file = Server.MapPath("~/Images/unknown-person.jpg");
+                using (var stream = new FileStream(file, FileMode.Open))
+                {
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        stream.CopyTo(memoryStream);
+                        return File(memoryStream.ToArray(), "image/PNG");
+                    }
+                }
+            }
+        }
+
+
     }
 }
+

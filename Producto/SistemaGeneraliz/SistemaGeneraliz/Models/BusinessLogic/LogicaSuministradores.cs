@@ -118,5 +118,62 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         }
 
 
+        public List<ProductosViewModel> GetProductosCatalogo(string nombreProducto, int categoriaId, int distritoId)
+        {
+            List<ProductosViewModel> listaProductosViewModel = new List<ProductosViewModel>();
+            List<Producto> productos = _sgpFactory.GetProductosCatalogo(nombreProducto, categoriaId, distritoId);
+            
+            if ((productos != null) && (productos.Count > 0))
+            {
+                foreach (var producto in productos)
+                {
+                    ProductosViewModel productoViewModel = new ProductosViewModel
+                    {
+                        ProductoId = producto.ProductoId,
+                        NombreProducto = producto.NombreProducto,
+                        DescripcionCorta = producto.DescripcionCorta,
+                        DescripcionDetalle = producto.DescripcionDetalle,
+                        CategoriaProductoId = producto.CategoriaProductoId,
+                        ImagenId = (int) producto.ImagenId,
+                        Precio = "S/. " + producto.Precio,
+                        SuministradorId = producto.SuministradorId,
+                        NroClicksVisita = producto.NroClicksVisita,
+                        NroBusquedas = producto.NroBusquedas,
+                        FechaRegistro = producto.FechaRegistro.ToString("dd/MM/yyyy"),
+                        IsVisible = producto.IsVisible,
+                        IsEliminado = producto.IsEliminado
+                    };
+                    listaProductosViewModel.Add(productoViewModel);
+                }
+            }
+
+            return listaProductosViewModel;
+        }
+
+        public List<CategoriaProducto> GetCategoriasProducto()
+        {
+            List<CategoriaProducto> categorias = new List<CategoriaProducto>();
+            CategoriaProducto categoria = new CategoriaProducto
+            {
+                CategoriaProductoId = -1,
+                NombreCategoria = "- Todas las categorías -",
+            };
+            categorias.Add(categoria);
+            categorias.AddRange(_sgpFactory.GetCategoriasProducto());
+            return categorias;
+        }
+
+        public List<Distrito> GetDistritos()
+        {
+            List<Distrito> distritos = new List<Distrito>();
+            Distrito distrito = new Distrito
+            {
+                DistritoId = -1,
+                NombreDistrito = "- Todos los distritos -",
+            };
+            distritos.Add(distrito);
+            distritos.AddRange(_sgpFactory.GetDistritos());
+            return distritos;
+        }
     }
 }

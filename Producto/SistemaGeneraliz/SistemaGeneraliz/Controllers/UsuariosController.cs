@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Web.Mvc;
 using System.Web.Security;
 using SistemaGeneraliz.Models.BusinessLogic;
@@ -140,7 +141,7 @@ namespace SistemaGeneraliz.Controllers
         {
             return _logicaPersonas.GetNombrePersonaLoggeada(WebSecurity.CurrentUserId);
         }*/
-
+        [AllowAnonymous]
         public ActionResult GetImagen(int imagenId)
         {
             try
@@ -158,7 +159,7 @@ namespace SistemaGeneraliz.Controllers
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
                 var file = Server.MapPath("~/Images/unknown-person.jpg");
                 using (var stream = new FileStream(file, FileMode.Open))

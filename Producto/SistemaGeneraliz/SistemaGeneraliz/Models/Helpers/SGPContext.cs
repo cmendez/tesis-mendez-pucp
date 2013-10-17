@@ -86,7 +86,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         private void SeedProductos(List<Suministrador> suministradores, List<CategoriaProducto> categoriasProductos, int nroproductosXsuministrador)
         {
-            int r1, r2, r3, r4, r5;
+            int r1, r2, r3, r4, r5, r6;
             Random random = new Random();
             string[] letras = { "1A", "1B", "1C", "2A", "2B", "2C", "3A", "3B", "3C", "4A", "4B", "4C", "5A", "5B", "5C"};
             List<Producto> listaProductos = new List<Producto>();
@@ -102,9 +102,10 @@ namespace SistemaGeneraliz.Models.Helpers
                         r2 = random.Next(0, letras.Count());
                         r3 = random.Next(0, 21);
                         r4 = random.Next(0, 21);
+                        r5 = random.Next(2, 15); 
                         //asumiremos que las imagenes van del 1 al 3, p. ej: tablero1.jpg, tablero2.jpg, tablero3.jpg
-                        r5 = random.Next(0, 4); 
-                        string filename = categoria.DescripcionCategoria.ToLower() + r5;
+                        r6 = random.Next(1, 4); 
+                        string filename = categoria.DescripcionCategoria.ToLower() + r6;
                         //string filename = "tablero1";
 
                         string path = HostingEnvironment.ApplicationPhysicalPath + "Images\\Productos\\" + filename + ".jpg";
@@ -119,9 +120,11 @@ namespace SistemaGeneraliz.Models.Helpers
                             CategoriaProductoId = categoria.CategoriaProductoId,
                             DescripcionCorta = categoria.DescripcionCategoria + " " + letras[r2],
                             DescripcionDetalle = categoria.DescripcionCategoria + " " + letras[r2],
-                            Precio = r1,
+                            Precio = categoria.PrecioPromedio + r5,
                             NroClicksVisita = r3,
                             NroBusquedas = r4,
+                            FechaRegistro = DateTime.Now,
+                            IsVisible = 1,
                             IsEliminado = 0
                         };
                         listaProductos.Add(producto);
@@ -266,7 +269,7 @@ namespace SistemaGeneraliz.Models.Helpers
             string[] nombres = { "Juan", "Alberto", "Pedro", "David", "Alfredo", "Renato", "Marcos", "Lucas", "Raúl", "Eduardo", "Cristopher", "Toribio" };
             string[] apellidos = { "Lopez", "Vidal", "Guerra", "Garcia", "Alvarez", "Dominguez", "Rodriguez", "Balcazar", "Quintana", "Taboada", "Córdova", "Suarez" };
             string[] documentos = { "46394691", "86735959", "34896582", "70688569", "42384465", "41774584", "26335963", "37855213", "58765115", "31669569", "33287845", "42542398" };
-            string[] tipoUsuario = { "Cliente", "Cliente", "Cliente", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor" };
+            string[] tipoUsuario = { "Cliente", "Cliente", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor" };
             List<long> docs = new List<long>();
             long d1;
             int r1, r2, r3, r4;
@@ -325,7 +328,7 @@ namespace SistemaGeneraliz.Models.Helpers
             var listPersonas = new List<Persona>();
             string[] razonesSociales = { "J&R", "ABC", "XYZ", "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Lambda", "Omega" };
             string[] documentos = { "20046394691", "20086735959", "20034896582", "20070688569", "20042384465", "20041774584", "20026335963", "20037855213", "20058765115", "20031669569" };
-            string[] tipoUsuario = { "Cliente", "Proveedor", "Proveedor", "Proveedor", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador" };
+            string[] tipoUsuario = { "Cliente", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Suministrador", "Suministrador", "Suministrador", "Suministrador", "Suministrador" };
             List<long> docs = new List<long>();
             long d1;
             int r1, r2, r3, r4;

@@ -1,0 +1,157 @@
+﻿@model IEnumerable<SistemaGeneraliz.Models.ViewModels.ProductosViewModel>
+@using SistemaGeneraliz.Models.Entities
+@using SistemaGeneraliz.Models.ViewModels
+
+@{
+    ViewBag.Title = "Buscar Productos";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Buscar Productos</title>
+</head>
+<body>
+    @*    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Buscar Productos", ""));}
+
+    @Html.ValidationSummary(true)
+
+    <table style="width: 100%; border: 0;">
+        <tbody>
+            <tr>
+                <td style="vertical-align: top; width: 50%; padding-left: 6%">
+                    <table>
+                        <tbody style="vertical-align: top;">
+                            <tr>
+                                <td>Nombre del Producto:</td>
+                                <td>
+                                    <input type="text" name="nombre" id="nombre" maxlength="100" placeholder="Ingrese nombre (opcional)">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Categoría:</td>
+                                <td>
+                                    @Html.DropDownList("categorias", new SelectList(ViewBag.Categorias, "CategoriaProductoId", "NombreCategoria"), new { style = "width: 218px" })
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="vertical-align: top; width: 35%;">
+                    <table style="width: auto; border: 0;">
+                        <tbody style="vertical-align: top;">
+                            <tr>
+                                <td style="width: 10%;">Distrito:</td>
+                                <td style="width: 10%;">
+                                    @Html.DropDownList("distritos", new SelectList(ViewBag.Distritos, "DistritoId", "NombreDistrito"), new { style = "width: 218px" })
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="vertical-align: top; padding-top: 15px; width: 16%; padding-right: 7%;">
+                    <button id="btnBuscar" type="submit" class="btn blue pull-right" style="width: 104%;">
+                        Buscar <i class="icon-search  m-icon-white"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="modal_producto" style="z-index: -1;">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal"></a>
+            <h4>Detalles del producto</h4>
+        </div>
+        <div class="modal-body" style="height: 400px;">
+            
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+
+    <br/>
+    <div class="clearfix">
+        @(Html.Kendo().ListView<SistemaGeneraliz.Models.ViewModels.ProductosViewModel>(Model)
+            .Name("listView")
+            .TagName("div")
+            .ClientTemplateId("template")
+            .DataSource(dataSource =>
+            {
+                dataSource.Read(read => read.Action("Productos_Read", "Suministradores"));
+                dataSource.PageSize(15);
+            })
+            .Pageable()
+            .Selectable(selectable => selectable.Mode(ListViewSelectionMode.Single))
+                .Events(events => events.Change("onChange"))
+        )
+    </div>
+
+    <script type="text/x-kendo-tmpl" id="template">
+        <div class="album" >
+            <img src='/Suministradores/GetImagen?imagenId=#=ImagenId#' alt="#:NombreProducto# image" />
+            <span class="idProduct" >ID[#:ProductoId#]</span>
+            <span class="title" >#:NombreProducto#</span>
+            <span class="price" >#:kendo.toString(Precio, "c")# <a id='btnVer' style='color: black; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='\\\#modal_producto' data-toggle='modal'>- Ver Detalles</a></span>
+        </div>    
+    </script>
+
+    <script>
+        function onChange(arg) {
+            var selected = $.map(this.select(), function (item) {
+                return $(item).text();
+            });
+            //alert("Selected: " + selected.length + " item(s), [" + selected.join(", ") + "]");
+            //alert(selected.join(", "));
+            $("#modal_producto").attr('style', 'width: 90%;left:5%;margin-left:auto;margin-right:auto;');
+        }
+
+
+        $(document).ready(function () {
+            
+            $("#categorias").kendoDropDownList({
+                //change: onChange
+            });
+            
+            $("#distritos").kendoDropDownList({
+                //change: onChange
+            });
+            
+            //function onChange() {
+            //    var value = $("#categorias").val();
+            //    alert(value);
+            //};
+
+            
+            $("#btnBuscar").click(function () {
+
+                var listView = $("#listView").data("kendoListView");
+                // remove first list view item
+                listView.remove(listView.element.children());
+
+                var nombreProducto = $("#nombre").val();
+                var categoriaId = $("#categorias").val();
+                var distritoId = $("#distritos").val();
+                //alert(nombreProducto+ " "+categoriaId + " " + distritoId);
+                return;
+                $.getJSON('/Suministradores/GetProductosCatalogoJSON', { nombreProducto: nombreProducto, categoriaId: categoriaId, distritoId: distritoId, ajax: 'true' }, function (result) {
+                    $(result).each(function () {
+                        dataSource.add({
+                            ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, FotoId: this.FotoId, NombreCompleto: this.NombreCompleto,
+                            TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, ServicioId: this.ServicioId, Descripcion: this.Descripcion,
+                            Telefono1: this.Telefono1, Telefono2: this.Telefono2, Telefono3: this.Telefono3, Email1: this.Email1, Email2: this.Email2
+                        });
+                    });
+                });
+                return;
+            });
+
+        });
+    </script>
+</body>
+</html>
+

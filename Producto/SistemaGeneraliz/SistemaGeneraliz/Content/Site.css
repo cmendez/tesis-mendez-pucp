@@ -778,3 +778,117 @@ tr.pager td {
             background: -ms-linear-gradient(top,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.10) 100%);
             background: linear-gradient(to bottom,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.10) 100%);
         }
+
+    /*	Albums ------------------------------------------------------- */
+
+        #listView 
+        {
+            border-color: transparent;
+            margin-left: 6%;
+        }
+
+        #listView .k-state-selected
+        {
+            background-color: transparent;
+            color: #787878;
+            /*font-weight: bold*/
+        }
+
+        .clearfix:before,
+        .clearfix:after
+        {
+            content: " ";
+            display: table;
+        }
+
+        .clearfix:after
+        {
+            clear: both;
+        }
+
+        .clearfix
+        {
+            *zoom: 1;
+        }
+
+
+
+        .album
+        {
+            float: left;
+            padding: 0px 48px 20px 0px;
+            width: 150px;
+            /*cursor: pointer;*/
+            font-size: 14px;
+        }
+
+        .album:nth-child(5n+5)
+        {
+            padding-right: 0;
+        }
+
+        .album:nth-child(5n+6)
+        {
+            clear: left;
+        }
+
+        .album img
+        {
+            height: 150px;
+            width: 150px;
+            border: 1px solid #c7c7c7;
+            padding: 4px;
+            -webkit-transition: all 0.3s ease-in-out;
+            -moz-transition: all 0.3s ease-in-out;
+            -o-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+        }
+
+            .album img:hover
+            {
+                opacity: 0.7;
+                -moz-opacity: 0.7;
+                -webkit-opacity: 0.7;
+            }
+
+        .album span
+        {
+            display: block;
+        }
+
+        .album .title
+        {
+            font-weight: bold;
+        }
+
+        .album .price
+        {
+            font-style: italic;
+            color: #ababab;
+        }
+        
+        .album .idProduct
+        {
+            display: none;
+        }
+
+        .k-pager-wrap
+        {
+            border-top: 0;
+        }
+
+        .k-listview:after
+        {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .k-listview
+        {
+            padding: 0;
+            min-width: 690px;
+            min-height: 360px;
+        }

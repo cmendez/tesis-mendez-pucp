@@ -68,6 +68,8 @@ namespace SistemaGeneraliz.Models.Helpers
         void AgregarRecarga(RecargaLeads recarga);
         Suministrador GetSuministrador(int idSuministrador);
         void ActualizarSuministrador(Suministrador suministrador);
+        List<Producto> GetProductosCatalogo(string nombreProducto, int categoriaId, int distritoId);
+        List<CategoriaProducto> GetCategoriasProducto();
         #endregion
 
         
