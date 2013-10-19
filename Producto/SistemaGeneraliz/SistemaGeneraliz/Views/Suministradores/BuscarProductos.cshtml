@@ -11,7 +11,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Buscar Productos</title>
-
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script src="~/Scripts/ubicaciones.js"></script>
     <script type="text/x-kendo-tmpl" id="template">
         <div class="album" >
             <img src='/Suministradores/GetImagen?imagenId=#=ImagenId#' alt="#:NombreCorto#" />
@@ -100,6 +101,47 @@
             $("#modalSuministrador").attr('style', 'width: 28%;left:35%;margin-left:auto;margin-right:auto;');
             return true;
         }
+        
+        function VerUbicacionSuministrador() {
+            clearOverlays();
+            //var ubicaciones = new Array();
+            //var a = [];
+            //$.ajaxSetup({
+            //    async: false
+            //});
+            var suministrador = $("#suministradorId").val();
+            $.getJSON('/Suministradores/GetDetallesUbicacionesJSON', { suministradorId: suministrador}, function (result) {
+                $(result).each(function () {
+                    //var ubicacion = new Array(); 
+                    //ubicacion.push(this.distrito);
+                    //ubicacion.push(this.direccion);
+                    //ubicacion.push(this.referencia);
+                    //ubicacion.push(this.latitud);
+                    //ubicacion.push(this.longitud);
+                    //alert("1 "+ubicacion);
+                    //ubicaciones.push(ubicacion);
+                    //ubicaciones.push(JSON.stringify(this));
+                    
+                    var marker2 = new google.maps.Marker({
+                        position: new google.maps.LatLng(this.latitud, this.longitud),
+                        map: map,
+                        title: this.distrito,
+                        animation: google.maps.Animation.DROP,
+                    });
+                    markersArray.push(marker2);
+                    var ref = "";
+                    if (this.referencia != "")
+                        ref = " - Ref:" + this.referencia;
+                    addInfoWindow(marker2, this.direccion + ref);
+                    var pos = new google.maps.LatLng(this.latitud, this.longitud);
+                    map.setCenter(pos);
+                });
+            });
+            //a.push(ubicaciones);
+            //alert(map);
+            //$("#ubicaciones").val(a);
+            $("#modal_mapa").attr('style', 'height: 560px;');
+        }
     </script>
 </head>
 <body>
@@ -181,14 +223,14 @@
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style=" cursor: default; font-weight: bold;">Producto</label>
+                                <label style="cursor: default; font-weight: bold;">Producto</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
                                 @*<input type="text" id="nombreProducto" value="" readonly="readonly" />*@
                                 @*<textarea id="nombreProducto" readonly="readonly"></textarea>*@
-                                <label id="nombreProducto" style=" cursor: default; "></label>
+                                <label id="nombreProducto" style="cursor: default;"></label>
                                 <img id="imagenProducto" src='' alt="" width='172' height='172' style="padding-left: 5%;" />
                             </div>
                         </div>
@@ -197,31 +239,31 @@
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style=" cursor: default; font-weight: bold; ">Descripción</label>
+                                <label style="cursor: default; font-weight: bold;">Descripción</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
-                                <label id="descripcionProducto" style=" cursor: default; "></label>
+                                <label id="descripcionProducto" style="cursor: default;"></label>
                             </div>
                         </div>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style=" cursor: default; font-weight: bold;">Precio</label>
+                                <label style="cursor: default; font-weight: bold;">Precio</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
-                                <label id="precio" style=" cursor: default; " />
+                                <label id="precio" style="cursor: default;" />
                             </div>
                         </div>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style=" cursor: default; font-weight: bold;">Suministrador</label>
+                                <label style="cursor: default; font-weight: bold;">Suministrador</label>
                             </div>
                         </div>
                         <div class="span7">
@@ -248,13 +290,13 @@
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style=" cursor: default; font-weight: bold;">Suministrador</label>
+                                <label style="cursor: default; font-weight: bold;">Suministrador</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
                                 @*<input type="text" id="nombreProducto" value="" readonly="readonly" />*@
-                                <label id="nombreSuministrador" style=" cursor: default; "></label>
+                                <label id="nombreSuministrador" style="cursor: default;"></label>
                                 <img id="imagenSuministrador" src='' alt="" width='172' height='172' style="padding-left: 5%;" />
                             </div>
                         </div>
@@ -263,55 +305,68 @@
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style=" cursor: default; font-weight: bold;">RUC</label>
+                                <label style="cursor: default; font-weight: bold;">RUC</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
-                                <label id="rucSuministrador"  style=" cursor: default; " />
+                                <label id="rucSuministrador" style="cursor: default;" />
                             </div>
                         </div>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style=" cursor: default; font-weight: bold;">Teléfono</label>
+                                <label style="cursor: default; font-weight: bold;">Teléfono</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
-                                <label id="telefonoSuministrador" style=" cursor: default; "></label>
-                                <label id="telefonoSuministrador2" style=" cursor: default; "></label>
-                                <label id="telefonoSuministrador3" style=" cursor: default; "></label>
+                                <label id="telefonoSuministrador" style="cursor: default;"></label>
+                                <label id="telefonoSuministrador2" style="cursor: default;"></label>
+                                <label id="telefonoSuministrador3" style="cursor: default;"></label>
                             </div>
                         </div>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style=" cursor: default; font-weight: bold;">Email</label>
+                                <label style="cursor: default; font-weight: bold;">Email</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
-                                <label id="emailSuministrador" style=" cursor: default; "></label>
-                                <label id="emailSuministrador2" style=" cursor: default; "></label>
+                                <label id="emailSuministrador" style="cursor: default;"></label>
+                                <label id="emailSuministrador2" style="cursor: default;"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;">Ubicaciones</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <a id='btnVerUbicacionSuministrador' style='color: #008AC9; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='#modal_mapa' data-toggle='modal'
+                                    onclick='return VerUbicacionSuministrador();'>Ver Ubicaciones</a>
                             </div>
                         </div>
                     </div>
                     <div class="row-fluid" id="divWebSuministrador" style="display: none">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style=" cursor: default; font-weight: bold;">Página web</label>
+                                <label style="cursor: default; font-weight: bold;">Página web</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
-                                <label id="webSuministrador" style=" cursor: default; " />
+                                <label id="webSuministrador" style="cursor: default;" />
                             </div>
                         </div>
                     </div>
-@*                    <div class="row-fluid" id="fbProveedor" style="display: none;">
+                    @*                    <div class="row-fluid" id="fbProveedor" style="display: none;">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
                                 <label>Página web</label>
@@ -326,17 +381,28 @@
                     <div class="row-fluid" id="divAcercadeSuministrador" style="display: none">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style=" cursor: default; font-weight: bold;">Acerca de</label>
+                                <label style="cursor: default; font-weight: bold;">Acerca de</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
-                                <label id="acercadeSuministrador" style=" cursor: default; "></label>
+                                <label id="acercadeSuministrador" style="cursor: default;"></label>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_mapa" style="z-index: -1;">
+        <input type="hidden" id="ubicaciones" value=""/>
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal"></a>
+            <h4 style="font-weight: bold;">Ubicaciones del Suministrador</h4>
+        </div>
+        <div class="modal-body" style="height: 560px !important;">
+            <div id="map-canvas" style="margin: 0; padding: 0; height: 100%; width: 100%;"></div>
         </div>
     </div>
 </body>

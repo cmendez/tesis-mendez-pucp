@@ -180,5 +180,11 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         {
             return _sgpFactory.GetProducto(productoId);
         }
+
+        public List<UbicacionPersona> GetUbicacionesSuministrador(int suministradorId)
+        {
+            Suministrador s = this.GetSuministrador(suministradorId);
+            return _sgpFactory.GetUbicacionesPersona(s.PersonaId);
+        }
     }
 }

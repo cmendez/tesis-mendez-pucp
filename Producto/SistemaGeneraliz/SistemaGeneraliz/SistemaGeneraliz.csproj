@@ -261,6 +261,7 @@
     <Content Include="Scripts\barrating\jquery.barrating.js" />
     <Content Include="Scripts\barrating\img\star%402x.png" />
     <Content Include="Scripts\barrating\img\star.png" />
+    <Content Include="Scripts\ubicaciones.js" />
     <Content Include="Scripts\mi_mapa.js" />
   </ItemGroup>
   <ItemGroup>

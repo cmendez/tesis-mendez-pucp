@@ -274,6 +274,40 @@ namespace SistemaGeneraliz.Controllers
             }
             return Json(suministradorJson, JsonRequestBehavior.AllowGet);
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult GetDetallesUbicacionesJSON(int suministradorId)
+        {
+            var ubicacionesJson = new List<Object>();
+            List<UbicacionPersona> ubicaciones = _logicaSuministradores.GetUbicacionesSuministrador(suministradorId);
+            foreach (var ubicacion in ubicaciones)
+            {
+                if (ubicacion != null)
+                {
+                    Object o = new
+                    {
+                        distrito = ubicacion.Distrito.NombreDistrito,
+                        direccion = ubicacion.Direccion,
+                        referencia = ubicacion.Referencia,
+                        latitud = ubicacion.Latitud,
+                        longitud = ubicacion.Longitud,
+                    };
+
+                    ubicacionesJson.Add(o);
+                    Object o2 = new
+                    {
+                        distrito = ubicacion.Distrito.NombreDistrito,
+                        direccion = ubicacion.Direccion,
+                        referencia = ubicacion.Referencia,
+                        latitud = ubicacion.Latitud+0.00075,
+                        longitud = ubicacion.Longitud+0.00075,
+                    };
+                    ubicacionesJson.Add(o2);//para pruebas
+                }
+            }
+            return Json(ubicacionesJson, JsonRequestBehavior.AllowGet);
+        }
     }
 }
 

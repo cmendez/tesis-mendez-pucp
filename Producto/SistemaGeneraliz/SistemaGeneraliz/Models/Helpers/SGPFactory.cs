@@ -406,6 +406,11 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.Productos.Find(productoId);
         }
 
+        public List<UbicacionPersona> GetUbicacionesPersona(int personaId)
+        {
+            return _db.UbicacionesPersonas.Where(u => u.PersonaId == personaId).ToList();
+        }
+
         #endregion
 
     }

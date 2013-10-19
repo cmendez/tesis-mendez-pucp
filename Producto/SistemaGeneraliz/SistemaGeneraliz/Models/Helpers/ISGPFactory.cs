@@ -23,6 +23,7 @@ namespace SistemaGeneraliz.Models.Helpers
         Imagen GetImagenPorId(int imagenId);
         Persona GetPersonaPorUsername(string userName);
         void AgregarImagen(Imagen imagen);
+        List<UbicacionPersona> GetUbicacionesPersona(int personaId);
         #endregion
 
         #region Proveedores
