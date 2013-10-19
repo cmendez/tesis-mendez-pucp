@@ -11,12 +11,102 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Buscar Productos</title>
+
+    <script type="text/x-kendo-tmpl" id="template">
+        <div class="album" >
+            <img src='/Suministradores/GetImagen?imagenId=#=ImagenId#' alt="#:NombreCorto#" />
+            <span class="idProduct" >ID[#:ProductoId#]</span>
+            <span class="title" >#:NombreCorto#</span>
+            <span class="price" >#:kendo.toString(Precio, "c")# <a id='btnVer' style='color: black; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='\\\#modal_producto' data-toggle='modal' 
+        onclick='return verDetalles(#=ProductoId#);'>- Ver Detalles</a></span>
+        </div>    
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#categorias").kendoDropDownList({
+            });
+
+            $("#distritos").kendoDropDownList({
+            });
+        });
+
+        function onChange(arg) {
+            //$("#modal_producto").attr('style', 'width: 90%;left:5%;margin-left:auto;margin-right:auto;');
+            var selected = $.map(this.select(), function (item) {
+                return $(item).text();
+            });
+            //alert("Selected: " + selected.length + " item(s), [" + selected.join(", ") + "]");
+            //alert(selected.join(", "));
+        }
+
+        function additionalData() {
+            return {
+                nombreProducto: $("#nombre").val(),
+                categoriaId: $("#categorias").val(),
+                distritoId: $("#distritos").val()
+            };
+        }
+
+        $("#btnBuscar").click(function () {
+            $("#listView").data("kendoListView").dataSource.read();
+            return;
+        });
+
+        function verDetalles(productoId) {
+            //alert(productoId);
+            $.getJSON('/Suministradores/GetDetallesProductoJSON', { productoId: productoId, ajax: 'true' }, function (result) {
+                $(result).each(function () {
+                    $("#nombreProducto").text(this.NombreCompleto);
+                    $("#imagenProducto").attr('src', "/Usuarios/GetImagen?imagenId=" + this.ImagenId);
+                    $("#descripcionProducto").text(this.Descripcion);
+                    $("#precio").text("S/." + this.Precio);
+                    $("#suministradorId").val(this.SuministradorId);
+                    $("#btnVerSuministrador").text(this.Suministrador);
+                });
+            });
+
+            $("#modal_producto").attr('style', 'width: 28%;left:35%;margin-left:auto;margin-right:auto;');
+            return true;
+        }
+
+        function verSuministrador() {
+            var suministrador = $("#suministradorId").val();
+            //alert(suministrador);
+
+            $.getJSON('/Suministradores/GetDetallesSuministradorJSON', { suministradorId: suministrador, ajax: 'true' }, function (result) {
+                $(result).each(function () {
+                    $("#nombreSuministrador").text(this.nombreSuministrador);
+                    $("#imagenSuministrador").attr('src', "/Usuarios/GetImagen?imagenId=" + this.imagenSuministrador);
+                    $("#rucSuministrador").text(this.rucSuministrador);
+                    $("#telefonoSuministrador").text(this.telefonoSuministrador);
+                    $("#telefonoSuministrador2").text(this.telefonoSuministrador2);
+                    $("#telefonoSuministrador3").text(this.telefonoSuministrador3);
+                    $("#emailSuministrador").text(this.emailSuministrador);
+                    $("#emailSuministrador2").text(this.emailSuministrador2);
+                    if (this.webSuministrador != "")
+                        $("#divWebSuministrador").attr('style', '');
+                    else
+                        $("#divWebSuministrador").attr('style', 'display: none;');
+                    if (this.acercadeSuministrador != "")
+                        $("#divAcercadeSuministrador").attr('style', '');
+                    else
+                        $("#divAcercadeSuministrador").attr('style', 'display: none;');
+                    $("#webSuministrador").text(this.webSuministrador);
+                    $("#acercadeSuministrador").text(this.acercadeSuministrador);
+                });
+            });
+
+            $("#modalSuministrador").attr('style', 'width: 28%;left:35%;margin-left:auto;margin-right:auto;');
+            return true;
+        }
+    </script>
 </head>
 <body>
     @*    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
-    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Buscar Productos", ""));}
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Buscar Productos", "Puede buscar por nombre, categoría, y/o distrito"));}
 
     @Html.ValidationSummary(true)
 
@@ -27,7 +117,7 @@
                     <table>
                         <tbody style="vertical-align: top;">
                             <tr>
-                                <td>Nombre del Producto:</td>
+                                <td>Nombre del producto:</td>
                                 <td>
                                     <input type="text" name="nombre" id="nombre" maxlength="100" placeholder="Ingrese nombre (opcional)">
                                 </td>
@@ -62,19 +152,7 @@
         </tbody>
     </table>
 
-    <div class="modal fade" id="modal_producto" style="z-index: -1;">
-        <div class="modal-header">
-            <a class="close" data-dismiss="modal"></a>
-            <h4>Detalles del producto</h4>
-        </div>
-        <div class="modal-body" style="height: 400px;">
-            
-        </div>
-        <div class="modal-footer">
-        </div>
-    </div>
-
-    <br/>
+    <br />
     <div class="clearfix">
         @(Html.Kendo().ListView<SistemaGeneraliz.Models.ViewModels.ProductosViewModel>(Model)
             .Name("listView")
@@ -91,47 +169,176 @@
         )
     </div>
 
-    <script type="text/x-kendo-tmpl" id="template">
-        <div class="album" >
-            <img src='/Suministradores/GetImagen?imagenId=#=ImagenId#' alt="#:NombreProducto# image" />
-            <span class="idProduct" >ID[#:ProductoId#]</span>
-            <span class="title" >#:NombreProducto#</span>
-            <span class="price" >#:kendo.toString(Precio, "c")# <a id='btnVer' style='color: black; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='\\\#modal_producto' data-toggle='modal'>- Ver Detalles</a></span>
-        </div>    
-    </script>
+    <div class="modal fade" id="modal_producto" style="z-index: -1;">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal"></a>
+            <h4 style="font-weight: bold;">Detalles del producto</h4>
+        </div>
+        <div class="modal-body" style="max-height: 800px !important; width: 130%;">
+            <div class="row-fluid">
+                <!-- contenedor superior izquierdo: campos -->
+                <div class="span7">
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style=" cursor: default; font-weight: bold;">Producto</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                @*<input type="text" id="nombreProducto" value="" readonly="readonly" />*@
+                                @*<textarea id="nombreProducto" readonly="readonly"></textarea>*@
+                                <label id="nombreProducto" style=" cursor: default; "></label>
+                                <img id="imagenProducto" src='' alt="" width='172' height='172' style="padding-left: 5%;" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style=" cursor: default; font-weight: bold; ">Descripción</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="descripcionProducto" style=" cursor: default; "></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style=" cursor: default; font-weight: bold;">Precio</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="precio" style=" cursor: default; " />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style=" cursor: default; font-weight: bold;">Suministrador</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <input type="hidden" id="suministradorId" value="" />
+                                <a id='btnVerSuministrador' style='color: #008AC9; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='#modalSuministrador' data-toggle='modal'
+                                    onclick='return verSuministrador();'>Ver Suministrador</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <script>
-        function onChange(arg) {
-            var selected = $.map(this.select(), function (item) {
-                return $(item).text();
-            });
-            //alert("Selected: " + selected.length + " item(s), [" + selected.join(", ") + "]");
-            //alert(selected.join(", "));
-            $("#modal_producto").attr('style', 'width: 90%;left:5%;margin-left:auto;margin-right:auto;');
-        }
-        
-        
-        function additionalData() {
-            return {
-                nombreProducto: $("#nombre").val(),
-                categoriaId: $("#categorias").val(),
-                distritoId: $("#distritos").val()
-            };
-        }
-
-        $(document).ready(function () {
-            $("#categorias").kendoDropDownList({
-            });
-            
-            $("#distritos").kendoDropDownList({
-            });
-            
-            $("#btnBuscar").click(function () {
-                $("#listView").data("kendoListView").dataSource.read();
-                return;
-            });
-        });
-    </script>
+    <div class="modal fade" id="modalSuministrador" style="z-index: -1;">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal"></a>
+            <h4 style="font-weight: bold;">Detalles del suministrador</h4>
+        </div>
+        <div class="modal-body" style="max-height: 800px !important; width: 130%;">
+            <div class="row-fluid">
+                <div class="span7">
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style=" cursor: default; font-weight: bold;">Suministrador</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                @*<input type="text" id="nombreProducto" value="" readonly="readonly" />*@
+                                <label id="nombreSuministrador" style=" cursor: default; "></label>
+                                <img id="imagenSuministrador" src='' alt="" width='172' height='172' style="padding-left: 5%;" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style=" cursor: default; font-weight: bold;">RUC</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="rucSuministrador"  style=" cursor: default; " />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style=" cursor: default; font-weight: bold;">Teléfono</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="telefonoSuministrador" style=" cursor: default; "></label>
+                                <label id="telefonoSuministrador2" style=" cursor: default; "></label>
+                                <label id="telefonoSuministrador3" style=" cursor: default; "></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style=" cursor: default; font-weight: bold;">Email</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="emailSuministrador" style=" cursor: default; "></label>
+                                <label id="emailSuministrador2" style=" cursor: default; "></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid" id="divWebSuministrador" style="display: none">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style=" cursor: default; font-weight: bold;">Página web</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="webSuministrador" style=" cursor: default; " />
+                            </div>
+                        </div>
+                    </div>
+@*                    <div class="row-fluid" id="fbProveedor" style="display: none;">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label>Página web</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                asdasd
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="row-fluid" id="divAcercadeSuministrador" style="display: none">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style=" cursor: default; font-weight: bold;">Acerca de</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="acercadeSuministrador" style=" cursor: default; "></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 

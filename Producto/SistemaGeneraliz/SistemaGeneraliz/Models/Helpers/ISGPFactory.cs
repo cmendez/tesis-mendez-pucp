@@ -70,6 +70,7 @@ namespace SistemaGeneraliz.Models.Helpers
         void ActualizarSuministrador(Suministrador suministrador);
         List<Producto> GetProductosCatalogo(string nombreProducto, int categoriaId, int distritoId);
         List<CategoriaProducto> GetCategoriasProducto();
+        Producto GetProducto(int productoId);
         #endregion
 
         

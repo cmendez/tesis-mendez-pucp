@@ -382,7 +382,7 @@ namespace SistemaGeneraliz.Models.Helpers
             IQueryable<Producto> query = _db.Productos.Where(p => p.IsEliminado == 0 && p.IsVisible == 1);
             if (!String.IsNullOrEmpty(nombreProducto))
             {
-                query = query.Where(p => p.NombreProducto.ToUpper().Contains(nombreProducto.ToUpper()));
+                query = query.Where(p => p.NombreCompleto.ToUpper().Contains(nombreProducto.ToUpper()));
             }
             if (categoriaId != -1)
             {
@@ -399,6 +399,11 @@ namespace SistemaGeneraliz.Models.Helpers
         public List<CategoriaProducto> GetCategoriasProducto()
         {
             return _db.CategoriasProducto.Where(c => c.IsEliminado == 0).OrderBy(c => c.NombreCategoria).ToList();
+        }
+
+        public Producto GetProducto(int productoId)
+        {
+            return _db.Productos.Find(productoId);
         }
 
         #endregion

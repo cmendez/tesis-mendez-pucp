@@ -115,11 +115,11 @@ namespace SistemaGeneraliz.Models.Helpers
 
                         Producto producto = new Producto
                         {
-                            NombreProducto = categoria.DescripcionCategoria + " " + letras[r2],
+                            NombreCorto = categoria.DescripcionCategoria + " " + letras[r2],
                             SuministradorId = suministrador.SuministradorId,
                             CategoriaProductoId = categoria.CategoriaProductoId,
-                            DescripcionCorta = categoria.DescripcionCategoria + " " + letras[r2],
-                            DescripcionDetalle = categoria.DescripcionCategoria + " " + letras[r2],
+                            NombreCompleto = categoria.DescripcionCategoria + " " + letras[r2],
+                            Descripcion = "Producto de la categoría '" + categoria.NombreCategoria + "'",
                             Precio = categoria.PrecioPromedio + r5,
                             NroClicksVisita = r3,
                             NroBusquedas = r4,

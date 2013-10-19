@@ -152,7 +152,7 @@ namespace SistemaGeneraliz.Controllers
                     nombre = proveedor.Persona.RazonSocial;
                 imagen = (int)proveedor.Persona.ImagenId;
             }
-            
+
             var recargasJson = new List<Object>();
             Object o = new { ProveedorID = id, NombreProveedor = nombre, LeadsProveedor = leads, ImageProveedor = imagen };
             recargasJson.Add(o);
@@ -169,7 +169,7 @@ namespace SistemaGeneraliz.Controllers
             {
                 _logicaSuministradores.AgregarRecarga(idProveedor, idSuministrador, monto);
                 _logicaPersonas.HabilitarDeshabilitarUsuario("Proveedor", idProveedor, "Habilitar");
-                _logicaSuministradores.ActualizarLeads(idSuministrador, monto);    
+                _logicaSuministradores.ActualizarLeads(idSuministrador, monto);
             }
             var recargasJson = new List<Object>();
             Object o = new { Msg = "ok" };
@@ -226,35 +226,53 @@ namespace SistemaGeneraliz.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult GetProductosCatalogoJSON(string nombreProducto, int categoriaId, int distritoId)
+        public ActionResult GetDetallesProductoJSON(int productoId)
         {
-            var productosJson = new List<Object>();
-            List<ProductosViewModel> productos = _logicaSuministradores.GetProductosCatalogo(nombreProducto, categoriaId, distritoId);
-            if (productos != null)
+            var productoJson = new List<Object>();
+            Producto producto = _logicaSuministradores.GetProducto(productoId);
+            if (producto != null)
             {
-                foreach (ProductosViewModel producto in productos)
+                Object o = new
                 {
-                    Object o = new
-                    {
-                        ProductoId = producto.ProductoId,
-                        NombreProducto = producto.NombreProducto,
-                        DescripcionCorta = producto.DescripcionCorta,
-                        DescripcionDetalle = producto.DescripcionDetalle,
-                        CategoriaProductoId = producto.CategoriaProductoId,
-                        ImagenId = producto.ImagenId,
-                        Precio = producto.Precio,
-                        SuministradorId = producto.SuministradorId,
-                        NroClicksVisita = producto.NroClicksVisita,
-                        NroBusquedas = producto.NroBusquedas,
-                        FechaRegistro = producto.FechaRegistro,
-                        IsVisible = producto.IsVisible,
-                        IsEliminado = producto.IsEliminado
-                    };
+                    NombreCompleto = producto.NombreCompleto,
+                    Descripcion = producto.Descripcion,
+                    ImagenId = producto.ImagenId,
+                    Precio = producto.Precio,
+                    Suministrador = producto.Suministrador.Persona.RazonSocial,
+                    SuministradorId = producto.SuministradorId,
+                };
 
-                    productosJson.Add(o);
-                }
+                productoJson.Add(o);
             }
-            return Json(productosJson, JsonRequestBehavior.AllowGet);
+            return Json(productoJson, JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult GetDetallesSuministradorJSON(int suministradorId)
+        {
+            var suministradorJson = new List<Object>();
+            Suministrador suministrador = _logicaSuministradores.GetSuministrador(suministradorId);
+            if (suministrador != null)
+            {
+                Object o = new
+                {
+                    nombreSuministrador = suministrador.Persona.RazonSocial,
+                    imagenSuministrador = suministrador.Persona.ImagenId,
+                    rucSuministrador = suministrador.Persona.RUC,
+                    telefonoSuministrador = suministrador.Persona.Telefono1,
+                    telefonoSuministrador2 = suministrador.Persona.Telefono2 ?? "",
+                    telefonoSuministrador3 = suministrador.Persona.Telefono3 ?? "",
+                    emailSuministrador = suministrador.Persona.Email1 ?? "",
+                    emailSuministrador2 = suministrador.Persona.Email2 ?? "",
+                    webSuministrador = suministrador.PaginaWeb ?? "",
+                    acercadeSuministrador = suministrador.AcercaDeMi ?? "",
+                    facebookSuministrador = suministrador.Facebook ?? ""
+                };
+
+                suministradorJson.Add(o);
+            }
+            return Json(suministradorJson, JsonRequestBehavior.AllowGet);
         }
     }
 }

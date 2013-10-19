@@ -13,9 +13,9 @@ namespace SistemaGeneraliz.Models.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductoId { get; set; }
-        public string NombreProducto { get; set; }
-        public string DescripcionCorta { get; set; }
-        public string DescripcionDetalle { get; set; }
+        public string NombreCorto { get; set; }
+        public string NombreCompleto { get; set; }
+        public string Descripcion { get; set; }
         public int CategoriaProductoId { get; set; }
         public virtual CategoriaProducto CategoriaProducto { get; set; }
         public int? ImagenId { get; set; }

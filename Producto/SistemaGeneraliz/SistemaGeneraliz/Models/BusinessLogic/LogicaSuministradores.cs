@@ -112,7 +112,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             _sgpFactory.ActualizarSuministrador(suministrador);
         }
 
-        private Suministrador GetSuministrador(int idSuministrador)
+        public Suministrador GetSuministrador(int idSuministrador)
         {
             return _sgpFactory.GetSuministrador(idSuministrador);
         }
@@ -130,9 +130,9 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     ProductosViewModel productoViewModel = new ProductosViewModel
                     {
                         ProductoId = producto.ProductoId,
-                        NombreProducto = producto.NombreProducto,
-                        DescripcionCorta = producto.DescripcionCorta,
-                        DescripcionDetalle = producto.DescripcionDetalle,
+                        NombreCorto = producto.NombreCorto,
+                        NombreCompleto = producto.NombreCompleto,
+                        Descripcion = producto.Descripcion,
                         CategoriaProductoId = producto.CategoriaProductoId,
                         ImagenId = (int) producto.ImagenId,
                         Precio = "S/. " + producto.Precio,
@@ -174,6 +174,11 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             distritos.Add(distrito);
             distritos.AddRange(_sgpFactory.GetDistritos());
             return distritos;
+        }
+
+        public Producto GetProducto(int productoId)
+        {
+            return _sgpFactory.GetProducto(productoId);
         }
     }
 }
