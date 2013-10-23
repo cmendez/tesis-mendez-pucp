@@ -863,8 +863,8 @@ tr.pager td {
 
         .album .price
         {
-            font-style: italic;
-            color: #ababab;
+            /*font-style: italic;
+            color: #ababab;*/
         }
         
         .album .idProduct

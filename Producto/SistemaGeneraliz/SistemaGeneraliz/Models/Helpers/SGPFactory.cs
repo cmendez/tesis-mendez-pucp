@@ -141,6 +141,11 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.SaveChanges();
         }
 
+        public List<UbicacionPersona> GetUbicacionesPersona(int personaId)
+        {
+            return _db.UbicacionesPersonas.Where(u => u.PersonaId == personaId).ToList();
+        }
+
         #endregion
 
         #region Proveedores
@@ -209,7 +214,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 {
                     proveedor.Persona.IsHabilitado = 0;
                 }
-                _db.Proveedores.Attach(proveedor);
+                //_db.Proveedores.Attach(proveedor);
                 _db.Entry(proveedor).State = EntityState.Modified;
                 _db.SaveChanges();
             }
@@ -237,14 +242,14 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public void ActualizarDetallesTrabajoProveedor(TrabajoProveedor trabajoProveedor)
         {
-            _db.TrabajosProveedores.Attach(trabajoProveedor);
+            //_db.TrabajosProveedores.Attach(trabajoProveedor);
             _db.Entry(trabajoProveedor).State = EntityState.Modified;
             _db.SaveChanges();
         }
 
         public void ActualizarProveedor(Proveedor proveedor)
         {
-            _db.Proveedores.Attach(proveedor);
+            //_db.Proveedores.Attach(proveedor);
             _db.Entry(proveedor).State = EntityState.Modified;
             _db.SaveChanges();
         }
@@ -298,7 +303,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public void ActualizarEncuestaIdTrabajoProveedor(TrabajoProveedor trabajoProveedor)
         {
-            _db.TrabajosProveedores.Attach(trabajoProveedor);
+            //_db.TrabajosProveedores.Attach(trabajoProveedor);
             _db.Entry(trabajoProveedor).State = EntityState.Modified;
             _db.SaveChanges();
         }
@@ -331,7 +336,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public void ActualizarEncuestaCompletada(EncuestaCliente encuesta)
         {
-            _db.EncuestasClientes.Attach(encuesta);
+            //_db.EncuestasClientes.Attach(encuesta);
             _db.Entry(encuesta).State = EntityState.Modified;
             _db.SaveChanges();
         }
@@ -377,7 +382,7 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.SaveChanges();
         }
 
-        public List<Producto> GetProductosCatalogo(string nombreProducto, int categoriaId, int distritoId)
+        public List<Producto> GetProductosCatalogo(string nombreProducto, int categoriaId, int distritoId, int suministradorId)
         {
             IQueryable<Producto> query = _db.Productos.Where(p => p.IsEliminado == 0 && p.IsVisible == 1);
             if (!String.IsNullOrEmpty(nombreProducto))
@@ -393,7 +398,13 @@ namespace SistemaGeneraliz.Models.Helpers
                 //(x => (x.TiposServicios.Any(r => servicio.TipoServicioId.Equals(r.TipoServicioId))))
                 query = query.Where(p => p.Suministrador.Persona.UbicacionesPersonas.Any(r => distritoId.Equals(r.DistritoId)));
             }
-            return query.Take(25).ToList();
+            if (suministradorId != -1)
+            {
+                //(x => (x.TiposServicios.Any(r => servicio.TipoServicioId.Equals(r.TipoServicioId))))
+                query = query.Where(p => p.Suministrador.SuministradorId == suministradorId);
+            }
+            //return query.OrderBy(r => Guid.NewGuid()).Take(15).ToList();
+            return query.OrderBy(r => Guid.NewGuid()).ToList();
         }
 
         public List<CategoriaProducto> GetCategoriasProducto()
@@ -406,9 +417,27 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.Productos.Find(productoId);
         }
 
-        public List<UbicacionPersona> GetUbicacionesPersona(int personaId)
+        public List<Producto> GetProductosSuministradorCatalogo(int suministradorId)
         {
-            return _db.UbicacionesPersonas.Where(u => u.PersonaId == personaId).ToList();
+            return _db.Productos.Where(p => p.SuministradorId == suministradorId && p.IsEliminado == 0).ToList();
+        }
+
+        public void AgregarProducto(Producto producto)
+        {
+            _db.Productos.Add(producto);
+            _db.SaveChanges();
+        }
+
+        public void ModificarProducto(Producto producto)
+        {
+            //_db.Productos.Attach(producto);
+            _db.Entry(producto).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+
+        public List<Suministrador> GetSuministradores()
+        {
+            return _db.Suministradores.Where(s => s.Persona.IsHabilitado == 1 && s.Persona.IsEliminado == 0).ToList();
         }
 
         #endregion

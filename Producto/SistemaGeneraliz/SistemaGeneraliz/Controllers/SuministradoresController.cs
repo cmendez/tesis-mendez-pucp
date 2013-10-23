@@ -182,13 +182,14 @@ namespace SistemaGeneraliz.Controllers
         {
             ViewBag.Categorias = _logicaSuministradores.GetCategoriasProducto();
             ViewBag.Distritos = _logicaSuministradores.GetDistritos();
+            ViewBag.Suministradores = _logicaSuministradores.GetSuministradores();
             return View();
         }
 
         [AllowAnonymous]
-        public ActionResult Productos_Read([DataSourceRequest] DataSourceRequest request, string nombreProducto = "", int categoriaId = -1, int distritoId = -1)
+        public ActionResult Productos_Read([DataSourceRequest] DataSourceRequest request, string nombreProducto = "", int categoriaId = -1, int distritoId = -1, int suministradorId = -1)
         {
-            List<ProductosViewModel> listaProductosViewModel = _logicaSuministradores.GetProductosCatalogo(nombreProducto, categoriaId, distritoId);
+            List<ProductosViewModel> listaProductosViewModel = _logicaSuministradores.GetProductosCatalogo(nombreProducto, categoriaId, distritoId, suministradorId);
             return Json(listaProductosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -238,8 +239,11 @@ namespace SistemaGeneraliz.Controllers
                     Descripcion = producto.Descripcion,
                     ImagenId = producto.ImagenId,
                     Precio = producto.Precio,
+                    Categoria = producto.CategoriaProducto.NombreCategoria,
+                    Visible = producto.IsVisible == 1 ? "Sí" : "No",
                     Suministrador = producto.Suministrador.Persona.RazonSocial,
                     SuministradorId = producto.SuministradorId,
+                    FechaRegistro = producto.FechaRegistro.ToString("dd/MM/yyyy HH:mm")
                 };
 
                 productoJson.Add(o);
@@ -300,13 +304,131 @@ namespace SistemaGeneraliz.Controllers
                         distrito = ubicacion.Distrito.NombreDistrito,
                         direccion = ubicacion.Direccion,
                         referencia = ubicacion.Referencia,
-                        latitud = ubicacion.Latitud+0.00075,
-                        longitud = ubicacion.Longitud+0.00075,
+                        latitud = ubicacion.Latitud + 0.00075,
+                        longitud = ubicacion.Longitud + 0.00075,
                     };
                     ubicacionesJson.Add(o2);//para pruebas
                 }
             }
             return Json(ubicacionesJson, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult EditarProductos()
+        {
+            int idPersona = WebSecurity.CurrentUserId;
+            Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
+
+            if (suministrador == null)
+            {
+                suministrador = new Suministrador();
+            }
+
+            ViewBag.Suministrador = suministrador;
+
+            return View("MisProductos");
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult MisProductos_Read([DataSourceRequest] DataSourceRequest request, int suministradorId = -1)
+        {
+            List<ProductosViewModel> listaProductosViewModel = _logicaSuministradores.GetProductosSuministradorCatalogo(suministradorId);
+            return Json(listaProductosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult AgregarProducto()
+        {
+            int idPersona = WebSecurity.CurrentUserId;
+            Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
+            ViewBag.SuministradorId = suministrador.SuministradorId;
+            //ViewBag.Categorias = _logicaSuministradores.GetCategoriasProducto();
+            List<CategoriaProducto> categorias = _logicaSuministradores.GetCategoriasProducto();
+            categorias.RemoveAt(0);
+            ViewBag.Categorias = new SelectList(categorias, "CategoriaProductoId", "NombreCategoria", null);
+            return View();
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        [HttpPost]
+        public ActionResult AgregarProducto(ProductosViewModel productoViewModel)
+        {
+            int idPersona = WebSecurity.CurrentUserId;
+            Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
+            List<CategoriaProducto> categorias = _logicaSuministradores.GetCategoriasProducto();
+            categorias.RemoveAt(0);
+            ViewBag.SuministradorId = suministrador.SuministradorId;
+            ViewBag.Categorias = new SelectList(categorias, "CategoriaProductoId", "NombreCategoria", null);
+
+            if (ModelState.IsValid)
+            {
+                if ((productoViewModel.File == null) || (productoViewModel.File.ContentLength <= 0))
+                {
+                    ModelState.AddModelError("", "Error: es obligatorio subir una foto");
+                    return View(productoViewModel);
+                }
+                else
+                {
+                    var file = productoViewModel.File;
+                    string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                    string ext2 = file.FileName;
+
+                    if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                    {
+                        ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                        return View(productoViewModel);
+                    }
+                }
+
+                Imagen foto = _logicaSuministradores.AgregarImagenProducto(productoViewModel.File);
+                productoViewModel.ImagenId = foto.ImagenId;
+                _logicaSuministradores.AgregarProducto(productoViewModel);
+                return RedirectToAction("EditarProductos");
+            }
+            
+            return View(productoViewModel);
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult ModificarProducto(int productoId = -1)
+        {
+            ProductosViewModel productoViewModel = _logicaSuministradores.GetProductoViewModel(productoId);
+            List<CategoriaProducto> categorias = _logicaSuministradores.GetCategoriasProducto();
+            categorias.RemoveAt(0);
+            ViewBag.Categorias = new SelectList(categorias, "CategoriaProductoId", "NombreCategoria", productoViewModel.CategoriaProductoId);
+            return View(productoViewModel);
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        [HttpPost]
+        public ActionResult ModificarProducto(ProductosViewModel productoViewModel)
+        {
+            List<CategoriaProducto> categorias = _logicaSuministradores.GetCategoriasProducto();
+            categorias.RemoveAt(0);
+            ViewBag.Categorias = new SelectList(categorias, "CategoriaProductoId", "NombreCategoria", productoViewModel.CategoriaProductoId);
+
+            if (ModelState.IsValid)
+            {
+                if ((productoViewModel.File != null) && (productoViewModel.File.ContentLength > 0))
+                {
+                    var file = productoViewModel.File;
+                    string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+
+                    if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                    {
+                        ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                        return View(productoViewModel);
+                    }
+
+                    Imagen foto = _logicaSuministradores.AgregarImagenProducto(productoViewModel.File);
+                    productoViewModel.ImagenId = foto.ImagenId;
+                }
+
+                _logicaSuministradores.ModificarProducto(productoViewModel);
+                return RedirectToAction("EditarProductos");
+            }
+
+            return View(productoViewModel);
         }
     }
 }

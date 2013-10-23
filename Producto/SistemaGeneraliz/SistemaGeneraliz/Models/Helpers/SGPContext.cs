@@ -88,23 +88,26 @@ namespace SistemaGeneraliz.Models.Helpers
         {
             int r1, r2, r3, r4, r5, r6;
             Random random = new Random();
-            string[] letras = { "1A", "1B", "1C", "2A", "2B", "2C", "3A", "3B", "3C", "4A", "4B", "4C", "5A", "5B", "5C"};
+            //string[] letras = { "1A", "1B", "1C", "2A", "2B", "2C", "3A", "3B", "3C", "4A", "4B", "4C", "5A", "5B", "5C" };
+            string[] letras = { "A", "B", "C", "D", "E", "F" };
+            string[] numeros = { "1", "2", "3", "4", "5", "6" };
             List<Producto> listaProductos = new List<Producto>();
             List<Imagen> listaImagenes = new List<Imagen>();
             foreach (var suministrador in suministradores)
             {
+                //nroproductosXsuministrador = (nroproductosXsuministrador > 3) ? 3 : nroproductosXsuministrador;
                 //cada suministrador tendra N productos por cada categoria
                 for (int i = 0; i < nroproductosXsuministrador; i++)
                 {
                     foreach (var categoria in categoriasProductos)
                     {
-                        r1 = random.Next(10, 51);
-                        r2 = random.Next(0, letras.Count());
+                        r1 = random.Next(0, letras.Count());
+                        r2 = random.Next(0, numeros.Count());
                         r3 = random.Next(0, 21);
                         r4 = random.Next(0, 21);
-                        r5 = random.Next(2, 15); 
+                        r5 = random.Next(2, 15);
                         //asumiremos que las imagenes van del 1 al 3, p. ej: tablero1.jpg, tablero2.jpg, tablero3.jpg
-                        r6 = random.Next(1, 4); 
+                        r6 = random.Next(1, 4);
                         string filename = categoria.DescripcionCategoria.ToLower() + r6;
                         //string filename = "tablero1";
 
@@ -115,10 +118,10 @@ namespace SistemaGeneraliz.Models.Helpers
 
                         Producto producto = new Producto
                         {
-                            NombreCorto = categoria.DescripcionCategoria + " " + letras[r2],
+                            NombreCorto = categoria.DescripcionCategoria + " " + letras[r1] + numeros[r2],
                             SuministradorId = suministrador.SuministradorId,
                             CategoriaProductoId = categoria.CategoriaProductoId,
-                            NombreCompleto = categoria.DescripcionCategoria + " " + letras[r2],
+                            NombreCompleto = categoria.DescripcionCategoria + " " + letras[r1] + numeros[r2],
                             Descripcion = "Producto de la categoría '" + categoria.NombreCategoria + "'",
                             Precio = categoria.PrecioPromedio + r5,
                             NroClicksVisita = r3,
@@ -136,7 +139,7 @@ namespace SistemaGeneraliz.Models.Helpers
             this.SaveChanges();
 
             //Sabemos que hay una imagen por cada uno de los productos
-            int k= 0;
+            int k = 0;
             foreach (var imagen in listaImagenes)
             {
                 //Producto producto = listaProductos[k];
@@ -794,7 +797,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     proveedor.NroRecomendaciones = recomendaciones;
                     proveedor.NroVolveriaContratarlo = volveria;
                     //Cálculo de la puntuación promedio: acá consideramos PuntajeTotal / NroTrabajos
-                    double puntuacion = (puntaje*1.0)/proveedor.NroTrabajosTerminados;
+                    double puntuacion = (puntaje * 1.0) / proveedor.NroTrabajosTerminados;
                     proveedor.PuntuacionPromedio = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven));
 
                     this.Proveedores.Attach(proveedor);

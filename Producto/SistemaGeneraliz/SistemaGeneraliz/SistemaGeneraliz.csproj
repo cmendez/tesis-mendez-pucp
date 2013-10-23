@@ -1834,6 +1834,9 @@
     <Content Include="Views\Clientes\LlenarEncuestaCliente.cshtml" />
     <Content Include="Views\Usuarios\UsuarioInhabilitado.cshtml" />
     <Content Include="Views\Suministradores\BuscarProductos.cshtml" />
+    <Content Include="Views\Suministradores\MisProductos.cshtml" />
+    <Content Include="Views\Suministradores\AgregarProducto.cshtml" />
+    <Content Include="Views\Suministradores\ModificarProducto.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

@@ -1,0 +1,176 @@
+﻿@model IEnumerable<SistemaGeneraliz.Models.ViewModels.ProductosViewModel>
+
+@{
+    ViewBag.Title = "Mis Productos";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Buscar Productos</title>
+    <script type="text/x-kendo-tmpl" id="template">
+        <div class="album" >
+            <img src='/Suministradores/GetImagen?imagenId=#=ImagenId#' alt="#:NombreCorto#" />
+            <span class="idProduct" >ID[#:ProductoId#]</span>
+            <span class="title" >#:NombreCorto#</span>
+            <span class="price" >#:kendo.toString(Precio, "c")# 
+                <a id='btnVerDetalles' style='color: black; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='\\\#modal_producto' data-toggle='modal' onclick='return verDetalles(#=ProductoId#);'>- Ver</a>-
+                <a id='btnEditar' style='color: black; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' onclick='return editarProducto(#=ProductoId#);'>Editar</a>
+            </span>
+        </div>    
+    </script>
+
+    <script>
+        function additionalData() {
+            return {
+                suministradorId: $("#suministradorId").val(),
+            };
+        }
+
+        function verDetalles(productoId) {
+            //alert(productoId);
+            $.getJSON('/Suministradores/GetDetallesProductoJSON', { productoId: productoId, ajax: 'true' }, function (result) {
+                $(result).each(function () {
+                    $("#nombreProducto").text(this.NombreCompleto);
+                    $("#imagenProducto").attr('src', "/Usuarios/GetImagen?imagenId=" + this.ImagenId);
+                    $("#descripcionProducto").text(this.Descripcion);
+                    $("#categoriaProducto").text(this.Categoria);
+                    $("#precio").text("S/. " + this.Precio);
+                    $("#visible").text(this.Visible);
+                    $("#suministradorId").val(this.SuministradorId); 
+                    $("#fechaRegistro").text(this.FechaRegistro);
+                });
+            });
+
+            $("#modal_producto").attr('style', 'width: 28%;left:35%;margin-left:auto;margin-right:auto;');
+            return true;
+        }
+
+        function editarProducto(productoId) {
+            window.location.href = "/Suministradores/ModificarProducto?productoId=" + productoId;
+            return true;
+        }
+    </script>
+</head>
+<body>
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Mis Productos", "Desde aquí puede editar la información de sus productos."));}
+
+    @Html.ValidationSummary(true)
+    <input type="hidden" id="suministradorId" value="@ViewBag.Suministrador.SuministradorId"/>
+    <table style="width: 100%; border: 0;">
+        <tbody>
+            <tr>
+                <td style="vertical-align: top; width: 50%; padding-left: 6%">
+                    <a id='agregar' style='color: #008AC9; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='@Url.Action("AgregarProducto")'>[ Agregar Producto ]</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br />
+    <div class="clearfix">
+        @(Html.Kendo().ListView<SistemaGeneraliz.Models.ViewModels.ProductosViewModel>(Model)
+            .Name("listView")
+            .TagName("div")
+            .ClientTemplateId("template")
+            .DataSource(dataSource =>
+            {
+                dataSource.Read(read => read.Action("MisProductos_Read", "Suministradores").Data("additionalData"));
+                dataSource.PageSize(15);
+            })
+            .Pageable()
+            .Selectable(selectable => selectable.Mode(ListViewSelectionMode.Single))
+        )
+    </div>
+
+    <div class="modal fade" id="modal_producto" style="z-index: -1;">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal"></a>
+            <h4 style="font-weight: bold;">Detalles del producto</h4>
+        </div>
+        <div class="modal-body" style="max-height: 800px !important; width: 130%;">
+            <div class="row-fluid">
+                <!-- contenedor superior izquierdo: campos -->
+                <div class="span7">
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;">Fecha Registro</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="fechaRegistro" style="cursor: default;"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;">Producto</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="nombreProducto" style="cursor: default;"></label>
+                                <img id="imagenProducto" src='' alt="" width='172' height='172' style="padding-left: 5%;" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;">Descripción</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="descripcionProducto" style="cursor: default;"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;">Categoría</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="categoriaProducto" style="cursor: default;"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;">Precio</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="precio" style="cursor: default;" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;">¿Visible?</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="visible" style="cursor: default;" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
