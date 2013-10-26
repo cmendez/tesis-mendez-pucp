@@ -202,6 +202,8 @@
     </Compile>
     <Compile Include="Models\Entities\CategoriaProducto.cs" />
     <Compile Include="Models\Entities\Configuracion.cs" />
+    <Compile Include="Models\Entities\CompraVirtual.cs" />
+    <Compile Include="Models\Entities\OfertaPromoDscto.cs" />
     <Compile Include="Models\Entities\CriterioCalificacion.cs" />
     <Compile Include="Models\Entities\EncuestaCliente.cs" />
     <Compile Include="Models\Entities\Imagen.cs" />

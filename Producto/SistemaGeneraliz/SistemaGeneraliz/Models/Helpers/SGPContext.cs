@@ -38,7 +38,8 @@ namespace SistemaGeneraliz.Models.Helpers
         public IDbSet<Imagen> Imagenes { get; set; }
         public IDbSet<Producto> Productos { get; set; }
         public IDbSet<CategoriaProducto> CategoriasProducto { get; set; }
-        //public IDbSet<SubcategoriaProducto> SubcategoriasProducto { get; set; }
+        public IDbSet<OfertaPromoDscto> OfertasPromosDsctos { get; set; }
+        public IDbSet<CompraVirtual> ComprasVirtuales { get; set; }
         #endregion
 
         #region OnModelCreating
@@ -82,91 +83,8 @@ namespace SistemaGeneraliz.Models.Helpers
             SeedImagenesPersonas(personas);
             var categoriasProductos = SeedCategoriasProductos();
             SeedProductos(suministradores, categoriasProductos, 2);
-        }
-
-        private void SeedProductos(List<Suministrador> suministradores, List<CategoriaProducto> categoriasProductos, int nroproductosXsuministrador)
-        {
-            int r1, r2, r3, r4, r5, r6;
-            Random random = new Random();
-            //string[] letras = { "1A", "1B", "1C", "2A", "2B", "2C", "3A", "3B", "3C", "4A", "4B", "4C", "5A", "5B", "5C" };
-            string[] letras = { "A", "B", "C", "D", "E", "F" };
-            string[] numeros = { "1", "2", "3", "4", "5", "6" };
-            List<Producto> listaProductos = new List<Producto>();
-            List<Imagen> listaImagenes = new List<Imagen>();
-            foreach (var suministrador in suministradores)
-            {
-                //nroproductosXsuministrador = (nroproductosXsuministrador > 3) ? 3 : nroproductosXsuministrador;
-                //cada suministrador tendra N productos por cada categoria
-                for (int i = 0; i < nroproductosXsuministrador; i++)
-                {
-                    foreach (var categoria in categoriasProductos)
-                    {
-                        r1 = random.Next(0, letras.Count());
-                        r2 = random.Next(0, numeros.Count());
-                        r3 = random.Next(0, 21);
-                        r4 = random.Next(0, 21);
-                        r5 = random.Next(2, 15);
-                        //asumiremos que las imagenes van del 1 al 3, p. ej: tablero1.jpg, tablero2.jpg, tablero3.jpg
-                        r6 = random.Next(1, 4);
-                        string filename = categoria.DescripcionCategoria.ToLower() + r6;
-                        //string filename = "tablero1";
-
-                        string path = HostingEnvironment.ApplicationPhysicalPath + "Images\\Productos\\" + filename + ".jpg";
-                        byte[] bytes = System.IO.File.ReadAllBytes(path);
-                        Imagen imagen = new Imagen { Data = bytes, Nombre = filename, Mime = "image/jpg" };
-                        listaImagenes.Add(imagen);
-
-                        Producto producto = new Producto
-                        {
-                            NombreCorto = categoria.DescripcionCategoria + " " + letras[r1] + numeros[r2],
-                            SuministradorId = suministrador.SuministradorId,
-                            CategoriaProductoId = categoria.CategoriaProductoId,
-                            NombreCompleto = categoria.DescripcionCategoria + " " + letras[r1] + numeros[r2],
-                            Descripcion = "Producto de la categoría '" + categoria.NombreCategoria + "'",
-                            Precio = categoria.PrecioPromedio + r5,
-                            NroClicksVisita = r3,
-                            NroBusquedas = r4,
-                            FechaRegistro = DateTime.Now,
-                            IsVisible = 1,
-                            IsEliminado = 0
-                        };
-                        listaProductos.Add(producto);
-                    }
-                }
-            }
-
-            listaImagenes.ForEach(s => this.Imagenes.Add(s));
-            this.SaveChanges();
-
-            //Sabemos que hay una imagen por cada uno de los productos
-            int k = 0;
-            foreach (var imagen in listaImagenes)
-            {
-                //Producto producto = listaProductos[k];
-                listaProductos[k].ImagenId = imagen.ImagenId;
-                this.Productos.Add(listaProductos[k]);
-                k++;
-            }
-            this.SaveChanges();
-        }
-
-        private List<CategoriaProducto> SeedCategoriasProductos()
-        {
-            var listaCategoriaProducto = new List<CategoriaProducto>()
-            {
-                new CategoriaProducto { NombreCategoria = "Madera y Tablas", DescripcionCategoria = "Tablero", IsEliminado = 0, PrecioPromedio = 10.90},
-                new CategoriaProducto { NombreCategoria = "Fierro/Hierro", DescripcionCategoria = "Fierro", IsEliminado = 0, PrecioPromedio = 15.50},
-                new CategoriaProducto { NombreCategoria = "Herramientas y Maquinarias", DescripcionCategoria = "Taladro", IsEliminado = 0, PrecioPromedio = 250.00},
-                new CategoriaProducto { NombreCategoria = "Plomería/Gasfitería", DescripcionCategoria = "Tubo", IsEliminado = 0, PrecioPromedio = 8.50},
-                new CategoriaProducto { NombreCategoria = "Ventanas", DescripcionCategoria = "Vidrio", IsEliminado = 0, PrecioPromedio = 12.30},
-                new CategoriaProducto { NombreCategoria = "Electricidad", DescripcionCategoria = "Cable", IsEliminado = 0, PrecioPromedio = 30.50},
-                new CategoriaProducto { NombreCategoria = "Cerrajería", DescripcionCategoria = "Cerradura", IsEliminado = 0, PrecioPromedio = 38.50},
-                new CategoriaProducto { NombreCategoria = "Pintura", DescripcionCategoria = "Pintura", IsEliminado = 0, PrecioPromedio = 30.10},
-                new CategoriaProducto { NombreCategoria = "Pisos", DescripcionCategoria = "Baldosa", IsEliminado = 0, PrecioPromedio = 23.40},
-            };
-            listaCategoriaProducto.ForEach(s => this.CategoriasProducto.Add(s));
-            this.SaveChanges();
-            return listaCategoriaProducto;
+            var ofertasPromosDsctos = SeedOfertasPromosDsctos(suministradores);
+            SeedComprasVirtuales(proveedores, ofertasPromosDsctos);
         }
 
         private void SeedConfiguraciones()
@@ -854,6 +772,216 @@ namespace SistemaGeneraliz.Models.Helpers
             }
             this.SaveChanges();
         }
+
+        private List<CategoriaProducto> SeedCategoriasProductos()
+        {
+            var listaCategoriaProducto = new List<CategoriaProducto>()
+            {
+                new CategoriaProducto { NombreCategoria = "Madera y Tablas", DescripcionCategoria = "Tablero", IsEliminado = 0, PrecioPromedio = 10.90},
+                new CategoriaProducto { NombreCategoria = "Fierro/Hierro", DescripcionCategoria = "Fierro", IsEliminado = 0, PrecioPromedio = 15.50},
+                new CategoriaProducto { NombreCategoria = "Herramientas y Maquinarias", DescripcionCategoria = "Taladro", IsEliminado = 0, PrecioPromedio = 250.00},
+                new CategoriaProducto { NombreCategoria = "Plomería/Gasfitería", DescripcionCategoria = "Tubo", IsEliminado = 0, PrecioPromedio = 8.50},
+                new CategoriaProducto { NombreCategoria = "Ventanas", DescripcionCategoria = "Vidrio", IsEliminado = 0, PrecioPromedio = 12.30},
+                new CategoriaProducto { NombreCategoria = "Electricidad", DescripcionCategoria = "Cable", IsEliminado = 0, PrecioPromedio = 30.50},
+                new CategoriaProducto { NombreCategoria = "Cerrajería", DescripcionCategoria = "Cerradura", IsEliminado = 0, PrecioPromedio = 38.50},
+                new CategoriaProducto { NombreCategoria = "Pintura", DescripcionCategoria = "Pintura", IsEliminado = 0, PrecioPromedio = 30.10},
+                new CategoriaProducto { NombreCategoria = "Pisos", DescripcionCategoria = "Baldosa", IsEliminado = 0, PrecioPromedio = 23.40},
+            };
+            listaCategoriaProducto.ForEach(s => this.CategoriasProducto.Add(s));
+            this.SaveChanges();
+            return listaCategoriaProducto;
+        }
+
+        private void SeedProductos(List<Suministrador> suministradores, List<CategoriaProducto> categoriasProductos, int nroproductosXsuministrador)
+        {
+            int r1, r2, r3, r4, r5, r6;
+            Random random = new Random();
+            //string[] letras = { "1A", "1B", "1C", "2A", "2B", "2C", "3A", "3B", "3C", "4A", "4B", "4C", "5A", "5B", "5C" };
+            string[] letras = { "A", "B", "C", "D", "E", "F" };
+            string[] numeros = { "1", "2", "3", "4", "5", "6" };
+            List<Producto> listaProductos = new List<Producto>();
+            List<Imagen> listaImagenes = new List<Imagen>();
+            foreach (var suministrador in suministradores)
+            {
+                //nroproductosXsuministrador = (nroproductosXsuministrador > 3) ? 3 : nroproductosXsuministrador;
+                //cada suministrador tendra N productos por cada categoria
+                for (int i = 0; i < nroproductosXsuministrador; i++)
+                {
+                    foreach (var categoria in categoriasProductos)
+                    {
+                        r1 = random.Next(0, letras.Count());
+                        r2 = random.Next(0, numeros.Count());
+                        r3 = random.Next(0, 21);
+                        r4 = random.Next(0, 21);
+                        r5 = random.Next(2, 15);
+                        //asumiremos que las imagenes van del 1 al 3, p. ej: tablero1.jpg, tablero2.jpg, tablero3.jpg
+                        r6 = random.Next(1, 4);
+                        string filename = categoria.DescripcionCategoria.ToLower() + r6;
+                        //string filename = "tablero1";
+
+                        string path = HostingEnvironment.ApplicationPhysicalPath + "Images\\Productos\\" + filename + ".jpg";
+                        byte[] bytes = System.IO.File.ReadAllBytes(path);
+                        Imagen imagen = new Imagen { Data = bytes, Nombre = filename, Mime = "image/jpg" };
+                        listaImagenes.Add(imagen);
+
+                        Producto producto = new Producto
+                        {
+                            NombreCorto = categoria.DescripcionCategoria + " " + letras[r1] + numeros[r2],
+                            SuministradorId = suministrador.SuministradorId,
+                            CategoriaProductoId = categoria.CategoriaProductoId,
+                            NombreCompleto = categoria.DescripcionCategoria + " " + letras[r1] + numeros[r2],
+                            Descripcion = "Producto de la categoría '" + categoria.NombreCategoria + "'",
+                            Precio = categoria.PrecioPromedio + r5,
+                            NroClicksVisita = r3,
+                            NroBusquedas = r4,
+                            FechaRegistro = DateTime.Now,
+                            IsVisible = 1,
+                            IsEliminado = 0
+                        };
+                        listaProductos.Add(producto);
+                    }
+                }
+            }
+
+            listaImagenes.ForEach(s => this.Imagenes.Add(s));
+            this.SaveChanges();
+
+            //Sabemos que hay una imagen por cada uno de los productos
+            int k = 0;
+            foreach (var imagen in listaImagenes)
+            {
+                //Producto producto = listaProductos[k];
+                listaProductos[k].ImagenId = imagen.ImagenId;
+                this.Productos.Add(listaProductos[k]);
+                k++;
+            }
+            this.SaveChanges();
+        }
+
+        private List<OfertaPromoDscto> SeedOfertasPromosDsctos(List<Suministrador> suministradores)
+        {
+            int r1, r2, r3;
+            Random random = new Random();
+
+            string[] imagenes = { "D_1_Escalera de madera",
+                                    "D_1_Esmeril angular",
+                                    "D_1_Set de herramientas",
+                                    "D_1_Sierra caladora",
+                                    "D_1_Taladro percutor",
+                                    "O_1_Caja Fuerte",
+                                    "O_1_Set de herramientas manuales",
+                                    "P_6_3 Huinchas 3M, 5M y 8M",
+                                    "P_6_Destornillador 9 en 1",
+                                    "P_8_Juego Completo",
+                                    "P_4_Juego de 3 llaves",
+                                    "P_3_Juego de alicates",
+                                    "P_5_Juego de llaves",
+                                    "P_4_Nivel de aluminio 300 mm",
+                                    "P_2_Set 4 de desarmadores",
+                                    "P_4_Set alicate universal 8",
+                                    "P_8_Set dados mecánicos",
+                                    "P_4_Set de herramientas",
+                                    "P_4_Set desarmadores",
+                                    "P_6_Set Herramientas" };
+
+            List<OfertaPromoDscto> listaOfertaPromoDscto = new List<OfertaPromoDscto>();
+            List<Imagen> listaImagenes = new List<Imagen>();
+
+            foreach (var img in imagenes)
+            {
+                string filename = img;//.Substring(4);
+                string path = HostingEnvironment.ApplicationPhysicalPath + "Images\\OfertasPromosDsctos\\" + filename + ".jpg";
+                byte[] bytes = System.IO.File.ReadAllBytes(path);
+                Imagen imagen = new Imagen { Data = bytes, Nombre = filename, Mime = "image/jpg" };
+                listaImagenes.Add(imagen);
+                this.Imagenes.Add(imagen);
+            }
+
+            this.SaveChanges();
+
+            //Sabemos que hay una imagen por cada una de las ofertas, promos, dsctos
+            int k = 0;
+            foreach (var imagen in listaImagenes)
+            {
+                r1 = random.Next(-5, 31);
+                r2 = random.Next(7, 31);
+                r3 = random.Next(3, 7);
+
+                int isAdquirible = 0;
+                int costo = -1;
+                string tipo = "";
+                if (imagen.Nombre.Substring(0, 1) == "O")
+                    tipo = "Oferta";
+                if (imagen.Nombre.Substring(0, 1) == "P")
+                {
+                    tipo = "Promoción";
+                    isAdquirible = 1;
+                    costo = Int32.Parse(imagen.Nombre.Substring(2, 1));
+                }
+                if (imagen.Nombre.Substring(0, 1) == "D")
+                    tipo = "Descuento";
+
+                DateTime d = DateTime.Now.AddDays(r1).AddHours(r2).AddMinutes(r1 + r2);
+                k = (k >= suministradores.Count) ? 0 : k;
+                Suministrador suministrador = suministradores[k];
+
+                OfertaPromoDscto ofertaPromoDscto = new OfertaPromoDscto
+                {
+                    NombreCorto = imagen.Nombre.Substring(4),
+                    NombreCompleto = imagen.Nombre.Substring(4),
+                    Tipo = tipo,
+                    SuministradorId = suministrador.SuministradorId,
+                    Descripcion = tipo + ": " + imagen.Nombre.Substring(4),
+                    FechaInicio = d,
+                    FechaFin = d.AddDays(r2),
+                    FechaRegistro = DateTime.Now,
+                    ImagenPrincipalId = imagen.ImagenId,
+                    ImagenBannerId = imagen.ImagenId,
+                    CantidadDisponible = r3,
+                    CostoEnLeads = costo,
+                    IsAdquiribleConLeads = isAdquirible,
+                    IsVisible = 1,
+                    IsEliminado = 0,
+                };
+                listaOfertaPromoDscto.Add(ofertaPromoDscto);
+                this.OfertasPromosDsctos.Add(ofertaPromoDscto);
+                k++;
+            }
+            this.SaveChanges();
+            return listaOfertaPromoDscto;
+        }
+
+        private void SeedComprasVirtuales(List<Proveedor> proveedores, List<OfertaPromoDscto> ofertasPromosDsctos)
+        {
+            int r1, r2, r3, r4;
+            Random random = new Random();
+
+            foreach (var ofertaPromoDscto in ofertasPromosDsctos)
+            {
+                if (ofertaPromoDscto.Tipo == "Promoción")
+                {
+                    r1 = random.Next(0, ofertaPromoDscto.CantidadDisponible);
+                    r2 = random.Next(0, proveedores.Count);
+                    r3 = random.Next(1, 6);
+                    r4 = random.Next(1, 7);
+
+                    for (int i = 0; i < r1; i++)
+                    {
+                        CompraVirtual compraVirtual = new CompraVirtual
+                        {
+                            FechaCompra = ofertaPromoDscto.FechaInicio.AddDays(r3).AddHours(r4).AddMinutes(r3 + r4),
+                            OfertaPromoDsctoId = ofertaPromoDscto.OfertaPromoDsctoId,
+                            ProveedorId = proveedores[r2].ProveedorId,
+                            LeadsPagados = ofertaPromoDscto.CostoEnLeads,
+                            IsEliminado = 0
+                        };
+                        this.ComprasVirtuales.Add(compraVirtual);
+                    }
+                }
+            }
+            this.SaveChanges();
+        }
+
         #endregion
     }
 

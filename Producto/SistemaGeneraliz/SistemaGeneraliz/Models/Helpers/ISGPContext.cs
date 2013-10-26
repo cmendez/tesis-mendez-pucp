@@ -25,7 +25,8 @@ namespace SistemaGeneraliz.Models.Helpers
         IDbSet<Imagen> Imagenes { get; set; }
         IDbSet<Producto> Productos { get; set; }
         IDbSet<CategoriaProducto> CategoriasProducto { get; set; }
-        //IDbSet<SubcategoriaProducto> SubcategoriasProducto { get; set; }
+        IDbSet<OfertaPromoDscto> OfertasPromosDsctos { get; set; }
+        IDbSet<CompraVirtual> ComprasVirtuales { get; set; }
         int SaveChanges();
         DbEntityEntry Entry(object entity);
     }

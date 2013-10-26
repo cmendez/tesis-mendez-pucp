@@ -47,37 +47,42 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             return _sgpFactory.GetSuministradorPorPersonaId(personaId);
         }
 
-        public List<RecargasLeadsViewModel> GetListaRecargasSuministrador(int suministradorId)
+        public List<RecargasLeadsViewModel> GetListaRecargasSuministrador(Suministrador suministrador)
         {
             var listaRecargasViewModel = new List<RecargasLeadsViewModel>();
-            var listaRecargas = _sgpFactory.GetListaRecargasSuministrador(suministradorId);
-            foreach (var recarga in listaRecargas)
+            var listaRecargas = suministrador.RecargasLeads; //_sgpFactory.GetListaRecargasSuministrador(suministradorId);
+            if (listaRecargas != null)
             {
-                string n = "";
-                string d = "";
-
-                if (recarga.Proveedor.Persona.TipoPersona == "Natural")
+                foreach (var recarga in listaRecargas)
                 {
-                    n = recarga.Proveedor.Persona.PrimerNombre + " " + recarga.Proveedor.Persona.ApellidoPaterno;
-                    d = recarga.Proveedor.Persona.DNI.ToString();
+                    string n = "";
+                    string d = "";
+
+                    if (recarga.Proveedor.Persona.TipoPersona == "Natural")
+                    {
+                        n = recarga.Proveedor.Persona.PrimerNombre + " " + recarga.Proveedor.Persona.ApellidoPaterno;
+                        d = recarga.Proveedor.Persona.DNI.ToString();
+                    }
+
+                    if (recarga.Proveedor.Persona.TipoPersona == "Juridica")
+                    {
+                        n = recarga.Proveedor.Persona.RazonSocial;
+                        d = recarga.Proveedor.Persona.RUC.ToString();
+                    }
+
+                    RecargasLeadsViewModel rec = new RecargasLeadsViewModel
+                                                     {
+                                                         RecargaLeadsId = recarga.RecargaLeadsId,
+                                                         FechaRecarga =
+                                                             recarga.FechaRecarga.ToString("dd/MM/yyyy HH:mm"),
+                                                         NombreProveedor = n,
+                                                         DocumentoProveedor =
+                                                             d + " " + recarga.Proveedor.Persona.UserName,
+                                                         MontoRecarga = "S/. " + recarga.MontoRecarga.ToString(),
+                                                         CantidadLeads = recarga.CantidadLeads
+                                                     };
+                    listaRecargasViewModel.Add(rec);
                 }
-
-                if (recarga.Proveedor.Persona.TipoPersona == "Juridica")
-                {
-                    n = recarga.Proveedor.Persona.RazonSocial;
-                    d = recarga.Proveedor.Persona.RUC.ToString();
-                }
-
-                RecargasLeadsViewModel rec = new RecargasLeadsViewModel
-                {
-                    RecargaLeadsId = recarga.RecargaLeadsId,
-                    FechaRecarga = recarga.FechaRecarga.ToString("dd/MM/yyyy HH:mm"),
-                    NombreProveedor = n,
-                    DocumentoProveedor = d + " " + recarga.Proveedor.Persona.UserName,
-                    MontoRecarga = "S/. " + recarga.MontoRecarga.ToString(),
-                    CantidadLeads = recarga.CantidadLeads
-                };
-                listaRecargasViewModel.Add(rec);
             }
             return listaRecargasViewModel;
         }

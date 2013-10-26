@@ -3,7 +3,7 @@
 @using SistemaGeneraliz.Models.ViewModels
 
 @{
-    ViewBag.Title = "Buscar Productos";
+    ViewBag.Title = "Buscar Ofertas, Promos y Dsctos";
 }
 
 <!DOCTYPE html>
@@ -27,11 +27,11 @@
     @*    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
-    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Buscar Productos", "Puede buscar por nombre, categoría, distrito y/o suministrador"));}
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Buscar Ofertas, Promos y Dsctos", ""));}
 
     @Html.ValidationSummary(true)
 
-    <table style="width: 100%; border: 0;">
+    @*<table style="width: 100%; border: 0;">
         <tbody>
             <tr>
                 <td style="vertical-align: top; width: 50%; padding-left: 6%">
@@ -77,7 +77,7 @@
                 </td>
             </tr>
         </tbody>
-    </table>
+    </table>*@
 
     <br />
     <div class="clearfix">

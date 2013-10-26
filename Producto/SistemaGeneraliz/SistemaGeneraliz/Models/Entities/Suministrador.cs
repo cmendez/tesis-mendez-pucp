@@ -18,6 +18,8 @@ namespace SistemaGeneraliz.Models.Entities
 		public string Facebook { get; set; }
 		public string AcercaDeMi { get; set; }
 		public int IsDestacado { get; set; }
+        public virtual ICollection<RecargaLeads> RecargasLeads { get; set; }
         public virtual ICollection<Producto> Productos { get; set; }
+        public virtual ICollection<OfertaPromoDscto> OfertasPromosDsctos { get; set; }
     }
 }

@@ -36,8 +36,8 @@ namespace SistemaGeneraliz.Controllers
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
                 Persona persona = _logicaPersonas.GetPersonaPorUsername(model.UserName);
-                Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
-                Session["ImagenId"] = persona.ImagenId;
+                //Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
+                //Session["ImagenId"] = persona.ImagenId;
                 return RedirectToLocal(returnUrl);
             }
 
@@ -136,11 +136,13 @@ namespace SistemaGeneraliz.Controllers
             }
         }
         #endregion
-        /*
+
+        [AllowAnonymous]
         public static string GetNombrePersonaLoggeada()
         {
             return _logicaPersonas.GetNombrePersonaLoggeada(WebSecurity.CurrentUserId);
-        }*/
+        }
+
         [AllowAnonymous]
         public ActionResult GetImagen(int imagenId)
         {
@@ -172,12 +174,29 @@ namespace SistemaGeneraliz.Controllers
                 }
             }
         }
-        /*
+
+        [AllowAnonymous]
         public static int GetImagenIdPersonaLoggeada()
         {
             Persona persona = _logicaPersonas.GetPersonaLoggeada(WebSecurity.CurrentUserId);
             int imageId = (int) persona.ImagenId;
             return imageId;
-        }*/
+        }
+
+        [AllowAnonymous]
+        public ActionResult Error()
+        {
+            return View();
+        }
+
+
+
+
+
+
+
+
+
+
     }
 }

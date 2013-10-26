@@ -125,7 +125,7 @@ namespace SistemaGeneraliz.Controllers
             List<RecargasLeadsViewModel> listaRecargasViewModel = new List<RecargasLeadsViewModel>();
             if (suministrador != null)
             {
-                listaRecargasViewModel = _logicaSuministradores.GetListaRecargasSuministrador(suministrador.SuministradorId);
+                listaRecargasViewModel = _logicaSuministradores.GetListaRecargasSuministrador(suministrador);
             }
 
             return Json(listaRecargasViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -429,6 +429,15 @@ namespace SistemaGeneraliz.Controllers
             }
 
             return View(productoViewModel);
+        }
+
+        [AllowAnonymous]
+        public ActionResult BuscarOfertasPromocionesDescuentos()
+        {
+            //ViewBag.Categorias = _logicaSuministradores.GetCategoriasProducto();
+            //ViewBag.Distritos = _logicaSuministradores.GetDistritos();
+            //ViewBag.Suministradores = _logicaSuministradores.GetSuministradores();
+            return View();
         }
     }
 }
