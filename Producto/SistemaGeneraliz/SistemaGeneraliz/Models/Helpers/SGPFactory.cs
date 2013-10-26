@@ -440,6 +440,18 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.Suministradores.Where(s => s.Persona.IsHabilitado == 1 && s.Persona.IsEliminado == 0).ToList();
         }
 
+        public List<OfertaPromoDscto> GetOfertasPromosDsctosCatalogo()
+        {
+            IQueryable<OfertaPromoDscto> query = _db.OfertasPromosDsctos.Where(p => p.IsEliminado == 0 && p.IsVisible == 1);
+            //return query.OrderBy(r => Guid.NewGuid()).ToList();
+            return query.ToList();
+        }
+
+        public OfertaPromoDscto GetOfertaPromoDscto(int ofertaPromoDsctoId)
+        {
+            return _db.OfertasPromosDsctos.Find(ofertaPromoDsctoId);
+        }
+
         #endregion
 
     }

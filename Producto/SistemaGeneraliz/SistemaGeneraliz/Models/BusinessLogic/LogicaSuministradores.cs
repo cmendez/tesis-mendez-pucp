@@ -317,5 +317,45 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             }
             return suministradores;
         }
+
+        public List<OfertasPromosDsctosViewModel> GetOfertasPromosDsctosCatalogo()
+        {
+            List<OfertasPromosDsctosViewModel> listaOfertasPromosDsctosViewModel = new List<OfertasPromosDsctosViewModel>();
+            List<OfertaPromoDscto> ofertasPromosDsctos = _sgpFactory.GetOfertasPromosDsctosCatalogo();
+
+            if ((ofertasPromosDsctos != null) && (ofertasPromosDsctos.Count > 0))
+            {
+                foreach (var ofertaPromoDscto in ofertasPromosDsctos)
+                {
+                    OfertasPromosDsctosViewModel ofertaPromoDsctoViewModel = new OfertasPromosDsctosViewModel
+                    {
+                        OfertaPromoDsctoId = ofertaPromoDscto.OfertaPromoDsctoId,
+                        Tipo = ofertaPromoDscto.Tipo,
+                        NombreCorto = ofertaPromoDscto.NombreCorto.Length > 19 ? ofertaPromoDscto.NombreCorto.Substring(0, 18) + "..." : ofertaPromoDscto.NombreCorto,
+                        NombreCompleto = ofertaPromoDscto.NombreCompleto,
+                        Descripcion = ofertaPromoDscto.Descripcion,
+                        ImagenPrincipalId = (int)ofertaPromoDscto.ImagenPrincipalId,
+                        ImagenBannerId = (int)ofertaPromoDscto.ImagenBannerId,
+                        CostoEnLeads = ofertaPromoDscto.CostoEnLeads,
+                        SuministradorId = ofertaPromoDscto.SuministradorId,
+                        CantidadDisponible = ofertaPromoDscto.CantidadDisponible,
+                        IsAdquiribleConLeads = ofertaPromoDscto.IsAdquiribleConLeads,
+                        FechaRegistro = ofertaPromoDscto.FechaRegistro.ToString("dd/MM/yyyy"),
+                        FechaInicioString = ofertaPromoDscto.FechaInicio.ToString("dd/MM/yyyy"),
+                        FechaFinString = ofertaPromoDscto.FechaFin.ToString("dd/MM/yyyy"),
+                        IsVisible = ofertaPromoDscto.IsVisible,
+                        IsEliminado = ofertaPromoDscto.IsEliminado
+                    };
+                    listaOfertasPromosDsctosViewModel.Add(ofertaPromoDsctoViewModel);
+                }
+            }
+
+            return listaOfertasPromosDsctosViewModel;
+        }
+
+        public OfertaPromoDscto GetOfertaPromoDscto(int ofertaPromoDsctoId)
+        {
+            return _sgpFactory.GetOfertaPromoDscto(ofertaPromoDsctoId);
+        }
     }
 }

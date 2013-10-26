@@ -385,7 +385,7 @@ namespace SistemaGeneraliz.Controllers
                 _logicaSuministradores.AgregarProducto(productoViewModel);
                 return RedirectToAction("EditarProductos");
             }
-            
+
             return View(productoViewModel);
         }
 
@@ -432,12 +432,53 @@ namespace SistemaGeneraliz.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult BuscarOfertasPromocionesDescuentos()
+        public ActionResult OfertasPromocionesDescuentos()
         {
             //ViewBag.Categorias = _logicaSuministradores.GetCategoriasProducto();
             //ViewBag.Distritos = _logicaSuministradores.GetDistritos();
             //ViewBag.Suministradores = _logicaSuministradores.GetSuministradores();
             return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult OfertasPromosDsctos_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            List<OfertasPromosDsctosViewModel> listaOfertasPromosDsctosViewModel = _logicaSuministradores.GetOfertasPromosDsctosCatalogo();
+            return Json(listaOfertasPromosDsctosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult GetDetallesOfertaPromoDsctoJSON(int ofertaPromoDsctoId)
+        {
+            var productoJson = new List<Object>();
+            OfertaPromoDscto ofertaPromoDscto = _logicaSuministradores.GetOfertaPromoDscto(ofertaPromoDsctoId);
+            if (ofertaPromoDscto != null)
+            {
+                Object o = new
+                {
+                    OfertaPromoDsctoId = ofertaPromoDscto.OfertaPromoDsctoId,
+                    Tipo = ofertaPromoDscto.Tipo,
+                    NombreCorto = ofertaPromoDscto.NombreCorto.Length > 19 ? ofertaPromoDscto.NombreCorto.Substring(0, 19) + "..." : ofertaPromoDscto.NombreCorto,
+                    NombreCompleto = ofertaPromoDscto.NombreCompleto,
+                    Descripcion = ofertaPromoDscto.Descripcion,
+                    ImagenPrincipalId = (int)ofertaPromoDscto.ImagenPrincipalId,
+                    ImagenBannerId = (int)ofertaPromoDscto.ImagenBannerId,
+                    CostoEnLeads = ofertaPromoDscto.CostoEnLeads,
+                    Suministrador = ofertaPromoDscto.Suministrador.Persona.RazonSocial,
+                    SuministradorId = ofertaPromoDscto.SuministradorId,
+                    CantidadDisponible = ofertaPromoDscto.CantidadDisponible,
+                    IsAdquiribleConLeads = ofertaPromoDscto.IsAdquiribleConLeads,
+                    FechaRegistro = ofertaPromoDscto.FechaRegistro.ToString("dd/MM/yyyy"),
+                    FechaInicioString = ofertaPromoDscto.FechaInicio.ToString("dd/MM/yyyy"),
+                    FechaFinString = ofertaPromoDscto.FechaFin.ToString("dd/MM/yyyy"),
+                    Visible = ofertaPromoDscto.IsVisible == 1 ? "Sí" : "No",
+                    IsEliminado = ofertaPromoDscto.IsEliminado
+                };
+
+                productoJson.Add(o);
+            }
+            return Json(productoJson, JsonRequestBehavior.AllowGet);
         }
     }
 }

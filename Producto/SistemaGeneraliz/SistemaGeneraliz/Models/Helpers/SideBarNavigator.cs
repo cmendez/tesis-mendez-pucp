@@ -32,10 +32,10 @@ namespace SistemaGeneraliz.Models.Helpers
                new SidebarSuboption("Historial de Trabajos", "Proveedores", "HistorialTrabajos", "icon-list-ul"),
                //new SidebarSuboption("Historial de Recargas", "Proveedores", "Index", "icon-list-alt"), // evaluar si va o no va
                new SidebarSuboption("Buscar Productos", "Suministradores", "BuscarProductos", "icon-search"),
-               new SidebarSuboption("Buscar Ofertas, Promos y Dsctos", "Proveedores", "Index", "icon-tags"),
-               new SidebarSuboption("Comprar Ofertas, Promos y Dsctos", "Proveedores", "Index", "icon-shopping-cart"),
+               new SidebarSuboption("Buscar Ofertas, Promos y Dsctos", "Suministradores", "OfertasPromocionesDescuentos", "icon-tags"),
+               //new SidebarSuboption("Comprar Ofertas, Promos y Dsctos", "Proveedores", "Index", "icon-shopping-cart"),
                new SidebarSuboption("Demanda de Servicios Generales", "Proveedores", "Index", "icon-signal"),
-               new SidebarSuboption("Mi Calendario", "Proveedores", "Index", "icon-calendar"),
+               //new SidebarSuboption("Mi Calendario", "Proveedores", "Index", "icon-calendar"),
                new SidebarSuboption("Editar Mi Información", "Proveedores", "Index", "icon-edit")
             })));
 

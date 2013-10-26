@@ -76,6 +76,8 @@ namespace SistemaGeneraliz.Models.Helpers
         void AgregarProducto(Producto producto);
         void ModificarProducto(Producto producto);
         List<Suministrador> GetSuministradores();
+        List<OfertaPromoDscto> GetOfertasPromosDsctosCatalogo();
+        OfertaPromoDscto GetOfertaPromoDscto(int ofertaPromoDsctoId);
         #endregion
 
         

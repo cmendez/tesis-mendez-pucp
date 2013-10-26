@@ -1,105 +1,54 @@
-﻿@model IEnumerable<SistemaGeneraliz.Models.ViewModels.ProductosViewModel>
+﻿@model IEnumerable<SistemaGeneraliz.Models.ViewModels.OfertasPromosDsctosViewModel>
 @using SistemaGeneraliz.Models.Entities
 @using SistemaGeneraliz.Models.ViewModels
 
 @{
-    ViewBag.Title = "Buscar Ofertas, Promos y Dsctos";
+    ViewBag.Title = "Ofertas, Promos y Dsctos";
+    
 }
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Buscar Productos</title>
+    <title>Ofertas, Promos y Dsctos</title>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script src="~/Scripts/ubicaciones.js"></script>
     <script type="text/x-kendo-tmpl" id="template">
         <div class="album" >
-            <img src='/Suministradores/GetImagen?imagenId=#=ImagenId#' alt="#:NombreCorto#" />
-            <span class="idProduct" >ID[#:ProductoId#]</span>
+            <img src='/Suministradores/GetImagen?imagenId=#=ImagenPrincipalId#' alt="#:NombreCorto#" />
+            <span class="idProduct" >ID[#:OfertaPromoDsctoId#]</span>
             <span class="title" >#:NombreCorto#</span>
-            <span class="price" >#:kendo.toString(Precio, "c")# <a id='btnVer' style='color: \\\#008AC9; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='\\\#modal_producto' data-toggle='modal' 
-        onclick='return verDetalles(#=ProductoId#);'>- Ver Detalles</a></span>
+            <span class="price" >#:Tipo# <a id='btnVer' style='color: \\\#008AC9; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='\\\#modal_producto' data-toggle='modal' 
+        onclick='return verDetalles(#=OfertaPromoDsctoId#);'> - Ver</a></span>
         </div>    
     </script>
 </head>
 <body>
-    @*    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
-    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Buscar Ofertas, Promos y Dsctos", ""));}
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Ofertas, Promos y Dsctos", ""));}
 
     @Html.ValidationSummary(true)
 
-    @*<table style="width: 100%; border: 0;">
-        <tbody>
-            <tr>
-                <td style="vertical-align: top; width: 50%; padding-left: 6%">
-                    <table>
-                        <tbody style="vertical-align: top;">
-                            <tr>
-                                <td>Producto:</td>
-                                <td>
-                                    <input type="text" name="nombre" id="nombre" maxlength="100" placeholder="Ingrese nombre (opcional)">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Categoría:</td>
-                                <td>
-                                    @Html.DropDownList("categorias", new SelectList(ViewBag.Categorias, "CategoriaProductoId", "NombreCategoria"), new { style = "width: 218px" })
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-                <td style="vertical-align: top; width: 35%;">
-                    <table style="width: auto; border: 0;">
-                        <tbody style="vertical-align: top;">
-                            <tr>
-                                <td style="width: 10%;">Ubicación por distrito:</td>
-                                <td style="width: 10%;">
-                                    @Html.DropDownList("distritos", new SelectList(ViewBag.Distritos, "DistritoId", "NombreDistrito"), new { style = "width: 218px" })
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Suministrador:</td>
-                                <td>
-                                    @Html.DropDownList("suministradores", new SelectList(ViewBag.Suministradores, "SuministradorId", "NombreSuministrador"), new { style = "width: 218px" })
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-                <td style="vertical-align: top; padding-top: 15px; width: 16%; padding-right: 7%;">
-                    <button id="btnBuscar" type="submit" class="btn blue pull-right" style="width: 104%;">
-                        Buscar <i class="icon-search  m-icon-white"></i>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>*@
-
     <br />
     <div class="clearfix">
-        @(Html.Kendo().ListView<SistemaGeneraliz.Models.ViewModels.ProductosViewModel>(Model)
+        @(Html.Kendo().ListView<SistemaGeneraliz.Models.ViewModels.OfertasPromosDsctosViewModel>(Model)
             .Name("listView")
             .TagName("div")
             .ClientTemplateId("template")
             .DataSource(dataSource =>
             {
-                dataSource.Read(read => read.Action("Productos_Read", "Suministradores").Data("additionalData"));
+                dataSource.Read(read => read.Action("OfertasPromosDsctos_Read", "Suministradores"));
                 dataSource.PageSize(15);
             })
             .Pageable()
             .Selectable(selectable => selectable.Mode(ListViewSelectionMode.Single))
-            .Events(events => events.Change("onChange"))
         )
     </div>
 
     <div class="modal fade" id="modal_producto" style="z-index: -1;">
         <div class="modal-header">
             <a class="close" data-dismiss="modal"></a>
-            <h4 style="font-weight: bold;">Detalles del producto</h4>
+            <h4 id="encabezado" style="font-weight: bold;">Detalles</h4>
         </div>
         <div class="modal-body" style="max-height: 800px !important; width: 130%;">
             <div class="row-fluid">
@@ -108,13 +57,23 @@
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;">Tipo</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="tipo" style="cursor: default;"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
                                 <label style="cursor: default; font-weight: bold;">Producto</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
-                                @*<input type="text" id="nombreProducto" value="" readonly="readonly" />*@
-                                @*<textarea id="nombreProducto" readonly="readonly"></textarea>*@
                                 <label id="nombreProducto" style="cursor: default;"></label>
                                 <img id="imagenProducto" src='' alt="" width='172' height='172' style="padding-left: 5%;" />
                             </div>
@@ -136,24 +95,36 @@
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style="cursor: default; font-weight: bold;">Categoría</label>
+                                <label style="cursor: default; font-weight: bold;">Vigencia</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
-                                <label id="categoriaProducto" style="cursor: default;"></label>
+                                <label id="vigencia" style="cursor: default;"></label>
                             </div>
                         </div>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style="cursor: default; font-weight: bold;">Precio</label>
+                                <label style="cursor: default; font-weight: bold;">Cantidad Disp.</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
-                                <label id="precio" style="cursor: default;" />
+                                <label id="cantidadDisponible" style="cursor: default;"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid" id="divCostoLeads" style="display: none;">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;">Costo en Leads</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="costo" style="cursor: default;"></label>
                             </div>
                         </div>
                     </div>
@@ -168,6 +139,20 @@
                                 <input type="hidden" id="suministradorId" value="" />
                                 <a id='btnVerSuministrador' style='color: #008AC9; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='#modalSuministrador' data-toggle='modal'
                                     onclick='return verSuministrador();'>Ver Suministrador</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid" id="divComprar">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;"></label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="margin-right: 70px;">
+                                <button id="btnSeparar" type="submit" class="btn red pull-right" style="width: 104%;">
+                                    Separar <i class="icon-check  m-icon-white"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -304,51 +289,26 @@
     </div>
 
     <script>
-        $(document).ready(function () {
-            $("#categorias").kendoDropDownList({
-            });
 
-            $("#distritos").kendoDropDownList({
-            });
-            
-            $("#suministradores").kendoDropDownList({
-            });
-        });
-
-        function onChange(arg) {
-            //$("#modal_producto").attr('style', 'width: 90%;left:5%;margin-left:auto;margin-right:auto;');
-            var selected = $.map(this.select(), function (item) {
-                return $(item).text();
-            });
-            //alert("Selected: " + selected.length + " item(s), [" + selected.join(", ") + "]");
-            //alert(selected.join(", "));
-        }
-
-        function additionalData() {
-            return {
-                nombreProducto: $("#nombre").val(),
-                categoriaId: $("#categorias").val(),
-                distritoId: $("#distritos").val(),
-                suministradorId: $("#suministradores").val()
-            };
-        }
-
-        $("#btnBuscar").click(function () {
-            $("#listView").data("kendoListView").dataSource.read();
-            return;
-        });
-
-        function verDetalles(productoId) {
+        function verDetalles(ofertaPromoDsctoId) {
             //alert(productoId);
-            $.getJSON('/Suministradores/GetDetallesProductoJSON', { productoId: productoId, ajax: 'true' }, function (result) {
+            $.getJSON('/Suministradores/GetDetallesOfertaPromoDsctoJSON', { ofertaPromoDsctoId: ofertaPromoDsctoId, ajax: 'true' }, function (result) {
                 $(result).each(function () {
                     $("#nombreProducto").text(this.NombreCompleto);
-                    $("#imagenProducto").attr('src', "/Usuarios/GetImagen?imagenId=" + this.ImagenId);
+                    $("#imagenProducto").attr('src', "/Usuarios/GetImagen?imagenId=" + this.ImagenPrincipalId);
                     $("#descripcionProducto").text(this.Descripcion);
-                    $("#categoriaProducto").text(this.Categoria);
-                    $("#precio").text("S/." + this.Precio);
+                    $("#tipo").text(this.Tipo);
                     $("#suministradorId").val(this.SuministradorId);
                     $("#btnVerSuministrador").text(this.Suministrador);
+                    $("#vigencia").text(this.FechaInicioString + " - " + this.FechaFinString);
+                    $("#cantidadDisponible").text(this.CantidadDisponible);
+                    $("#divCostoLeads").attr('style', 'display: none;');
+                    $("#divComprar").attr('style', 'display: none;');
+                    if (this.Tipo === "Promoción") {
+                        $("#divCostoLeads").attr('style', '');
+                        $("#costo").text(this.CostoEnLeads);
+                        $("#divComprar").attr('style', '');
+                    }
                 });
             });
 
@@ -397,15 +357,6 @@
             var suministrador = $("#suministradorId").val();
             $.getJSON('/Suministradores/GetDetallesUbicacionesJSON', { suministradorId: suministrador }, function (result) {
                 $(result).each(function () {
-                    //var ubicacion = new Array(); 
-                    //ubicacion.push(this.distrito);
-                    //ubicacion.push(this.direccion);
-                    //ubicacion.push(this.referencia);
-                    //ubicacion.push(this.latitud);
-                    //ubicacion.push(this.longitud);
-                    //alert("1 "+ubicacion);
-                    //ubicaciones.push(ubicacion);
-                    //ubicaciones.push(JSON.stringify(this));
 
                     var marker2 = new google.maps.Marker({
                         position: new google.maps.LatLng(this.latitud, this.longitud),
@@ -422,11 +373,80 @@
                     map.setCenter(pos);
                 });
             });
-            //a.push(ubicaciones);
-            //alert(map);
-            //$("#ubicaciones").val(a);
+
             $("#modal_mapa").attr('style', 'height: 560px;');
         }
+        
+        $("#btnSeparar").click(function e() {
+            alert("Falta implementar. Ver si utilizo variables hidden para el id proveedor (para ver si esta loggeado) o utilizar varias llamadas ajax " +
+                "para validar primero, y luego realizar la compra");
+            //var multiselect = $("#tiposServicios").data("kendoMultiSelect");
+            //var valueServicios = multiselect.value().toString();
+
+            //if (valueServicios === "") {
+            //    alert("Error: debe elegir por lo menos un servicio.");
+            //    return;
+            //}
+
+            //var ubicacion = $("#ubicacion").val();
+            //if (ubicacion === "") {
+            //    alert("Error: debe ingresar una ubicación.");
+            //    return;
+            //}
+
+            //var fecha = $("#fecha").val();
+            //if (fecha === "") {
+            //    alert("Error: debe ingresar una fecha.");
+            //    return;
+            //}
+            //var desc = $("#descripcion").val();
+            //if (desc === "") {
+            //    alert("Error: debe ingresar la descripción del trabajo.");
+            //    return;
+            //}
+
+            //var data = $('#Grid').data('kendoGrid').dataSource.data();
+            //if (data.length === 0) {
+            //    alert("Error: debe haber al menos un proveedor a contratar");
+            //    return;
+            //}
+
+            //var proveedoresIds = "";
+            //var serviciosIds = "";
+
+            //$.each(data, function (index, item) {
+            //    proveedoresIds += item.ProveedorId + ",";
+            //    serviciosIds += item.ServicioId + ",";
+            //});
+
+            //var clienteId = $("#clienteId").val();
+
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/Clientes/ContratarProveedores',
+            //    dataType: "json",
+            //    contentType: "application/json; charset=utf-8",
+            //    data: {
+            //        clienteId: clienteId,
+            //        proveedoresIds: proveedoresIds,
+            //        serviciosIds: serviciosIds,
+            //        fecha: fecha,
+            //        ubicacion: ubicacion,
+            //        desc: desc
+            //    },
+
+            //    success: function (e) {
+            //        alert("Se realizó la contratación exitosamente.");
+            //        //window.location = "/Home/Index/";
+            //        $("#btnContratar").attr('style', 'display :none;');
+            //        $("#btnVerDatos").attr('style', 'width: 100%; color: black; text-shadow: none; background-color: lightblue;');
+            //    },
+            //    error: function (xhr, ajaxOptions, thrownError) {
+            //        alert(xhr.status);
+            //        alert(thrownError);
+            //    }
+            //});
+        });
     </script>
 </body>
 </html>

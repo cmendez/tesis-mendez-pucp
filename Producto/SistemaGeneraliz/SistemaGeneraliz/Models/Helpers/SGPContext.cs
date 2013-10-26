@@ -877,7 +877,7 @@ namespace SistemaGeneraliz.Models.Helpers
                                     "P_3_Juego de alicates",
                                     "P_5_Juego de llaves",
                                     "P_4_Nivel de aluminio 300 mm",
-                                    "P_2_Set 4 de desarmadores",
+                                    "P_2_Set de 4 desarmadores",
                                     "P_4_Set alicate universal 8",
                                     "P_8_Set dados mecánicos",
                                     "P_4_Set de herramientas",
