@@ -3,7 +3,7 @@
 @using SistemaGeneraliz.Models.ViewModels
 
 @{
-    ViewBag.Title = "Ofertas, Promos y Dsctos";
+    ViewBag.Title = "Ofertas, Promociones y Descuentos";
     
 }
 
@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Ofertas, Promos y Dsctos</title>
+    <title>Ofertas, Promociones y Descuentos</title>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script src="~/Scripts/ubicaciones.js"></script>
     <script type="text/x-kendo-tmpl" id="template">
@@ -25,9 +25,11 @@
     </script>
 </head>
 <body>
-    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Ofertas, Promos y Dsctos", ""));}
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Ofertas, Promociones y Descuentos", ""));}
 
-    @Html.ValidationSummary(true)
+    <input type="hidden" name="ProveedorId" id="ProveedorId" value="@ViewBag.ProveedorId" />
+    <input type="hidden" name="EsProveedor" id="EsProveedor" value="@ViewBag.EsProveedor" />
+    <input type="hidden" name="leadsProveedor" id="leadsProveedor" value="@ViewBag.LeadsProveedor" />
 
     <br />
     <div class="clearfix">
@@ -52,6 +54,7 @@
         </div>
         <div class="modal-body" style="max-height: 800px !important; width: 130%;">
             <div class="row-fluid">
+                <input type="hidden" name="ofertaPromoDsctoId" id="ofertaPromoDsctoId" value="" />
                 <!-- contenedor superior izquierdo: campos -->
                 <div class="span7">
                     <div class="row-fluid">
@@ -124,6 +127,7 @@
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
+                                <input type="hidden" name="costoProducto" id="costoProducto" value="" />
                                 <label id="costo" style="cursor: default;"></label>
                             </div>
                         </div>
@@ -294,6 +298,7 @@
             //alert(productoId);
             $.getJSON('/Suministradores/GetDetallesOfertaPromoDsctoJSON', { ofertaPromoDsctoId: ofertaPromoDsctoId, ajax: 'true' }, function (result) {
                 $(result).each(function () {
+                    $("#ofertaPromoDsctoId").val(this.OfertaPromoDsctoId);
                     $("#nombreProducto").text(this.NombreCompleto);
                     $("#imagenProducto").attr('src', "/Usuarios/GetImagen?imagenId=" + this.ImagenPrincipalId);
                     $("#descripcionProducto").text(this.Descripcion);
@@ -307,6 +312,7 @@
                     if (this.Tipo === "Promoción") {
                         $("#divCostoLeads").attr('style', '');
                         $("#costo").text(this.CostoEnLeads);
+                        $("#costoProducto").val(this.CostoEnLeads);
                         $("#divComprar").attr('style', '');
                     }
                 });
@@ -376,76 +382,47 @@
 
             $("#modal_mapa").attr('style', 'height: 560px;');
         }
-        
+
         $("#btnSeparar").click(function e() {
-            alert("Falta implementar. Ver si utilizo variables hidden para el id proveedor (para ver si esta loggeado) o utilizar varias llamadas ajax " +
-                "para validar primero, y luego realizar la compra");
-            //var multiselect = $("#tiposServicios").data("kendoMultiSelect");
-            //var valueServicios = multiselect.value().toString();
+            //alert("Falta implementar. Ver si utilizo variables hidden para el id proveedor (para ver si esta loggeado) o utilizar varias llamadas ajax " +
+            //    "para validar primero, y luego realizar la compra");
 
-            //if (valueServicios === "") {
-            //    alert("Error: debe elegir por lo menos un servicio.");
-            //    return;
-            //}
+            var proveedorId = $("#ProveedorId").val();
+            if (proveedorId === "-1") {
+                alert("Solo los proveedores registrados pueden adquirir ofertas, promociones y descuentos");
+                return;
+            }
 
-            //var ubicacion = $("#ubicacion").val();
-            //if (ubicacion === "") {
-            //    alert("Error: debe ingresar una ubicación.");
-            //    return;
-            //}
+            var costo = parseInt($("#costoProducto").val(), 10);
+            var leadsProveedor = parseInt($("#leadsProveedor").val(), 10);
 
-            //var fecha = $("#fecha").val();
-            //if (fecha === "") {
-            //    alert("Error: debe ingresar una fecha.");
-            //    return;
-            //}
-            //var desc = $("#descripcion").val();
-            //if (desc === "") {
-            //    alert("Error: debe ingresar la descripción del trabajo.");
-            //    return;
-            //}
+            if (costo > leadsProveedor) {
+                alert("Error: no cuenta con suficientes leads (actuales: " + leadsProveedor + "). \nPor favor, solicite una recarga a su suministrador favorito.");
+                return;
+            }
 
-            //var data = $('#Grid').data('kendoGrid').dataSource.data();
-            //if (data.length === 0) {
-            //    alert("Error: debe haber al menos un proveedor a contratar");
-            //    return;
-            //}
+            var ofertaId = $("#ofertaPromoDsctoId").val();
 
-            //var proveedoresIds = "";
-            //var serviciosIds = "";
+            $.ajax({
+                type: 'GET',
+                url: '/Suministradores/SepararOfertaPromoDscto',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: {
+                    proveedorId: proveedorId,
+                    ofertaId: ofertaId,
+                    costo: costo
+                },
 
-            //$.each(data, function (index, item) {
-            //    proveedoresIds += item.ProveedorId + ",";
-            //    serviciosIds += item.ServicioId + ",";
-            //});
-
-            //var clienteId = $("#clienteId").val();
-
-            //$.ajax({
-            //    type: 'GET',
-            //    url: '/Clientes/ContratarProveedores',
-            //    dataType: "json",
-            //    contentType: "application/json; charset=utf-8",
-            //    data: {
-            //        clienteId: clienteId,
-            //        proveedoresIds: proveedoresIds,
-            //        serviciosIds: serviciosIds,
-            //        fecha: fecha,
-            //        ubicacion: ubicacion,
-            //        desc: desc
-            //    },
-
-            //    success: function (e) {
-            //        alert("Se realizó la contratación exitosamente.");
-            //        //window.location = "/Home/Index/";
-            //        $("#btnContratar").attr('style', 'display :none;');
-            //        $("#btnVerDatos").attr('style', 'width: 100%; color: black; text-shadow: none; background-color: lightblue;');
-            //    },
-            //    error: function (xhr, ajaxOptions, thrownError) {
-            //        alert(xhr.status);
-            //        alert(thrownError);
-            //    }
-            //});
+                success: function (e) {
+                    alert("Se realizó la separación exitosamente.\nPóngase en contacto con el suministrador \npara finalizar la compra.");
+                    window.location = "/Suministradores/OfertasPromocionesDescuentos/";
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
         });
     </script>
 </body>

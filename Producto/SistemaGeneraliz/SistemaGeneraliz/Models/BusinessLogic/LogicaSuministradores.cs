@@ -296,7 +296,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         public List<Object> GetSuministradores()
         {
             List<Object> suministradores = new List<Object>();
-            Object suministrador = new 
+            Object suministrador = new
             {
                 SuministradorId = -1,
                 NombreSuministrador = "- Todos los suministradores -",
@@ -356,6 +356,25 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         public OfertaPromoDscto GetOfertaPromoDscto(int ofertaPromoDsctoId)
         {
             return _sgpFactory.GetOfertaPromoDscto(ofertaPromoDsctoId);
+        }
+
+        public void SepararOfertaPromoDscto(int proveedorId, int ofertaId, int costo)
+        {
+            OfertaPromoDscto ofertaPromoDscto = _sgpFactory.GetOfertaPromoDscto(ofertaId);
+            ofertaPromoDscto.CantidadDisponible = ofertaPromoDscto.CantidadDisponible - 1;
+
+            CompraVirtual compraVirtual = new CompraVirtual
+            {
+                ProveedorId = proveedorId,
+                OfertaPromoDsctoId = ofertaId,
+                FechaCompra = DateTime.Now,
+                LeadsPagados = costo,
+                IsEliminado = 0
+            };
+
+            _sgpFactory.AgregarCompraVirtual(compraVirtual);
+            _sgpFactory.ConsumirLeadsProveedor(proveedorId, costo);
+            _sgpFactory.ActualizarOfertaPromoDscto(ofertaPromoDscto);
         }
     }
 }

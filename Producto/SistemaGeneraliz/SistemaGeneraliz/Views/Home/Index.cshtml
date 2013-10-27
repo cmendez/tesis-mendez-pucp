@@ -12,8 +12,8 @@
                     <i class="icon-group"></i>
                 </div>
                 <div class="details">
-                    <div class="number"></div>
-                    <div class="desc">Buscar Proveedores</div>
+                    <div class="number">Búsqueda</div>
+                    <div class="desc">de proveedores</div>
                 </div>
                 <a class="more" href="@Url.Action("MenuBuscarProveedores", "Clientes")">Buscar <i class="m-icon-swapright m-icon-white"></i>
                 </a>
@@ -22,13 +22,26 @@
         <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
             <div class="dashboard-stat green">
                 <div class="visual">
-                    <i class="icon-shopping-cart"></i>
+                    <i class="icon-th"></i>
                 </div>
                 <div class="details">
-                    <div class="number"></div>
-                    <div class="desc">Buscar Productos</div>
+                    <div class="number">Catálogo</div>
+                    <div class="desc">de Productos</div>
                 </div>
-                <a class="more" href="@Url.Action("BuscarProductos", "Suministradores")">Buscar <i class="m-icon-swapright m-icon-white"></i>
+                <a class="more" href="@Url.Action("BuscarProductos", "Suministradores")">Ver <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
+            <div class="dashboard-stat yellow">
+                <div class="visual">
+                    <i class="icon-tags"></i>
+                </div>
+                <div class="details">
+                    <div class="number">Ofertas</div>
+                    <div class="desc">Promos y Dsctos</div>
+                </div>
+                <a class="more" href="@Url.Action("OfertasPromocionesDescuentos", "Suministradores")">Acceder <i class="m-icon-swapright m-icon-white"></i>
                 </a>
             </div>
         </div>
@@ -38,23 +51,10 @@
                     <i class="icon-bolt"></i>
                 </div>
                 <div class="details">
-                    <div class="number"></div>
-                    <div class="desc">Recarga de Leads</div>
+                    <div class="number">Recarga</div>
+                    <div class="desc">de Leads</div>
                 </div>
                 <a class="more" href="@Url.Action("RecargarLeads", "Suministradores")">Recargar <i class="m-icon-swapright m-icon-white"></i>
-                </a>
-            </div>
-        </div>
-        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
-            <div class="dashboard-stat yellow">
-                <div class="visual">
-                    <i class="icon-edit"></i>
-                </div>
-                <div class="details">
-                    <div class="number"></div>
-                    <div class="desc">Mi Información</div>
-                </div>
-                <a class="more" href="#">Editar <i class="m-icon-swapright m-icon-white"></i>
                 </a>
             </div>
         </div>

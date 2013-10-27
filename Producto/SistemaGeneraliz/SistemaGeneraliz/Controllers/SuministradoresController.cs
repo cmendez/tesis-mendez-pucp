@@ -437,6 +437,19 @@ namespace SistemaGeneraliz.Controllers
             //ViewBag.Categorias = _logicaSuministradores.GetCategoriasProducto();
             //ViewBag.Distritos = _logicaSuministradores.GetDistritos();
             //ViewBag.Suministradores = _logicaSuministradores.GetSuministradores();
+            if ((WebSecurity.IsAuthenticated) && (Roles.GetRolesForUser()[0] == "Proveedor"))
+            {
+                Proveedor proveedor = _logicaProveedores.GetProveedorPorPersonaId(WebSecurity.CurrentUserId);
+                ViewBag.ProveedorId = proveedor.ProveedorId;
+                ViewBag.EsProveedor = 0;
+                ViewBag.leadsProveedor = proveedor.LeadsDisponibles;
+            }
+            else
+            {
+                ViewBag.ProveedorId = -1;
+                ViewBag.EsProveedor = 0;
+                ViewBag.LeadsProveedor = -1;
+            }
             return View();
         }
 
@@ -479,6 +492,17 @@ namespace SistemaGeneraliz.Controllers
                 productoJson.Add(o);
             }
             return Json(productoJson, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Administrador, Proveedor")]
+        [HttpGet]
+        public ActionResult SepararOfertaPromoDscto(int proveedorId, int ofertaId, int costo)
+        {
+            _logicaSuministradores.SepararOfertaPromoDscto(proveedorId, ofertaId, costo);
+            var json = new List<Object>();
+            Object o = new { Msg = "ok" };
+            json.Add(o);
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
     }
 }

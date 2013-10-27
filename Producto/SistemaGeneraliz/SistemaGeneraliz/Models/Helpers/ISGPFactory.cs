@@ -78,6 +78,8 @@ namespace SistemaGeneraliz.Models.Helpers
         List<Suministrador> GetSuministradores();
         List<OfertaPromoDscto> GetOfertasPromosDsctosCatalogo();
         OfertaPromoDscto GetOfertaPromoDscto(int ofertaPromoDsctoId);
+        void AgregarCompraVirtual(CompraVirtual compraVirtual);
+        void ActualizarOfertaPromoDscto(OfertaPromoDscto ofertaPromoDscto);
         #endregion
 
         

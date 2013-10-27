@@ -346,12 +346,13 @@ namespace SistemaGeneraliz.Models.Helpers
 
         private List<Proveedor> SeedProveedores(List<Persona> personas, List<TipoServicio> tiposServicios)
         {
-            int r1, r2, r3, r4, r5, r6;
+            int r1, r2, r3;
             var listaProveedores = new List<Proveedor>();
             Random random = new Random();
             foreach (var persona in personas)
             {
                 r1 = random.Next(10, 26);
+                r2 = random.Next(2, 11);
                 r3 = random.Next(10, 21);
 
                 if (persona.TipoUsuario == "Proveedor")
@@ -363,7 +364,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     Proveedor proveedor = new Proveedor
                     {
                         PersonaId = persona.PersonaId,
-                        LeadsDisponibles = 2,
+                        LeadsDisponibles = r2,
                         PuntuacionPromedio = r3,
                         NroTrabajosTerminados = 0,
                         NroBusquedasCliente = r1,

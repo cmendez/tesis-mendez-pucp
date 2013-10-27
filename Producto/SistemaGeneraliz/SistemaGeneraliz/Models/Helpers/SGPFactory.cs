@@ -442,7 +442,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public List<OfertaPromoDscto> GetOfertasPromosDsctosCatalogo()
         {
-            IQueryable<OfertaPromoDscto> query = _db.OfertasPromosDsctos.Where(p => p.IsEliminado == 0 && p.IsVisible == 1);
+            IQueryable<OfertaPromoDscto> query = _db.OfertasPromosDsctos.Where(p => (p.CantidadDisponible > 0) && (p.IsEliminado == 0) && (p.IsVisible == 1));
             //return query.OrderBy(r => Guid.NewGuid()).ToList();
             return query.ToList();
         }
@@ -450,6 +450,18 @@ namespace SistemaGeneraliz.Models.Helpers
         public OfertaPromoDscto GetOfertaPromoDscto(int ofertaPromoDsctoId)
         {
             return _db.OfertasPromosDsctos.Find(ofertaPromoDsctoId);
+        }
+
+        public void AgregarCompraVirtual(CompraVirtual compraVirtual)
+        {
+            _db.ComprasVirtuales.Add(compraVirtual);
+            _db.SaveChanges();
+        }
+
+        public void ActualizarOfertaPromoDscto(OfertaPromoDscto ofertaPromoDscto)
+        {
+            _db.Entry(ofertaPromoDscto).State = EntityState.Modified;
+            _db.SaveChanges();
         }
 
         #endregion
