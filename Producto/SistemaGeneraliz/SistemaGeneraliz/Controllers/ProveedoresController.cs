@@ -199,7 +199,7 @@ namespace SistemaGeneraliz.Controllers
             List<HistorialTrabajosViewModel> listaHistorialTrabajosViewModel = new List<HistorialTrabajosViewModel>();
             if (proveedor != null)
             {
-                listaHistorialTrabajosViewModel = _logicaProveedores.GetHistorialTrabajos(proveedor.ProveedorId);
+                listaHistorialTrabajosViewModel = _logicaProveedores.GetHistorialTrabajos(proveedor.ProveedorId, "Todos");
             }
 
             return Json(listaHistorialTrabajosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -233,7 +233,7 @@ namespace SistemaGeneraliz.Controllers
             List<HistorialTrabajosViewModel> listaHistorialTrabajosViewModel = new List<HistorialTrabajosViewModel>();
             if (proveedor != null)
             {
-                listaHistorialTrabajosViewModel = _logicaProveedores.GetHistorialTrabajos(proveedor.ProveedorId);
+                listaHistorialTrabajosViewModel = _logicaProveedores.GetHistorialTrabajos(proveedor.ProveedorId, "Todos");
             }
 
             return Json(listaHistorialTrabajosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);

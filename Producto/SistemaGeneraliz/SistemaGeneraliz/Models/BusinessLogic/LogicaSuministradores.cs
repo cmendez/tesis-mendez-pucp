@@ -71,16 +71,14 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     }
 
                     RecargasLeadsViewModel rec = new RecargasLeadsViewModel
-                                                     {
-                                                         RecargaLeadsId = recarga.RecargaLeadsId,
-                                                         FechaRecarga =
-                                                             recarga.FechaRecarga.ToString("dd/MM/yyyy HH:mm"),
-                                                         NombreProveedor = n,
-                                                         DocumentoProveedor =
-                                                             d + " " + recarga.Proveedor.Persona.UserName,
-                                                         MontoRecarga = "S/. " + recarga.MontoRecarga.ToString(),
-                                                         CantidadLeads = recarga.CantidadLeads
-                                                     };
+                    {
+                        RecargaLeadsId = recarga.RecargaLeadsId,
+                        FechaRecarga = recarga.FechaRecarga.ToString("dd/MM/yyyy HH:mm"),
+                        NombreProveedor = n,
+                        DocumentoProveedor = d,
+                        MontoRecarga = "S/. " + recarga.MontoRecarga.ToString(),
+                        CantidadLeads = recarga.CantidadLeads
+                    };
                     listaRecargasViewModel.Add(rec);
                 }
             }

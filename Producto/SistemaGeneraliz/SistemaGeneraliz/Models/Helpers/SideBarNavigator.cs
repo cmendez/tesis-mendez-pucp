@@ -41,7 +41,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
             // Suministradores
             Opciones.Add(new SidebarOption("Suministradores", "Suministradores", "icon-building", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Recargar Leads", "Suministradores", "Index", "icon-bolt"),
+                new SidebarSuboption("Recargar Leads", "Suministradores", "RecargarLeads", "icon-bolt"),
                 new SidebarSuboption("Demanda de Productos", "Suministradores", "Index", "icon-bar-chart"),
                 new SidebarSuboption("Demanda de Ofertas, Promos y Dsctos", "Suministradores", "Index", "icon-bar-chart"),
                 new SidebarSuboption("Demanda de Servicios Generales", "Suministradores", "Index", "icon-bar-chart"),

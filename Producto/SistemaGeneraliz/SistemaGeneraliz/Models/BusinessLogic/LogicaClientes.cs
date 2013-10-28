@@ -309,7 +309,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             TrabajoProveedor trabajo = _sgpFactory.GetTrabajoProveedor(trabajoProveedorId);
             Proveedor proveedor = trabajo.Proveedor;
             double nuevaPuntuacion = (proveedor.PuntuacionPromedio + puntuacion) / 2;
-            proveedor.PuntuacionPromedio = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven)); //ver si usamos enteros o decimales
+            proveedor.PuntuacionPromedio = Convert.ToInt32(Math.Round(nuevaPuntuacion, MidpointRounding.ToEven)); //ver si usamos enteros o decimales
             proveedor.NroRecomendaciones += Int32.Parse(respuestasSplit[6]);
             proveedor.NroVolveriaContratarlo += Int32.Parse(respuestasSplit[5]);
             proveedor.NroComentarios += 1;

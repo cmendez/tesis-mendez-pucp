@@ -171,7 +171,7 @@ namespace SistemaGeneraliz.Controllers
                 {
                     int n = _logicaClientes.CantidadEncuestasPendientesCliente(cliente.ClienteId);
 
-                    ViewBag.Motivo1 = "Tiene " + n + " encuestas pendientes de responder.";
+                    ViewBag.Motivo1 = "Tiene " + n + " encuesta(s) pendiente(s) por responder.";
                     ViewBag.LinkText = "Ir a Encuestas Pendientes";
                     ViewBag.Controlador = "Clientes";
                     ViewBag.Metodo = "CalificarProveedores";
@@ -318,7 +318,7 @@ namespace SistemaGeneraliz.Controllers
         {
             var trabajosJson = new List<Object>();
 
-            List<HistorialTrabajosViewModel> listaHistorialTrabajosViewModel = _logicaProveedores.GetHistorialTrabajos(proveedorId);
+            List<HistorialTrabajosViewModel> listaHistorialTrabajosViewModel = _logicaProveedores.GetHistorialTrabajos(proveedorId, "SoloVisibles");
             if ((listaHistorialTrabajosViewModel != null) && (listaHistorialTrabajosViewModel.Count > 0))
             {
                 foreach (HistorialTrabajosViewModel trabajo in listaHistorialTrabajosViewModel)

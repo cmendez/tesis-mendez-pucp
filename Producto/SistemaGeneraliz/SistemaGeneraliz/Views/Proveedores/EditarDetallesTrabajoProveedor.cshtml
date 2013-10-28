@@ -13,7 +13,7 @@
     <title>Registrar Cliente Natural</title>
 </head>
 <body>
-@*    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+    @*    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
     <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
     <script src="~/Scripts/jquery-1.8.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -22,10 +22,7 @@
 
     @using (Html.BeginForm())
     {
-        
         @Html.ValidationSummary(true)
-
-        
         <div style="width: 115%;">
             <div class="row-fluid">
                 <!-- contenedor superior izquierdo: campos -->
@@ -37,14 +34,12 @@
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
-@*                                                                @Html.EditorFor(model => model.FechaReal)
-                                @Html.ValidationMessageFor(model => model.FechaReal)*@
                                 <input type="date" id="FechaReal" name="FechaReal" value="@Model.FechaReal" style="width: 221px;"/>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="row-fluid" style="padding-top: 8px; ">
+
+                    <div class="row-fluid" style="padding-top: 8px;">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">Descripción del trabajo hecho:</div>
                         </div>
@@ -62,8 +57,12 @@
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.TipoRpH_Factura, new { placeholder = "Recibo por Honorarios / Factura" })
-                                @Html.ValidationMessageFor(model => model.TipoRpH_Factura)
+                                @*@Html.TextBoxFor(model => model.TipoRpH_Factura, new { placeholder = "Recibo por Honorarios / Factura" })*@
+                                <select id="TipoRpH_Factura" name="TipoRpH_Factura">
+                                    <option value="Recibo por Honorarios" selected="selected">Recibo por Honorarios</option>
+                                    <option value="Factura">Factura</option>
+                                </select>
+                                @*@Html.ValidationMessageFor(model => model.TipoRpH_Factura)*@
                             </div>
                         </div>
                     </div>
@@ -86,7 +85,7 @@
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.TextBoxFor(model => model.MontoCobrado)
+                                @Html.TextBoxFor(model => model.MontoCobrado, new {placeholder = "S/."})
                                 @Html.ValidationMessageFor(model => model.MontoCobrado)
                             </div>
                         </div>
@@ -98,10 +97,10 @@
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
-                                <select id="IsTerminado" name="IsTerminado">
-                                    <option value="1">Sí</option>
-                                    <option value="0">No</option>
-                                </select>
+                                <input type="radio" name="IsTerminado" value="1" checked="checked" />
+                                Sí &nbsp;
+                                <input type="radio" name="IsTerminado" value="0" />
+                                No &nbsp;
                             </div>
                         </div>
                     </div>
@@ -125,13 +124,13 @@
         //$(function () {
         //    $("#FechaReal").datepicker({ dateFormat: 'dd/mm/yy' });
         //});
-        
+
         $(document).ready(function () {
             //var fechaReal = $("#FechaReal").val();
             //fechaReal = fechaReal.substring(0, fechaReal.indexOf(' '));
             //$("#FechaReal").val(fechaReal);
         });
-        
+
         $("#FechaReal").kendoDatePicker({
             format: "dd/MM/yyyy",
             min: new Date

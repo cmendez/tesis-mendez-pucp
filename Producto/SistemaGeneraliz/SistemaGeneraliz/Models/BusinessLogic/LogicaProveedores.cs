@@ -108,7 +108,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             return _sgpFactory.GetProveedorPorPersonaId(idPersona);
         }
 
-        public List<HistorialTrabajosViewModel> GetHistorialTrabajos(int proveedorId)
+        public List<HistorialTrabajosViewModel> GetHistorialTrabajos(int proveedorId, string filtro)
         {
             var listaHistorialTrabajosViewModel = new List<HistorialTrabajosViewModel>();
             var listaTrabajos = _sgpFactory.GetHistorialTrabajos(proveedorId);
@@ -117,46 +117,66 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             {
                 foreach (var trabajo in listaTrabajos)
                 {
-                    DateTime fechaTrabajo = trabajo.FechaReal ?? trabajo.Trabajo.Fecha;
-                    string nombreCliente = trabajo.Trabajo.Cliente.Persona.RazonSocial ??
-                                           (trabajo.Trabajo.Cliente.Persona.PrimerNombre + " " +
-                                            trabajo.Trabajo.Cliente.Persona.ApellidoPaterno);
-                    string documentoCliente = (trabajo.Trabajo.Cliente.Persona.DNI != null) ? ("DNI - " + trabajo.Trabajo.Cliente.Persona.DNI.ToString()) : ("RUC - " + trabajo.Proveedor.Persona.RUC.ToString());
-                    string servicios = trabajo.TiposServicios.Aggregate("", (current, servicio) => current + (servicio.NombreServicio + " - "));
-                    servicios = servicios.Substring(0, servicios.Length - 3);
-                    string puntuacion = "-";
-                    //if ((trabajo.EncuestaCliente != null) && (trabajo.EncuestaClienteId != null) && (trabajo.EncuestaClienteId > 0) && (trabajo.EncuestaCliente.PuntajeTotal != -1))
-                    if (trabajo.EncuestaCliente.PuntajeTotal != -1)
-                        puntuacion = trabajo.EncuestaCliente.PuntajeTotal.ToString();
-                    string comentarios = "-";
-                    //if ((trabajo.EncuestaCliente != null) && (trabajo.EncuestaClienteId != null) && (trabajo.EncuestaClienteId > 0) && (!String.IsNullOrEmpty(trabajo.EncuestaCliente.ComentariosCliente)))
-                    if (!String.IsNullOrEmpty(trabajo.EncuestaCliente.ComentariosCliente))
-                        comentarios = trabajo.EncuestaCliente.ComentariosCliente;
-                    string rph_factura = "-";
-                    if (trabajo.TipoRpH_Factura != null)
-                        rph_factura += trabajo.TipoRpH_Factura + " ";
-                    if (trabajo.NroRpH_Factura != null)
-                        rph_factura += trabajo.NroRpH_Factura;
-                    string montoCobrado = "";
-                    if (trabajo.MontoCobrado != null)
-                        montoCobrado = "S/. " + trabajo.MontoCobrado.ToString();
-
-                    HistorialTrabajosViewModel his = new HistorialTrabajosViewModel
+                    if ((filtro == "Todos") || ((filtro == "SoloVisibles") && (trabajo.EncuestaCliente.IsVisible == 1)))
                     {
-                        TrabajoProveedorId = trabajo.TrabajoProveedorId,
-                        FechaTrabajo = fechaTrabajo.ToString("dd/MM/yyyy"),
-                        Puntuacion = puntuacion, //PARA CUANDO ESTE LO DE ENCUESTAS
-                        NombreCliente = nombreCliente,
-                        DocumentoCliente = documentoCliente,
-                        Servicios = servicios,
-                        DescripcionCliente = trabajo.Trabajo.DescripcionCliente,
-                        ReciboHonorarios_Factura = rph_factura,
-                        MontoCobrado = montoCobrado,
-                        LinkModificarDetalles = "", //AQUI IRA LINK PARA MODIFICAR DETALLES DE TRABAJO
-                        EncuestaRespondida = trabajo.EncuestaCliente.IsCompletada,
-                        Comentarios = comentarios
-                    };
-                    listaHistorialTrabajosViewModel.Add(his);
+                        DateTime fechaTrabajo = trabajo.FechaReal ?? trabajo.Trabajo.Fecha;
+                        string nombreCliente = trabajo.Trabajo.Cliente.Persona.RazonSocial ??
+                                               (trabajo.Trabajo.Cliente.Persona.PrimerNombre + " " +
+                                                trabajo.Trabajo.Cliente.Persona.ApellidoPaterno);
+                        string documentoCliente = (trabajo.Trabajo.Cliente.Persona.DNI != null)
+                                                      ? ("DNI - " + trabajo.Trabajo.Cliente.Persona.DNI.ToString())
+                                                      : ("RUC - " + trabajo.Trabajo.Cliente.Persona.RUC.ToString());
+                        string servicios = trabajo.TiposServicios.Aggregate("",
+                                                                            (current, servicio) =>
+                                                                            current + (servicio.NombreServicio + " - "));
+                        servicios = servicios.Substring(0, servicios.Length - 3);
+                        string puntuacion = "-";
+                        //if ((trabajo.EncuestaCliente != null) && (trabajo.EncuestaClienteId != null) && (trabajo.EncuestaClienteId > 0) && (trabajo.EncuestaCliente.PuntajeTotal != -1))
+                        if (trabajo.EncuestaCliente.PuntajeTotal != -1)
+                            puntuacion = trabajo.EncuestaCliente.PuntajeTotal.ToString();
+                        string comentarios = "-";
+                        //if ((trabajo.EncuestaCliente != null) && (trabajo.EncuestaClienteId != null) && (trabajo.EncuestaClienteId > 0) && (!String.IsNullOrEmpty(trabajo.EncuestaCliente.ComentariosCliente)))
+                        if (!String.IsNullOrEmpty(trabajo.EncuestaCliente.ComentariosCliente))
+                            comentarios = trabajo.EncuestaCliente.ComentariosCliente;
+                        string rph_factura = "-";
+                        if ((trabajo.TipoRpH_Factura != null) && (trabajo.NroRpH_Factura != null))
+                        {
+                            rph_factura = trabajo.TipoRpH_Factura + " - " + trabajo.NroRpH_Factura;
+                            ;
+                        }
+                        string montoCobrado = "-";
+                        if (trabajo.MontoCobrado != null)
+                        {
+                            //if (trabajo.MontoCobrado.IndexOf("S/.") < 0)
+                            //{
+                            //    montoCobrado = "S/. " + trabajo.MontoCobrado;    
+                            //}
+                            //else
+                            //{
+                            montoCobrado = trabajo.MontoCobrado;
+                            //}
+                        }
+
+                        HistorialTrabajosViewModel his = new HistorialTrabajosViewModel
+                        {
+                            TrabajoProveedorId = trabajo.TrabajoProveedorId,
+                            FechaTrabajo = fechaTrabajo.ToString("dd/MM/yyyy"),
+                            Puntuacion = puntuacion,
+                            //PARA CUANDO ESTE LO DE ENCUESTAS
+                            NombreCliente = nombreCliente,
+                            DocumentoCliente = documentoCliente,
+                            Servicios = servicios,
+                            DescripcionCliente = trabajo.Trabajo.DescripcionCliente,
+                            ReciboHonorarios_Factura = rph_factura,
+                            MontoCobrado = montoCobrado,
+                            LinkModificarDetalles = "",
+                            //AQUI IRA LINK PARA MODIFICAR DETALLES DE TRABAJO
+                            EncuestaRespondida =
+                                trabajo.EncuestaCliente.IsCompletada,
+                            Comentarios = comentarios
+                        };
+                        listaHistorialTrabajosViewModel.Add(his);
+                    }
                 }
                 //listaHistorialTrabajosViewModel.Sort((x, y) => string.Compare(y.FechaTrabajo, x.FechaTrabajo));
             }

@@ -39,7 +39,7 @@
                             <tr>
                                 <td>Nro. Documento:</td>
                                 <td>
-                                    <input type="text" name="nroDocumento" id="nroDocumento" maxlength="11">
+                                    <input type="text" name="nroDocumento" id="nroDocumento" placeholder="ingrese un documento" maxlength="11">
                                 </td>
                             </tr>
                             <tr>
@@ -61,14 +61,14 @@
                     <table>
                         <tr>
                             <td style="padding-left: 3%; padding-right: 17%;">
-                                <button id="btnBuscar" type="submit" class="btn blue pull-right" style="width: 120%;">
+                                <button id="btnBuscar" type="submit" class="btn blue pull-right" style="width: 100%;">
                                     Buscar <i class="icon-search  m-icon-white"></i>
                                 </button>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <img id="imagen" src="/Images/unknown-person.jpg" alt="" width="146" height="106"></td>
+                                <img id="imagen" src="/Images/unknown-person.jpg" alt="" width="100" ></td>
                         </tr>
                     </table>
                 </td>
@@ -92,7 +92,7 @@
                             <tr>
                                 <td>Monto Recarga</td>
                                 <td>
-                                    <input type="number" min="1" name="montoRecarga" id="montoRecarga" style="text-align: right">
+                                    <input type="number" min="1" name="montoRecarga" id="montoRecarga" placeholder="ingrese un monto" style="text-align: right">
                                 </td>
                             </tr>
                         </tbody>
@@ -133,7 +133,6 @@
             .DataSource(dataSource => dataSource
                 .Ajax()
                 .ServerOperation(false)
-                .Model(model => { model.Id(p => p.RecargaLeadsId); })
                 .Read(read => read.Action("RecargasLeads_Read", "Suministradores"))
             )
         )
@@ -199,6 +198,7 @@
                     else {
                         $("#imagen").attr("src", "/Images/unknown-person.jpg");
                         alert("No se encontró al proveedor con documento: " + documento);
+                        $("#nroDocumento").val('');
                     }
                 });
             });
