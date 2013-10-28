@@ -1,18 +1,18 @@
 ﻿<div class="navbar-inner" style="position: fixed !important;">
     <div class="container-fluid">
         <!-- BEGIN LOGO -->
-        <a class="brand" href="@Url.Action("Index", "Home", new { Area = "" } )">
+        <a class="brand" href="@Url.Action("Index", "Home", new { Area = "" })">
             <img src="@Url.Content("~/Content/assets/img/logo3.png")" alt="logo" />
         </a>
         <!-- END LOGO -->
         <!-- BEGIN RESPONSIVE MENU TOGGLER -->
         <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
             <img src="@Url.Content("~/Content/assets/img/menu-toggler.png")" alt="" />
-        </a>          
-        <!-- END RESPONSIVE MENU TOGGLER -->				
-        <!-- BEGIN TOP NAVIGATION MENU -->					
+        </a>
+        <!-- END RESPONSIVE MENU TOGGLER -->
+        <!-- BEGIN TOP NAVIGATION MENU -->
         <ul class="nav pull-right">
-            <!-- BEGIN NOTIFICATION DROPDOWN -->	
+            <!-- BEGIN NOTIFICATION DROPDOWN -->
             @*<li class="dropdown" id="header_notification_bar">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-warning-sign"></i>
@@ -107,33 +107,53 @@
             <!-- BEGIN USER LOGIN DROPDOWN -->
             @if (!WebSecurity.IsAuthenticated)
             {
-                @*<li><a href="@("/Account/Login")">Iniciar Sesión</a></li>*@
-                <li><a href="@("/Usuarios/Login")">Iniciar Sesión</a></li>
-                @*<li><a>|</a></li>*@
-                <li><a href="@("/Usuarios/RegistrarUsuario")">Registrarme</a></li>
-            }
-            else
-            {
-                /*var c = new SistemaGeneraliz.Controllers.UsuariosController();
-                string nombreUsuario = c.GetNombrePersonaLoggeada();*/
-
-                //HttpCookie _userInfoCookies = Request.Cookies("_userInfoCookies");
+                @*<li><a href="@("/Usuarios/Login")">Iniciar Sesión</a></li>*@
+                @*<li><a href="@("/Usuarios/RegistrarUsuario")">Registrarme</a></li>*@
                 
+                <li class="dropdown user">
+                    <a href="@("/Usuarios/Login")" class="dropdown-toggle">
+                        <span class="username">Iniciar Sesión</span>
+                    </a>
+                </li>
                 
                 <li class="dropdown user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="username">Registrarme</span>
+@*                        <i class="icon-angle-down"></i>*@
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("RegistrarClienteNatural", "Clientes")">Cliente natural</a></li>
+                        <li><a href="@Url.Action("RegistrarClienteJuridico", "Clientes")">Cliente jurídico</a></li>
+                        <li><a href="@Url.Action("RegistrarProveedorNatural", "Proveedores")">Proveedor natural</a></li>
+                        <li><a href="@Url.Action("RegistrarProveedorJuridico", "Proveedores")">Proveedor jurídico</a></li>
+                        @if (WebSecurity.IsAuthenticated && Roles.IsUserInRole("Administrador"))
+                        {
+                            <li><a href="@Url.Action("RegistrarSuministradorJuridico", "Suministradores")">Tienda/Cadena de ferretería</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("Contacto", "Suministradores")">Tienda/Cadena de ferretería</a></li>
+
+                        }
+                    </ul>
+                </li>
+                
+            }
+            else
+            {
+                <li class="dropdown user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         @*<img alt="" src="/Usuarios/GetImagen?imagenId=@SistemaGeneraliz.Controllers.UsuariosController.GetImagenIdPersonaLoggeada()" style ="height: 30px; width: 30px" />*@
-                        <img alt="" src="@Url.Action("GetImagen", "Usuarios", new {imagenId =  SistemaGeneraliz.Controllers.UsuariosController.GetImagenIdPersonaLoggeada()})" style ="height: 30px; width: 30px" />
+                        <img alt="" src="@Url.Action("GetImagen", "Usuarios", new { imagenId = SistemaGeneraliz.Controllers.UsuariosController.GetImagenIdPersonaLoggeada() })" style ="height: 30px; width: 30px" />
                         <span class="username">@Roles.GetRolesForUser().First(): &nbsp; @SistemaGeneraliz.Controllers.UsuariosController.GetNombrePersonaLoggeada()</span>
-@*                        <img alt="" src="@Url.Action("GetImagen", "Usuarios", new {imagenId =  Session["ImagenId"]})" style ="height: 30px; width: 30px" />
+                        @*                        <img alt="" src="@Url.Action("GetImagen", "Usuarios", new {imagenId =  Session["ImagenId"]})" style ="height: 30px; width: 30px" />
                         <span class="username">@Roles.GetRolesForUser().First(): &nbsp; @Session["Usuario"]</span>*@
                         <i class="icon-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
                         @*<li><a href="@(SistemaGeneraliz.MvcApplication.IsDebug?"http://localhost:2642/Organizacion/Intranet":"http://dp2kendo.apphb.com/Organizacion/Intranet")"><i class="icon-user"></i> Mi perfil</a></li>
 							    <li><a href="@(SistemaGeneraliz.MvcApplication.IsDebug?"http://localhost:2642/Eventos/Eventos/VistaEventos?Length=7":"http://dp2kendo.apphb.com/Eventos/Eventos/VistaEventos?Length=7")"><i class="icon-calendar"></i> Mi calendario</a></li>*@
-                        <li><a href="#"><i class="icon-envelope"></i> Mis mensajes</a></li>
-                        <li><a href="#"><i class="icon-tasks"></i> Mis tareas</a></li>
+                        <li><a href="#"><i class="icon-pencil"></i> Editar mi información</a></li>
                         <li class="divider"></li>
                         <li><a href="@("/Usuarios/Logout")"><i class="icon-key"></i> Cerrar Sesión</a></li>
                     </ul>
@@ -141,6 +161,6 @@
             }
             <!-- END USER LOGIN DROPDOWN -->
         </ul>
-        <!-- END TOP NAVIGATION MENU -->	
+        <!-- END TOP NAVIGATION MENU -->
     </div>
 </div>

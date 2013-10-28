@@ -99,6 +99,7 @@
             <h4>Datos de Contacto de Proveedores</h4>
         </div>
         <div class="modal-body" style="height: 400px;">
+            Por favor, tome nota de los datos de contacto de los proveedores contratados.<br/><br/>
             <div id="GridDatos" style="margin-bottom: 10px;"></div>
         </div>
         <div class="modal-footer">
@@ -385,6 +386,16 @@
         });
 
         $("#btnContratar").click(function e() {
+            //var view = $('#Grid').data('kendoGrid').dataSource.view();
+            //for (var r = 0; r < view.length; r++) {
+            //    if (checkedIds[view[r].ProveedorId]) {
+            //        var t = $("#Grid").find("tr[data-uid='" + view[r].uid + "']");
+            //        //t.removeClass("k-state-selected").find(".checkbox").attr("style", "display: none;");
+            //        t.removeClass("k-state-selected").find(".checkbox").attr("style", "display: none;");
+            //    }
+            //}
+            //return;
+
             var checked = [];
             var serviciosIds = [];
             for (var i in checkedIds) {
@@ -485,6 +496,23 @@
 
                     $("#btnContratar").attr('style', 'display :none;');
                     $("#btnVerDatos").attr('style', 'width: 100%; color: black; text-shadow: none; background-color: lightblue;');
+                    $("#btnBuscar").attr('style', 'display :none;');
+                    $("#ver_mapa").attr('style', 'display :none;');
+                    $("#nombre").attr('readonly', true);
+                    $("#descripcion").attr('readonly', true);
+                    $("#ubicacion").attr('readonly', true);
+                    $("#fecha").data("kendoDatePicker").readonly();
+                    $("#tiposServicios").data("kendoMultiSelect").readonly(true);
+                    
+                    var view = $('#Grid').data('kendoGrid').dataSource.view();
+                    for (var r = 0; r < view.length; r++) {
+                        if (checkedIds[view[r].ProveedorId]) {
+                            var t = $("#Grid").find("tr[data-uid='" + view[r].uid + "']");
+                            //t.removeClass("k-state-selected").find(".checkbox").attr("style", "display: none;");
+                            t.removeClass("k-state-selected").find(".checkbox").attr("checked", false);
+                        }
+                    }
+                    return;
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);

@@ -80,8 +80,8 @@
     </div>
     <div class="span7">
         <div class="editor-field" style="width: 58%; text-align: left">
-        @*            @Html.EditorFor(model => model.FechaNacimiento)<br />*@
-            <input type="text" id="FechaNacimiento" name="FechaNacimiento" readonly='readonly'/>
+            @*            @Html.EditorFor(model => model.FechaNacimiento)<br />*@
+            <input type="text" id="FechaNacimiento" name="FechaNacimiento" readonly='readonly' />
             @Html.ValidationMessageFor(model => model.FechaNacimiento)
         </div>
     </div>
@@ -93,10 +93,16 @@
     </div>
     <div class="span7">
         <div class="editor-field" style="width: 100%; text-align: left;">
-            <select id="SexoId" name="SexoId">
+            @*            @Html.RadioButtonFor(model => model.SexoId, "1", "true") Masculino &nbsp;
+             @Html.RadioButtonFor(model => model.SexoId, "2", "false") Femenino*@
+            <input type="radio" name="SexoId" value="1" checked="checked" />
+            Masculino &nbsp;
+            <input type="radio" name="SexoId" value="2" />
+            Femenino &nbsp;
+            @*            <select id="SexoId" name="SexoId">
                 <option value="1">Masculino</option>
                 <option value="2">Femenino</option>
-            </select>
+            </select>*@
         </div>
     </div>
 </div>
@@ -257,7 +263,22 @@
 </div>
 
 <script>
-$(function() {
-    $("#FechaNacimiento").datepicker({ dateFormat: 'dd/mm/yy' });
-});
+    $(function () {
+        //$("#FechaNacimiento").datepicker({ dateFormat: 'dd/mm/yy' });
+        $('#FechaNacimiento').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-100:+0",
+            maxDate: 'today',
+            showButtonPanel: false,
+            dateFormat: 'dd/mm/yy'
+        }).focus(function () {
+            var thisCalendar = $(this);
+            $('.ui-datepicker-close').click(function () {
+                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                thisCalendar.datepicker('setDate', new Date(year, month, 1));
+            });
+        });
+    });
 </script>

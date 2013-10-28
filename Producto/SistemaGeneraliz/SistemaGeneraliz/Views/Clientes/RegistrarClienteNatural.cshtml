@@ -16,12 +16,13 @@
 </head>
 <body>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+    @*<link rel="stylesheet" href="~/Content/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.css" />*@
     <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
     <script src="~/Scripts/jquery-1.8.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Registrar Cliente Natural", "Por favor complete los siguientes campos."));}
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("RegistrarClienteNatural", "Clientes", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.ValidationSummary(true)
     
@@ -44,7 +45,19 @@
                     <!--RenderPage("/Views/Usuarios/_RegistrarPersonaNatural.cshtml", new SistemaGeneraliz.Models.ViewModels.PersonaNaturalViewModel());-->
 
                     @* *************************************** ATRIBUTOS DE CUENTA **************************************@
-
+                    @Html.Label("Datos de Cuenta", new { style = "font-weight: bold; text-decoration: underline;" })
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ImagenPrincipal)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextBoxFor(m => m.File, new { type = "file" })
+                                @Html.ValidationMessageFor(m => m.File)
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Password)</div>

@@ -32,11 +32,23 @@
 
                     @* *************************************** ATRIBUTOS DE PERSONA **************************************@
                     <br />
-                    
+
                     @{Html.RenderPartial("~/Views/Usuarios/_RegistrarPersonaJuridica.cshtml");}
 
                     @* *************************************** ATRIBUTOS DE CUENTA **************************************@
-
+                    @Html.Label("Datos de Cuenta", new { style = "font-weight: bold; text-decoration: underline;" })
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ImagenPrincipal)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextBoxFor(m => m.File, new { type = "file" })
+                                @Html.ValidationMessageFor(m => m.File)
+                            </div>
+                        </div>
+                    </div>
+                    <br />
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Password)</div>

@@ -40,9 +40,6 @@ namespace SistemaGeneraliz.Controllers
         [HttpPost]
         public ActionResult RegistrarProveedorNatural(ProveedorNaturalViewModel proveedorNaturalViewModel)
         {
-            //string ext3 = proveedorNaturalViewModel.File.ContentType;
-            //string ext4 = proveedorNaturalViewModel.File.FileName;
-            //return null;
             if (ModelState.IsValid)
             {
                 bool existe = _logicaPersonas.ExisteDNIRUC(proveedorNaturalViewModel.DNI, proveedorNaturalViewModel.RUC);
@@ -98,8 +95,7 @@ namespace SistemaGeneraliz.Controllers
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Proveedor" });
                 var s = WebSecurity.CreateAccount(persona.UserName, proveedorNaturalViewModel.Password);
                 bool loginSuccess = WebSecurity.Login(persona.UserName, proveedorNaturalViewModel.Password);
-                Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
-                Session["ImagenId"] = persona.ImagenId;
+
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
@@ -175,8 +171,7 @@ namespace SistemaGeneraliz.Controllers
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Proveedor" });
                 WebSecurity.CreateAccount(persona.UserName, proveedorJuridicoViewModel.Password);
                 bool loginSuccess = WebSecurity.Login(persona.UserName, proveedorJuridicoViewModel.Password);
-                Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
-                Session["ImagenId"] = persona.ImagenId;
+
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista

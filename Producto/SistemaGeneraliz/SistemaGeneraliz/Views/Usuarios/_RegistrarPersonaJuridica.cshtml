@@ -33,8 +33,8 @@
     </div>
     <div class="span7">
         <div class="editor-field" style="width: 58%; text-align: left;">
-        @*            @Html.EditorFor(model => model.FechaCreacion)<br />*@
-            <input type="text" id="FechaCreacion" name="FechaCreacion" readonly='readonly'/>
+            @*            @Html.EditorFor(model => model.FechaCreacion)<br />*@
+            <input type="text" id="FechaCreacion" name="FechaCreacion" readonly='readonly' />
             @Html.ValidationMessageFor(model => model.FechaCreacion)
         </div>
     </div>
@@ -73,7 +73,7 @@
                 @for (int j = 0; j < ViewBag.Distritos.Count; j++)
                 {                               
                     <option value="@ViewBag.Distritos[j].Value">@ViewBag.Distritos[j].Text</option>
-                                    }
+                }
             </select>
         </div>
     </div>
@@ -195,8 +195,22 @@
     </div>
 </div>
 
- <script>
-$(function() {
-    $("#FechaCreacion").datepicker({ dateFormat: 'dd/mm/yy' });
-});
+<script>
+    $(function () {
+        $('#FechaCreacion').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-100:+0",
+            maxDate: 'today',
+            showButtonPanel: false,
+            dateFormat: 'dd/mm/yy'
+        }).focus(function () {
+            var thisCalendar = $(this);
+            $('.ui-datepicker-close').click(function () {
+                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                thisCalendar.datepicker('setDate', new Date(year, month, 1));
+            });
+        });
+    });
 </script>

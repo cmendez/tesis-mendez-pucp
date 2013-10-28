@@ -32,7 +32,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         {
             persona.Sexo = (persona.SexoId == 1) ? "Masculino" : "Femenino";
             Distrito distrito = _sgpFactory.GetDistritoPorId(persona.IdDistrito);
-            persona.DireccionCompleta = persona.Direccion + " " + distrito.NombreDistrito;
+            persona.DireccionCompleta = persona.Direccion + " - " + distrito.NombreDistrito;
 
             Persona p = new Persona
             {
@@ -67,7 +67,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         internal Persona CrearObjetoPersonaJuridica(PersonaJuridicaViewModel persona, String tipoUsuario)
         {
             Distrito distrito = _sgpFactory.GetDistritoPorId(persona.IdDistrito);
-            persona.DireccionCompleta = persona.Direccion + " " + distrito.NombreDistrito;
+            persona.DireccionCompleta = persona.Direccion + " - " + distrito.NombreDistrito;
 
             Persona p = new Persona
             {

@@ -4270,14 +4270,14 @@ jQuery UI Datepicker(new in v1.2.2)
   margin-top: -1px !important;
 }
 
-.ui-datepicker.ui-widget-content {
+/*.ui-datepicker.ui-widget-content {
   background: none !important;
   background-color: #eee !important;
-}
+}*/
 
 .ui-datepicker .ui-widget-header {
   background: none !important;
-  background-color: #e0e0e0 !important;
+  /*background-color: #e0e0e0 !important;*/
   border: 0 !important;
   box-shadow: none !important;
   height: 28px;
@@ -4342,20 +4342,20 @@ jQuery UI Datepicker(new in v1.2.2)
 .ui-datepicker .ui-datepicker-calendar .ui-state-active,
 .ui-datepicker .ui-datepicker-calendar .ui-state-hover {
   background-image: none !important;  
-  border-color:#ffb848;
-  background-color: #ffb848 !important;
+  border-color:#8ebc00;
+  background-color: #8ebc00 !important;
 }
 
 .ui-datepicker .ui-datepicker-calendar .ui-state-highlight {
    background-image: none !important;  
-   background-color: #FFDBA3 !important;
-   border-color:#ffb848;
+   /*background-color: #8ebc00 !important;
+   border-color:#8ebc00;*/
 }
 
 .ui-datepicker .ui-datepicker-calendar .ui-state-active {
    background-image: none !important;  
-   background-color: #ffb848 !important;
-   border-color:#ffb848;
+   background-color: #8ebc00 !important;
+   border-color:#8ebc00;
 }
 
 .ui-datepicker button.ui-state-default {

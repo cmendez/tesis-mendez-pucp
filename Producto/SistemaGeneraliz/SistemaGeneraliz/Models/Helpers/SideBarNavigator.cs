@@ -34,7 +34,7 @@ namespace SistemaGeneraliz.Models.Helpers
                new SidebarSuboption("Buscar Productos", "Suministradores", "BuscarProductos", "icon-search"),
                new SidebarSuboption("Ofertas, Promos y Dsctos", "Suministradores", "OfertasPromocionesDescuentos", "icon-tags"),
                //new SidebarSuboption("Comprar Ofertas, Promos y Dsctos", "Proveedores", "Index", "icon-shopping-cart"),
-               new SidebarSuboption("Demanda de Servicios Generales", "Proveedores", "Index", "icon-signal"),
+               new SidebarSuboption("Demanda de Servicios Generales", "Proveedores", "Index", "icon-bar-chart"),
                //new SidebarSuboption("Mi Calendario", "Proveedores", "Index", "icon-calendar"),
                //new SidebarSuboption("Editar Mi Información", "Proveedores", "Index", "icon-edit")
             })));
@@ -42,9 +42,9 @@ namespace SistemaGeneraliz.Models.Helpers
             // Suministradores
             Opciones.Add(new SidebarOption("Suministradores", "Suministradores", "icon-building", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Recargar Leads", "Suministradores", "Index", "icon-bolt"),
-                new SidebarSuboption("Demanda de Productos", "Suministradores", "Index", "icon-signal"),
-                new SidebarSuboption("Demanda de Ofertas, Promos y Dsctos", "Suministradores", "Index", "icon-signal"),
-                new SidebarSuboption("Demanda de Servicios Generales", "Suministradores", "Index", "icon-signal"),
+                new SidebarSuboption("Demanda de Productos", "Suministradores", "Index", "icon-bar-chart"),
+                new SidebarSuboption("Demanda de Ofertas, Promos y Dsctos", "Suministradores", "Index", "icon-bar-chart"),
+                new SidebarSuboption("Demanda de Servicios Generales", "Suministradores", "Index", "icon-bar-chart"),
                 new SidebarSuboption("Editar Productos", "Suministradores", "EditarProductos", "icon-cog"),
                 new SidebarSuboption("Editar Ofertas, Promos y Dsctos", "Suministradores", "Index", "icon-cog"),
                 //new SidebarSuboption("Editar Mi Información", "Suministradores", "Index", "icon-edit")

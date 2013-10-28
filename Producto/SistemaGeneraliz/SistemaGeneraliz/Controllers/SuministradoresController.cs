@@ -364,7 +364,7 @@ namespace SistemaGeneraliz.Controllers
             {
                 if ((productoViewModel.File == null) || (productoViewModel.File.ContentLength <= 0))
                 {
-                    ModelState.AddModelError("", "Error: es obligatorio subir una foto");
+                    ModelState.AddModelError("", "Error: es obligatorio subir una imagen");
                     return View(productoViewModel);
                 }
                 else
@@ -375,7 +375,7 @@ namespace SistemaGeneraliz.Controllers
 
                     if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
                     {
-                        ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                        ModelState.AddModelError("", "Error: la extensión de la imagen solo puede ser JPG, JPEG, y PNG");
                         return View(productoViewModel);
                     }
                 }

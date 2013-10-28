@@ -39,7 +39,7 @@ Large notebooks and desktops
   	.page-content { 
   		margin-left: 225px; 
 		margin-top: 0px;
-		min-height: 860px; 
+		min-height: 683px; /** MINIMUN HEIGHT SIZE OF BODY PAGE 860px*/
 	}
 
 	.page-content.no-min-height {

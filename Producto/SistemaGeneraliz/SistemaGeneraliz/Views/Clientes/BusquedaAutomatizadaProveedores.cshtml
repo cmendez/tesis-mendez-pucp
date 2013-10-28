@@ -92,6 +92,7 @@
             <h4>Datos de Contacto de Proveedores</h4>
         </div>
         <div class="modal-body" style="height: 400px;">
+            Por favor, tome nota de los datos de contacto de los proveedores contratados.<br/><br/>
             <div id="GridDatos" style="margin-bottom: 10px;"></div>
         </div>
         <div class="modal-footer">
@@ -404,6 +405,12 @@
                     //window.location = "/Home/Index/";
                     $("#btnContratar").attr('style', 'display :none;');
                     $("#btnVerDatos").attr('style', 'width: 100%; color: black; text-shadow: none; background-color: lightblue;');
+                    $("#btnBuscar").attr('style', 'display :none;');
+                    $("#ver_mapa").attr('style', 'display :none;');
+                    $("#descripcion").attr('readonly', true);
+                    $("#ubicacion").attr('readonly', true);
+                    $("#fecha").data("kendoDatePicker").readonly();
+                    $("#tiposServicios").data("kendoMultiSelect").readonly(true);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);

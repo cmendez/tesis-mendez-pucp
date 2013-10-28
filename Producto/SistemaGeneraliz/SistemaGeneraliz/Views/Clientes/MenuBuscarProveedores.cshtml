@@ -3,11 +3,18 @@
 }
 @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Buscar Proveedores", "Elija un tipo de búsqueda"));}
 
-<ul>
-    <li>
-        <h5>@Html.ActionLink("Búsqueda automatizada hecha por el sistema", "BuscarProveedores", new {tipoBusqueda = "Automatizada"})</h5>
-    </li>
-    <li>
-        <h5>@Html.ActionLink("Búsqueda manual hecha por el usuario", "BuscarProveedores", new {tipoBusqueda = "Manual"})</h5>
-    </li>
-</ul>
+<div class="row-fluid profile">
+    <div class="span12">
+        <!--BEGIN TABS-->
+        <div class="tabbable tabbable-custom tabbable-full-width">
+            <div class="tab-content">
+                <div class="tab-pane row-fluid active" id="tab_1_1">
+                    <ul class="ver-inline-menu tabbable margin-bottom-10">
+                        <li><a href="@Url.Action("BuscarProveedores", "Clientes", new {tipoBusqueda = "Automatizada"})"><i class="icon-laptop"></i>Búsqueda automatizada ejecutada por el sistema</a></li>
+                        <li><a href="@Url.Action("BuscarProveedores", "Clientes", new {tipoBusqueda = "Manual"})"><i class="icon-user"></i>Búsqueda manual realizada por el usuario</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

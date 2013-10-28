@@ -109,8 +109,10 @@
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
-                                @Html.RadioButtonFor(model => model.IsVisible, "1", true) Sí &nbsp;
-                                @Html.RadioButtonFor(model => model.IsVisible, "0", false) No
+@*                                @Html.RadioButtonFor(model => model.IsVisible, "1", true) Sí &nbsp;
+                                @Html.RadioButtonFor(model => model.IsVisible, "0", false) No*@
+                                <input type="radio" name="IsVisible" value="1" checked="checked"/> Sí &nbsp;
+                                <input type="radio" name="IsVisible" value="0" /> No &nbsp;
                             </div>
                         </div>
                     </div>

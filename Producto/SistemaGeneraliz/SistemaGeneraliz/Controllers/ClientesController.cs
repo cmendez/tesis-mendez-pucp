@@ -50,7 +50,29 @@ namespace SistemaGeneraliz.Controllers
                         ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
                         return View(clienteNaturalViewModel);
                     }
-                    clienteNaturalViewModel.ImagenPrincipal = -1;
+
+                    if ((clienteNaturalViewModel.File == null) || (clienteNaturalViewModel.File.ContentLength <= 0))
+                    {
+                        ModelState.AddModelError("", "Error: es obligatorio subir una foto");
+                        ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                        return View(clienteNaturalViewModel);
+                    }
+                    else
+                    {
+                        var file = clienteNaturalViewModel.File;
+                        string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                        string ext2 = file.FileName;
+
+                        if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                        {
+                            ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                            return View(clienteNaturalViewModel);
+                        }
+                    }
+                    Imagen foto = _logicaPersonas.AgregarFotoPersona(clienteNaturalViewModel.File);
+                    clienteNaturalViewModel.ImagenPrincipal = foto.ImagenId;
+                    
                     Persona persona = _logicaPersonas.CrearObjetoPersonaNatural(clienteNaturalViewModel, "Cliente");
                     Cliente cliente = _logicaClientes.CrearObjetoClienteNatural(clienteNaturalViewModel);
                     //setear la especialidad
@@ -63,13 +85,12 @@ namespace SistemaGeneraliz.Controllers
                     Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Cliente" });
                     WebSecurity.CreateAccount(persona.UserName, clienteNaturalViewModel.Password);
                     bool loginSuccess = WebSecurity.Login(persona.UserName, clienteNaturalViewModel.Password);
-                    Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
-                    Session["ImagenId"] = persona.ImagenId;
+
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception ex)
                 {
-                    throw;
+                    Console.WriteLine(ex.ToString());
                 }
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
@@ -99,7 +120,29 @@ namespace SistemaGeneraliz.Controllers
                     ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
                     return View(clienteJuridicoViewModel);
                 }
-                clienteJuridicoViewModel.ImagenPrincipal = -1;
+
+                if ((clienteJuridicoViewModel.File == null) || (clienteJuridicoViewModel.File.ContentLength <= 0))
+                {
+                    ModelState.AddModelError("", "Error: es obligatorio subir una foto");
+                    ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                    return View(clienteJuridicoViewModel);
+                }
+                else
+                {
+                    var file = clienteJuridicoViewModel.File;
+                    string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                    string ext2 = file.FileName;
+
+                    if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                    {
+                        ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                        ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                        return View(clienteJuridicoViewModel);
+                    }
+                }
+                Imagen foto = _logicaPersonas.AgregarFotoPersona(clienteJuridicoViewModel.File);
+                clienteJuridicoViewModel.ImagenPrincipal = foto.ImagenId;
+
                 Persona persona = _logicaPersonas.CrearObjetoPersonaJuridica(clienteJuridicoViewModel, "Cliente");
                 Cliente cliente = _logicaClientes.CrearObjetoClienteJuridico(clienteJuridicoViewModel);
                 //setear la especialidad
@@ -112,8 +155,7 @@ namespace SistemaGeneraliz.Controllers
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Cliente" });
                 WebSecurity.CreateAccount(persona.UserName, clienteJuridicoViewModel.Password);
                 bool loginSuccess = WebSecurity.Login(persona.UserName, clienteJuridicoViewModel.Password);
-                Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
-                Session["ImagenId"] = persona.ImagenId;
+
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista

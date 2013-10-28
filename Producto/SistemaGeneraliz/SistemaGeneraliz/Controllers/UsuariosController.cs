@@ -179,7 +179,11 @@ namespace SistemaGeneraliz.Controllers
         public static int GetImagenIdPersonaLoggeada()
         {
             Persona persona = _logicaPersonas.GetPersonaLoggeada(WebSecurity.CurrentUserId);
-            int imageId = (int) persona.ImagenId;
+            int imageId = -1;
+            if (persona.ImagenId != null)
+            {
+                 imageId = (int) persona.ImagenId;
+            }
             return imageId;
         }
 

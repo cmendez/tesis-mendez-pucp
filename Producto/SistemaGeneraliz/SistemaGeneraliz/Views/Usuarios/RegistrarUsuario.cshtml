@@ -1,31 +1,32 @@
 ﻿@{
     ViewBag.Title = "Registrar Usuario";
 }
+<link href="/Content/assets/css/pages/profile.css" rel="stylesheet" type="text/css">
+
 @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Registrar Usuario", "Elija un tipo de usuario"));}
-<br />
-<ul>
-    <li>
-        <h5>@Html.ActionLink("Soy cliente natural", "RegistrarClienteNatural", "Clientes")</h5>
-    </li>
-    <li>
-        <h5>@Html.ActionLink("Soy cliente jurídico", "RegistrarClienteJuridico", "Clientes")</h5>
-    </li>
-    <li>
-        <h5>@Html.ActionLink("Soy proveedor natural", "RegistrarProveedorNatural", "Proveedores")</h5>
-    </li>
-    <li>
-        <h5>@Html.ActionLink("Soy proveedor jurídico", "RegistrarProveedorJuridico", "Proveedores")</h5>
-    </li>
-    @if (WebSecurity.IsAuthenticated && Roles.IsUserInRole("Administrador"))
-    {
-        <li>
-            <h5>@Html.ActionLink("Soy tienda/cadena de ferretería", "RegistrarSuministradorJuridico", "Suministradores")</h5>
-        </li>
-    }
-    else
-    {
-        <li>
-            <h5>@Html.ActionLink("Soy tienda/cadena de ferretería", "Contacto", "Suministradores")</h5>
-        </li>
-    }
-</ul>
+<div class="row-fluid profile">
+    <div class="span12">
+        <!--BEGIN TABS-->
+        <div class="tabbable tabbable-custom tabbable-full-width">
+            <div class="tab-content">
+                <div class="tab-pane row-fluid active" id="tab_1_1">
+                    <ul class="ver-inline-menu tabbable margin-bottom-10">
+                        <li><a href="@Url.Action("RegistrarClienteNatural", "Clientes")"><i class="icon-user"></i>Cliente natural</a></li>
+                        <li><a href="@Url.Action("RegistrarClienteJuridico", "Clientes")"><i class="icon-building"></i>Cliente jurídico</a></li>
+                        <li><a href="@Url.Action("RegistrarProveedorNatural", "Proveedores")"><i class="icon-user-md"></i>Proveedor natural</a></li>
+                        <li><a href="@Url.Action("RegistrarProveedorJuridico", "Proveedores")"><i class="icon-building"></i>Proveedor jurídico</a></li>
+                        @if (WebSecurity.IsAuthenticated && Roles.IsUserInRole("Administrador"))
+                        {
+                            <li><a href="@Url.Action("RegistrarSuministradorJuridico", "Suministradores")"><i class="icon-building"></i>Tienda/cadena de ferretería</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("Contacto", "Suministradores")"><i class="icon-building"></i>Tienda/cadena de ferretería</a></li>
+
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
