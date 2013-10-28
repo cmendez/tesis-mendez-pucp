@@ -295,7 +295,8 @@
     <script>
 
         function verDetalles(ofertaPromoDsctoId) {
-            //alert(productoId);
+            //alert($("#EsProveedor").val());
+            var esProveedor = $("#EsProveedor").val();
             $.getJSON('/Suministradores/GetDetallesOfertaPromoDsctoJSON', { ofertaPromoDsctoId: ofertaPromoDsctoId, ajax: 'true' }, function (result) {
                 $(result).each(function () {
                     $("#ofertaPromoDsctoId").val(this.OfertaPromoDsctoId);
@@ -309,7 +310,7 @@
                     $("#cantidadDisponible").text(this.CantidadDisponible);
                     $("#divCostoLeads").attr('style', 'display: none;');
                     $("#divComprar").attr('style', 'display: none;');
-                    if (this.Tipo === "Promoción") {
+                    if ((this.Tipo === "Promoción") && (esProveedor === '1')) {
                         $("#divCostoLeads").attr('style', '');
                         $("#costo").text(this.CostoEnLeads);
                         $("#costoProducto").val(this.CostoEnLeads);
@@ -317,7 +318,7 @@
                     }
                 });
             });
-
+            
             $("#modal_producto").attr('style', 'width: 28%;left:35%;margin-left:auto;margin-right:auto;');
             return true;
         }

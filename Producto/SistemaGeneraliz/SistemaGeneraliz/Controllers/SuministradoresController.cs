@@ -299,15 +299,15 @@ namespace SistemaGeneraliz.Controllers
                     };
 
                     ubicacionesJson.Add(o);
-                    Object o2 = new
-                    {
-                        distrito = ubicacion.Distrito.NombreDistrito,
-                        direccion = ubicacion.Direccion,
-                        referencia = ubicacion.Referencia,
-                        latitud = ubicacion.Latitud + 0.00075,
-                        longitud = ubicacion.Longitud + 0.00075,
-                    };
-                    ubicacionesJson.Add(o2);//para pruebas
+                    //Object o2 = new
+                    //{
+                    //    distrito = ubicacion.Distrito.NombreDistrito,
+                    //    direccion = ubicacion.Direccion,
+                    //    referencia = ubicacion.Referencia,
+                    //    latitud = ubicacion.Latitud + 0.00075,
+                    //    longitud = ubicacion.Longitud + 0.00075,
+                    //};
+                    //ubicacionesJson.Add(o2);//para pruebas
                 }
             }
             return Json(ubicacionesJson, JsonRequestBehavior.AllowGet);
@@ -441,7 +441,7 @@ namespace SistemaGeneraliz.Controllers
             {
                 Proveedor proveedor = _logicaProveedores.GetProveedorPorPersonaId(WebSecurity.CurrentUserId);
                 ViewBag.ProveedorId = proveedor.ProveedorId;
-                ViewBag.EsProveedor = 0;
+                ViewBag.EsProveedor = 1;
                 ViewBag.leadsProveedor = proveedor.LeadsDisponibles;
             }
             else

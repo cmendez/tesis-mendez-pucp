@@ -133,7 +133,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 }
                 i++;
             }
-            
+
             //Inhabilitamos al cliente ya que tendrá encuestas pendientes
             _sgpFactory.HabilitarDeshabilitarUsuario("Cliente", trabajo.ClienteId, "Inhabilitado");
 
@@ -172,63 +172,70 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                             listaFiltrada.Add(p);
                     }
                 }
-
-                if (listaFiltrada.Count == 0)
-                    listaFiltrada = listaProveedores;
-
-                foreach (var prov in listaFiltrada)
+                else
                 {
-                    string nombreProveedor = "";
-                    string tipoDocumento = "";
-                    string serviciosProveedor = "";
-                    string serviciosIdsProveedor = "";
-
-                    switch (prov.Persona.TipoPersona)
-                    {
-                        case "Natural":
-                            nombreProveedor = prov.Persona.PrimerNombre + " " + prov.Persona.ApellidoPaterno;
-                            tipoDocumento = "DNI";
-                            break;
-
-                        case "Juridica":
-                            nombreProveedor = prov.Persona.RazonSocial;
-                            tipoDocumento = "RUC";
-                            break;
-                    }
-
-                    foreach (var serv in servicios)
-                    {
-                        var t = prov.TiposServicios.FirstOrDefault(s => s.TipoServicioId == serv);
-                        if (t != null)
-                        {
-                            serviciosProveedor += t.NombreServicio + " - ";
-                            serviciosIdsProveedor += t.TipoServicioId + " - ";
-                        }
-                    }
-                    serviciosProveedor = serviciosProveedor.Substring(0, serviciosProveedor.Length - 3);
-                    serviciosIdsProveedor = serviciosIdsProveedor.Substring(0, serviciosIdsProveedor.Length - 3);
-
-                    ProveedorBusquedaViewModel proveedorViewModel = new ProveedorBusquedaViewModel
-                    {
-                        ProveedorId = prov.ProveedorId,
-                        Puntaje = Convert.ToInt32(prov.PuntuacionPromedio).ToString(),
-                        FotoId = (int)prov.Persona.ImagenId,
-                        NombreCompleto = nombreProveedor,
-                        TipoDocumento = tipoDocumento,
-                        Documento = prov.Persona.UserName,
-                        Servicio = serviciosProveedor,
-                        ServicioId = serviciosIdsProveedor,
-                        Descripcion = prov.AcercaDeMi,
-                        Telefono1 = prov.Persona.Telefono1 ?? "",
-                        Telefono2 = prov.Persona.Telefono2 ?? "",
-                        Telefono3 = prov.Persona.Telefono3 ?? "",
-                        Email1 = prov.Persona.Email1 ?? "",
-                        Email2 = prov.Persona.Email2 ?? "",
-                    };
-                    lista.Add(proveedorViewModel);
+                    listaFiltrada = listaProveedores;
                 }
 
-                lista.Sort((x, y) => string.Compare(x.NombreCompleto, y.NombreCompleto));
+                if (listaFiltrada.Count != 0)
+                {
+                    foreach (var prov in listaFiltrada)
+                    {
+                        string nombreProveedor = "";
+                        string tipoDocumento = "";
+                        string serviciosProveedor = "";
+                        string serviciosIdsProveedor = "";
+
+                        switch (prov.Persona.TipoPersona)
+                        {
+                            case "Natural":
+                                nombreProveedor = prov.Persona.PrimerNombre + " " + prov.Persona.ApellidoPaterno;
+                                tipoDocumento = "DNI";
+                                break;
+
+                            case "Juridica":
+                                nombreProveedor = prov.Persona.RazonSocial;
+                                tipoDocumento = "RUC";
+                                break;
+                        }
+
+                        foreach (var serv in servicios)
+                        {
+                            var t = prov.TiposServicios.FirstOrDefault(s => s.TipoServicioId == serv);
+                            if (t != null)
+                            {
+                                serviciosProveedor += t.NombreServicio + " - ";
+                                serviciosIdsProveedor += t.TipoServicioId + " - ";
+                            }
+                        }
+                        serviciosProveedor = serviciosProveedor.Substring(0, serviciosProveedor.Length - 3);
+                        serviciosIdsProveedor = serviciosIdsProveedor.Substring(0, serviciosIdsProveedor.Length - 3);
+
+                        ProveedorBusquedaViewModel proveedorViewModel = new ProveedorBusquedaViewModel
+                        {
+                            ProveedorId = prov.ProveedorId,
+                            Puntaje =
+                                Convert.ToInt32(
+                                    prov.PuntuacionPromedio).
+                                ToString(),
+                            FotoId = (int)prov.Persona.ImagenId,
+                            NombreCompleto = nombreProveedor,
+                            TipoDocumento = tipoDocumento,
+                            Documento = prov.Persona.UserName,
+                            Servicio = serviciosProveedor,
+                            ServicioId = serviciosIdsProveedor,
+                            Descripcion = prov.AcercaDeMi,
+                            Telefono1 = prov.Persona.Telefono1 ?? "",
+                            Telefono2 = prov.Persona.Telefono2 ?? "",
+                            Telefono3 = prov.Persona.Telefono3 ?? "",
+                            Email1 = prov.Persona.Email1 ?? "",
+                            Email2 = prov.Persona.Email2 ?? "",
+                        };
+                        lista.Add(proveedorViewModel);
+                    }
+
+                    lista.Sort((x, y) => string.Compare(x.NombreCompleto, y.NombreCompleto));
+                }
                 return lista;
             }
             catch (Exception e)
@@ -316,7 +323,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             //proveedor.NroTrabajosterminados++
             //proveedor.nrocalifaciones++
             _sgpFactory.ActualizarProveedor(proveedor);
-            
+
             //var c = trabajo.Trabajo.ClienteId;
             //Cliente cliente = _sgpFactory.GetClientePorId(clienteId);
 

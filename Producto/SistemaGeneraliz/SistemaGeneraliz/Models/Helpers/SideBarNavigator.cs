@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
+using WebMatrix.WebData;
 
 namespace SistemaGeneraliz.Models.Helpers
 {
@@ -26,7 +28,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 new SidebarSuboption("Calificar Proveedores", "Clientes", "CalificarProveedores", "icon-star"),
                 //new SidebarSuboption("Editar Mi Información", "Clientes", "Index", "icon-edit")
             })));
-            
+
             // Proveedores
             Opciones.Add(new SidebarOption("Proveedores", "Proveedores", "icon-wrench", new List<SidebarSuboption>(new SidebarSuboption[]{
                new SidebarSuboption("Historial de Trabajos", "Proveedores", "HistorialTrabajos", "icon-list-ul"),
@@ -50,8 +52,11 @@ namespace SistemaGeneraliz.Models.Helpers
                 //new SidebarSuboption("Editar Mi Información", "Suministradores", "Index", "icon-edit")
             })));
 
-            // Administración
-            Opciones.Add(new SidebarOption("Administracion", "Administración", "icon-lock", new List<SidebarSuboption>(new SidebarSuboption[]{
+            //if ((WebSecurity.IsAuthenticated) && (Roles.GetRolesForUser()[0] == "Administrador"))
+            //{
+                // Administración
+                Opciones.Add(new SidebarOption("Administracion", "Administración", "icon-lock", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Registrar Suministrador","Suministradores","RegistrarSuministradorJuridico","icon-building"),
                 new SidebarSuboption("Administrar Usuarios","Usuarios","Index","icon-group"),
                 new SidebarSuboption("Configurar Ubicaciones", "Administracion", "Index", "icon-globe"),
                 new SidebarSuboption("Configurar Servicios", "Administracion", "Index", "icon-cogs"),
@@ -59,7 +64,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 new SidebarSuboption("Proveedores Destacados", "Administracion", "Index", "icon-star"),
                 new SidebarSuboption("Gestión de Recompensas", "Administracion", "Index", "icon-gift")
             })));
-
+            //}
         }
     }
 
