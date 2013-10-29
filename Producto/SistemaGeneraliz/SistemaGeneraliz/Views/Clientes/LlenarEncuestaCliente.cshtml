@@ -105,8 +105,8 @@
                                             @if (Model[i].TipoPregunta == "Estrellas")
                                             {
 @*<select id="pregunta_@i" name="pregunta_@i">*@
-                                                   
-                                                <select id="demo_@i" name="@Model[i].PuntajeOtorgado">
+                                                <input type="hidden" id="hdemo_@i" value=""/>   
+                                                <select id="demo_@i" name="demo_@i">
                                                     @for (int j = 1; j <= Model[i].NroOpciones; j++)
                                                     {
                                                         <option value="@j">@j</option>
@@ -135,7 +135,8 @@
                                         <td class="input rating-f">
                                             @if (Model[k].TipoPregunta == "Estrellas")
                                             {
-                                                <select id="demo_@k" name="@Model[k].PuntajeOtorgado">
+                                                <input type="hidden" id="hdemo_@k" value=""/>
+                                                <select id="demo_@k" name="demo_@k">
                                                     @for (int j = 1; j <= Model[k].NroOpciones; j++)
                                                     {
                                                         <option value="@j">@j</option>
@@ -192,27 +193,63 @@
     </div>
 
     <script>
+        $('#demo_0').barrating({
+            showValues: false, // If set to true, rating values will be displayed on the bars.
+            showSelectedRating: false, //If set to true, user selected rating will be displayed next to the widget.
+            onSelect: function (value, text) {
+                $('input[id=hdemo_0]').val(value);
+            }
+        });
+        $('#demo_1').barrating({
+            showValues: false, // If set to true, rating values will be displayed on the bars.
+            showSelectedRating: false, //If set to true, user selected rating will be displayed next to the widget.
+            onSelect: function (value, text) {
+                $('input[id=hdemo_1]').val(value);
+            }
+        });
+        $('#demo_2').barrating({
+            showValues: false, // If set to true, rating values will be displayed on the bars.
+            showSelectedRating: false, //If set to true, user selected rating will be displayed next to the widget.
+            onSelect: function (value, text) {
+                $('input[id=hdemo_2]').val(value);
+            }
+        });
+        $('#demo_3').barrating({
+            showValues: false, // If set to true, rating values will be displayed on the bars.
+            showSelectedRating: false, //If set to true, user selected rating will be displayed next to the widget.
+            onSelect: function (value, text) {
+                $('input[id=hdemo_3]').val(value);
+            }
+        });
+        $('#demo_4').barrating({
+            showValues: false, // If set to true, rating values will be displayed on the bars.
+            showSelectedRating: false, //If set to true, user selected rating will be displayed next to the widget.
+            onSelect: function (value, text) {
+                $('input[id=hdemo_4]').val(value);
+            }
+        });
 
-
-        $(document).ready(function () {
-            for (var i = 0; i < '@ViewBag.NroPreguntasEstrellas'; i++) {
+@*        $(document).ready(function () {
+            for (var i = 1; i < '@ViewBag.NroPreguntasEstrellas'; i++) {
                 //alert(i);
 
                 $('#demo_' + i).barrating({
                     showValues: false, // If set to true, rating values will be displayed on the bars.
-                    showSelectedRating: false, //If set to true, user selected rating will be displayed next to the widget.
+                    showSelectedRating: true, //If set to true, user selected rating will be displayed next to the widget.
                     onSelect: function (value, text) {
                         //alert('Rating: ' + value);
+                        $('input[id=hdemo_'+i+']').val(value);
                     }
                 });
             }
-        });
+        });*@
 
 
         $("#btnEnviar").click(function e() {
             var elegidas = [];
             for (var i = 0; i < '@ViewBag.NroPreguntasEstrellas'; i++) {
-                var elegida = $("#demo_" + i).val();
+                var elegida = $('#hdemo_' + i).val();
+                //alert(elegida);
                 elegidas.push(elegida);
             }
             var checkVolveria = $('input[name=SiNo_6]:checked');
@@ -240,7 +277,8 @@
             var trabajoProveedorId = $("#trabajoProveedorId").val();
             var clienteId = $("#clienteId").val();
             //mensaje de confirmacion aca xD
-
+            //alert(respuestas);
+            //return;
             $.ajax({
                 type: 'GET',
                 url: '/Clientes/EnviarEncuestaCliente',
