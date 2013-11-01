@@ -29,7 +29,7 @@
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/f:Web.config" caret="1730" fromTop="19" />
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Controllers/f:ClientesController.cs" caret="19705" fromTop="15" />
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Scripts/d:barrating/f:jquery.barrating.js" caret="10146" fromTop="23" />
-    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Clientes/f:LlenarEncuestaCliente.cshtml" caret="14325" fromTop="20" />
+    <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Views/d:Clientes/f:LlenarEncuestaCliente.cshtml" caret="0" fromTop="0" />
   </RecentFiles>
   <RecentEdits>
     <File id="47B32DE2-A0CA-445B-AB3D-04EA115A7914/d:Models/d:Helpers/f:SGPFactory.cs" caret="16922" fromTop="15" />
