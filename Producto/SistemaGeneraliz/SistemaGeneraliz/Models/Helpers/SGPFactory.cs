@@ -127,7 +127,9 @@ namespace SistemaGeneraliz.Models.Helpers
 
         public Imagen GetImagenPorId(int imagenId)
         {
-            return _db.Imagenes.Find(imagenId);
+            Imagen imagen = _db.Imagenes.Find(imagenId);
+            //((DbContext)_db).Dispose();
+            return imagen;
         }
 
         public Persona GetPersonaPorUsername(string userName)

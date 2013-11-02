@@ -151,27 +151,32 @@ namespace SistemaGeneraliz.Controllers
                 Imagen archivo = _logicaPersonas.GetImagenPorId(imagenId);
                 if (archivo.Data != null)
                     return File(archivo.Data, archivo.Mime);
-                var file = Server.MapPath("~/Images/unknown-person.jpg");
-                using (var stream = new FileStream(file, FileMode.Open))
-                {
-                    using (MemoryStream memoryStream = new MemoryStream())
-                    {
-                        stream.CopyTo(memoryStream);
-                        return File(memoryStream.ToArray(), "image/jpg");
-                    }
-                }
+                return null;
+                //var file = Server.MapPath("~/Images/unknown-person.jpg");
+                //using (var stream = new FileStream(file, FileMode.Open))
+                //{
+                //    using (MemoryStream memoryStream = new MemoryStream())
+                //    {
+                //        stream.CopyTo(memoryStream);
+                //        return File(memoryStream.ToArray(), "image/jpg");
+                //    }
+                //}
             }
             catch (Exception e)
             {
-                var file = Server.MapPath("~/Images/unknown-person.jpg");
-                using (var stream = new FileStream(file, FileMode.Open))
-                {
-                    using (MemoryStream memoryStream = new MemoryStream())
-                    {
-                        stream.CopyTo(memoryStream);
-                        return File(memoryStream.ToArray(), "image/PNG");
-                    }
-                }
+                Imagen archivo2 = _logicaPersonas.GetImagenPorId(imagenId);
+                if (archivo2.Data != null)
+                    return File(archivo2.Data, archivo2.Mime);
+                return null;
+                //var file = Server.MapPath("~/Images/unknown-person.jpg");
+                //using (var stream = new FileStream(file, FileMode.Open))
+                //{
+                //    using (MemoryStream memoryStream = new MemoryStream())
+                //    {
+                //        stream.CopyTo(memoryStream);
+                //        return File(memoryStream.ToArray(), "image/PNG");
+                //    }
+                //}
             }
         }
 

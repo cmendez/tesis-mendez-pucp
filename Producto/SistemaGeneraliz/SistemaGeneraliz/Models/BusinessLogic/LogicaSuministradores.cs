@@ -53,6 +53,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             var listaRecargas = suministrador.RecargasLeads; //_sgpFactory.GetListaRecargasSuministrador(suministradorId);
             if (listaRecargas != null)
             {
+                listaRecargas = listaRecargas.OrderByDescending(r => r.FechaRecarga).ToList();
                 foreach (var recarga in listaRecargas)
                 {
                     string n = "";

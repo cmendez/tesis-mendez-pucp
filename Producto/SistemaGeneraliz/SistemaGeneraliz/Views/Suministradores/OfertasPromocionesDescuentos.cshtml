@@ -310,7 +310,7 @@
                     $("#cantidadDisponible").text(this.CantidadDisponible);
                     $("#divCostoLeads").attr('style', 'display: none;');
                     $("#divComprar").attr('style', 'display: none;');
-                    if ((this.Tipo === "Promoción") && (esProveedor === '1')) {
+                    if (/*(this.Tipo === "Promoción") && */(esProveedor === '1')) {
                         $("#divCostoLeads").attr('style', '');
                         $("#costo").text(this.CostoEnLeads);
                         $("#costoProducto").val(this.CostoEnLeads);

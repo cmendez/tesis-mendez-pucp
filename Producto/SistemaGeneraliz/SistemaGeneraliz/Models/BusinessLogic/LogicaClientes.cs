@@ -315,7 +315,8 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             _sgpFactory.ActualizarEncuestaCompletada(encuesta);
             TrabajoProveedor trabajo = _sgpFactory.GetTrabajoProveedor(trabajoProveedorId);
             Proveedor proveedor = trabajo.Proveedor;
-            double nuevaPuntuacion = (proveedor.PuntuacionPromedio + puntuacion) / 2;
+            int nroEncuestasCompletadas = proveedor.TrabajosProveedores.Count(t => t.EncuestaCliente.IsCompletada == 1);
+            double nuevaPuntuacion = (proveedor.PuntuacionPromedio * nroEncuestasCompletadas + puntuacion) / (nroEncuestasCompletadas + 1);
             proveedor.PuntuacionPromedio = Convert.ToInt32(Math.Round(nuevaPuntuacion, MidpointRounding.ToEven)); //ver si usamos enteros o decimales
             proveedor.NroRecomendaciones += Int32.Parse(respuestasSplit[6]);
             proveedor.NroVolveriaContratarlo += Int32.Parse(respuestasSplit[5]);

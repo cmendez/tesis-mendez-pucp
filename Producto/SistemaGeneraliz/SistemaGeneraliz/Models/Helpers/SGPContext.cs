@@ -734,6 +734,13 @@ namespace SistemaGeneraliz.Models.Helpers
             string[] imagenesNaturales = { "perfil_1", "perfil_2", "perfil_3", "perfil_4", "perfil_5" };
             string[] imagenesJuridicos = { "tienda_1", "tienda_2", "tienda_3" };
             Random random = new Random();
+
+            path = HostingEnvironment.ApplicationPhysicalPath + "Images\\unknown-person.jpg";
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+            Imagen imagen = new Imagen { Data = bytes, Nombre = "Unknown-person", Mime = "image/jpg" };
+            this.Imagenes.Add(imagen);
+            //this.SaveChanges();
+
             foreach (var persona in personas)
             {
                 string filename = "";
@@ -749,24 +756,19 @@ namespace SistemaGeneraliz.Models.Helpers
                 }
 
                 path = HostingEnvironment.ApplicationPhysicalPath + "Images\\Personas\\" + filename + ".jpg";
-                byte[] bytes = System.IO.File.ReadAllBytes(path);
-                Imagen imagen = new Imagen { Data = bytes, Nombre = filename, Mime = "image/jpg" };
+                bytes = System.IO.File.ReadAllBytes(path);
+                imagen = new Imagen { Data = bytes, Nombre = filename, Mime = "image/jpg" };
                 listaImagenes.Add(imagen);
-                //this.Imagenes.Add(imagen);
-
-                //persona.ImagenId = imagen.ImagenId;
-                //this.Personas.Attach(persona);
-                //this.Entry(persona).State = EntityState.Modified;
             }
 
             listaImagenes.ForEach(s => this.Imagenes.Add(s));
             this.SaveChanges();
 
             int i = 0;
-            foreach (var imagen in listaImagenes)
+            foreach (var img in listaImagenes)
             {
                 Persona persona = personas[i];
-                persona.ImagenId = imagen.ImagenId;
+                persona.ImagenId = img.ImagenId;
                 this.Personas.Attach(persona);
                 this.Entry(persona).State = EntityState.Modified;
                 i++;
@@ -909,7 +911,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 r3 = random.Next(3, 7);
 
                 int isAdquirible = 0;
-                int costo = -1;
+                int costo = r3;
                 string tipo = "";
                 if (imagen.Nombre.Substring(0, 1) == "O")
                     tipo = "Oferta";

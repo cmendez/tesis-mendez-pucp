@@ -264,6 +264,13 @@
                 alert("Error: por favor elija una opción para la pregunta 7");
                 return;
             }
+            
+            var comentarios = $("#comentarios").val();
+            
+            if (comentarios === "") {
+                alert("Error: por favor ingrese un comentario.");
+                return;
+            }
 
             elegidas.push(checkVolveria.val());
             elegidas.push(checkRecomendaria.val());
@@ -272,7 +279,7 @@
                 respuestas += elegidas[i] + ",";
             }
 
-            var comentarios = $("#comentarios").val();
+            
             var encuestaId = $("#encuestaId").val();
             var trabajoProveedorId = $("#trabajoProveedorId").val();
             var clienteId = $("#clienteId").val();
