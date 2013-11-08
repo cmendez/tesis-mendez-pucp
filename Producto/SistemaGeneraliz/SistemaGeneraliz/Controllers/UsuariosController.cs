@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using SistemaGeneraliz.Models.BusinessLogic;
 using SistemaGeneraliz.Models.Entities;
+using SistemaGeneraliz.Models.ViewModels;
 using WebMatrix.WebData;
 using SistemaGeneraliz.Models.Helpers;
 
@@ -14,6 +15,9 @@ namespace SistemaGeneraliz.Controllers
     public class UsuariosController : Controller
     {
         private static LogicaPersonas _logicaPersonas = new LogicaPersonas();
+        private readonly LogicaSuministradores _logicaSuministradores = new LogicaSuministradores();
+        private readonly LogicaUbicaciones _logicaUbicaciones = new LogicaUbicaciones();
+        private readonly LogicaProveedores _logicaProveedores = new LogicaProveedores();
         //
         // GET: /Account/Login
 
@@ -187,7 +191,7 @@ namespace SistemaGeneraliz.Controllers
             int imageId = -1;
             if (persona.ImagenId != null)
             {
-                 imageId = (int) persona.ImagenId;
+                imageId = (int)persona.ImagenId;
             }
             return imageId;
         }
@@ -198,14 +202,17 @@ namespace SistemaGeneraliz.Controllers
             return View();
         }
 
+        public ActionResult EditarMiInformacion()
+        {
+            //if (Roles.IsUserInRole("Proveedor"))
+            //    return RedirectToAction("EditarMiInformacion", "Proveedores");
+            if (Roles.IsUserInRole("Cliente"))
+                return RedirectToAction("EditarMiInformacion", "Clientes");
+            //if (Roles.IsUserInRole("Suministrador"))
+            //    return RedirectToAction("EditarSuministradorJuridico", "Suministradores");
 
-
-
-
-
-
-
-
+            return null;
+        }
 
     }
 }

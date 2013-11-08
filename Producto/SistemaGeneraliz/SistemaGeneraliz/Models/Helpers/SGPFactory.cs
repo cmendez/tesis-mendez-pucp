@@ -466,6 +466,23 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.SaveChanges();
         }
 
+        public List<OfertaPromoDscto> GetOfertasPromosDsctosSuministradorCatalogo(int suministradorId)
+        {
+            return _db.OfertasPromosDsctos.Where(p => p.SuministradorId == suministradorId && p.IsEliminado == 0).ToList();
+        }
+
+        public void AgregarOfertaPromoDscto(OfertaPromoDscto ofertaPromoDscto)
+        {
+            _db.OfertasPromosDsctos.Add(ofertaPromoDscto);
+            _db.SaveChanges();
+        }
+
+        public void ModificarOfertaPromoDscto(OfertaPromoDscto ofertaPromoDscto)
+        {
+            _db.Entry(ofertaPromoDscto).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+
         #endregion
 
     }

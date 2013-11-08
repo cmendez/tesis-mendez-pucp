@@ -72,7 +72,7 @@ namespace SistemaGeneraliz.Controllers
                     }
                     Imagen foto = _logicaPersonas.AgregarFotoPersona(clienteNaturalViewModel.File);
                     clienteNaturalViewModel.ImagenPrincipal = foto.ImagenId;
-                    
+
                     Persona persona = _logicaPersonas.CrearObjetoPersonaNatural(clienteNaturalViewModel, "Cliente");
                     Cliente cliente = _logicaClientes.CrearObjetoClienteNatural(clienteNaturalViewModel);
                     //setear la especialidad
@@ -106,7 +106,7 @@ namespace SistemaGeneraliz.Controllers
             cliente.Longitud = -77.00229406356812;
             return View(cliente);
         }
-
+        
         [AllowAnonymous]
         [HttpPost]
         public ActionResult RegistrarClienteJuridico(ClienteJuridicoViewModel clienteJuridicoViewModel)
@@ -160,6 +160,86 @@ namespace SistemaGeneraliz.Controllers
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             return View(clienteJuridicoViewModel);
+        }
+
+        [Authorize(Roles = "Administrador, Cliente")]
+        public ActionResult EditarMiInformacion()
+        {
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
+            Cliente cliente = _logicaClientes.GetClientePorPersonaId(WebSecurity.CurrentUserId);
+            if (cliente.Persona.TipoPersona == "Natural")
+            {
+                ClienteNaturalViewModel clienteNaturalViewModel = (ClienteNaturalViewModel)_logicaClientes.GetClienteViewModel(cliente, "Natural");
+                return View("EditarClienteNatural", clienteNaturalViewModel);
+            }
+            if (cliente.Persona.TipoPersona == "Jurídica")
+            {
+                ClienteJuridicoViewModel clienteJuridicoViewModel = (ClienteJuridicoViewModel)_logicaClientes.GetClienteViewModel(cliente, "Jurídica");
+                return View("EditarClienteJuridico", clienteJuridicoViewModel);
+            }
+            return null;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult EditarMiInformacion_Natural(ClienteNaturalViewModel clienteNaturalViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    bool existe = _logicaPersonas.ExisteDNIRUC(clienteNaturalViewModel.DNI, clienteNaturalViewModel.RUC);
+                    if (existe)
+                    {
+                        ModelState.AddModelError("", "Error: el DNI y/o RUC ingresado ya existe.");
+                        ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                        return View(clienteNaturalViewModel);
+                    }
+
+                    if ((clienteNaturalViewModel.File == null) || (clienteNaturalViewModel.File.ContentLength <= 0))
+                    {
+                        ModelState.AddModelError("", "Error: es obligatorio subir una foto");
+                        ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                        return View(clienteNaturalViewModel);
+                    }
+                    else
+                    {
+                        var file = clienteNaturalViewModel.File;
+                        string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                        string ext2 = file.FileName;
+
+                        if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                        {
+                            ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                            return View(clienteNaturalViewModel);
+                        }
+                    }
+                    Imagen foto = _logicaPersonas.AgregarFotoPersona(clienteNaturalViewModel.File);
+                    clienteNaturalViewModel.ImagenPrincipal = foto.ImagenId;
+
+                    Persona persona = _logicaPersonas.CrearObjetoPersonaNatural(clienteNaturalViewModel, "Cliente");
+                    Cliente cliente = _logicaClientes.CrearObjetoClienteNatural(clienteNaturalViewModel);
+                    //setear la especialidad
+                    _logicaPersonas.AgregarPersona(persona);
+                    cliente.PersonaId = persona.PersonaId;
+                    UbicacionPersona ubicacion = _logicaUbicaciones.CrearObjetoUbicacionPersonaNatural(clienteNaturalViewModel, persona);
+                    _logicaUbicaciones.AgregarUbicacion(ubicacion);
+                    _logicaClientes.AgregarCliente(cliente);
+
+                    Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Cliente" });
+                    WebSecurity.CreateAccount(persona.UserName, clienteNaturalViewModel.Password);
+                    bool loginSuccess = WebSecurity.Login(persona.UserName, clienteNaturalViewModel.Password);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+            return View(clienteNaturalViewModel);
         }
 
         public ActionResult MenuBuscarProveedores()

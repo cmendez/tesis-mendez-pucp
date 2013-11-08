@@ -1895,6 +1895,10 @@
     <Content Include="Views\Suministradores\AgregarProducto.cshtml" />
     <Content Include="Views\Suministradores\ModificarProducto.cshtml" />
     <Content Include="Views\Suministradores\OfertasPromocionesDescuentos.cshtml" />
+    <Content Include="Views\Suministradores\MisOfertasPromosDsctos.cshtml" />
+    <Content Include="Views\Suministradores\AgregarOfertaPromoDscto.cshtml" />
+    <Content Include="Views\Suministradores\ModificarOfertaPromoDscto.cshtml" />
+    <Content Include="Views\Suministradores\EditarSuministradorJuridico.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

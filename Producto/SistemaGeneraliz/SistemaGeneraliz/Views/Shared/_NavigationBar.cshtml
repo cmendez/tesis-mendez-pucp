@@ -153,7 +153,7 @@
                     <ul class="dropdown-menu">
                         @*<li><a href="@(SistemaGeneraliz.MvcApplication.IsDebug?"http://localhost:2642/Organizacion/Intranet":"http://dp2kendo.apphb.com/Organizacion/Intranet")"><i class="icon-user"></i> Mi perfil</a></li>
 							    <li><a href="@(SistemaGeneraliz.MvcApplication.IsDebug?"http://localhost:2642/Eventos/Eventos/VistaEventos?Length=7":"http://dp2kendo.apphb.com/Eventos/Eventos/VistaEventos?Length=7")"><i class="icon-calendar"></i> Mi calendario</a></li>*@
-                        <li><a href="#"><i class="icon-pencil"></i> Editar mi información</a></li>
+                        <li><a href="@("/Usuarios/EditarMiInformacion")"><i class="icon-pencil"></i> Editar mi información</a></li>
                         <li class="divider"></li>
                         <li><a href="@("/Usuarios/Logout")"><i class="icon-key"></i> Cerrar Sesión</a></li>
                     </ul>

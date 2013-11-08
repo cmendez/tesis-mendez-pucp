@@ -48,7 +48,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 new SidebarSuboption("Demanda de Ofertas, Promos y Dsctos", "Suministradores", "Index", "icon-bar-chart"),
                 new SidebarSuboption("Demanda de Servicios Generales", "Suministradores", "Index", "icon-bar-chart"),
                 new SidebarSuboption("Editar Productos", "Suministradores", "EditarProductos", "icon-cog"),
-                new SidebarSuboption("Editar Ofertas, Promos y Dsctos", "Suministradores", "Index", "icon-cog"),
+                new SidebarSuboption("Editar Ofertas, Promos y Dsctos", "Suministradores", "EditarOfertasPromosDsctos", "icon-cog"),
                 //new SidebarSuboption("Editar Mi Información", "Suministradores", "Index", "icon-edit")
             })));
 

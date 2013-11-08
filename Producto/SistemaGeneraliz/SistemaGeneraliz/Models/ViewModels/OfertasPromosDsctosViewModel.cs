@@ -40,18 +40,19 @@ namespace SistemaGeneraliz.Models.ViewModels
         public HttpPostedFileBase File2 { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        [Range(1, 99999, ErrorMessage = "El precio máximo es 99999")] 
+        [Range(-1, 99999, ErrorMessage = "El costo debe ser menor a 99999")] 
         [Display(Name = "Costo en Leads")]
         public int CostoEnLeads { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        [Range(1, 99999, ErrorMessage = "El precio máximo es 99999")]
+        [Range(1, 99999, ErrorMessage = "La cantidad debe estar entre 1 y 99999")]
         [Display(Name = "Cantidad Disponible")]
         public int CantidadDisponible { get; set; }
 
         public int SuministradorId { get; set; }
         public string Suministrador { get; set; }
-        
+
+        [Display(Name = "¿Se podrán hacer compras virtuales?")]
         public int IsAdquiribleConLeads { get; set; }
 
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]

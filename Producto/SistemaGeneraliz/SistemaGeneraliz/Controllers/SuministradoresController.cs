@@ -92,14 +92,26 @@ namespace SistemaGeneraliz.Controllers
                 Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Suministrador" });
                 WebSecurity.CreateAccount(persona.UserName, suministradorJuridicoViewModel.Password);
                 bool loginSuccess = WebSecurity.Login(persona.UserName, suministradorJuridicoViewModel.Password);
-                Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
-                Session["ImagenId"] = persona.ImagenId;
+                //Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
+                //Session["ImagenId"] = persona.ImagenId;
 
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
             return View(suministradorJuridicoViewModel);
         }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult EditarSuministradorJuridico()
+        {
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
+            Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(WebSecurity.CurrentUserId);
+            SuministradorJuridicoViewModel suministradorJuridicoViewModel = _logicaSuministradores.GetSuministradorViewModel(suministrador); //TERMINAR ATRIBUTOS
+            return View(suministradorJuridicoViewModel);
+        }
+
+
+        //FALTA INSTANNCIAR EL VIEWMODEL suministradorJuridicoViewModel Y EL POST DEL EDITAR!!!
 
         [Authorize(Roles = "Administrador, Suministrador")]
         public ActionResult RecargarLeads()
@@ -481,8 +493,8 @@ namespace SistemaGeneraliz.Controllers
                     Suministrador = ofertaPromoDscto.Suministrador.Persona.RazonSocial,
                     SuministradorId = ofertaPromoDscto.SuministradorId,
                     CantidadDisponible = ofertaPromoDscto.CantidadDisponible,
-                    IsAdquiribleConLeads = ofertaPromoDscto.IsAdquiribleConLeads,
-                    FechaRegistro = ofertaPromoDscto.FechaRegistro.ToString("dd/MM/yyyy"),
+                    IsAdquiribleConLeads = ofertaPromoDscto.IsAdquiribleConLeads == 1 ? "Sí" : "No",
+                    FechaRegistro = ofertaPromoDscto.FechaRegistro.ToString("dd/MM/yyyy HH:mm"),
                     FechaInicioString = ofertaPromoDscto.FechaInicio.ToString("dd/MM/yyyy"),
                     FechaFinString = ofertaPromoDscto.FechaFin.ToString("dd/MM/yyyy"),
                     Visible = ofertaPromoDscto.IsVisible == 1 ? "Sí" : "No",
@@ -503,6 +515,126 @@ namespace SistemaGeneraliz.Controllers
             Object o = new { Msg = "ok" };
             json.Add(o);
             return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult EditarOfertasPromosDsctos()
+        {
+            int idPersona = WebSecurity.CurrentUserId;
+            Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
+
+            if (suministrador == null)
+            {
+                suministrador = new Suministrador();
+            }
+
+            ViewBag.Suministrador = suministrador;
+
+            return View("MisOfertasPromosDsctos");
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult MisOfertasPromosDsctos_Read([DataSourceRequest] DataSourceRequest request, int suministradorId = -1)
+        {
+            List<OfertasPromosDsctosViewModel> listaOfertasPromosDsctosViewModel = _logicaSuministradores.GetOfertasPromosDsctosSuministradorCatalogo(suministradorId);
+            return Json(listaOfertasPromosDsctosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult AgregarOfertaPromoDscto()
+        {
+            int idPersona = WebSecurity.CurrentUserId;
+            Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
+            ViewBag.SuministradorId = suministrador.SuministradorId;
+            return View();
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        [HttpPost]
+        public ActionResult AgregarOfertaPromoDscto(OfertasPromosDsctosViewModel ofertasPromoDsctoViewModel)
+        {
+            //return null;
+            int idPersona = WebSecurity.CurrentUserId;
+            Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
+            ViewBag.SuministradorId = suministrador.SuministradorId;
+
+            if (ModelState.IsValid)
+            {
+                if ((ofertasPromoDsctoViewModel.File1 == null) || (ofertasPromoDsctoViewModel.File1.ContentLength <= 0))
+                {
+                    ModelState.AddModelError("", "Error: es obligatorio subir una imagen");
+                    return View(ofertasPromoDsctoViewModel);
+                }
+                else
+                {
+                    var file = ofertasPromoDsctoViewModel.File1;
+                    string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                    if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                    {
+                        ModelState.AddModelError("", "Error: la extensión de la imagen solo puede ser JPG, JPEG, y PNG");
+                        return View(ofertasPromoDsctoViewModel);
+                    }
+                }
+
+                if (ofertasPromoDsctoViewModel.FechaInicio.CompareTo(ofertasPromoDsctoViewModel.FechaFin) >= 0)
+                {
+                    ModelState.AddModelError("", "Error: la fecha fin tiene que ser mayor que la fecha de inicio");
+                    return View(ofertasPromoDsctoViewModel);
+                }
+
+                Imagen foto = _logicaSuministradores.AgregarImagenProducto(ofertasPromoDsctoViewModel.File1);
+                ofertasPromoDsctoViewModel.ImagenPrincipalId = foto.ImagenId;
+                ofertasPromoDsctoViewModel.ImagenBannerId = foto.ImagenId;
+                _logicaSuministradores.AgregarOfertaPromoDscto(ofertasPromoDsctoViewModel);
+                return RedirectToAction("EditarOfertasPromosDsctos");
+            }
+
+            return View(ofertasPromoDsctoViewModel);
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult ModificarOfertaPromoDscto(int ofertaPromoDsctoId = -1)
+        {
+            OfertasPromosDsctosViewModel ofertaPromoDsctoViewModel = _logicaSuministradores.GetOfertaPromoDsctoViewModel(ofertaPromoDsctoId);
+            return View(ofertaPromoDsctoViewModel);
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        [HttpPost]
+        public ActionResult ModificarOfertaPromoDscto(OfertasPromosDsctosViewModel ofertasPromoDsctoViewModel)
+        {
+            int idPersona = WebSecurity.CurrentUserId;
+            Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
+            ViewBag.SuministradorId = suministrador.SuministradorId;
+
+            if (ModelState.IsValid)
+            {
+                if ((ofertasPromoDsctoViewModel.File1 != null) && (ofertasPromoDsctoViewModel.File1.ContentLength > 0))
+                {
+                    var file = ofertasPromoDsctoViewModel.File1;
+                    string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                    if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                    {
+                        ModelState.AddModelError("", "Error: la extensión de la imagen solo puede ser JPG, JPEG, y PNG");
+                        return View(ofertasPromoDsctoViewModel);
+                    }
+
+                    Imagen foto = _logicaSuministradores.AgregarImagenProducto(ofertasPromoDsctoViewModel.File1);
+                    ofertasPromoDsctoViewModel.ImagenPrincipalId = foto.ImagenId;
+                    ofertasPromoDsctoViewModel.ImagenBannerId = foto.ImagenId;
+                }
+
+                if (ofertasPromoDsctoViewModel.FechaInicio.CompareTo(ofertasPromoDsctoViewModel.FechaFin) >= 0)
+                {
+                    ModelState.AddModelError("", "Error: la fecha fin tiene que ser mayor que la fecha de inicio");
+                    return View(ofertasPromoDsctoViewModel);
+                }
+
+                _logicaSuministradores.ModificarOfertaPromoDscto(ofertasPromoDsctoViewModel);
+                return RedirectToAction("EditarOfertasPromosDsctos");
+            }
+
+            return View(ofertasPromoDsctoViewModel);
         }
     }
 }

@@ -340,5 +340,70 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         {
             return _sgpFactory.CantidadEncuestasPendientesCliente(clienteId);
         }
+
+        public Object GetClienteViewModel(Cliente cliente, string tipoPersona)
+        {
+            UbicacionPersona ubicacion = _sgpFactory.GetUbicacionesPersona(cliente.PersonaId)[0]; //solo tienen 1 ubicacion
+            if (tipoPersona == "Natural")
+            {
+                ClienteNaturalViewModel clienteNaturalViewModel = new ClienteNaturalViewModel
+                {
+                    ClienteId = cliente.ClienteId,
+                    DNI = cliente.Persona.DNI.ToString(),
+                    RUC = cliente.Persona.RUC.ToString(),
+                    PrimerNombre = cliente.Persona.PrimerNombre,
+                    SegundoNombre = cliente.Persona.SegundoNombre,
+                    ApellidoMaterno = cliente.Persona.ApellidoMaterno,
+                    ApellidoPaterno = cliente.Persona.ApellidoPaterno,
+                    FechaNacimiento = (DateTime) cliente.Persona.FechaNacimiento,
+                    Sexo = cliente.Persona.Sexo,
+                    DireccionCompleta = cliente.Persona.DireccionCompleta,
+                    IdDistrito = ubicacion.DistritoId,
+                    IdCiudad = ubicacion.Distrito.PaisCiudadId,
+                    Direccion = ubicacion.Direccion,
+                    Referencia = ubicacion.Referencia,
+                    Latitud = ubicacion.Latitud,
+                    Longitud = ubicacion.Longitud,
+                    Email1 = cliente.Persona.Email1,
+                    Email2 = cliente.Persona.Email2,
+                    Telefono1 = cliente.Persona.Telefono1,
+                    Telefono2 = cliente.Persona.Telefono2,
+                    Telefono3 = cliente.Persona.Telefono3,
+                    ImagenPrincipal = (int) cliente.Persona.ImagenId,
+                    UltimaActualizacionPersonal = DateTime.Now,
+                    IsHabilitado = 1, //true
+                    IsEliminado = 0 //false
+                };
+                return clienteNaturalViewModel;
+            }
+            if (tipoPersona == "Jurídica")
+            {
+                ClienteJuridicoViewModel clienteJuridicoViewModel = new ClienteJuridicoViewModel
+                {
+                    ClienteId = cliente.ClienteId,
+                    RUC = cliente.Persona.RUC.ToString(),
+                    RazonSocial = cliente.Persona.RazonSocial,
+                    FechaCreacion = (DateTime)cliente.Persona.FechaCreacion,
+                    DireccionCompleta = cliente.Persona.DireccionCompleta,
+                    IdDistrito = ubicacion.DistritoId,
+                    IdCiudad = ubicacion.Distrito.PaisCiudadId,
+                    Direccion = ubicacion.Direccion,
+                    Referencia = ubicacion.Referencia,
+                    Latitud = ubicacion.Latitud,
+                    Longitud = ubicacion.Longitud,
+                    Email1 = cliente.Persona.Email1,
+                    Email2 = cliente.Persona.Email2,
+                    Telefono1 = cliente.Persona.Telefono1,
+                    Telefono2 = cliente.Persona.Telefono2,
+                    Telefono3 = cliente.Persona.Telefono3,
+                    ImagenPrincipal = (int)cliente.Persona.ImagenId,
+                    UltimaActualizacionPersonal = DateTime.Now,
+                    IsHabilitado = 1, //true
+                    IsEliminado = 0 //false
+                };
+                return clienteJuridicoViewModel;
+            }
+            return null;
+        }
     }
 }

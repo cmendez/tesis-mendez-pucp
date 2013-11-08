@@ -1,22 +1,22 @@
-﻿@model IEnumerable<SistemaGeneraliz.Models.ViewModels.ProductosViewModel>
+﻿@model IEnumerable<SistemaGeneraliz.Models.ViewModels.OfertasPromosDsctosViewModel>
 
 @{
-    ViewBag.Title = "Mis Productos";
+    ViewBag.Title = "Mis Ofertas, Promos y Descuentos";
 }
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Mis Productos</title>
+    <title>Mis Ofertas, Promos y Descuentos</title>
     <script type="text/x-kendo-tmpl" id="template">
         <div class="album" >
-            <img src='/Suministradores/GetImagen?imagenId=#=ImagenId#' alt="#:NombreCorto#" />
-            <span class="idProduct" >ID[#:ProductoId#]</span>
+            <img src='/Suministradores/GetImagen?imagenId=#=ImagenPrincipalId#' alt="#:NombreCorto#" />
+            <span class="idProduct" >ID[#:OfertaPromoDsctoId#]</span>
             <span class="title" >#:NombreCorto#</span>
-            <span class="price" >#:kendo.toString(Precio, "c")# 
-                <a id='btnVerDetalles' style='color: black; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='\\\#modal_producto' data-toggle='modal' onclick='return verDetalles(#=ProductoId#);'>- Ver</a>-
-                <a id='btnEditar' style='color: black; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' onclick='return editarProducto(#=ProductoId#);'>Editar</a>
+            <span class="price" >#:Tipo# 
+                <a id='btnVerDetalles' style='color: black; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='\\\#modal_producto' data-toggle='modal' onclick='return verDetalles(#=OfertaPromoDsctoId#);'>- Ver</a>-
+                <a id='btnEditar' style='color: black; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' onclick='return editarProducto(#=OfertaPromoDsctoId#);'>Editar</a>
             </span>
         </div>    
     </script>
@@ -28,18 +28,26 @@
             };
         }
 
-        function verDetalles(productoId) {
+        function verDetalles(ofertaPromoDsctoId) {
             //alert(productoId);
-            $.getJSON('/Suministradores/GetDetallesProductoJSON', { productoId: productoId, ajax: 'true' }, function (result) {
+            $.getJSON('/Suministradores/GetDetallesOfertaPromoDsctoJSON', { ofertaPromoDsctoId: ofertaPromoDsctoId, ajax: 'true' }, function (result) {
                 $(result).each(function () {
+                    $("#ofertaPromoDsctoId").val(this.OfertaPromoDsctoId);
                     $("#nombreProducto").text(this.NombreCompleto);
-                    $("#imagenProducto").attr('src', "/Usuarios/GetImagen?imagenId=" + this.ImagenId);
+                    $("#imagenProducto").attr('src', "/Usuarios/GetImagen?imagenId=" + this.ImagenPrincipalId);
                     $("#descripcionProducto").text(this.Descripcion);
-                    $("#categoriaProducto").text(this.Categoria);
-                    $("#precio").text("S/. " + this.Precio);
+                    $("#tipo").text(this.Tipo);
+                    $("#vigencia").text(this.FechaInicioString + " - " + this.FechaFinString);
+                    $("#cantidadDisponible").text(this.CantidadDisponible);
+                    $("#costo").text(this.CostoEnLeads);
                     $("#visible").text(this.Visible);
-                    $("#suministradorId").val(this.SuministradorId); 
+                    $("#suministradorId").val(this.SuministradorId);
                     $("#fechaRegistro").text(this.FechaRegistro);
+                    $("#adquirible").text(this.IsAdquiribleConLeads);
+                    $("#divCostoLeads2").attr('style', '');
+                    if (this.IsAdquiribleConLeads === "No") {
+                        $("#divCostoLeads2").attr('style', 'display:none;');
+                    }
                 });
             });
 
@@ -47,14 +55,14 @@
             return true;
         }
 
-        function editarProducto(productoId) {
-            window.location.href = "/Suministradores/ModificarProducto?productoId=" + productoId;
+        function editarProducto(ofertaPromoDsctoId) {
+            window.location.href = "/Suministradores/ModificarOfertaPromoDscto?ofertaPromoDsctoId=" + ofertaPromoDsctoId;
             return true;
         }
     </script>
 </head>
 <body>
-    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Mis Productos", "Desde aquí puede editar la información de sus productos."));}
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Mis Ofertas, Promos y Descuentos", "Desde aquí puede editar la información de sus ofertas, promociones y descuentos."));}
 
     @Html.ValidationSummary(true)
     <input type="hidden" id="suministradorId" value="@ViewBag.Suministrador.SuministradorId"/>
@@ -62,7 +70,7 @@
         <tbody>
             <tr>
                 <td style="vertical-align: top; width: 50%; padding-left: 6%">
-                    <a id='agregar' style='color: #008AC9; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='@Url.Action("AgregarProducto")'>[ Agregar Producto ]</a>
+                    <a id='agregar' style='color: #008AC9; text-decoration: none; background: transparent; font-style: normal; cursor: pointer;' href='@Url.Action("AgregarOfertaPromoDscto")'>[ Agregar Ofertas/Promos/Dsctos ]</a>
                 </td>
             </tr>
         </tbody>
@@ -70,13 +78,13 @@
 
     <br />
     <div class="clearfix">
-        @(Html.Kendo().ListView<SistemaGeneraliz.Models.ViewModels.ProductosViewModel>(Model)
+        @(Html.Kendo().ListView<SistemaGeneraliz.Models.ViewModels.OfertasPromosDsctosViewModel>(Model)
             .Name("listView")
             .TagName("div")
             .ClientTemplateId("template")
             .DataSource(dataSource =>
             {
-                dataSource.Read(read => read.Action("MisProductos_Read", "Suministradores").Data("additionalData"));
+                dataSource.Read(read => read.Action("MisOfertasPromosDsctos_Read", "Suministradores").Data("additionalData"));
                 dataSource.PageSize(15);
             })
             .Pageable()
@@ -87,7 +95,7 @@
     <div class="modal fade" id="modal_producto" style="z-index: -1;">
         <div class="modal-header">
             <a class="close" data-dismiss="modal"></a>
-            <h4 style="font-weight: bold;">Detalles del producto</h4>
+            <h4 style="font-weight: bold;">Detalles</h4>
         </div>
         <div class="modal-body" style="max-height: 800px !important; width: 130%;">
             <div class="row-fluid">
@@ -102,6 +110,18 @@
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
                                 <label id="fechaRegistro" style="cursor: default;"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;">Tipo</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="tipo" style="cursor: default;"></label>
                             </div>
                         </div>
                     </div>
@@ -134,24 +154,48 @@
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style="cursor: default; font-weight: bold;">Categoría</label>
+                                <label style="cursor: default; font-weight: bold;">Vigencia</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
-                                <label id="categoriaProducto" style="cursor: default;"></label>
+                                <label id="vigencia" style="cursor: default;"></label>
                             </div>
                         </div>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
-                                <label style="cursor: default; font-weight: bold;">Precio</label>
+                                <label style="cursor: default; font-weight: bold;">Cantidad Disp.</label>
                             </div>
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 140%; text-align: left;">
-                                <label id="precio" style="cursor: default;" />
+                                <label id="cantidadDisponible" style="cursor: default;"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid" id="divCostoLeads" style="">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;">¿Es adquirible?</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="adquirible" style="cursor: default;"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid" id="divCostoLeads2" style="">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left; font-size: 14px; font-weight: normal; line-height: 20px;">
+                                <label style="cursor: default; font-weight: bold;">Costo en Leads</label>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 140%; text-align: left;">
+                                <label id="costo" style="cursor: default;"></label>
                             </div>
                         </div>
                     </div>

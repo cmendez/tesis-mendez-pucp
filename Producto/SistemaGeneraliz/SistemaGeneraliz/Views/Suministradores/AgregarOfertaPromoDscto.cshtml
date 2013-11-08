@@ -1,0 +1,240 @@
+﻿@model SistemaGeneraliz.Models.ViewModels.OfertasPromosDsctosViewModel
+
+@{
+    //Layout = null;
+    ViewBag.Title = "Registrar Oferta/Promo/Dscto";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Registrar Oferta/Promo/Dscto</title>
+</head>
+<body>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Registrar Oferta/Promo/Dscto", "Por favor complete los siguientes campos."));}
+    @using (Html.BeginForm("AgregarOfertaPromoDscto", "Suministradores", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.ValidationSummary(true)
+    
+        <div style="width: auto;">
+            <div class="row-fluid">
+                <!-- contenedor superior izquierdo: campos -->
+
+                <div class="span7">
+                    <input type="hidden" id="SuministradorId" name="SuministradorId" value="@ViewBag.SuministradorId"/>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.NombreCorto)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextBoxFor(model => model.NombreCorto, new { maxlength = "19" })<br />
+                                @Html.ValidationMessageFor(model => model.NombreCorto)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.NombreCompleto)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextAreaFor(model => model.NombreCompleto)<br />
+                                @Html.ValidationMessageFor(model => model.NombreCompleto)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Descripcion)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextAreaFor(model => model.Descripcion)<br />
+                                @Html.ValidationMessageFor(model => model.Descripcion)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Tipo)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                <select name="Tipo">
+                                    <option value="Oferta">Oferta</option>
+                                    <option value="Promoción">Promoción</option>
+                                    <option value="Descuento">Descuento</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaInicio)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                <input type="text" id="FechaInicio" name="FechaInicio" readonly='readonly' /><br/>
+                                @Html.ValidationMessageFor(model => model.FechaInicio)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaFin)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                <input type="text" id="FechaFin" name="FechaFin" readonly='readonly' /><br/>
+                                @Html.ValidationMessageFor(model => model.FechaFin)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.CantidadDisponible)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextBoxFor(model => model.CantidadDisponible)<br />
+                                @Html.ValidationMessageFor(model => model.CantidadDisponible)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.IsAdquiribleConLeads)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.RadioButtonFor(model => model.IsAdquiribleConLeads, 1, new { Checked = "checked" }) Sí &nbsp;
+                                @Html.RadioButtonFor(model => model.IsAdquiribleConLeads, 0) No
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid" id="divCosto">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.CostoEnLeads)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextBoxFor(model => model.CostoEnLeads)<br />
+                                @Html.ValidationMessageFor(model => model.CostoEnLeads)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Imagen1)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextBoxFor(m => m.File1, new { type = "file" })
+                                @Html.ValidationMessageFor(m => m.File1)
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.IsVisible)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.RadioButtonFor(model => model.IsVisible, 1, new { Checked = "checked" }) Sí &nbsp;
+                                @Html.RadioButtonFor(model => model.IsVisible, 0) No
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <button id="btnGuardar" type="submit" class="btn green pull-right" style="margin-right: 22%;">
+                        Guardar <i class="icon-ok-sign  m-icon-white"></i>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Regresar", "EditarOfertasPromosDsctos", "Suministradores")
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var value = $("input:radio[name=IsAdquiribleConLeads]:checked").val();
+            //alert(value);
+            if (value === "0") {
+                $("#divCosto").attr('style', 'display:none');
+                $("#CostoEnLeads").val('-1');
+            }
+        });
+
+        $(function () {
+            //$("#FechaNacimiento").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('#FechaInicio').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                minDate: 'today',
+                showButtonPanel: false,
+                dateFormat: 'dd/mm/yy'
+            }).focus(function () {
+                var thisCalendar = $(this);
+                $('.ui-datepicker-close').click(function () {
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    thisCalendar.datepicker('setDate', new Date(year, month, 1));
+                });
+            });
+
+            $('#FechaFin').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                minDate: 'today',
+                showButtonPanel: false,
+                dateFormat: 'dd/mm/yy'
+            }).focus(function () {
+                var thisCalendar = $(this);
+                $('.ui-datepicker-close').click(function () {
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    thisCalendar.datepicker('setDate', new Date(year, month, 1));
+                });
+            });
+        });
+
+        $("input:radio[name=IsAdquiribleConLeads]").click(function () {
+            var value = $(this).val();
+            //alert(value);
+            if (value === "0") {
+                $("#divCosto").attr('style', 'display:none');
+                $("#CostoEnLeads").val('-1');
+            }
+            else if (value === "1") {
+                $("#divCosto").attr('style', '');
+                $("#CostoEnLeads").val('');
+            }
+        });
+    </script>
+</body>
+</html>
