@@ -148,6 +148,12 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.UbicacionesPersonas.Where(u => u.PersonaId == personaId).ToList();
         }
 
+        public void ActualizarPersona(Persona persona)
+        {
+            _db.Entry(persona).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+
         #endregion
 
         #region Proveedores
@@ -264,6 +270,12 @@ namespace SistemaGeneraliz.Models.Helpers
         public int GetPuntuacionPromedioInicial()
         {
             return _db.Configuraciones.Find(4).ValorNumerico;
+        }
+
+        public void ActualizarUbicacion(UbicacionPersona ubicacion)
+        {
+            _db.Entry(ubicacion).State = EntityState.Modified;
+            _db.SaveChanges();
         }
 
         public Cliente GetClientePorId(int clienteId)

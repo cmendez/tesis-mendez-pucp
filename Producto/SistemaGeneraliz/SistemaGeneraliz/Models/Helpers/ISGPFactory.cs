@@ -24,6 +24,7 @@ namespace SistemaGeneraliz.Models.Helpers
         Persona GetPersonaPorUsername(string userName);
         void AgregarImagen(Imagen imagen);
         List<UbicacionPersona> GetUbicacionesPersona(int personaId);
+        void ActualizarPersona(Persona persona);
         #endregion
 
         #region Proveedores
@@ -44,6 +45,7 @@ namespace SistemaGeneraliz.Models.Helpers
         void ActualizarProveedor(Proveedor proveedor);
         int GetLeadsGratisRegistro();
         int GetPuntuacionPromedioInicial();
+        void ActualizarUbicacion(UbicacionPersona ubicacion);
         #endregion
 
         #region Clientes

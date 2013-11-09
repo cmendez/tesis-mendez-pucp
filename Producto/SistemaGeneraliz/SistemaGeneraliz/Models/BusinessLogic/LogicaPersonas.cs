@@ -164,5 +164,36 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             _sgpFactory.AgregarImagen(imagen);
             return imagen;
         }
+
+        public Persona ModificarObjetoPersonaNatural(PersonaNaturalViewModel persona)
+        {
+            persona.Sexo = (persona.SexoId == 1) ? "Masculino" : "Femenino";
+            Distrito distrito = _sgpFactory.GetDistritoPorId(persona.IdDistrito);
+            persona.DireccionCompleta = persona.Direccion + " - " + distrito.NombreDistrito;
+            //Obtener persona de la BD
+            Persona p = _sgpFactory.GetPersonaPorUsername(persona.DNI);
+            p.PrimerNombre = persona.PrimerNombre;
+            p.SegundoNombre = persona.SegundoNombre;
+            p.ApellidoMaterno = persona.ApellidoMaterno;
+            p.ApellidoPaterno = persona.ApellidoPaterno;
+            p.FechaNacimiento = persona.FechaNacimiento;
+            p.Sexo = persona.Sexo;
+            p.DireccionCompleta = persona.DireccionCompleta;
+            p.Email1 = persona.Email1;
+            p.Email2 = persona.Email2;
+            p.Telefono1 = persona.Telefono1;
+            p.Telefono2 = persona.Telefono2;
+            p.Telefono3 = persona.Telefono3;
+            p.UltimaActualizacionPersonal = DateTime.Now;
+            if (persona.ImagenPrincipal != -1)
+                p.ImagenId = persona.ImagenPrincipal;
+
+            return p;
+        }
+
+        public void ActualizarPersona(Persona persona)
+        {
+            _sgpFactory.ActualizarPersona(persona);
+        }
     }
 }

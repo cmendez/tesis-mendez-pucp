@@ -498,6 +498,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 FechaCreacion = suministrador.Persona.FechaCreacion,
 
             };
+            return suministradorJuridicoViewModel;
         }
     }
 }

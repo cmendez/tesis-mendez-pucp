@@ -5,6 +5,7 @@ using System.Linq;
 using SistemaGeneraliz.Models.Entities;
 using SistemaGeneraliz.Models.Helpers;
 using SistemaGeneraliz.Models.ViewModels;
+using WebMatrix.WebData;
 
 namespace SistemaGeneraliz.Models.BusinessLogic
 {
@@ -357,6 +358,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     ApellidoPaterno = cliente.Persona.ApellidoPaterno,
                     FechaNacimiento = (DateTime) cliente.Persona.FechaNacimiento,
                     Sexo = cliente.Persona.Sexo,
+                    SexoId = (cliente.Persona.Sexo == "Masculino") ? 1: 2,
                     DireccionCompleta = cliente.Persona.DireccionCompleta,
                     IdDistrito = ubicacion.DistritoId,
                     IdCiudad = ubicacion.Distrito.PaisCiudadId,
@@ -371,6 +373,9 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     Telefono3 = cliente.Persona.Telefono3,
                     ImagenPrincipal = (int) cliente.Persona.ImagenId,
                     UltimaActualizacionPersonal = DateTime.Now,
+                    //OldPassword = "asdasd",
+                    Password = "password",
+                    ConfirmPassword = "password",
                     IsHabilitado = 1, //true
                     IsEliminado = 0 //false
                 };
@@ -398,6 +403,9 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     Telefono3 = cliente.Persona.Telefono3,
                     ImagenPrincipal = (int)cliente.Persona.ImagenId,
                     UltimaActualizacionPersonal = DateTime.Now,
+                    //OldPassword = "asdasdasd",
+                    Password = "password",
+                    ConfirmPassword = "password",
                     IsHabilitado = 1, //true
                     IsEliminado = 0 //false
                 };

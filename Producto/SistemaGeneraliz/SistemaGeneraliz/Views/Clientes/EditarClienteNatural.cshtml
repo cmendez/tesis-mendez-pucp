@@ -10,7 +10,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Registrar Cliente Natural</title>
+    <title>Modificar mi información</title>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
     <script src="~/Scripts/mi_mapa.js"></script>
 </head>
@@ -40,7 +40,7 @@
                     <br />
 
                     @*@{Html.RenderPartial("~/Views/Usuarios/_RegistrarPersonaNatural.cshtml", new SistemaGeneraliz.Models.ViewModels.PersonaNaturalViewModel());}*@
-                    @{Html.RenderPartial("~/Views/Usuarios/_RegistrarPersonaNatural.cshtml");}
+                    @{Html.RenderPartial("~/Views/Usuarios/_ModificarPersonaNatural.cshtml");}
 
                     <!--RenderPage("/Views/Usuarios/_RegistrarPersonaNatural.cshtml", new SistemaGeneraliz.Models.ViewModels.PersonaNaturalViewModel());-->
 
@@ -52,12 +52,26 @@
                         </div>
                         <div class="span7">
                             <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.HiddenFor(model => model.ImagenPrincipal)
+                                <img id="imagen" src="@Url.Action("GetImagen", "Suministradores", new { imagenId = Model.ImagenPrincipal })" alt="" width="160" >
                                 @Html.TextBoxFor(m => m.File, new { type = "file" })
                                 @Html.ValidationMessageFor(m => m.File)
                             </div>
                         </div>
                     </div>
-                    <br/>
+                    <br />
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.OldPassword)</div>
+                        </div>
+                        <div class="span7">
+                            <div class="editor-field" style="width: 100%; text-align: left;">
+                                @Html.TextBoxFor(model => model.OldPassword, new { @type = "password" })<br />
+                                @Html.ValidationMessageFor(model => model.OldPassword)
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row-fluid">
                         <div class="span5">
                             <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Password)</div>

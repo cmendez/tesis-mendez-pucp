@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using SistemaGeneraliz.Models.BusinessLogic;
 using SistemaGeneraliz.Models.Entities;
+using SistemaGeneraliz.Models.Helpers;
 using SistemaGeneraliz.Models.ViewModels;
 using WebMatrix.WebData;
 
@@ -106,7 +108,7 @@ namespace SistemaGeneraliz.Controllers
             cliente.Longitud = -77.00229406356812;
             return View(cliente);
         }
-        
+
         [AllowAnonymous]
         [HttpPost]
         public ActionResult RegistrarClienteJuridico(ClienteJuridicoViewModel clienteJuridicoViewModel)
@@ -188,19 +190,21 @@ namespace SistemaGeneraliz.Controllers
             {
                 try
                 {
-                    bool existe = _logicaPersonas.ExisteDNIRUC(clienteNaturalViewModel.DNI, clienteNaturalViewModel.RUC);
-                    if (existe)
-                    {
-                        ModelState.AddModelError("", "Error: el DNI y/o RUC ingresado ya existe.");
-                        ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                        return View(clienteNaturalViewModel);
-                    }
+                    if (clienteNaturalViewModel.Password != "password")
+                        if (!WebSecurity.ChangePassword(clienteNaturalViewModel.DNI, clienteNaturalViewModel.OldPassword, clienteNaturalViewModel.Password))
+                        {
+                            ModelState.AddModelError("", "Error: ingrese bien las contraseñas");
+                            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                            return View("EditarClienteNatural", clienteNaturalViewModel);
+                        }
 
+                    //habria que ver la manera de setear un objeto File dummy en el viewmodel por si el usuario no desea actualizar su foto,
+                    //pero por ahora simplemente lo obligamos a que si lo haga
                     if ((clienteNaturalViewModel.File == null) || (clienteNaturalViewModel.File.ContentLength <= 0))
                     {
                         ModelState.AddModelError("", "Error: es obligatorio subir una foto");
                         ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                        return View(clienteNaturalViewModel);
+                        return View("EditarClienteNatural", clienteNaturalViewModel);
                     }
                     else
                     {
@@ -212,25 +216,21 @@ namespace SistemaGeneraliz.Controllers
                         {
                             ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
                             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                            return View(clienteNaturalViewModel);
+                            return View("EditarClienteNatural", clienteNaturalViewModel);
                         }
                     }
                     Imagen foto = _logicaPersonas.AgregarFotoPersona(clienteNaturalViewModel.File);
                     clienteNaturalViewModel.ImagenPrincipal = foto.ImagenId;
 
-                    Persona persona = _logicaPersonas.CrearObjetoPersonaNatural(clienteNaturalViewModel, "Cliente");
-                    Cliente cliente = _logicaClientes.CrearObjetoClienteNatural(clienteNaturalViewModel);
-                    //setear la especialidad
-                    _logicaPersonas.AgregarPersona(persona);
-                    cliente.PersonaId = persona.PersonaId;
-                    UbicacionPersona ubicacion = _logicaUbicaciones.CrearObjetoUbicacionPersonaNatural(clienteNaturalViewModel, persona);
-                    _logicaUbicaciones.AgregarUbicacion(ubicacion);
-                    _logicaClientes.AgregarCliente(cliente);
-
-                    Roles.AddUsersToRoles(new[] { persona.UserName }, new[] { "Cliente" });
-                    WebSecurity.CreateAccount(persona.UserName, clienteNaturalViewModel.Password);
-                    bool loginSuccess = WebSecurity.Login(persona.UserName, clienteNaturalViewModel.Password);
-
+                    Persona persona = _logicaPersonas.ModificarObjetoPersonaNatural(clienteNaturalViewModel);
+                    //Cliente cliente = _logicaClientes.ModificarObjetoClienteNatural(clienteNaturalViewModel);
+                    _logicaPersonas.ActualizarPersona(persona);
+                    UbicacionPersona ubicacion = _logicaUbicaciones.ModificarObjetoUbicacionPersona(clienteNaturalViewModel, persona);
+                    _logicaUbicaciones.ActualizarUbicacion(ubicacion);
+                    //_logicaClientes.ModificarCliente(cliente);
+                    //WebSecurity.Logout();
+                    //WebSecurity.Login(persona.UserName, clienteNaturalViewModel.Password);
+                    string s = UsuariosController.GetNombrePersonaLoggeada();
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception ex)
@@ -239,7 +239,7 @@ namespace SistemaGeneraliz.Controllers
                 }
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-            return View(clienteNaturalViewModel);
+            return View("EditarClienteNatural", clienteNaturalViewModel);
         }
 
         public ActionResult MenuBuscarProveedores()

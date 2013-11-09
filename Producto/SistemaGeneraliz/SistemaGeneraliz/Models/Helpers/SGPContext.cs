@@ -187,8 +187,8 @@ namespace SistemaGeneraliz.Models.Helpers
         private List<Persona> SeedPersonasNaturales(int n)
         {
             var listPersonas = new List<Persona>();
-            string[] nombres = { "Juan", "Alberto", "Pedro", "David", "Alfredo", "Renato", "Marcos", "Lucas", "Raúl", "Eduardo", "Cristopher", "Toribio" };
-            string[] apellidos = { "Lopez", "Vidal", "Guerra", "Garcia", "Alvarez", "Dominguez", "Rodriguez", "Balcazar", "Quintana", "Taboada", "Córdova", "Suarez" };
+            string[] nombres = { "Juan", "Alberto", "Pedro", "David", "Alfredo", "Renato", "Marcos", "Lucas", "Luis", "Eduardo", "Cristopher", "Toribio" };
+            string[] apellidos = { "Lopez", "Vidal", "Guerra", "Garcia", "Alvarez", "Dominguez", "Rodriguez", "Balcazar", "Quintana", "Taboada", "Cordova", "Suarez" };
             string[] documentos = { "46394691", "86735959", "34896582", "70688569", "42384465", "41774584", "26335963", "37855213", "58765115", "31669569", "33287845", "42542398" };
             string[] tipoUsuario = { "Cliente", "Cliente", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor", "Proveedor" };
             List<long> docs = new List<long>();
@@ -328,7 +328,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     PersonaId = persona.PersonaId,
                     DistritoId = distrito.DistritoId,
                     Direccion = direccion,
-                    Referencia = " ",
+                    Referencia = "-",
                     Latitud = distrito.LatitudDefault + lat,
                     Longitud = distrito.LongitudDefault + lon,
                     IsVisible = 1,

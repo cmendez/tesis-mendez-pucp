@@ -89,14 +89,19 @@ namespace SistemaGeneraliz.Models.ViewModels
         //[Required(ErrorMessage = "El campo Foto es obligatorio.")]
         //[FileExtensions(Extensions = "jpg", ErrorMessage = "La imagen debe estar en formato jpg")] PARECE QUE NO FUNCIONA
         public HttpPostedFileBase File { get; set; }
-		
-		[StringLength(15, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 7)]
+
+        [StringLength(15, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Antigua Contraseña")]
+        public string OldPassword { get; set; }
+
+		[StringLength(15, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 6)]
 		[Required(ErrorMessage = "El campo {0} es obligatorio.")]
 		[DataType(DataType.Password)]
-		[Display(Name = "Contraseña")]
+		[Display(Name = "Nueva Contraseña")]
 		public string Password { get; set; }
 		
-		[StringLength(15, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 7)]
+		[StringLength(15, ErrorMessage = "El campo {0} debe tener entre {2} y {1} caracteres de longitud.", MinimumLength = 6)]
 		[Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
 		[DataType(DataType.Password)]
