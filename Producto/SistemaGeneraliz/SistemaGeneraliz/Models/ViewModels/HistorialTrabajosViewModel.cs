@@ -20,6 +20,10 @@ namespace SistemaGeneraliz.Models.ViewModels
         public string NombreCliente { get; set; }
         [DisplayName("Documento")]
         public string DocumentoCliente { get; set; }
+        [DisplayName("Proveedor")]
+        public string NombreProveedor { get; set; }
+        [DisplayName("Documento")]
+        public string DocumentoProveedor { get; set; }
         [DisplayName("Servicios")]
         public string Servicios { get; set; }
         [DisplayName("Descripción")]

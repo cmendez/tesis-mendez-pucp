@@ -29,10 +29,24 @@
 				@foreach(SidebarSuboption subopt in option.Suboptions)
 				{
 					<li class="@GetTitle(@subopt.Title)">
-						<a href="@Url.Action(subopt.Method, subopt.Controller)">
-							<i class="@subopt.Icon"></i>
-							@subopt.Title
-						</a>
+                        <a href="@Url.Action(subopt.Method, subopt.Controller)">
+                            <i class="@subopt.Icon"></i>
+                            @subopt.Title
+                        </a>
+@*                        @if (subopt.Suboptions != null)
+                        {
+                            <ul class="sub-menu">
+                                @foreach (SidebarSuboption subopt2 in subopt.Suboptions)
+                                {
+                                <li class="@GetTitle(@subopt2.Title)">
+                                    <a href="@Url.Action(subopt2.Method, subopt2.Controller)">
+                                        <i class="@subopt2.Icon"></i>
+                                        @subopt2.Title
+                                    </a>
+                                </li>
+                                }
+                            </ul>
+                        }*@
 					</li>
 				}
 				</ul>

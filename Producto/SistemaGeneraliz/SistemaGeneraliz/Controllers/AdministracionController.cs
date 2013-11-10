@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using SistemaGeneraliz.Models.BusinessLogic;
+using SistemaGeneraliz.Models.ViewModels;
 
 namespace SistemaGeneraliz.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrador")]
     public class AdministracionController : Controller
     {
+        private readonly LogicaProveedores _logicaProveedores = new LogicaProveedores();
         //
         // GET: /Administracion/
 
@@ -17,5 +22,17 @@ namespace SistemaGeneraliz.Controllers
             return View();
         }
 
+        public ActionResult HistoricoTrabajos()
+        {
+            return View();
+        }
+
+        // ReSharper disable InconsistentNaming
+        public ActionResult HistoricoTrabajos_Read([DataSourceRequest]DataSourceRequest request, string fechaInicio, string fechaFin)
+        {
+            List<HistorialTrabajosViewModel> listaHistorialTrabajosViewModel = new List<HistorialTrabajosViewModel>();
+            listaHistorialTrabajosViewModel = _logicaProveedores.HistoricoTrabajos(fechaInicio, fechaFin);
+            return Json(listaHistorialTrabajosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
     }
 }

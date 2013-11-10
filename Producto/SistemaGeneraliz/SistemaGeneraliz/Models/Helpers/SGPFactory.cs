@@ -278,6 +278,11 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.SaveChanges();
         }
 
+        public List<TrabajoProveedor> GetHistoricoTrabajos(string fechaInicio, string fechaFin)
+        {
+            return _db.TrabajosProveedores.OrderByDescending(t => t.Trabajo.Fecha).ToList();
+        }
+
         public Cliente GetClientePorId(int clienteId)
         {
             return _db.Clientes.Find(clienteId);

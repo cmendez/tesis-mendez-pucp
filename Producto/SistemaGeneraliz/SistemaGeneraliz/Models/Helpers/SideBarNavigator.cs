@@ -46,7 +46,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 new SidebarSuboption("Recargar Leads", "Suministradores", "RecargarLeads", "icon-bolt"),
                 new SidebarSuboption("Demanda de Productos", "Suministradores", "Index", "icon-bar-chart"),
                 new SidebarSuboption("Demanda de Ofertas, Promos y Dsctos", "Suministradores", "Index", "icon-bar-chart"),
-                new SidebarSuboption("Demanda de Servicios Generales", "Suministradores", "Index", "icon-bar-chart"),
+                //new SidebarSuboption("Demanda de Servicios Generales", "Suministradores", "Index", "icon-bar-chart"),
                 new SidebarSuboption("Editar Productos", "Suministradores", "EditarProductos", "icon-cog"),
                 new SidebarSuboption("Editar Ofertas, Promos y Dsctos", "Suministradores", "EditarOfertasPromosDsctos", "icon-cog"),
                 //new SidebarSuboption("Editar Mi Información", "Suministradores", "Index", "icon-edit")
@@ -58,9 +58,13 @@ namespace SistemaGeneraliz.Models.Helpers
                 Opciones.Add(new SidebarOption("Administracion", "Administración", "icon-lock", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Registrar Suministrador","Suministradores","RegistrarSuministradorJuridico","icon-building"),
                 new SidebarSuboption("Administrar Usuarios","Usuarios","Index","icon-group"),
-                new SidebarSuboption("Configurar Ubicaciones", "Administracion", "Index", "icon-globe"),
-                new SidebarSuboption("Configurar Servicios", "Administracion", "Index", "icon-cogs"),
-                new SidebarSuboption("Histórico de Trabajos", "Administracion", "Index", "icon-list-ul"),
+                //new SidebarSuboption("Administrar Usuarios","Usuarios","Index","icon-group", new List<SidebarSuboption>(new SidebarSuboption[]
+                //                                                                                                            {
+                //                                                                                                                new SidebarSuboption("Registrar Suministrador","Suministradores","RegistrarSuministradorJuridico","icon-building")
+                //                                                                                                            })),
+                //new SidebarSuboption("Configurar Ubicaciones", "Administracion", "Index", "icon-globe"),
+                //new SidebarSuboption("Configurar Servicios", "Administracion", "Index", "icon-cogs"),
+                new SidebarSuboption("Histórico de Trabajos", "Administracion", "HistoricoTrabajos", "icon-list-ul"),
                 new SidebarSuboption("Proveedores Destacados", "Administracion", "Index", "icon-star"),
                 new SidebarSuboption("Gestión de Recompensas", "Administracion", "Index", "icon-gift")
             })));
@@ -97,12 +101,21 @@ namespace SistemaGeneraliz.Models.Helpers
         public string Controller { get; set; }
         public string Method { get; set; }
         public string Icon { get; set; }
+        public List<SidebarSuboption> Suboptions { get; set; }
         public SidebarSuboption(string title, string controller, string method, string icon)
         {
             Title = title;
             Icon = icon;
             Controller = controller;
             Method = method;
+        }
+        public SidebarSuboption(string title, string controller, string method, string icon, List<SidebarSuboption> suboptions)
+        {
+            Title = title;
+            Icon = icon;
+            Controller = controller;
+            Method = method;
+            Suboptions = suboptions;
         }
     }
 
@@ -144,6 +157,15 @@ namespace SistemaGeneraliz.Models.Helpers
                             {
                                 SidebarSuboption aux = new SidebarSuboption(subopt.Title, subopt.Controller, subopt.Method, subopt.Icon);
                                 salida.Opciones.Where(i => i.Area == option.Area).SingleOrDefault().Suboptions.Add(aux);
+                                //if (subopt.Suboptions != null)
+                                //{
+                                //    foreach (SidebarSuboption subopt2 in subopt.Suboptions)
+                                //    {
+                                //        SidebarSuboption aux2 = new SidebarSuboption(subopt2.Title, subopt2.Controller, subopt2.Method, subopt2.Icon);
+                                //        //subopt.Suboptions.Add(aux2);
+                                //        salida.Opciones.Where(i => i.Area == option.Area).SingleOrDefault().Suboptions.Where(t => t.Title == "Administrar Usuarios").SingleOrDefault().Suboptions.Add(aux2);
+                                //    }
+                                //}
                             }
 
                         }

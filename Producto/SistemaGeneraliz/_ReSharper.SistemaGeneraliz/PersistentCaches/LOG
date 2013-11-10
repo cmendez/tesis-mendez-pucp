@@ -1,5 +1,5 @@
-2013/11/09-13:02:36.288 1afc Recovering log #137
-2013/11/09-13:02:36.381 1afc Level-0 table #139: started
-2013/11/09-13:02:36.402 1afc Level-0 table #139: 130362 bytes OK
-2013/11/09-13:02:36.414 1afc Delete type=0 #137
-2013/11/09-13:02:36.414 1afc Delete type=3 #135
+2013/11/10-10:05:34.481 17c8 Recovering log #140
+2013/11/10-10:05:34.591 17c8 Level-0 table #142: started
+2013/11/10-10:05:34.605 17c8 Level-0 table #142: 461377 bytes OK
+2013/11/10-10:05:34.613 17c8 Delete type=0 #140
+2013/11/10-10:05:34.614 17c8 Delete type=3 #138

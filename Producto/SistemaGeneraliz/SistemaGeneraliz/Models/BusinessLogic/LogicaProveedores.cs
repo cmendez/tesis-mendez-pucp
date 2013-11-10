@@ -307,7 +307,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             proveedor.Facebook = proveedorNaturalViewModel.Facebook;
             proveedor.PaginaWeb = proveedorNaturalViewModel.PaginaWeb;
             proveedor.AcercaDeMi = proveedorNaturalViewModel.AcercaDeMi;
-            
+
             foreach (var servicio in proveedor.TiposServicios.ToList())
             {
                 if (!proveedorNaturalViewModel.ListTiposServiciosIds.Contains(servicio.TipoServicioId))
@@ -352,6 +352,97 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 }
             }
             return proveedor;
+        }
+
+        public List<HistorialTrabajosViewModel> HistoricoTrabajos(string fechaInicio, string fechaFin)
+        {
+            var listaHistorialTrabajosViewModel = new List<HistorialTrabajosViewModel>();
+            var listaTrabajos = _sgpFactory.GetHistoricoTrabajos(fechaInicio, fechaFin);
+
+            if ((listaTrabajos != null) && (listaTrabajos.Count > 0))
+            {
+                if (!String.IsNullOrEmpty(fechaInicio))
+                {
+                    DateTime finicio = DateTime.Parse(fechaInicio);
+                    listaTrabajos = listaTrabajos.Where(t => t.Trabajo.Fecha.CompareTo(finicio) >= 0).ToList();
+                }
+
+                if (!String.IsNullOrEmpty(fechaFin))
+                {
+                    DateTime ffin = DateTime.Parse(fechaFin);
+                    listaTrabajos = listaTrabajos.Where(t => t.Trabajo.Fecha.CompareTo(ffin) <= 0).ToList();
+                }
+
+                foreach (var trabajo in listaTrabajos)
+                {
+                    DateTime fechaTrabajo = trabajo.FechaReal ?? trabajo.Trabajo.Fecha;
+                    string nombreCliente = trabajo.Trabajo.Cliente.Persona.RazonSocial ??
+                                           (trabajo.Trabajo.Cliente.Persona.PrimerNombre + " " +
+                                            trabajo.Trabajo.Cliente.Persona.ApellidoPaterno);
+                    string documentoCliente = (trabajo.Trabajo.Cliente.Persona.DNI != null)
+                                                  ? ("DNI - " + trabajo.Trabajo.Cliente.Persona.DNI.ToString())
+                                                  : ("RUC - " + trabajo.Trabajo.Cliente.Persona.RUC.ToString());
+                    string servicios = trabajo.TiposServicios.Aggregate("",
+                                                                        (current, servicio) =>
+                                                                        current + (servicio.NombreServicio + " - "));
+                    servicios = servicios.Substring(0, servicios.Length - 3);
+                    string puntuacion = "-";
+                    //if ((trabajo.EncuestaCliente != null) && (trabajo.EncuestaClienteId != null) && (trabajo.EncuestaClienteId > 0) && (trabajo.EncuestaCliente.PuntajeTotal != -1))
+                    if (trabajo.EncuestaCliente.PuntajeTotal != -1)
+                        puntuacion = trabajo.EncuestaCliente.PuntajeTotal.ToString();
+                    string comentarios = "-";
+                    //if ((trabajo.EncuestaCliente != null) && (trabajo.EncuestaClienteId != null) && (trabajo.EncuestaClienteId > 0) && (!String.IsNullOrEmpty(trabajo.EncuestaCliente.ComentariosCliente)))
+                    if (!String.IsNullOrEmpty(trabajo.EncuestaCliente.ComentariosCliente))
+                        comentarios = trabajo.EncuestaCliente.ComentariosCliente;
+                    string rph_factura = "-";
+                    if ((trabajo.TipoRpH_Factura != null) && (trabajo.NroRpH_Factura != null))
+                    {
+                        rph_factura = trabajo.TipoRpH_Factura + " - " + trabajo.NroRpH_Factura;
+                        ;
+                    }
+                    string montoCobrado = "-";
+                    if (trabajo.MontoCobrado != null)
+                    {
+                        //if (trabajo.MontoCobrado.IndexOf("S/.") < 0)
+                        //{
+                        //    montoCobrado = "S/. " + trabajo.MontoCobrado;    
+                        //}
+                        //else
+                        //{
+                        montoCobrado = trabajo.MontoCobrado;
+                        //}
+                    }
+                    string nombreProveedor = trabajo.Proveedor.Persona.RazonSocial ??
+                                             (trabajo.Proveedor.Persona.PrimerNombre + " " +
+                                              trabajo.Proveedor.Persona.ApellidoPaterno);
+                    string documentoProveedor = (trabajo.Proveedor.Persona.DNI != null)
+                                                    ? ("DNI - " + trabajo.Proveedor.Persona.DNI.ToString())
+                                                    : ("RUC - " + trabajo.Proveedor.Persona.RUC.ToString());
+
+                    HistorialTrabajosViewModel his = new HistorialTrabajosViewModel
+                    {
+                        TrabajoProveedorId = trabajo.TrabajoProveedorId,
+                        FechaTrabajo = fechaTrabajo.ToString("dd/MM/yyyy"),
+                        Puntuacion = puntuacion,
+                        //PARA CUANDO ESTE LO DE ENCUESTAS
+                        NombreCliente = nombreCliente,
+                        DocumentoCliente = documentoCliente,
+                        NombreProveedor = nombreProveedor,
+                        DocumentoProveedor = documentoProveedor,
+                        Servicios = servicios,
+                        DescripcionCliente = trabajo.Trabajo.DescripcionCliente,
+                        ReciboHonorarios_Factura = rph_factura,
+                        MontoCobrado = montoCobrado,
+                        LinkModificarDetalles = "",
+                        EncuestaRespondida = trabajo.EncuestaCliente.IsCompletada,
+                        Comentarios = comentarios
+                    };
+                    listaHistorialTrabajosViewModel.Add(his);
+
+                }
+                //listaHistorialTrabajosViewModel.Sort((x, y) => string.Compare(y.FechaTrabajo, x.FechaTrabajo));
+            }
+            return listaHistorialTrabajosViewModel;
         }
     }
 }
