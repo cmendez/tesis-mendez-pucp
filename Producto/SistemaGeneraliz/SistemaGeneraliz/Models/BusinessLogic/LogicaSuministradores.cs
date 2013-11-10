@@ -495,7 +495,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             {
                 SuministradorId = suministrador.SuministradorId,
                 RazonSocial = suministrador.Persona.RazonSocial,
-                FechaCreacion = suministrador.Persona.FechaCreacion,
+                FechaCreacion = (DateTime) suministrador.Persona.FechaCreacion,
 
             };
             return suministradorJuridicoViewModel;

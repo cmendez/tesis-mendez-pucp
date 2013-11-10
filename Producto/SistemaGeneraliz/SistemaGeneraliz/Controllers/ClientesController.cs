@@ -174,7 +174,7 @@ namespace SistemaGeneraliz.Controllers
                 ClienteNaturalViewModel clienteNaturalViewModel = (ClienteNaturalViewModel)_logicaClientes.GetClienteViewModel(cliente, "Natural");
                 return View("EditarClienteNatural", clienteNaturalViewModel);
             }
-            if (cliente.Persona.TipoPersona == "Jurídica")
+            if (cliente.Persona.TipoPersona == "Juridica")
             {
                 ClienteJuridicoViewModel clienteJuridicoViewModel = (ClienteJuridicoViewModel)_logicaClientes.GetClienteViewModel(cliente, "Jurídica");
                 return View("EditarClienteJuridico", clienteJuridicoViewModel);
@@ -190,14 +190,6 @@ namespace SistemaGeneraliz.Controllers
             {
                 try
                 {
-                    if (clienteNaturalViewModel.Password != "password")
-                        if (!WebSecurity.ChangePassword(clienteNaturalViewModel.DNI, clienteNaturalViewModel.OldPassword, clienteNaturalViewModel.Password))
-                        {
-                            ModelState.AddModelError("", "Error: ingrese bien las contraseñas");
-                            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                            return View("EditarClienteNatural", clienteNaturalViewModel);
-                        }
-
                     //habria que ver la manera de setear un objeto File dummy en el viewmodel por si el usuario no desea actualizar su foto,
                     //pero por ahora simplemente lo obligamos a que si lo haga
                     if ((clienteNaturalViewModel.File == null) || (clienteNaturalViewModel.File.ContentLength <= 0))
@@ -219,18 +211,32 @@ namespace SistemaGeneraliz.Controllers
                             return View("EditarClienteNatural", clienteNaturalViewModel);
                         }
                     }
+
+                    if (clienteNaturalViewModel.Password != "password")
+                    {
+                        if (!WebSecurity.ChangePassword(clienteNaturalViewModel.DNI, clienteNaturalViewModel.OldPassword, clienteNaturalViewModel.Password))
+                        {
+                            ModelState.AddModelError("", "Error: ingrese bien las contraseñas");
+                            ViewBag.Distritos = _logicaPersonas.GetDistritos();
+                            //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                            return View("EditarClienteNatural", clienteNaturalViewModel);
+                        }
+                    }
+
                     Imagen foto = _logicaPersonas.AgregarFotoPersona(clienteNaturalViewModel.File);
                     clienteNaturalViewModel.ImagenPrincipal = foto.ImagenId;
 
                     Persona persona = _logicaPersonas.ModificarObjetoPersonaNatural(clienteNaturalViewModel);
                     //Cliente cliente = _logicaClientes.ModificarObjetoClienteNatural(clienteNaturalViewModel);
                     _logicaPersonas.ActualizarPersona(persona);
-                    UbicacionPersona ubicacion = _logicaUbicaciones.ModificarObjetoUbicacionPersona(clienteNaturalViewModel, persona);
+                    UbicacionPersona ubicacion = _logicaUbicaciones.ModificarObjetoUbicacionPersonaNatural(clienteNaturalViewModel, persona);
                     _logicaUbicaciones.ActualizarUbicacion(ubicacion);
                     //_logicaClientes.ModificarCliente(cliente);
                     //WebSecurity.Logout();
                     //WebSecurity.Login(persona.UserName, clienteNaturalViewModel.Password);
                     string s = UsuariosController.GetNombrePersonaLoggeada();
+                    //hace el update y todo pero no se refleja el nuevo nombre e imagen en el navigation bar
+                    //por eso del static... ver si lo puedo arreglar luego
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception ex)
@@ -240,6 +246,72 @@ namespace SistemaGeneraliz.Controllers
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             return View("EditarClienteNatural", clienteNaturalViewModel);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult EditarMiInformacion_Juridico(ClienteJuridicoViewModel clienteJuridicoViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //habria que ver la manera de setear un objeto File dummy en el viewmodel por si el usuario no desea actualizar su foto,
+                    //pero por ahora simplemente lo obligamos a que si lo haga
+                    if ((clienteJuridicoViewModel.File == null) || (clienteJuridicoViewModel.File.ContentLength <= 0))
+                    {
+                        ModelState.AddModelError("", "Error: es obligatorio subir una foto");
+                        ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                        return View("EditarClienteJuridico", clienteJuridicoViewModel);
+                    }
+                    else
+                    {
+                        var file = clienteJuridicoViewModel.File;
+                        string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                        string ext2 = file.FileName;
+
+                        if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                        {
+                            ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                            return View("EditarClienteJuridico", clienteJuridicoViewModel);
+                        }
+                    }
+
+                    if (clienteJuridicoViewModel.Password != "password")
+                    {
+                        if (!WebSecurity.ChangePassword(clienteJuridicoViewModel.RUC, clienteJuridicoViewModel.OldPassword, clienteJuridicoViewModel.Password))
+                        {
+                            ModelState.AddModelError("", "Error: ingrese bien las contraseñas");
+                            ViewBag.Distritos = _logicaPersonas.GetDistritos();
+                            //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                            return View("EditarClienteJuridico", clienteJuridicoViewModel);
+                        }
+                    }
+
+                    Imagen foto = _logicaPersonas.AgregarFotoPersona(clienteJuridicoViewModel.File);
+                    clienteJuridicoViewModel.ImagenPrincipal = foto.ImagenId;
+
+                    Persona persona = _logicaPersonas.ModificarObjetoPersonaJuridico(clienteJuridicoViewModel);
+                    //Cliente cliente = _logicaClientes.ModificarObjetoClienteJuridico(clienteJuridicoViewModel);
+                    _logicaPersonas.ActualizarPersona(persona);
+                    UbicacionPersona ubicacion = _logicaUbicaciones.ModificarObjetoUbicacionPersonaJuridica(clienteJuridicoViewModel, persona);
+                    _logicaUbicaciones.ActualizarUbicacion(ubicacion);
+                    //_logicaClientes.ModificarCliente(cliente);
+                    //WebSecurity.Logout();
+                    //WebSecurity.Login(persona.UserName, clienteJuridicoViewModel.Password);
+                    string s = UsuariosController.GetNombrePersonaLoggeada();
+                    //hace el update y todo pero no se refleja el nuevo nombre e imagen en el navigation bar
+                    //por eso del static... ver si lo puedo arreglar luego
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+            return View("EditarClienteJuridico", clienteJuridicoViewModel);
         }
 
         public ActionResult MenuBuscarProveedores()

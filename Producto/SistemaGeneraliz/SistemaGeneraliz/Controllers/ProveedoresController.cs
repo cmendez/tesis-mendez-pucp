@@ -179,6 +179,101 @@ namespace SistemaGeneraliz.Controllers
             return View(proveedorJuridicoViewModel);
         }
 
+        [Authorize(Roles = "Administrador, Proveedor")]
+        public ActionResult EditarMiInformacion()
+        {
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
+            Proveedor Proveedor = _logicaProveedores.GetProveedorPorPersonaId(WebSecurity.CurrentUserId);
+            if (Proveedor.Persona.TipoPersona == "Natural")
+            {
+                ProveedorNaturalViewModel proveedorNaturalViewModel = (ProveedorNaturalViewModel)_logicaProveedores.GetProveedorViewModel(Proveedor, "Natural");
+                ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorNaturalViewModel.TiposServicios);
+                return View("EditarProveedorNatural", proveedorNaturalViewModel);
+            }
+            //if (Proveedor.Persona.TipoPersona == "Juridica")
+            //{
+            //    ProveedorJuridicoViewModel proveedorNaturalViewModel = (ProveedorJuridicoViewModel)_logicaProveedores.GetProveedorViewModel(Proveedor, "Jurídico");
+            //    return View("EditarProveedorJuridico", proveedorNaturalViewModel);
+            //}
+            return null;
+        }
+
+        private List<SelectListItem> ObtenerTiposServiciosProveedor(ICollection<TipoServicio> listaServiciosProveedor)
+        {
+            List<SelectListItem> listaS = new List<SelectListItem>();
+            List<TipoServicio> lista = ObtenerTiposServicios();
+            foreach (var servicio in lista)
+            {
+                //lista.Add(new TipoServicio { TipoServicioId = servicio.TipoServicioId, NombreServicio = servicio.NombreServicio});
+                bool seleccionado = listaServiciosProveedor.Contains(servicio);
+                listaS.Add(new SelectListItem() { Text = servicio.NombreServicio, Value = servicio.TipoServicioId.ToString(), Selected = seleccionado });
+            }
+            return listaS;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult EditarMiInformacion_Natural(ProveedorNaturalViewModel proveedorNaturalViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //habria que ver la manera de setear un objeto File dummy en el viewmodel por si el usuario no desea actualizar su foto,
+                    //pero por ahora simplemente lo obligamos a que si lo haga
+                    if ((proveedorNaturalViewModel.File == null) || (proveedorNaturalViewModel.File.ContentLength <= 0))
+                    {
+                        ModelState.AddModelError("", "Error: es obligatorio subir una foto");
+                        ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                        ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorNaturalViewModel.TiposServicios);
+                        return View("EditarProveedorNatural", proveedorNaturalViewModel);
+                    }
+                    else
+                    {
+                        var file = proveedorNaturalViewModel.File;
+                        string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                        string ext2 = file.FileName;
+
+                        if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                        {
+                            ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                            ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorNaturalViewModel.TiposServicios);
+                            return View("EditarProveedorNatural", proveedorNaturalViewModel);
+                        }
+                    }
+
+                    if (proveedorNaturalViewModel.Password != "password")
+                    {
+                        if (!WebSecurity.ChangePassword(proveedorNaturalViewModel.DNI, proveedorNaturalViewModel.OldPassword, proveedorNaturalViewModel.Password))
+                        {
+                            ModelState.AddModelError("", "Error: ingrese bien las contraseñas");
+                            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                            ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorNaturalViewModel.TiposServicios);
+                            return View("EditarProveedorNatural", proveedorNaturalViewModel);
+                        }
+                    }
+
+                    Imagen foto = _logicaPersonas.AgregarFotoPersona(proveedorNaturalViewModel.File);
+                    proveedorNaturalViewModel.ImagenPrincipal = foto.ImagenId;
+                    Persona persona = _logicaPersonas.ModificarObjetoPersonaNatural(proveedorNaturalViewModel);
+                    Proveedor proveedor = _logicaProveedores.ModificarObjetoProveedorNatural(proveedorNaturalViewModel);
+                    _logicaPersonas.ActualizarPersona(persona);
+                    _logicaProveedores.ActualizarProveedor(proveedor);
+                    UbicacionPersona ubicacion = _logicaUbicaciones.ModificarObjetoUbicacionPersonaNatural(proveedorNaturalViewModel, persona);
+                    _logicaUbicaciones.ActualizarUbicacion(ubicacion);
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+            ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorNaturalViewModel.TiposServicios);
+            return View("EditarProveedorNatural", proveedorNaturalViewModel);
+        }
+
         public List<TipoServicio> ObtenerTiposServicios()
         {
             List<TipoServicio> tipoServicios = _logicaProveedores.GetTipoServicios();

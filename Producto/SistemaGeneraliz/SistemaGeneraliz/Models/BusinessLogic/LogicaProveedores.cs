@@ -208,5 +208,128 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             encuesta.IsVisible = visibilidad;
             _sgpFactory.ActualizarEncuestaCompletada(encuesta);
         }
+
+        public Object GetProveedorViewModel(Proveedor proveedor, string tipoPersona)
+        {
+            int[] listaServicios = new int[proveedor.TiposServicios.Count];
+            int i = 0;
+            foreach (var tipoServicio in proveedor.TiposServicios.ToList())
+            {
+                listaServicios[i] = tipoServicio.TipoServicioId;
+                i++;
+            }
+
+            UbicacionPersona ubicacion = _sgpFactory.GetUbicacionesPersona(proveedor.PersonaId)[0]; //solo tienen 1 ubicacion
+            if (tipoPersona == "Natural")
+            {
+                ProveedorNaturalViewModel proveedorNaturalViewModel = new ProveedorNaturalViewModel
+                {
+                    PersonaId = proveedor.PersonaId,
+                    ProveedorId = proveedor.ProveedorId,
+                    DNI = proveedor.Persona.DNI.ToString(),
+                    RUC = proveedor.Persona.RUC.ToString(),
+                    PrimerNombre = proveedor.Persona.PrimerNombre,
+                    SegundoNombre = proveedor.Persona.SegundoNombre,
+                    ApellidoMaterno = proveedor.Persona.ApellidoMaterno,
+                    ApellidoPaterno = proveedor.Persona.ApellidoPaterno,
+                    FechaNacimiento = (DateTime)proveedor.Persona.FechaNacimiento,
+                    Sexo = proveedor.Persona.Sexo,
+                    SexoId = (proveedor.Persona.Sexo == "Masculino") ? 1 : 2,
+                    DireccionCompleta = proveedor.Persona.DireccionCompleta,
+                    IdDistrito = ubicacion.DistritoId,
+                    IdCiudad = ubicacion.Distrito.PaisCiudadId,
+                    Direccion = ubicacion.Direccion,
+                    Referencia = ubicacion.Referencia,
+                    Latitud = ubicacion.Latitud,
+                    Longitud = ubicacion.Longitud,
+                    Email1 = proveedor.Persona.Email1,
+                    Email2 = proveedor.Persona.Email2,
+                    Telefono1 = proveedor.Persona.Telefono1,
+                    Telefono2 = proveedor.Persona.Telefono2,
+                    Telefono3 = proveedor.Persona.Telefono3,
+                    ImagenPrincipal = (int)proveedor.Persona.ImagenId,
+                    UltimaActualizacionPersonal = DateTime.Now,
+                    //OldPassword = "asdasd",
+                    Password = "password",
+                    ConfirmPassword = "password",
+                    IsHabilitado = 1, //true
+                    IsEliminado = 0, //false
+                    PaginaWeb = proveedor.PaginaWeb,
+                    Facebook = proveedor.Facebook,
+                    AcercaDeMi = proveedor.AcercaDeMi,
+                    ListTiposServiciosIds = listaServicios,
+                    TiposServicios = proveedor.TiposServicios.ToList()
+                };
+                return proveedorNaturalViewModel;
+            }
+            if (tipoPersona == "Jurídica")
+            {
+                ProveedorJuridicoViewModel proveedorJuridicoViewModel = new ProveedorJuridicoViewModel
+                {
+                    PersonaId = proveedor.PersonaId,
+                    ProveedorId = proveedor.ProveedorId,
+                    RUC = proveedor.Persona.RUC.ToString(),
+                    RazonSocial = proveedor.Persona.RazonSocial,
+                    FechaCreacion = (DateTime)proveedor.Persona.FechaCreacion,
+                    DireccionCompleta = proveedor.Persona.DireccionCompleta,
+                    IdDistrito = ubicacion.DistritoId,
+                    IdCiudad = ubicacion.Distrito.PaisCiudadId,
+                    Direccion = ubicacion.Direccion,
+                    Referencia = ubicacion.Referencia,
+                    Latitud = ubicacion.Latitud,
+                    Longitud = ubicacion.Longitud,
+                    Email1 = proveedor.Persona.Email1,
+                    Email2 = proveedor.Persona.Email2,
+                    Telefono1 = proveedor.Persona.Telefono1,
+                    Telefono2 = proveedor.Persona.Telefono2,
+                    Telefono3 = proveedor.Persona.Telefono3,
+                    ImagenPrincipal = (int)proveedor.Persona.ImagenId,
+                    UltimaActualizacionPersonal = DateTime.Now,
+                    //OldPassword = "asdasdasd",
+                    Password = "password",
+                    ConfirmPassword = "password",
+                    IsHabilitado = 1, //true
+                    IsEliminado = 0, //false
+                    ListTiposServiciosIds = listaServicios,
+                    TiposServicios = proveedor.TiposServicios.ToList()
+                };
+                return proveedorJuridicoViewModel;
+            }
+            return null;
+        }
+
+        public Proveedor ModificarObjetoProveedorNatural(ProveedorNaturalViewModel proveedorNaturalViewModel)
+        {
+            Proveedor proveedor = _sgpFactory.GetProveedorPorDocumento(Int32.Parse(proveedorNaturalViewModel.DNI), 1);
+            proveedor.Facebook = proveedorNaturalViewModel.Facebook;
+            proveedor.PaginaWeb = proveedorNaturalViewModel.PaginaWeb;
+            proveedor.AcercaDeMi = proveedorNaturalViewModel.AcercaDeMi;
+            
+            foreach (var servicio in proveedor.TiposServicios.ToList())
+            {
+                if (!proveedorNaturalViewModel.ListTiposServiciosIds.Contains(servicio.TipoServicioId))
+                    proveedor.TiposServicios.Remove(servicio);
+            }
+
+            foreach (var servicioId in proveedorNaturalViewModel.ListTiposServiciosIds)
+            {
+                // Add the roles which are not in the list of user's roles
+                if (!proveedor.TiposServicios.Any(r => r.TipoServicioId == servicioId))
+                {
+                    TipoServicio tipo = this.GetTipoServicioPorId(servicioId);
+                    proveedor.TiposServicios.Add(tipo);
+                }
+                // Adds roles 1 and 2 in the example
+            }
+            // The roles which the user was already in (role 5 in the example)
+            // have neither been removed nor added.
+
+            return proveedor;
+        }
+
+        public void ActualizarProveedor(Proveedor proveedor)
+        {
+            _sgpFactory.ActualizarProveedor(proveedor);
+        }
     }
 }

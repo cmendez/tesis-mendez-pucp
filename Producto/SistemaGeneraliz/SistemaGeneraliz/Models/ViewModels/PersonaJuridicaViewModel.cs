@@ -31,7 +31,7 @@ namespace SistemaGeneraliz.Models.ViewModels
 		[DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
 		[Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [Display(Name = "Fecha de Creación de la Empresa")]        
-        public DateTime? FechaCreacion { get; set; }
+        public DateTime FechaCreacion { get; set; }
 
 		[Display(Name = "Dirección")]
 		public string DireccionCompleta { get; set; }

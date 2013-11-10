@@ -204,8 +204,8 @@ namespace SistemaGeneraliz.Controllers
 
         public ActionResult EditarMiInformacion()
         {
-            //if (Roles.IsUserInRole("Proveedor"))
-            //    return RedirectToAction("EditarMiInformacion", "Proveedores");
+            if (Roles.IsUserInRole("Proveedor"))
+                return RedirectToAction("EditarMiInformacion", "Proveedores");
             if (Roles.IsUserInRole("Cliente"))
                 return RedirectToAction("EditarMiInformacion", "Clientes");
             //if (Roles.IsUserInRole("Suministrador"))

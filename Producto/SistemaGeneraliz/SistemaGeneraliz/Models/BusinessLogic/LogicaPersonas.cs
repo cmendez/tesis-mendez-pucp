@@ -195,5 +195,26 @@ namespace SistemaGeneraliz.Models.BusinessLogic
         {
             _sgpFactory.ActualizarPersona(persona);
         }
+
+        public Persona ModificarObjetoPersonaJuridico(PersonaJuridicaViewModel persona)
+        {
+            Distrito distrito = _sgpFactory.GetDistritoPorId(persona.IdDistrito);
+            persona.DireccionCompleta = persona.Direccion + " - " + distrito.NombreDistrito;
+            //Obtener persona de la BD
+            Persona p = _sgpFactory.GetPersonaPorUsername(persona.RUC);
+            p.RazonSocial = persona.RazonSocial;
+            p.FechaCreacion = persona.FechaCreacion;
+            p.DireccionCompleta = persona.DireccionCompleta;
+            p.Email1 = persona.Email1;
+            p.Email2 = persona.Email2;
+            p.Telefono1 = persona.Telefono1;
+            p.Telefono2 = persona.Telefono2;
+            p.Telefono3 = persona.Telefono3;
+            p.UltimaActualizacionPersonal = DateTime.Now;
+            if (persona.ImagenPrincipal != -1)
+                p.ImagenId = persona.ImagenPrincipal;
+
+            return p;
+        }
     }
 }

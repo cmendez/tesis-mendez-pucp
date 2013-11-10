@@ -67,7 +67,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             _sgpFactory.ActualizarUbicacion(ubicacion);
         }
 
-        public UbicacionPersona ModificarObjetoUbicacionPersona(PersonaNaturalViewModel personaNaturalViewModel, Persona persona)
+        public UbicacionPersona ModificarObjetoUbicacionPersonaNatural(PersonaNaturalViewModel personaNaturalViewModel, Persona persona)
         {
             UbicacionPersona ubicacion = _sgpFactory.GetUbicacionesPersona(persona.PersonaId)[0];
             ubicacion.DistritoId = personaNaturalViewModel.IdDistrito;
@@ -75,6 +75,17 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             ubicacion.Referencia = personaNaturalViewModel.Referencia;
             ubicacion.Latitud = personaNaturalViewModel.Latitud;
             ubicacion.Longitud = personaNaturalViewModel.Longitud;
+            return ubicacion;
+        }
+
+        public UbicacionPersona ModificarObjetoUbicacionPersonaJuridica(PersonaJuridicaViewModel personaJuridicoViewModel, Persona persona)
+        {
+            UbicacionPersona ubicacion = _sgpFactory.GetUbicacionesPersona(persona.PersonaId)[0];
+            ubicacion.DistritoId = personaJuridicoViewModel.IdDistrito;
+            ubicacion.Direccion = personaJuridicoViewModel.Direccion;
+            ubicacion.Referencia = personaJuridicoViewModel.Referencia;
+            ubicacion.Latitud = personaJuridicoViewModel.Latitud;
+            ubicacion.Longitud = personaJuridicoViewModel.Longitud;
             return ubicacion;
         }
     }
