@@ -491,14 +491,54 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 
         public SuministradorJuridicoViewModel GetSuministradorViewModel(Suministrador suministrador)
         {
+            UbicacionPersona ubicacion = suministrador.Persona.UbicacionesPersonas.First();
             SuministradorJuridicoViewModel suministradorJuridicoViewModel = new SuministradorJuridicoViewModel
             {
                 SuministradorId = suministrador.SuministradorId,
+                PersonaId = suministrador.PersonaId,
+                RUC = suministrador.Persona.RUC.ToString(),
                 RazonSocial = suministrador.Persona.RazonSocial,
-                FechaCreacion = (DateTime) suministrador.Persona.FechaCreacion,
-
+                FechaCreacion = (DateTime)suministrador.Persona.FechaCreacion,
+                DireccionCompleta = suministrador.Persona.DireccionCompleta,
+                IdDistrito = ubicacion.DistritoId,
+                IdCiudad = ubicacion.Distrito.PaisCiudadId,
+                Direccion = ubicacion.Direccion,
+                Referencia = ubicacion.Referencia,
+                Latitud = ubicacion.Latitud,
+                Longitud = ubicacion.Longitud,
+                Email1 = suministrador.Persona.Email1,
+                Email2 = suministrador.Persona.Email2,
+                Telefono1 = suministrador.Persona.Telefono1,
+                Telefono2 = suministrador.Persona.Telefono2,
+                Telefono3 = suministrador.Persona.Telefono3,
+                ImagenPrincipal = (int)suministrador.Persona.ImagenId,
+                UltimaActualizacionPersonal = DateTime.Now,
+                //OldPassword = "asdasdasd",
+                Password = "password",
+                ConfirmPassword = "password",
+                IsHabilitado = 1, //true
+                IsEliminado = 0, //false
+                Facebook = suministrador.Facebook,
+                PaginaWeb = suministrador.PaginaWeb,
+                AcercaDeMi = suministrador.AcercaDeMi,
+                LeadsDisponibles = suministrador.LeadsDisponibles,
+                LeadsReserva = suministrador.LeadsReserva
             };
             return suministradorJuridicoViewModel;
+        }
+
+        public void ActualizarSuministrador(Suministrador suministrador)
+        {
+            _sgpFactory.ActualizarSuministrador(suministrador);
+        }
+
+        public Suministrador ModificarObjetoSuministradorJuridico(SuministradorJuridicoViewModel suministradorJuridicoViewModel)
+        {
+            Suministrador suministrador = _sgpFactory.GetSuministradorPorPersonaId(suministradorJuridicoViewModel.PersonaId);
+            suministrador.Facebook = suministradorJuridicoViewModel.Facebook;
+            suministrador.PaginaWeb = suministradorJuridicoViewModel.PaginaWeb;
+            suministrador.AcercaDeMi = suministradorJuridicoViewModel.AcercaDeMi;
+            return suministrador;
         }
     }
 }

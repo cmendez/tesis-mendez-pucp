@@ -208,8 +208,8 @@ namespace SistemaGeneraliz.Controllers
                 return RedirectToAction("EditarMiInformacion", "Proveedores");
             if (Roles.IsUserInRole("Cliente"))
                 return RedirectToAction("EditarMiInformacion", "Clientes");
-            //if (Roles.IsUserInRole("Suministrador"))
-            //    return RedirectToAction("EditarSuministradorJuridico", "Suministradores");
+            if (Roles.IsUserInRole("Suministrador"))
+                return RedirectToAction("EditarMiInformacion", "Suministradores");
 
             return null;
         }

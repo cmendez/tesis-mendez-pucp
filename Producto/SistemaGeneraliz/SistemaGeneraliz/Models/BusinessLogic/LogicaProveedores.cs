@@ -291,7 +291,10 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     IsHabilitado = 1, //true
                     IsEliminado = 0, //false
                     ListTiposServiciosIds = listaServicios,
-                    TiposServicios = proveedor.TiposServicios.ToList()
+                    TiposServicios = proveedor.TiposServicios.ToList(),
+                    Facebook = proveedor.Facebook,
+                    PaginaWeb = proveedor.PaginaWeb,
+                    AcercaDeMi = proveedor.AcercaDeMi
                 };
                 return proveedorJuridicoViewModel;
             }
@@ -313,23 +316,42 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 
             foreach (var servicioId in proveedorNaturalViewModel.ListTiposServiciosIds)
             {
-                // Add the roles which are not in the list of user's roles
                 if (!proveedor.TiposServicios.Any(r => r.TipoServicioId == servicioId))
                 {
                     TipoServicio tipo = this.GetTipoServicioPorId(servicioId);
                     proveedor.TiposServicios.Add(tipo);
                 }
-                // Adds roles 1 and 2 in the example
             }
-            // The roles which the user was already in (role 5 in the example)
-            // have neither been removed nor added.
-
             return proveedor;
         }
 
         public void ActualizarProveedor(Proveedor proveedor)
         {
             _sgpFactory.ActualizarProveedor(proveedor);
+        }
+
+        public Proveedor ModificarObjetoProveedorJuridico(ProveedorJuridicoViewModel proveedorJuridicoViewModel)
+        {
+            Proveedor proveedor = _sgpFactory.GetProveedorPorDocumento(Int64.Parse(proveedorJuridicoViewModel.RUC), 2);
+            proveedor.Facebook = proveedorJuridicoViewModel.Facebook;
+            proveedor.PaginaWeb = proveedorJuridicoViewModel.PaginaWeb;
+            proveedor.AcercaDeMi = proveedorJuridicoViewModel.AcercaDeMi;
+
+            foreach (var servicio in proveedor.TiposServicios.ToList())
+            {
+                if (!proveedorJuridicoViewModel.ListTiposServiciosIds.Contains(servicio.TipoServicioId))
+                    proveedor.TiposServicios.Remove(servicio);
+            }
+
+            foreach (var servicioId in proveedorJuridicoViewModel.ListTiposServiciosIds)
+            {
+                if (!proveedor.TiposServicios.Any(r => r.TipoServicioId == servicioId))
+                {
+                    TipoServicio tipo = this.GetTipoServicioPorId(servicioId);
+                    proveedor.TiposServicios.Add(tipo);
+                }
+            }
+            return proveedor;
         }
     }
 }

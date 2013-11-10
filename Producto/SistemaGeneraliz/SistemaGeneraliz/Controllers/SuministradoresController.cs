@@ -102,16 +102,71 @@ namespace SistemaGeneraliz.Controllers
         }
 
         [Authorize(Roles = "Administrador, Suministrador")]
-        public ActionResult EditarSuministradorJuridico()
+        public ActionResult EditarMiInformacion()
         {
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax
             Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(WebSecurity.CurrentUserId);
-            SuministradorJuridicoViewModel suministradorJuridicoViewModel = _logicaSuministradores.GetSuministradorViewModel(suministrador); //TERMINAR ATRIBUTOS
-            return View(suministradorJuridicoViewModel);
+            SuministradorJuridicoViewModel suministradorJuridicoViewModel = _logicaSuministradores.GetSuministradorViewModel(suministrador); 
+            return View("EditarSuministradorJuridico", suministradorJuridicoViewModel);
         }
 
+        [HttpPost]
+        public ActionResult EditarMiInformacion_Juridico(SuministradorJuridicoViewModel suministradorJuridicoViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //habria que ver la manera de setear un objeto File dummy en el viewmodel por si el usuario no desea actualizar su foto,
+                    //pero por ahora simplemente lo obligamos a que si lo haga
+                    if ((suministradorJuridicoViewModel.File == null) || (suministradorJuridicoViewModel.File.ContentLength <= 0))
+                    {
+                        ModelState.AddModelError("", "Error: es obligatorio subir una foto");
+                        ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                        return View("EditarSuministradorJuridico", suministradorJuridicoViewModel);
+                    }
+                    else
+                    {
+                        var file = suministradorJuridicoViewModel.File;
+                        string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                        string ext2 = file.FileName;
 
-        //FALTA INSTANNCIAR EL VIEWMODEL suministradorJuridicoViewModel Y EL POST DEL EDITAR!!!
+                        if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                        {
+                            ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                            return View("EditarSuministradorJuridico", suministradorJuridicoViewModel);
+                        }
+                    }
+
+                    if (suministradorJuridicoViewModel.Password != "password")
+                    {
+                        if (!WebSecurity.ChangePassword(suministradorJuridicoViewModel.RUC, suministradorJuridicoViewModel.OldPassword, suministradorJuridicoViewModel.Password))
+                        {
+                            ModelState.AddModelError("", "Error: ingrese bien las contraseñas");
+                            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                            return View("EditarSuministradorJuridico", suministradorJuridicoViewModel);
+                        }
+                    }
+
+                    Imagen foto = _logicaPersonas.AgregarFotoPersona(suministradorJuridicoViewModel.File);
+                    suministradorJuridicoViewModel.ImagenPrincipal = foto.ImagenId;
+                    Persona persona = _logicaPersonas.ModificarObjetoPersonaJuridico(suministradorJuridicoViewModel);
+                    Suministrador suministrador = _logicaSuministradores.ModificarObjetoSuministradorJuridico(suministradorJuridicoViewModel);
+                    _logicaPersonas.ActualizarPersona(persona);
+                    _logicaSuministradores.ActualizarSuministrador(suministrador);
+                    UbicacionPersona ubicacion = _logicaUbicaciones.ModificarObjetoUbicacionPersonaJuridica(suministradorJuridicoViewModel, persona);
+                    _logicaUbicaciones.ActualizarUbicacion(ubicacion);
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+            return View("EditarSuministradorJuridico", suministradorJuridicoViewModel);
+        }
 
         [Authorize(Roles = "Administrador, Suministrador")]
         public ActionResult RecargarLeads()

@@ -190,11 +190,12 @@ namespace SistemaGeneraliz.Controllers
                 ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorNaturalViewModel.TiposServicios);
                 return View("EditarProveedorNatural", proveedorNaturalViewModel);
             }
-            //if (Proveedor.Persona.TipoPersona == "Juridica")
-            //{
-            //    ProveedorJuridicoViewModel proveedorNaturalViewModel = (ProveedorJuridicoViewModel)_logicaProveedores.GetProveedorViewModel(Proveedor, "Jurídico");
-            //    return View("EditarProveedorJuridico", proveedorNaturalViewModel);
-            //}
+            if (Proveedor.Persona.TipoPersona == "Juridica")
+            {
+                ProveedorJuridicoViewModel proveedorJuridicoViewModel = (ProveedorJuridicoViewModel)_logicaProveedores.GetProveedorViewModel(Proveedor, "Jurídica");
+                ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorJuridicoViewModel.TiposServicios);
+                return View("EditarProveedorJuridico", proveedorJuridicoViewModel);
+            }
             return null;
         }
 
@@ -211,7 +212,6 @@ namespace SistemaGeneraliz.Controllers
             return listaS;
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public ActionResult EditarMiInformacion_Natural(ProveedorNaturalViewModel proveedorNaturalViewModel)
         {
@@ -272,6 +272,68 @@ namespace SistemaGeneraliz.Controllers
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorNaturalViewModel.TiposServicios);
             return View("EditarProveedorNatural", proveedorNaturalViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditarMiInformacion_Juridico(ProveedorJuridicoViewModel proveedorJuridicoViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //habria que ver la manera de setear un objeto File dummy en el viewmodel por si el usuario no desea actualizar su foto,
+                    //pero por ahora simplemente lo obligamos a que si lo haga
+                    if ((proveedorJuridicoViewModel.File == null) || (proveedorJuridicoViewModel.File.ContentLength <= 0))
+                    {
+                        ModelState.AddModelError("", "Error: es obligatorio subir una foto");
+                        ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                        ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorJuridicoViewModel.TiposServicios);
+                        return View("EditarProveedorJuridico", proveedorJuridicoViewModel);
+                    }
+                    else
+                    {
+                        var file = proveedorJuridicoViewModel.File;
+                        string ext = file.ContentType.Substring(file.ContentType.IndexOf('/') + 1);
+                        string ext2 = file.FileName;
+
+                        if ((ext != "jpg") && (ext != "jpeg") && (ext != "png"))
+                        {
+                            ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
+                            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                            ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorJuridicoViewModel.TiposServicios);
+                            return View("EditarProveedorJuridico", proveedorJuridicoViewModel);
+                        }
+                    }
+
+                    if (proveedorJuridicoViewModel.Password != "password")
+                    {
+                        if (!WebSecurity.ChangePassword(proveedorJuridicoViewModel.RUC, proveedorJuridicoViewModel.OldPassword, proveedorJuridicoViewModel.Password))
+                        {
+                            ModelState.AddModelError("", "Error: ingrese bien las contraseñas");
+                            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+                            ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorJuridicoViewModel.TiposServicios);
+                            return View("EditarProveedorJuridico", proveedorJuridicoViewModel);
+                        }
+                    }
+
+                    Imagen foto = _logicaPersonas.AgregarFotoPersona(proveedorJuridicoViewModel.File);
+                    proveedorJuridicoViewModel.ImagenPrincipal = foto.ImagenId;
+                    Persona persona = _logicaPersonas.ModificarObjetoPersonaJuridico(proveedorJuridicoViewModel);
+                    Proveedor proveedor = _logicaProveedores.ModificarObjetoProveedorJuridico(proveedorJuridicoViewModel);
+                    _logicaPersonas.ActualizarPersona(persona);
+                    _logicaProveedores.ActualizarProveedor(proveedor);
+                    UbicacionPersona ubicacion = _logicaUbicaciones.ModificarObjetoUbicacionPersonaJuridica(proveedorJuridicoViewModel, persona);
+                    _logicaUbicaciones.ActualizarUbicacion(ubicacion);
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+            ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
+            ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorJuridicoViewModel.TiposServicios);
+            return View("EditarProveedorJuridico", proveedorJuridicoViewModel);
         }
 
         public List<TipoServicio> ObtenerTiposServicios()

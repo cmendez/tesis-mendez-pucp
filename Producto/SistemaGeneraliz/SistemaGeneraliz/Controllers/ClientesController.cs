@@ -181,8 +181,7 @@ namespace SistemaGeneraliz.Controllers
             }
             return null;
         }
-
-        [AllowAnonymous]
+        
         [HttpPost]
         public ActionResult EditarMiInformacion_Natural(ClienteNaturalViewModel clienteNaturalViewModel)
         {
@@ -247,8 +246,7 @@ namespace SistemaGeneraliz.Controllers
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
             return View("EditarClienteNatural", clienteNaturalViewModel);
         }
-
-        [AllowAnonymous]
+        
         [HttpPost]
         public ActionResult EditarMiInformacion_Juridico(ClienteJuridicoViewModel clienteJuridicoViewModel)
         {
