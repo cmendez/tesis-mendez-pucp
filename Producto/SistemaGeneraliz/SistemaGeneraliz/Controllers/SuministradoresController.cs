@@ -691,6 +691,20 @@ namespace SistemaGeneraliz.Controllers
 
             return View(ofertasPromoDsctoViewModel);
         }
+        
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult Demanda_OfertasPromosDsctos()
+        {
+            return View();
+        }
+
+        // ReSharper disable InconsistentNaming
+        public ActionResult Demanda_OfertasPromosDsctos_Read([DataSourceRequest]DataSourceRequest request, string fechaInicio, string fechaFin)
+        {
+            List<OfertasPromosDsctosViewModel> ofertasPromosDsctosViewModels = new List<OfertasPromosDsctosViewModel>();
+            ofertasPromosDsctosViewModels = _logicaSuministradores.Demanda_OfertasPromosDsctos(fechaInicio, fechaFin);
+            return Json(ofertasPromosDsctosViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
     }
 }
 

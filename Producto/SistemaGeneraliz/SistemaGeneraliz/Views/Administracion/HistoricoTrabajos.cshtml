@@ -54,7 +54,7 @@
     <br />
     <div class="portlet box green">
         <div class="portlet-title">
-            <div class="caption"><i class="icon-reorder"></i>Histórico de Trabajos</div>
+            <div class="caption"><i class="icon-reorder"></i>Reporte Consolidado</div>
             <div class="tools">
                 <a href="javascript:;" class="collapse"></a>
             </div>
@@ -83,6 +83,7 @@
                   .Filterable()
                   .DataSource(dataSource => dataSource
                         .Ajax()
+                        .PageSize(5)
                         .ServerOperation(false)
                         .Read(read => read.Action("HistoricoTrabajos_Read", "Administracion").Data("additionalData"))
                     )

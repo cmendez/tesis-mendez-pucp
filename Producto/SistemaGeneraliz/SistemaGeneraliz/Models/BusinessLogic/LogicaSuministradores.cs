@@ -540,5 +540,54 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             suministrador.AcercaDeMi = suministradorJuridicoViewModel.AcercaDeMi;
             return suministrador;
         }
+
+        public List<OfertasPromosDsctosViewModel> Demanda_OfertasPromosDsctos(string fechaInicio, string fechaFin)
+        {
+            List<OfertasPromosDsctosViewModel> listaOfertasPromosDsctosViewModel = new List<OfertasPromosDsctosViewModel>();
+            List<OfertaPromoDscto> ofertasPromosDsctos = _sgpFactory.Demanda_OfertasPromosDsctos();
+
+            if ((ofertasPromosDsctos != null) && (ofertasPromosDsctos.Count > 0))
+            {
+                ofertasPromosDsctos = ofertasPromosDsctos.OrderByDescending(o => o.ComprasVirtuales.Count).ToList();
+                if (!String.IsNullOrEmpty(fechaInicio))
+                {
+                    DateTime finicio = DateTime.Parse(fechaInicio);
+                    ofertasPromosDsctos = ofertasPromosDsctos.Where(o => o.ComprasVirtuales.Any(c => c.FechaCompra.Date.CompareTo(finicio) >= 0)).ToList();
+                }
+
+                if (!String.IsNullOrEmpty(fechaFin))
+                {
+                    DateTime ffin = DateTime.Parse(fechaFin);
+                    ofertasPromosDsctos = ofertasPromosDsctos.Where(o => o.ComprasVirtuales.Any(c => c.FechaCompra.Date.CompareTo(ffin) <= 0)).ToList();
+                }
+                foreach (var ofertaPromoDscto in ofertasPromosDsctos)
+                {
+                    OfertasPromosDsctosViewModel ofertaPromoDsctoViewModel = new OfertasPromosDsctosViewModel
+                    {
+                        OfertaPromoDsctoId = ofertaPromoDscto.OfertaPromoDsctoId,
+                        Tipo = ofertaPromoDscto.Tipo,
+                        NombreCorto = ofertaPromoDscto.NombreCorto.Length > 19 ? ofertaPromoDscto.NombreCorto.Substring(0, 18) + "..." : ofertaPromoDscto.NombreCorto,
+                        NombreCompleto = ofertaPromoDscto.NombreCompleto,
+                        Descripcion = ofertaPromoDscto.Descripcion,
+                        ImagenPrincipalId = (int)ofertaPromoDscto.ImagenPrincipalId,
+                        ImagenBannerId = (int)ofertaPromoDscto.ImagenBannerId,
+                        CostoEnLeads = ofertaPromoDscto.CostoEnLeads,
+                        SuministradorId = ofertaPromoDscto.SuministradorId,
+                        Suministrador = ofertaPromoDscto.Suministrador.Persona.RazonSocial,
+                        CantidadDisponible = ofertaPromoDscto.CantidadDisponible,
+                        IsAdquiribleConLeads = ofertaPromoDscto.IsAdquiribleConLeads,
+                        FechaRegistro = ofertaPromoDscto.FechaRegistro.ToString("dd/MM/yyyy"),
+                        FechaInicioString = ofertaPromoDscto.FechaInicio.ToString("dd/MM/yyyy"),
+                        FechaFinString = ofertaPromoDscto.FechaFin.ToString("dd/MM/yyyy"),
+                        IsVisible = ofertaPromoDscto.IsVisible,
+                        IsEliminado = ofertaPromoDscto.IsEliminado,
+                        CantidadComprada = ofertaPromoDscto.ComprasVirtuales.Count //ofertaPromoDscto.ComprasVirtuales.Count(o => o.FechaCompra.Date.CompareTo(ffin) <= 0)
+                    };
+                    listaOfertasPromosDsctosViewModel.Add(ofertaPromoDsctoViewModel);
+                }
+            }
+
+            return listaOfertasPromosDsctosViewModel;
+        }
     }
 }

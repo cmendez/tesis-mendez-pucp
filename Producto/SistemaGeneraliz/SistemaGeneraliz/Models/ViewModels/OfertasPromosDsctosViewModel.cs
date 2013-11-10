@@ -28,7 +28,8 @@ namespace SistemaGeneraliz.Models.ViewModels
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
-        
+
+        [Display(Name = "Imagen")]
         public int ImagenPrincipalId { get; set; }
         [Display(Name = "Imagen")]
         public int Imagen1 { get; set; }
@@ -60,6 +61,7 @@ namespace SistemaGeneraliz.Models.ViewModels
         [Display(Name = "Fecha Inicio")]
         public DateTime FechaInicio { get; set; }
 
+        [Display(Name = "Fecha Inicio")]
         public string FechaInicioString { get; set; }
 
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
@@ -67,6 +69,7 @@ namespace SistemaGeneraliz.Models.ViewModels
         [Display(Name = "Fecha Fin")]
         public DateTime FechaFin { get; set; }
 
+        [Display(Name = "Fecha Fin")]
         public string FechaFinString { get; set; }
 
         public string FechaRegistro { get; set; }
@@ -76,5 +79,8 @@ namespace SistemaGeneraliz.Models.ViewModels
 
         [Display(Name = "¿Eliminar producto?")]
         public int IsEliminado { get; set; }
+
+        [Display(Name = "Nro. compras")]
+        public int CantidadComprada { get; set; }
     }
 }

@@ -500,6 +500,12 @@ namespace SistemaGeneraliz.Models.Helpers
             _db.SaveChanges();
         }
 
+        public List<OfertaPromoDscto> Demanda_OfertasPromosDsctos()
+        {
+            IQueryable<OfertaPromoDscto> query = _db.OfertasPromosDsctos;
+            return query.ToList();
+        }
+
         #endregion
 
     }

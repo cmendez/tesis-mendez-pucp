@@ -924,7 +924,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 if (imagen.Nombre.Substring(0, 1) == "D")
                     tipo = "Descuento";
 
-                DateTime d = DateTime.Now.AddDays(r1).AddHours(r2).AddMinutes(r1 + r2);
+                DateTime d = DateTime.Now.AddDays(r1 * (-1)).AddHours(r2).AddMinutes(r1 + r2);
                 k = (k >= suministradores.Count) ? 0 : k;
                 Suministrador suministrador = suministradores[k];
 
@@ -964,12 +964,11 @@ namespace SistemaGeneraliz.Models.Helpers
                 if (ofertaPromoDscto.Tipo == "Promoción")
                 {
                     r1 = random.Next(0, ofertaPromoDscto.CantidadDisponible);
-                    r2 = random.Next(0, proveedores.Count);
-                    r3 = random.Next(1, 6);
-                    r4 = random.Next(1, 7);
-
                     for (int i = 0; i < r1; i++)
                     {
+                        r2 = random.Next(0, proveedores.Count);
+                        r3 = random.Next(1, 6);
+                        r4 = random.Next(1, 7);
                         CompraVirtual compraVirtual = new CompraVirtual
                         {
                             FechaCompra = ofertaPromoDscto.FechaInicio.AddDays(r3).AddHours(r4).AddMinutes(r3 + r4),
