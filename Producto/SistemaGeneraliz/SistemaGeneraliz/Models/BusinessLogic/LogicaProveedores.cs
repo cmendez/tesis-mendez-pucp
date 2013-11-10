@@ -364,13 +364,13 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 if (!String.IsNullOrEmpty(fechaInicio))
                 {
                     DateTime finicio = DateTime.Parse(fechaInicio);
-                    listaTrabajos = listaTrabajos.Where(t => t.Trabajo.Fecha.CompareTo(finicio) >= 0).ToList();
+                    listaTrabajos = listaTrabajos.Where(t => t.Trabajo.Fecha.Date.CompareTo(finicio) >= 0).ToList();
                 }
 
                 if (!String.IsNullOrEmpty(fechaFin))
                 {
                     DateTime ffin = DateTime.Parse(fechaFin);
-                    listaTrabajos = listaTrabajos.Where(t => t.Trabajo.Fecha.CompareTo(ffin) <= 0).ToList();
+                    listaTrabajos = listaTrabajos.Where(t => t.Trabajo.Fecha.Date.CompareTo(ffin) <= 0).ToList();
                 }
 
                 foreach (var trabajo in listaTrabajos)

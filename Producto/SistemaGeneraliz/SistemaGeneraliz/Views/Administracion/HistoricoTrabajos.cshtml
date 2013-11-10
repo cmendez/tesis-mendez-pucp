@@ -25,7 +25,7 @@
                             <tr>
                                 <td>Fecha Inicio:</td>
                                 <td>
-                                    <input type="text" name="nombre" id="fechaInicio" maxlength="100" >
+                                    <input type="text" name="nombre" id="fechaInicio" maxlength="10" placeholder="dd/mm/aaaa">
                                 </td>
                             </tr>
                         </tbody>
@@ -37,7 +37,7 @@
                             <tr>
                                 <td style="width: 10%;">Fecha Fin:</td>
                                 <td style="width: 10%;">
-                                    <input type="text" name="nombre" id="fechaFin" maxlength="100" >
+                                    <input type="text" name="nombre" id="fechaFin" maxlength="10" placeholder="dd/mm/aaaa">
                                 </td>
                             </tr>
                         </tbody>
@@ -167,16 +167,23 @@
                 fechaFin: $("#fechaFin").val()
             };
         }
+        
         $("#btnBuscar").click(function () {
-            var finicio = new Date($("#fechaInicio").val());
-            var ffin = new Date($("#fechaFin").val());
-            if (ffin < finicio) {
-                alert("Error: la fecha inicio tiene que ser menor igual que la fecha fin.");
-                return false;
+            if (($("#fechaInicio").val() != "") || ($("#fechaFin").val() != "")) {
+                var finicio = new Date($("#fechaInicio").val());
+                var ffin = new Date($("#fechaFin").val());
+                if ((finicio.toString() === "Invalid Date") || (ffin.toString() === "Invalid Date")) {
+                    alert("Error: formato de fecha inválido. Ingrese bien ambas fechas");
+                    return false;
+                }
+                if (ffin < finicio) {
+                    alert("Error: la fecha inicio tiene que ser menor igual que la fecha fin.");
+                    return false;
+                }
             }
 
             $("#Grid").data("kendoGrid").dataSource.read();
-            return;
+            return true;
         });
 
         $("#fechaInicio").kendoDatePicker({
