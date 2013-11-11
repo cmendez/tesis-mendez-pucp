@@ -589,5 +589,53 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 
             return listaOfertasPromosDsctosViewModel;
         }
+
+        public List<ConversionLeadsViewModel> ReporteConversionLeads(string fechaInicio, string fechaFin)
+        {
+            List<ConversionLeadsViewModel> suministradorJuridicoViewModels = new List<ConversionLeadsViewModel>();
+            List<Suministrador> suministradores = _sgpFactory.GetTodosSuministradores();
+
+            if ((suministradores != null) && (suministradores.Count > 0))
+            {
+                DateTime finicio = DateTime.Now.AddMonths(-6);
+                DateTime ffin = DateTime.Now.AddMonths(-1);
+                if (!String.IsNullOrEmpty(fechaInicio))
+                {
+                    finicio = DateTime.Parse(fechaInicio);
+                }
+
+                if (!String.IsNullOrEmpty(fechaFin))
+                {
+                    ffin = DateTime.Parse(fechaFin);
+                }
+                int nroMeses = ((ffin.Year - finicio.Year) * 12) + ffin.Month - finicio.Month + 1;
+                for (int i = 0; i < nroMeses; i++)
+                {
+                    DateTime d = finicio.AddMonths(i);
+                    string fecha = d.Month + "/" + d.Year;
+                    foreach (var suministradorJuridico in suministradores)
+                    {
+                        int recargas = suministradorJuridico.RecargasLeads.Where(r => (r.FechaRecarga.Year == d.Year) && (r.FechaRecarga.Month == d.Month)).Sum(r => r.MontoRecarga);
+                        int compras = _sgpFactory.MontoComprasLogradasSuministrador(suministradorJuridico.SuministradorId, d.Month, d.Year);
+                        double t = (((recargas + compras) * 100.0) / (suministradorJuridico.LeadsMensuales * 1.0));
+                        string tasa = t.ToString() + "%";
+                        ConversionLeadsViewModel conversionLeadsViewModel = new ConversionLeadsViewModel
+                        {
+                            Año = d.Year,
+                            Mes = d.Month,
+                            RazonSocial = suministradorJuridico.Persona.RazonSocial,
+                            ImagenPrincipal = (int)suministradorJuridico.Persona.ImagenId,
+                            LeadsMensuales = suministradorJuridico.LeadsMensuales,
+                            MontoRecargasLogradas = recargas,
+                            MontoComprasLogradas = compras,
+                            TasaConversion = t
+                        };
+                        suministradorJuridicoViewModels.Add(conversionLeadsViewModel);
+                    }
+                }
+            }
+
+            return suministradorJuridicoViewModels;
+        }
     }
 }

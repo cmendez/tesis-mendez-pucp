@@ -14,6 +14,7 @@ namespace SistemaGeneraliz.Controllers
     public class AdministracionController : Controller
     {
         private readonly LogicaProveedores _logicaProveedores = new LogicaProveedores();
+        private readonly LogicaSuministradores _logicaSuministradores = new LogicaSuministradores();
         //
         // GET: /Administracion/
 
@@ -30,9 +31,20 @@ namespace SistemaGeneraliz.Controllers
         // ReSharper disable InconsistentNaming
         public ActionResult HistoricoTrabajos_Read([DataSourceRequest]DataSourceRequest request, string fechaInicio, string fechaFin)
         {
-            List<HistorialTrabajosViewModel> listaHistorialTrabajosViewModel = new List<HistorialTrabajosViewModel>();
-            listaHistorialTrabajosViewModel = _logicaProveedores.HistoricoTrabajos(fechaInicio, fechaFin);
+            List<HistorialTrabajosViewModel> listaHistorialTrabajosViewModel = _logicaProveedores.HistoricoTrabajos(fechaInicio, fechaFin);
             return Json(listaHistorialTrabajosViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ConversionLeads()
+        {
+            return View();
+        }
+
+        // ReSharper disable InconsistentNaming
+        public ActionResult ReporteConversionLeads_Read([DataSourceRequest]DataSourceRequest request, string fechaInicio, string fechaFin)
+        {
+            List<ConversionLeadsViewModel> suministradorJuridicoViewModels = _logicaSuministradores.ReporteConversionLeads(fechaInicio, fechaFin);
+            return Json(suministradorJuridicoViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
     }
 }

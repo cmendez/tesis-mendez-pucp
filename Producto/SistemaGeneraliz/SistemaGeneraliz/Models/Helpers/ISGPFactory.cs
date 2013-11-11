@@ -87,6 +87,8 @@ namespace SistemaGeneraliz.Models.Helpers
         void AgregarOfertaPromoDscto(OfertaPromoDscto ofertaPromoDscto);
         void ModificarOfertaPromoDscto(OfertaPromoDscto ofertaPromoDscto);
         List<OfertaPromoDscto> Demanda_OfertasPromosDsctos();
+        List<Suministrador> GetTodosSuministradores();
+        int MontoComprasLogradasSuministrador(int suministradorId, int month, int year);
         #endregion
 
         

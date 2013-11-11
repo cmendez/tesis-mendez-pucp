@@ -399,7 +399,7 @@ namespace SistemaGeneraliz.Models.Helpers
 
         private List<Suministrador> SeedSuministradores(List<Persona> personas)
         {
-            int r1, r2;
+            int r0, r1, r2;
             Random random = new Random();
             var listaSuministradores = new List<Suministrador>();
 
@@ -407,11 +407,13 @@ namespace SistemaGeneraliz.Models.Helpers
             {
                 if (persona.TipoUsuario == "Suministrador")
                 {
-                    r1 = random.Next(20, 81);
-                    r2 = random.Next(5, 16);
+                    r0 = random.Next(5, 8) * 10;
+                    r1 = random.Next(20, r0);
+                    r2 = (r0/10 - 3)  * 10;
                     Suministrador suministrador = new Suministrador
                     {
                         PersonaId = persona.PersonaId,
+                        LeadsMensuales = r0,
                         LeadsDisponibles = r1,
                         LeadsReserva = r2,
                         PaginaWeb = "",
@@ -906,7 +908,7 @@ namespace SistemaGeneraliz.Models.Helpers
             int k = 0;
             foreach (var imagen in listaImagenes)
             {
-                r1 = random.Next(-5, 31);
+                r1 = random.Next(-4, -1);
                 r2 = random.Next(7, 31);
                 r3 = random.Next(3, 7);
 
@@ -924,7 +926,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 if (imagen.Nombre.Substring(0, 1) == "D")
                     tipo = "Descuento";
 
-                DateTime d = DateTime.Now.AddDays(r1 * (-1)).AddHours(r2).AddMinutes(r1 + r2);
+                DateTime d = DateTime.Now.AddDays(r1).AddHours(r2).AddMinutes(r1 + r2);
                 k = (k >= suministradores.Count) ? 0 : k;
                 Suministrador suministrador = suministradores[k];
 

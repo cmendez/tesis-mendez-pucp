@@ -506,6 +506,21 @@ namespace SistemaGeneraliz.Models.Helpers
             return query.ToList();
         }
 
+        public List<Suministrador> GetTodosSuministradores()
+        {
+            return _db.Suministradores.ToList();
+        }
+
+        public int MontoComprasLogradasSuministrador(int suministradorId, int month, int year)
+        {
+            var lista = _db.ComprasVirtuales.Where(c => (c.OfertaPromoDscto.SuministradorId == suministradorId) && (c.FechaCompra.Year == year) &&
+                         (c.FechaCompra.Month == month)).ToList();
+            int suma = 0;
+            if ((lista != null) && (lista.Count>0))
+                suma = lista.Sum(s=>s.LeadsPagados);
+            return suma;
+        }
+
         #endregion
 
     }

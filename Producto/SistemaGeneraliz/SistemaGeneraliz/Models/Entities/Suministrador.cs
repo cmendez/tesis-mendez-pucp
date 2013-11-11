@@ -14,6 +14,7 @@ namespace SistemaGeneraliz.Models.Entities
         public virtual Persona Persona { get; set; }
 		public int LeadsDisponibles { get; set; }
 		public int LeadsReserva { get; set; }
+        public int LeadsMensuales { get; set; }
 		public string PaginaWeb { get; set; }
 		public string Facebook { get; set; }
 		public string AcercaDeMi { get; set; }

@@ -38,5 +38,22 @@ namespace SistemaGeneraliz.Models.ViewModels
         public string AcercaDeMi { get; set; }
 
         public int IsDestacado { get; set; }
+
+
+        ////Para el reporte de conversion
+        //[Display(Name = "Mes")]
+        //public string FechaReporte { get; set; }
+
+        //[Display(Name = "Leads Mensuales")]
+        //public int LeadsMensuales { get; set; }
+
+        //[Display(Name = "Compras")]
+        //public int MontoComprasLogradas { get; set; }
+
+        //[Display(Name = "Recargas")]
+        //public int MontoRecargasLogradas { get; set; }
+
+        //[Display(Name = "Tasa Conversion")]
+        //public string TasaConversion { get; set; }
     }
 }
