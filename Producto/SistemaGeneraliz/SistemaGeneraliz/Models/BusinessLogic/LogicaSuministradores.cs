@@ -148,6 +148,17 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         IsEliminado = producto.IsEliminado
                     };
                     listaProductosViewModel.Add(productoViewModel);
+
+                    //Hubo una búsqueda: actualizar indices de NroBusquedas para el reporte
+                    if (!String.IsNullOrEmpty(nombreProducto) || (categoriaId != -1) || (distritoId != -1) || (suministradorId != -1))
+                    {
+                        producto.NroBusquedas += 1;
+                    }
+                }
+                //Hubo una búsqueda: actualizar indices de NroBusquedas para el reporte
+                if (!String.IsNullOrEmpty(nombreProducto) || (categoriaId != -1) || (distritoId != -1) || (suministradorId != -1))
+                {
+                    _sgpFactory.ActualizarListaProductos(productos);
                 }
             }
 
@@ -180,9 +191,16 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             return distritos;
         }
 
-        public Producto GetProducto(int productoId)
+        public Producto GetDetallesProducto(int productoId, bool reporte)
         {
-            return _sgpFactory.GetProducto(productoId);
+            Producto producto = _sgpFactory.GetProducto(productoId);
+            if ((producto != null) && (reporte))
+            {
+                //Actualizar indice NroClicksVisita
+                producto.NroClicksVisita += 1;
+                _sgpFactory.ActualizarProducto(producto);
+            }
+            return producto;
         }
 
         public List<UbicacionPersona> GetUbicacionesSuministrador(int suministradorId)
@@ -633,9 +651,37 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         suministradorJuridicoViewModels.Add(conversionLeadsViewModel);
                     }
                 }
+                suministradorJuridicoViewModels = suministradorJuridicoViewModels.OrderByDescending(r => r.Año).ThenByDescending(r => r.Mes).ThenByDescending(r => r.TasaConversion).ToList();
             }
 
             return suministradorJuridicoViewModels;
+        }
+
+        public List<DemandaProductosViewModel> Demanda_Productos_Read()
+        {
+            List<DemandaProductosViewModel> litaDemandaProductosViewModel = new List<DemandaProductosViewModel>();
+            List<Producto> productos = _sgpFactory.Demanda_Productos();
+
+            if ((productos != null) && (productos.Count > 0))
+            {
+                foreach (var producto in productos)
+                {
+                    DemandaProductosViewModel ofertaPromoDsctoViewModel = new DemandaProductosViewModel
+                    {
+                        NombreCompleto = producto.NombreCompleto,
+                        Descripcion = producto.Descripcion,
+                        ImagenId = (int)producto.ImagenId,
+                        Suministrador = producto.Suministrador.Persona.RazonSocial,
+                        PrecioProducto = producto.Precio,
+                        NombreCategoria = producto.CategoriaProducto.NombreCategoria,
+                        NroBusquedas = producto.NroBusquedas,
+                        NroClicksVisita = producto.NroClicksVisita
+                    };
+                    litaDemandaProductosViewModel.Add(ofertaPromoDsctoViewModel);
+                }
+            }
+
+            return litaDemandaProductosViewModel;
         }
     }
 }

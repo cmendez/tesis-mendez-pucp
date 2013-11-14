@@ -444,11 +444,11 @@
                 alert("Error: debe haber elegido al menos un proveedor");
                 return;
             }
-            //return;
-
-
+            
             var clienteId = $("#clienteId").val();
-            //return;
+            var latitud = $("#Latitud").val();
+            var longitud = $("#Longitud").val();
+            
             $.ajax({
                 type: 'GET',
                 url: '/Clientes/ContratarProveedores',
@@ -460,6 +460,8 @@
                     serviciosIds: serviciosIds.toString(),
                     fecha: fecha,
                     ubicacion: ubicacion,
+                    latitud: latitud,
+                    longitud: longitud,
                     desc: desc
                 },
 

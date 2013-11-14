@@ -521,6 +521,27 @@ namespace SistemaGeneraliz.Models.Helpers
             return suma;
         }
 
+        public void ActualizarListaProductos(List<Producto> productos)
+        {
+            foreach (var producto in productos)
+            {
+                _db.Entry(producto).State = EntityState.Modified;
+            }
+            _db.SaveChanges();
+        }
+
+        public void ActualizarProducto(Producto producto)
+        {
+            _db.Entry(producto).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+
+        public List<Producto> Demanda_Productos()
+        {
+            IQueryable<Producto> query = _db.Productos;
+            return query.OrderByDescending(p => p.NroBusquedas).ThenByDescending(p => p.NroClicksVisita).ToList();
+        }
+
         #endregion
 
     }

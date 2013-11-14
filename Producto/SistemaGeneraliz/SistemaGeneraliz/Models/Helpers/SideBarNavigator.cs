@@ -44,8 +44,8 @@ namespace SistemaGeneraliz.Models.Helpers
             // Suministradores
             Opciones.Add(new SidebarOption("Suministradores", "Suministradores", "icon-building", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Recargar Leads", "Suministradores", "RecargarLeads", "icon-bolt"),
-                new SidebarSuboption("Demanda de Productos", "Suministradores", "Index", "icon-bar-chart"),
-                new SidebarSuboption("Demanda de Ofertas, Promos y Dsctos", "Suministradores", "Index", "icon-bar-chart"),
+                new SidebarSuboption("Demanda de Productos", "Suministradores", "Demanda_Productos", "icon-bar-chart"),
+                new SidebarSuboption("Demanda de Ofertas, Promos y Dsctos", "Suministradores", "Demanda_OfertasPromosDsctos", "icon-bar-chart"),
                 //new SidebarSuboption("Demanda de Servicios Generales", "Suministradores", "Index", "icon-bar-chart"),
                 new SidebarSuboption("Editar Productos", "Suministradores", "EditarProductos", "icon-cog"),
                 new SidebarSuboption("Editar Ofertas, Promos y Dsctos", "Suministradores", "EditarOfertasPromosDsctos", "icon-cog"),
@@ -66,7 +66,8 @@ namespace SistemaGeneraliz.Models.Helpers
                 //new SidebarSuboption("Configurar Servicios", "Administracion", "Index", "icon-cogs"),
                 new SidebarSuboption("Histórico de Trabajos", "Administracion", "HistoricoTrabajos", "icon-list-ul"),
                 new SidebarSuboption("Proveedores Destacados", "Administracion", "Index", "icon-star"),
-                new SidebarSuboption("Gestión de Recompensas", "Administracion", "Index", "icon-gift")
+                new SidebarSuboption("Gestión de Recompensas", "Administracion", "Index", "icon-gift"),
+                new SidebarSuboption("Conversión de Leads", "Administracion", "ConversionLeads", "icon-bar-chart")
             })));
             //}
         }

@@ -444,5 +444,64 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             }
             return listaHistorialTrabajosViewModel;
         }
+
+        public List<DemandaServiciosGeneralesViewModel> Demanda_ServiciosGenerales(string fechaInicio, string fechaFin)
+        {
+            List<DemandaServiciosGeneralesViewModel> demandaServiciosGeneralesViewModels = new List<DemandaServiciosGeneralesViewModel>();
+            List<TipoServicio> tipoServicios = _sgpFactory.GetTipoServicios();
+            List<Distrito> distritos = _sgpFactory.GetDistritos();
+
+            if ((tipoServicios != null) && (tipoServicios.Count > 0))
+            {
+                DateTime finicio = DateTime.Now.AddMonths(-6);
+                DateTime ffin = DateTime.Now.AddMonths(-1);
+                if (!String.IsNullOrEmpty(fechaInicio))
+                {
+                    finicio = DateTime.Parse(fechaInicio);
+                }
+
+                if (!String.IsNullOrEmpty(fechaFin))
+                {
+                    ffin = DateTime.Parse(fechaFin);
+                }
+                int nroMeses = ((ffin.Year - finicio.Year) * 12) + ffin.Month - finicio.Month + 1;
+                for (int i = 0; i < nroMeses; i++)
+                {
+                    DateTime d = finicio.AddMonths(i);
+                    string fecha = d.Month + "/" + d.Year;
+
+                    foreach (var tipoServicio in tipoServicios)
+                    {
+                        foreach (var distrito in distritos)
+                        {
+                            var trabajosProveedores = tipoServicio.TrabajosProveedores.Where(tp => (tp.Trabajo.Fecha.Year == d.Year) && 
+                                                                                        (tp.Trabajo.Fecha.Month == d.Month) &&
+                                                                                        (tp.Trabajo.NombreDistrito == distrito.NombreDistrito)).ToList();
+                            double califProm = 0.0;
+                            int nroTrabajos = trabajosProveedores.Count;
+                            if (nroTrabajos > 0)
+                            {
+                                int sumaPuntajes = trabajosProveedores.Sum(s => s.EncuestaCliente.PuntajeTotal);
+                                califProm = ((sumaPuntajes * 1.0) / (nroTrabajos * 1.0));
+                            }
+
+                            DemandaServiciosGeneralesViewModel demandaServiciosGeneralesViewModel = new DemandaServiciosGeneralesViewModel
+                            {
+                                Año = d.Year,
+                                Mes = d.Month,
+                                NombreServicio = tipoServicio.NombreServicio,
+                                Distrito = distrito.NombreDistrito,
+                                NroTrabajos = nroTrabajos,
+                                CalificacionPromedio = califProm
+                            };
+                            demandaServiciosGeneralesViewModels.Add(demandaServiciosGeneralesViewModel);
+                        }
+                    }
+                }
+                demandaServiciosGeneralesViewModels = demandaServiciosGeneralesViewModels.OrderByDescending(r => r.Año).ThenByDescending(r => r.Mes).ThenByDescending(r => r.NroTrabajos).ThenByDescending(r => r.NombreServicio).ToList();
+            }
+
+            return demandaServiciosGeneralesViewModels;
+        }
     }
 }

@@ -67,16 +67,18 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             }
         }
 
-        public Trabajo AgregarTrabajo(int clienteId, string proveedoresIds, string serviciosIds, string fecha, string ubicacion, string desc)
+        public Trabajo AgregarTrabajo(int clienteId, string proveedoresIds, string serviciosIds, string fecha, string ubicacion, double latitud, double longitud, string desc)
         {
             int i = 0;
+            string nombreDistrito = this.GetDistritoCercanoLatLong(latitud, longitud).NombreDistrito;
 
             Trabajo trabajo = new Trabajo
             {
                 ClienteId = clienteId,
                 Fecha = DateTime.ParseExact(fecha, "dd/MM/yyyy", CultureInfo.InvariantCulture),
                 Direccion = ubicacion,
-                DescripcionCliente = desc
+                DescripcionCliente = desc,
+                NombreDistrito = nombreDistrito
             };
 
             _sgpFactory.AgregarTrabajo(trabajo);
@@ -139,6 +141,36 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             _sgpFactory.HabilitarDeshabilitarUsuario("Cliente", trabajo.ClienteId, "Inhabilitado");
 
             return trabajo;
+        }
+
+        private Distrito GetDistritoCercanoLatLong(double latitud, double longitud)
+        {
+            List<Distrito> distritos = _sgpFactory.GetDistritos();
+            double distancia, d, c, a, dLat, dLon, lat1, lat2;
+            int R = 6371; // radio en km
+            double dMin = Double.MaxValue;
+            Distrito distritoMin = null;
+
+            foreach (var distrito in distritos)
+            {
+                dLat = (distrito.LatitudDefault - latitud) * (Math.PI / 180);
+                dLon = (distrito.LongitudDefault - longitud) * (Math.PI / 180);
+                lat1 = latitud * (Math.PI / 180);
+                lat2 = distrito.LatitudDefault * (Math.PI / 180);
+
+                a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2) * Math.Cos(lat1) * Math.Cos(lat2);
+                c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+                d = R * c;
+                distancia = d;
+
+                if (distancia < dMin)
+                {
+                    dMin = distancia;
+                    distritoMin = distrito;
+                }
+            }
+            return distritoMin;
         }
 
         public List<ProveedorBusquedaViewModel> BusquedaManualProveedores(string nombre, string valueServicios)
@@ -356,9 +388,9 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     SegundoNombre = cliente.Persona.SegundoNombre,
                     ApellidoMaterno = cliente.Persona.ApellidoMaterno,
                     ApellidoPaterno = cliente.Persona.ApellidoPaterno,
-                    FechaNacimiento = (DateTime) cliente.Persona.FechaNacimiento,
+                    FechaNacimiento = (DateTime)cliente.Persona.FechaNacimiento,
                     Sexo = cliente.Persona.Sexo,
-                    SexoId = (cliente.Persona.Sexo == "Masculino") ? 1: 2,
+                    SexoId = (cliente.Persona.Sexo == "Masculino") ? 1 : 2,
                     DireccionCompleta = cliente.Persona.DireccionCompleta,
                     IdDistrito = ubicacion.DistritoId,
                     IdCiudad = ubicacion.Distrito.PaisCiudadId,
@@ -371,7 +403,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     Telefono1 = cliente.Persona.Telefono1,
                     Telefono2 = cliente.Persona.Telefono2,
                     Telefono3 = cliente.Persona.Telefono3,
-                    ImagenPrincipal = (int) cliente.Persona.ImagenId,
+                    ImagenPrincipal = (int)cliente.Persona.ImagenId,
                     UltimaActualizacionPersonal = DateTime.Now,
                     //OldPassword = "asdasd",
                     Password = "password",

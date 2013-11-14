@@ -30,7 +30,7 @@
 
         function verDetalles(productoId) {
             //alert(productoId);
-            $.getJSON('/Suministradores/GetDetallesProductoJSON', { productoId: productoId, ajax: 'true' }, function (result) {
+            $.getJSON('/Suministradores/GetDetallesProductoJSON', { productoId: productoId, reporte: false, ajax: 'true' }, function (result) {
                 $(result).each(function () {
                     $("#nombreProducto").text(this.NombreCompleto);
                     $("#imagenProducto").attr('src', "/Usuarios/GetImagen?imagenId=" + this.ImagenId);

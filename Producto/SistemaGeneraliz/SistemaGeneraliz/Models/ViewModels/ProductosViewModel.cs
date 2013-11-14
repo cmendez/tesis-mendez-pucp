@@ -30,6 +30,7 @@ namespace SistemaGeneraliz.Models.ViewModels
 
         [Display(Name = "Categoría")]
         public int CategoriaProductoId { get; set; }
+        public string NombreCategoria { get; set; }
         
         public int ImagenId { get; set; }
         

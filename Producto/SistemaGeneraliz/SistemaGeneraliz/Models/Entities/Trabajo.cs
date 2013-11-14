@@ -18,6 +18,7 @@ namespace SistemaGeneraliz.Models.Entities
         public virtual ICollection<TrabajoProveedor> TrabajosProveedores { get; set; }
         public DateTime Fecha { get; set; }
         public string Direccion { get; set; }
+        public string NombreDistrito { get; set; }
         public string DescripcionCliente { get; set; }
         public int IsEliminado { get; set; }
     }

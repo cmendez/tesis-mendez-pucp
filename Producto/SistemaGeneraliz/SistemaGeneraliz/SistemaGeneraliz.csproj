@@ -230,6 +230,8 @@
     <Compile Include="Models\ViewModels\ClienteNaturalViewModel.cs" />
     <Compile Include="Models\Entities\Persona.cs" />
     <Compile Include="Models\ViewModels\ConversionLeadsViewModel.cs" />
+    <Compile Include="Models\ViewModels\DemandaProductosViewModel.cs" />
+    <Compile Include="Models\ViewModels\DemandaServiciosGeneralesViewModel.cs" />
     <Compile Include="Models\ViewModels\OfertasPromosDsctosViewModel.cs" />
     <Compile Include="Models\ViewModels\DatosContactoProveedoresViewModel.cs" />
     <Compile Include="Models\ViewModels\EncuestasClientesViewModel.cs" />
@@ -1909,6 +1911,8 @@
     <Content Include="Views\Administracion\HistoricoTrabajos.cshtml" />
     <Content Include="Views\Suministradores\Demanda_OfertasPromosDsctos.cshtml" />
     <Content Include="Views\Administracion\ConversionLeads.cshtml" />
+    <Content Include="Views\Suministradores\Demanda_Productos.cshtml" />
+    <Content Include="Views\Proveedores\Demanda_ServiciosGenerales.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

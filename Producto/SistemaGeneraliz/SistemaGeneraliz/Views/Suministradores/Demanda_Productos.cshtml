@@ -1,0 +1,55 @@
+﻿@using SistemaGeneraliz.Models.ViewModels
+
+@{
+    ViewBag.Title = "Demanda de Productos";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Demanda de Productos</title>
+</head>
+<body>
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Demanda de Productos", "Reporte de demanda de búsqueda y visita a productos."));}
+    
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption"><i class="icon-reorder"></i>Reporte Consolidado</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse"></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            @(Html.Kendo().Grid<DemandaProductosViewModel>()
+                  .Name("Grid")
+                  .Columns(columns =>
+                    {
+                        columns.Bound(p => p.NombreCategoria);
+                        columns.Bound(p => p.NombreCompleto);
+                        columns.Bound(p => p.ImagenId).Filterable(false).Template(@<text></text>).ClientTemplate("<img src='/Suministradores/GetImagen?imagenId=#=ImagenId#' alt='' width='146' height='106'>");
+                        columns.Bound(p => p.Descripcion);
+                        columns.Bound(p => p.PrecioProducto);
+                        columns.Bound(p => p.Suministrador);
+                        columns.Bound(p => p.NroBusquedas);
+                        columns.Bound(p => p.NroClicksVisita);
+                    })
+                  .Resizable(resize => resize.Columns(true))
+                  .Pageable(paper => paper.Refresh(true).PageSizes(true).PageSizes(new [] { 3, 6, 9 }).Messages(m => m.ItemsPerPage("Elementos por página")))
+                  .Sortable()
+                  .Filterable()
+                  .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .PageSize(3)
+                        .ServerOperation(false)
+                        .Read(read => read.Action("Demanda_Productos_Read", "Suministradores"))
+                    )
+                  )
+        </div>
+    </div>
+
+    @*    <div>
+        @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
+    </div>*@
+</body>
+</html>

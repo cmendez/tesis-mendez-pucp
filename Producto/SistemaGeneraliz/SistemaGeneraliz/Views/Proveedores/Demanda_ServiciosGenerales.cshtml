@@ -1,22 +1,21 @@
-﻿@using SistemaGeneraliz.Models.Entities
-@using SistemaGeneraliz.Models.ViewModels
+﻿@using SistemaGeneraliz.Models.ViewModels
 
 @{
-    ViewBag.Title = "Demanda de Ofertas, Promociones y Descuentos";
+    ViewBag.Title = "Demanda de Servicios Generales";
 }
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Demanda de Ofertas, Promociones y Descuentos</title>
+    <title>Demanda de Servicios Generales</title>
 </head>
 <body>
     @*    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
-    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Demanda de Ofertas, Promociones y Descuentos", "Reporte de las ofertas, promociones y descuentos más vendidos"));}
-@*    <table style="width: 100%; border: 0;">
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Demanda de Servicios Generales", "Reporte de demanda de servicios generales por distritos y tipos de servicios"));}
+    <table style="width: 100%; border: 0;">
         <tbody>
             <tr>
                 <td style="vertical-align: top; width: 45%; padding-left: 6%">
@@ -50,8 +49,8 @@
                 </td>
             </tr>
         </tbody>
-    </table>*@
-    
+    </table>
+    <br />
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption"><i class="icon-reorder"></i>Reporte Consolidado</div>
@@ -60,28 +59,27 @@
             </div>
         </div>
         <div class="portlet-body">
-            @(Html.Kendo().Grid<OfertasPromosDsctosViewModel>()
+            @(Html.Kendo().Grid<DemandaServiciosGeneralesViewModel>()
                   .Name("Grid")
                   .Columns(columns =>
                     {
-                        columns.Bound(p => p.Tipo);
-                        columns.Bound(p => p.NombreCompleto);
-                        columns.Bound(p => p.ImagenPrincipalId).Filterable(false).Template(@<text></text>).ClientTemplate("<img src='/Suministradores/GetImagen?imagenId=#=ImagenPrincipalId#' alt='' width='146' height='106'>");
-                        columns.Bound(p => p.Descripcion);
-                        columns.Bound(p => p.Suministrador);
-                        columns.Bound(p => p.FechaInicioString);
-                        columns.Bound(p => p.FechaFinString);
-                        columns.Bound(p => p.CantidadComprada);
+                        columns.Bound(p => p.Año);
+                        columns.Bound(p => p.Mes);
+                        columns.Bound(p => p.NombreServicio);
+                        columns.Bound(p => p.Distrito);
+                        columns.Bound(p => p.NroTrabajos);
+                        columns.Bound(p => p.CalificacionPromedio);
                     })
                   .Resizable(resize => resize.Columns(true))
-                  .Pageable(paper => paper.Refresh(true).PageSizes(true).PageSizes(new [] { 3, 6, 9 }).Messages(m => m.ItemsPerPage("Elementos por página")))
+                  .Pageable(paper => paper.Refresh(true).PageSizes(true).Messages(m => m.ItemsPerPage("Elementos por página")))
                   .Sortable()
                   .Filterable()
+                  .Groupable()
                   .DataSource(dataSource => dataSource
                         .Ajax()
-                        .PageSize(3)
+                        .PageSize(20)
                         .ServerOperation(false)
-                        .Read(read => read.Action("Demanda_OfertasPromosDsctos_Read", "Suministradores").Data("additionalData"))
+                        .Read(read => read.Action("Demanda_ServiciosGenerales_Read", "Proveedores").Data("additionalData"))
                     )
                   )
         </div>
@@ -98,32 +96,40 @@
                 fechaFin: $("#fechaFin").val()
             };
         }
-        
-        //$("#btnBuscar").click(function () {
-        //    if (($("#fechaInicio").val() != "") || ($("#fechaFin").val() != "")) {
-        //        var finicio = new Date($("#fechaInicio").val());
-        //        var ffin = new Date($("#fechaFin").val());
-        //        if ((finicio.toString() === "Invalid Date") || (ffin.toString() === "Invalid Date")) {
-        //            alert("Error: formato de fecha inválido. Ingrese bien ambas fechas");
-        //            return false;
-        //        }
-        //        if (ffin < finicio) {
-        //            alert("Error: la fecha inicio tiene que ser menor igual que la fecha fin.");
-        //            return false;
-        //        }
-        //    }
 
-        //    $("#Grid").data("kendoGrid").dataSource.read();
-        //    return true;
-        //});
+        $("#btnBuscar").click(function () {
+            if (($("#fechaInicio").val() != "") || ($("#fechaFin").val() != "")) {
+                var finicio = parseDate($("#fechaInicio").val());
+                var ffin = parseDate($("#fechaFin").val());
+                if ((finicio.toString() === "Invalid Date") || (ffin.toString() === "Invalid Date")) {
+                    alert("Error: formato de fecha inválido. Ingrese bien ambas fechas");
+                    return false;
+                }
+                if (ffin < finicio) {
+                    alert("Error: la fecha inicio tiene que ser menor igual que la fecha fin.");
+                    return false;
+                }
+            }
 
-        //$("#fechaInicio").kendoDatePicker({
-        //    format: "dd/MM/yyyy"
-        //});
-        
-        //$("#fechaFin").kendoDatePicker({
-        //    format: "dd/MM/yyyy"
-        //});
+            $("#Grid").data("kendoGrid").dataSource.read();
+            return true;
+        });
+
+        // parse a date in dd/mm/yyyy format
+        function parseDate(input) {
+            var parts = input.split('/');
+            // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+            return new Date(parts[2], parts[1] - 1, parts[0]); // months are 0-based
+        }
+
+        $("#fechaInicio").kendoDatePicker({
+            format: "dd/MM/yyyy"
+        });
+
+        $("#fechaFin").kendoDatePicker({
+            format: "dd/MM/yyyy"
+        });
+
     </script>
 
 </body>

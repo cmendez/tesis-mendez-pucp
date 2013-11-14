@@ -452,6 +452,19 @@ namespace SistemaGeneraliz.Controllers
             json.Add(o);
             return Json(json, JsonRequestBehavior.AllowGet);
         }
+
+        [Authorize]
+        public ActionResult Demanda_ServiciosGenerales()
+        {
+            return View();
+        }
+
+        // ReSharper disable InconsistentNaming
+        public ActionResult Demanda_ServiciosGenerales_Read([DataSourceRequest]DataSourceRequest request, string fechaInicio, string fechaFin)
+        {
+            List<DemandaServiciosGeneralesViewModel> demandaServiciosGeneralesViewModels = _logicaProveedores.Demanda_ServiciosGenerales(fechaInicio, fechaFin);
+            return Json(demandaServiciosGeneralesViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
     }
 
 }

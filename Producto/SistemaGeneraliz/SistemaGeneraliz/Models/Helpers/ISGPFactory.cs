@@ -89,6 +89,9 @@ namespace SistemaGeneraliz.Models.Helpers
         List<OfertaPromoDscto> Demanda_OfertasPromosDsctos();
         List<Suministrador> GetTodosSuministradores();
         int MontoComprasLogradasSuministrador(int suministradorId, int month, int year);
+        void ActualizarListaProductos(List<Producto> productos);
+        void ActualizarProducto(Producto producto);
+        List<Producto> Demanda_Productos();
         #endregion
 
         

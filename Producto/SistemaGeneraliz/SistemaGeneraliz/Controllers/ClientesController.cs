@@ -408,12 +408,12 @@ namespace SistemaGeneraliz.Controllers
 
         [Authorize(Roles = "Administrador, Cliente")]
         [HttpGet]
-        public ActionResult ContratarProveedores(int clienteId, string proveedoresIds, string serviciosIds, string fecha, string ubicacion, string desc)
+        public ActionResult ContratarProveedores(int clienteId, string proveedoresIds, string serviciosIds, string fecha, string ubicacion, double latitud, double longitud, string desc)
         {
-            if (Roles.IsUserInRole("Administrador"))
-                return null;
-
-            Trabajo trabajo = _logicaClientes.AgregarTrabajo(clienteId, proveedoresIds, serviciosIds, fecha, ubicacion, desc);
+            if (Roles.IsUserInRole("Cliente"))
+            {
+                Trabajo trabajo = _logicaClientes.AgregarTrabajo(clienteId, proveedoresIds, serviciosIds, fecha, ubicacion, latitud, longitud, desc);
+            }
 
             var recargasJson = new List<Object>();
             Object o = new { Msg = "ok" };

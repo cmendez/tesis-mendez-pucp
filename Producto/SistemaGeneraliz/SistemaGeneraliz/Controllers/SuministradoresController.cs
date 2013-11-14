@@ -294,10 +294,10 @@ namespace SistemaGeneraliz.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult GetDetallesProductoJSON(int productoId)
+        public ActionResult GetDetallesProductoJSON(int productoId, bool reporte)
         {
             var productoJson = new List<Object>();
-            Producto producto = _logicaSuministradores.GetProducto(productoId);
+            Producto producto = _logicaSuministradores.GetDetallesProducto(productoId, reporte);
             if (producto != null)
             {
                 Object o = new
@@ -704,6 +704,20 @@ namespace SistemaGeneraliz.Controllers
             List<OfertasPromosDsctosViewModel> ofertasPromosDsctosViewModels = new List<OfertasPromosDsctosViewModel>();
             ofertasPromosDsctosViewModels = _logicaSuministradores.Demanda_OfertasPromosDsctos(fechaInicio, fechaFin);
             return Json(ofertasPromosDsctosViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult Demanda_Productos()
+        {
+            return View();
+        }
+
+        // ReSharper disable InconsistentNaming
+        public ActionResult Demanda_Productos_Read([DataSourceRequest]DataSourceRequest request)
+        {
+            List<DemandaProductosViewModel> demandaProductosViewModels = new List<DemandaProductosViewModel>();
+            demandaProductosViewModels = _logicaSuministradores.Demanda_Productos_Read();
+            return Json(demandaProductosViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
     }
 }

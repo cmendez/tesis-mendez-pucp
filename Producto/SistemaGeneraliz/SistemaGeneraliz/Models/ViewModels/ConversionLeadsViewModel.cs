@@ -32,6 +32,7 @@ namespace SistemaGeneraliz.Models.ViewModels
         [Display(Name = "Recargas")]
         public int MontoRecargasLogradas { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:#,##0.0#}", ApplyFormatInEditMode = true)]
         [Display(Name = "% Conversion")]
         public double TasaConversion { get; set; }
     }

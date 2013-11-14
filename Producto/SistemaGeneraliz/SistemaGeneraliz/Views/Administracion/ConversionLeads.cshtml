@@ -102,8 +102,9 @@
 
         $("#btnBuscar").click(function () {
             if (($("#fechaInicio").val() != "") || ($("#fechaFin").val() != "")) {
-                var finicio = new Date($("#fechaInicio").val());
-                var ffin = new Date($("#fechaFin").val());
+                var finicio = parseDate($("#fechaInicio").val());
+                var ffin = parseDate($("#fechaFin").val());
+                alert(finicio.toString() + " " + ffin.toString());
                 if ((finicio.toString() === "Invalid Date") || (ffin.toString() === "Invalid Date")) {
                     alert("Error: formato de fecha inválido. Ingrese bien ambas fechas");
                     return false;
@@ -117,6 +118,13 @@
             $("#Grid").data("kendoGrid").dataSource.read();
             return true;
         });
+        
+        // parse a date in dd/mm/yyyy format
+        function parseDate(input) {
+            var parts = input.split('/');
+            // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+            return new Date(parts[2], parts[1] - 1, parts[0]); // months are 0-based
+        }
 
         $("#fechaInicio").kendoDatePicker({
             format: "dd/MM/yyyy"

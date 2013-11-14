@@ -385,7 +385,9 @@
             });
 
             var clienteId = $("#clienteId").val();
-
+            var latitud = $("#Latitud").val();
+            var longitud = $("#Longitud").val();
+            
             $.ajax({
                 type: 'GET',
                 url: '/Clientes/ContratarProveedores',
@@ -397,6 +399,8 @@
                     serviciosIds: serviciosIds,
                     fecha: fecha,
                     ubicacion: ubicacion,
+                    latitud: latitud,
+                    longitud: longitud,
                     desc: desc
                 },
 

@@ -409,7 +409,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 {
                     r0 = random.Next(5, 8) * 10;
                     r1 = random.Next(20, r0);
-                    r2 = (r0/10 - 3)  * 10;
+                    r2 = (r0 / 10 - 3) * 10;
                     Suministrador suministrador = new Suministrador
                     {
                         PersonaId = persona.PersonaId,
@@ -485,7 +485,7 @@ namespace SistemaGeneraliz.Models.Helpers
             var listaTrabajos = new List<Trabajo>();
             int r1, r2, r3;
             Random random = new Random();
-
+            int n = 1;
             for (int i = 0; i < nroTrabajos; i++)
             {
                 foreach (var cliente in clientes)
@@ -497,11 +497,12 @@ namespace SistemaGeneraliz.Models.Helpers
                     Trabajo trabajo = new Trabajo
                     {
                         ClienteId = cliente.ClienteId,
-                        DescripcionCliente = "Trabajo nro. " + r3,
+                        DescripcionCliente = "Trabajo nro. " + n,
                         Direccion = cliente.Persona.DireccionCompleta,
                         Fecha = DateTime.Now.AddMonths((r1 + r2 / 2) * -1).AddDays(r1 + r2 / 2).AddHours(r1).AddMinutes(r1 + r3),
+                        NombreDistrito = cliente.Persona.DireccionCompleta.Substring(cliente.Persona.DireccionCompleta.IndexOf("-") + 2)
                     };
-
+                    n++;
                     listaTrabajos.Add(trabajo);
                 }
             }
