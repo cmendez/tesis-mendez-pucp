@@ -16,10 +16,10 @@ namespace SistemaGeneraliz.Controllers
     [Authorize]
     public class ClientesController : Controller
     {
-        private readonly LogicaClientes _logicaClientes = new LogicaClientes();
-        private readonly LogicaPersonas _logicaPersonas = new LogicaPersonas();
-        private readonly LogicaUbicaciones _logicaUbicaciones = new LogicaUbicaciones();
-        private readonly LogicaProveedores _logicaProveedores = new LogicaProveedores();
+        private  LogicaClientes _logicaClientes = new LogicaClientes();
+        private  LogicaPersonas _logicaPersonas = new LogicaPersonas();
+        private  LogicaUbicaciones _logicaUbicaciones = new LogicaUbicaciones();
+        private  LogicaProveedores _logicaProveedores = new LogicaProveedores();
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -233,7 +233,7 @@ namespace SistemaGeneraliz.Controllers
                     //_logicaClientes.ModificarCliente(cliente);
                     //WebSecurity.Logout();
                     //WebSecurity.Login(persona.UserName, clienteNaturalViewModel.Password);
-                    string s = UsuariosController.GetNombrePersonaLoggeada();
+                    
                     //hace el update y todo pero no se refleja el nuevo nombre e imagen en el navigation bar
                     //por eso del static... ver si lo puedo arreglar luego
                     return RedirectToAction("Index", "Home");
@@ -298,7 +298,7 @@ namespace SistemaGeneraliz.Controllers
                     //_logicaClientes.ModificarCliente(cliente);
                     //WebSecurity.Logout();
                     //WebSecurity.Login(persona.UserName, clienteJuridicoViewModel.Password);
-                    string s = UsuariosController.GetNombrePersonaLoggeada();
+                    
                     //hace el update y todo pero no se refleja el nuevo nombre e imagen en el navigation bar
                     //por eso del static... ver si lo puedo arreglar luego
                     return RedirectToAction("Index", "Home");

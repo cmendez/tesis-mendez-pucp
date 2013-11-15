@@ -14,10 +14,8 @@ namespace SistemaGeneraliz.Controllers
     //[InitializeSimpleMembership]
     public class UsuariosController : Controller
     {
-        private static LogicaPersonas _logicaPersonas = new LogicaPersonas();
-        private readonly LogicaSuministradores _logicaSuministradores = new LogicaSuministradores();
-        private readonly LogicaUbicaciones _logicaUbicaciones = new LogicaUbicaciones();
-        private readonly LogicaProveedores _logicaProveedores = new LogicaProveedores();
+        private  LogicaPersonas _logicaPersonas = new LogicaPersonas();
+        
         //
         // GET: /Account/Login
 
@@ -37,9 +35,10 @@ namespace SistemaGeneraliz.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            Persona persona = _logicaPersonas.GetPersonaPorUsername(model.UserName);
+
+            if (ModelState.IsValid && (persona.IsEliminado == 0) && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                Persona persona = _logicaPersonas.GetPersonaPorUsername(model.UserName);
                 //Session["Usuario"] = _logicaPersonas.GetNombrePersonaLoggeada(persona.PersonaId);
                 //Session["ImagenId"] = persona.ImagenId;
                 return RedirectToLocal(returnUrl);
@@ -144,7 +143,8 @@ namespace SistemaGeneraliz.Controllers
         [AllowAnonymous]
         public static string GetNombrePersonaLoggeada()
         {
-            return _logicaPersonas.GetNombrePersonaLoggeada(WebSecurity.CurrentUserId);
+            LogicaPersonas _logicaPersonas2 = new LogicaPersonas();
+            return _logicaPersonas2.GetNombrePersonaLoggeada(WebSecurity.CurrentUserId);
         }
 
         [AllowAnonymous]
@@ -187,7 +187,8 @@ namespace SistemaGeneraliz.Controllers
         [AllowAnonymous]
         public static int GetImagenIdPersonaLoggeada()
         {
-            Persona persona = _logicaPersonas.GetPersonaLoggeada(WebSecurity.CurrentUserId);
+            LogicaPersonas _logicaPersonas2 = new LogicaPersonas();
+            Persona persona = _logicaPersonas2.GetPersonaLoggeada(WebSecurity.CurrentUserId);
             int imageId = -1;
             if (persona.ImagenId != null)
             {

@@ -20,11 +20,13 @@ namespace SistemaGeneraliz.Models.Helpers
         Distrito GetDistritoPorId(int distritoId);
         UbicacionPersona GetPrimeraUbicacionPersona(int idPersona);
         void HabilitarDeshabilitarUsuario(string tipoUsuario, int idUsuario, string nuevoEstado);
+        void CambiarEstadoUsuario(int usuarioId, string nuevoEstado);
         Imagen GetImagenPorId(int imagenId);
         Persona GetPersonaPorUsername(string userName);
         void AgregarImagen(Imagen imagen);
         List<UbicacionPersona> GetUbicacionesPersona(int personaId);
         void ActualizarPersona(Persona persona);
+        List<Persona> GetTodasLasPersonasSistema();
         #endregion
 
         #region Proveedores

@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Administración de Usuarios";
+}
+@{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Administración de Usuarios", ""));}
+
+<div class="row-fluid profile">
+    <div class="span12">
+        <!--BEGIN TABS-->
+        <div class="tabbable tabbable-custom tabbable-full-width">
+            <div class="tab-content">
+                <div class="tab-pane row-fluid active" id="tab_1_1">
+                    <ul class="ver-inline-menu tabbable margin-bottom-10">
+                        <li><a href="@Url.Action("RegistrarSuministradorJuridico", "Administracion")"><i class="icon-plus"></i>Dar de alta a nuevos suministradores</a></li>
+                        <li><a href="@Url.Action("HabilitarEliminarUsuarios", "Administracion")"><i class="icon-group"></i>Habilitar/Eliminar usuarios del sistema</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

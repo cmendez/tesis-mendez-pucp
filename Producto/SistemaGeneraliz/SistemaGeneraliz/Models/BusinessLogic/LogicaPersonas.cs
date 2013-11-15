@@ -11,7 +11,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 {
     public class LogicaPersonas
     {
-        private readonly ISGPFactory _sgpFactory;
+        private  ISGPFactory _sgpFactory;
 
         public LogicaPersonas()
         {
@@ -138,6 +138,11 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             _sgpFactory.HabilitarDeshabilitarUsuario(tipoUsuario, idUsuario, nuevoEstado);
         }
 
+        public void CambiarEstadoUsuario(int usuarioId, string nuevoEstado)
+        {
+            _sgpFactory.CambiarEstadoUsuario(usuarioId, nuevoEstado);
+        }
+
         public Imagen GetImagenPorId(int imagenId)
         {
             return _sgpFactory.GetImagenPorId(imagenId);
@@ -216,5 +221,50 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 
             return p;
         }
+
+        public List<UsuarioViewModel> ObtenerUsuarios()
+        {
+            List<UsuarioViewModel> usuariosViewModels = new List<UsuarioViewModel>();
+            List<Persona> personas = _sgpFactory.GetTodasLasPersonasSistema();
+
+            if ((personas != null) && (personas.Count > 0))
+            {
+                foreach (var persona in personas)
+                {
+                    string nombre = "";
+                    string tipoDoc = "";
+
+                    switch (persona.TipoPersona)
+                    {
+                        case "Natural":
+                            nombre = persona.PrimerNombre + " " + persona.ApellidoPaterno;
+                            tipoDoc = "DNI";
+                            break;
+
+                        case "Juridica":
+                            nombre = persona.RazonSocial;
+                            tipoDoc = "RUC";
+                            break;
+                    }
+
+                    UsuarioViewModel usuarioViewModel = new UsuarioViewModel
+                    {
+                        NombreUsuario = nombre,
+                        Documento = tipoDoc + " - " + persona.UserName,
+                        ImagenId = (int)persona.ImagenId,
+                        TipoUsuario = persona.TipoUsuario,
+                        TipoPersona = persona.TipoPersona,
+                        Telefono1 = persona.Telefono1,
+                        Email1 = persona.Email1,
+                        Estado = persona.IsEliminado == 1 ? "Eliminado" : persona.IsHabilitado == 1 ? "Habilitado" : "Inhabilitado"
+                    };
+                    usuariosViewModels.Add(usuarioViewModel);
+                }
+            }
+
+            return usuariosViewModels;
+        }
+
+
     }
 }

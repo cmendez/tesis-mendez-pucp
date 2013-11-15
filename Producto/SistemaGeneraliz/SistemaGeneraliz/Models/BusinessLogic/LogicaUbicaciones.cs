@@ -10,7 +10,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 {
     public class LogicaUbicaciones
     {
-        private readonly ISGPFactory _sgpFactory;
+        private  ISGPFactory _sgpFactory;
 
         public LogicaUbicaciones()
         {

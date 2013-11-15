@@ -9,7 +9,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 {
     public class LogicaProveedores
     {
-        private readonly ISGPFactory _sgpFactory;
+        private  ISGPFactory _sgpFactory;
 
         public LogicaProveedores()
         {

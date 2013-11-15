@@ -99,7 +99,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     {
                         Proveedor proveedor = _db.Proveedores.Find(idUsuario);
                         proveedor.Persona.IsHabilitado = isHabilitado;
-                        usuario = (Proveedor)proveedor;
+                        usuario = proveedor;
                         _db.Proveedores.Attach(proveedor);
                         break;
                     }
@@ -107,7 +107,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     {
                         Cliente cliente = _db.Clientes.Find(idUsuario);
                         cliente.Persona.IsHabilitado = isHabilitado;
-                        usuario = (Cliente)cliente;
+                        usuario = cliente;
                         _db.Clientes.Attach(cliente);
                         break;
                     }
@@ -115,13 +115,43 @@ namespace SistemaGeneraliz.Models.Helpers
                     {
                         Suministrador suministrador = _db.Suministradores.Find(idUsuario);
                         suministrador.Persona.IsHabilitado = isHabilitado;
-                        usuario = (Suministrador)suministrador;
+                        usuario = suministrador;
                         _db.Suministradores.Attach(suministrador);
                         break;
                     }
             }
 
             _db.Entry(usuario).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+
+        public void CambiarEstadoUsuario(int usuarioId, string nuevoEstado)
+        {
+            Persona persona = null;
+            switch (nuevoEstado)
+            {
+                case "Eliminado":
+                    {
+                        persona = _db.Personas.Find(usuarioId);
+                        persona.IsEliminado = 1;
+                        break;
+                    }
+                case "Habilitado":
+                    {
+                        persona = _db.Personas.Find(usuarioId);
+                        persona.IsHabilitado = 1;
+                        persona.IsEliminado = 0;
+                        break;
+                    }
+                case "Inhabilitado":
+                    {
+                        persona = _db.Personas.Find(usuarioId);
+                        persona.IsHabilitado = 0;
+                        persona.IsEliminado = 0;
+                        break;
+                    }
+            }
+            _db.Entry(persona).State = EntityState.Modified;
             _db.SaveChanges();
         }
 
@@ -152,6 +182,11 @@ namespace SistemaGeneraliz.Models.Helpers
         {
             _db.Entry(persona).State = EntityState.Modified;
             _db.SaveChanges();
+        }
+
+        public List<Persona> GetTodasLasPersonasSistema()
+        {
+            return _db.Personas.OrderBy(p => p.RazonSocial).ThenBy(p => p.PrimerNombre).ThenBy(p => p.ApellidoPaterno).ToList();
         }
 
         #endregion

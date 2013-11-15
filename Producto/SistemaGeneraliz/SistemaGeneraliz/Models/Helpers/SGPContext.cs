@@ -331,7 +331,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     PersonaId = persona.PersonaId,
                     DistritoId = distrito.DistritoId,
                     Direccion = direccion,
-                    Referencia = "-",
+                    Referencia = "   ",
                     Latitud = distrito.LatitudDefault + lat,
                     Longitud = distrito.LongitudDefault + lon,
                     IsVisible = 1,
@@ -377,7 +377,7 @@ namespace SistemaGeneraliz.Models.Helpers
                         NroRecomendaciones = 0,
                         NroVolveriaContratarlo = 0,
                         PaginaWeb = "",
-                        Facebook = "www.facebook.com/" + persona.Email1.Substring(0, persona.Email1.IndexOf("@")),
+                        Facebook = "http://facebook.com/" + persona.Email1.Substring(0, persona.Email1.IndexOf("@")),
                         AcercaDeMi = t + " con " + r1.ToString() + " años de experiencia.",
                         IsDestacado = 0
                     };
@@ -420,8 +420,8 @@ namespace SistemaGeneraliz.Models.Helpers
                         LeadsDisponibles = r1,
                         LeadsReserva = r2,
                         PaginaWeb = "",
-                        Facebook = "",
-                        AcercaDeMi = "",
+                        Facebook = "http://facebook.com/" + persona.Email1.Substring(0, persona.Email1.IndexOf("@")),
+                        AcercaDeMi = "Tenemos una gran variedad de productos. Visítenos.",
                         IsDestacado = 0
                     };
                     listaSuministradores.Add(suministrador);

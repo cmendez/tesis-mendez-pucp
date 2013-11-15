@@ -17,10 +17,10 @@ namespace SistemaGeneraliz.Controllers
 {
     public class ProveedoresController : Controller
     {
-        private readonly LogicaProveedores _logicaProveedores = new LogicaProveedores();
-        private readonly LogicaPersonas _logicaPersonas = new LogicaPersonas();
-        private readonly LogicaUbicaciones _logicaUbicaciones = new LogicaUbicaciones();
-        private readonly LogicaClientes _logicaClientes = new LogicaClientes();
+        private  LogicaProveedores _logicaProveedores = new LogicaProveedores();
+        private  LogicaPersonas _logicaPersonas = new LogicaPersonas();
+        private  LogicaUbicaciones _logicaUbicaciones = new LogicaUbicaciones();
+        private  LogicaClientes _logicaClientes = new LogicaClientes();
 
         public ActionResult Index()
         {

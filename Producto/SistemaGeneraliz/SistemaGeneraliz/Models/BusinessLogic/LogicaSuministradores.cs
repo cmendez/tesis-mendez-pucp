@@ -11,7 +11,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 {
     public class LogicaSuministradores
     {
-        private readonly ISGPFactory _sgpFactory;
+        private  ISGPFactory _sgpFactory;
 
         public LogicaSuministradores()
         {

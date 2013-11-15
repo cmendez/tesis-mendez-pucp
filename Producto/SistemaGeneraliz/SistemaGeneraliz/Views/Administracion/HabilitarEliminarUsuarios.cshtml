@@ -1,0 +1,199 @@
+﻿@using SistemaGeneraliz.Models.ViewModels
+
+@{
+    ViewBag.Title = "Habilitar/Eliminar Usuarios";    
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Habilitar/Eliminar Usuarios</title>
+</head>
+<body>
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Habilitar/Eliminar Usuarios", "Primero busque a un usuario, y luego cambie su estado."));}
+    <table style="width: 100%; border: 0;">
+        <tbody>
+            <tr>
+                <td style="vertical-align: top; /*width: 38%;*/">
+                    <table>
+                        <tbody style="vertical-align: top;">
+                            <tr>
+                                <td>Documento</td>
+                                <td>
+                                    <input type="text" name="nroDocumento" id="nroDocumento" placeholder="ingrese un documento" maxlength="11">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Usuario</td>
+                                <td>
+                                    <input type="hidden" name="usuarioId" id="usuarioId" value="">
+                                    <input type="text" name="nombreUsuario" id="nombreUsuario" readonly="readonly">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="vertical-align: top;">
+                    <table>
+                        <tr>
+                            <td style="padding-left: 3%; padding-right: 17%;">
+                                <button id="btnBuscar" type="submit" class="btn blue pull-right" style="width: 100%;">
+                                    Buscar <i class="icon-search  m-icon-white"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img id="imagen" src="/Images/unknown-person.jpg" alt="" width="100"></td>
+                        </tr>
+                    </table>
+                </td>
+
+                <td style="vertical-align: top; /*width: 37%;*/">
+                    <table style="width: auto; border: 0;">
+                        <tbody style="vertical-align: top;">
+                            <tr>
+                                <td>Estado</td>
+                                <td>
+                                    <select name="estado" id="estado">
+                                        <option value="Habilitado">Habilitado</option>
+                                        <option value="Inhabilitado">Inhabilitado</option>
+                                        <option value="Eliminado">Eliminado</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="vertical-align: top; padding-top: 15px; /*width: 35%;*/">
+                    <button id="btnEstado" type="submit" class="btn red pull-right" style="">
+                        Cambiar Estado <i class="icon-ok  m-icon-white"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption"><i class="icon-reorder"></i>Usuarios del Sistema</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse"></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            @(Html.Kendo().Grid<UsuarioViewModel>()
+            .Name("Grid")
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.NombreUsuario);
+                columns.Bound(p => p.Documento);
+                columns.Bound(p => p.ImagenId).Filterable(false).Template(@<text></text>).ClientTemplate("<img src='/Usuarios/GetImagen?imagenId=#=ImagenId#' alt='' width='90' height='106'>");
+                columns.Bound(p => p.TipoUsuario);
+                columns.Bound(p => p.TipoPersona);
+                columns.Bound(p => p.Telefono1);
+                columns.Bound(p => p.Email1);
+                columns.Bound(p => p.Estado);
+            })
+            .Resizable(resize => resize.Columns(true))
+            .Pageable(paper => paper.Refresh(true).PageSizes(true).PageSizes(new[] { 3, 6, 9 }).Messages(m => m.ItemsPerPage("Elementos por página")))
+            .Sortable()
+            .Filterable()
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(3)
+                .ServerOperation(false)
+                .Read(read => read.Action("Usuarios_Read", "Administracion"))
+            )
+        )
+        </div>
+    </div>
+    @*    <div>
+        @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
+    </div>*@
+
+    <script>
+
+        $("#nroDocumento").keypress(function (e) {
+            return onlyNumbersNoSpace(e);
+        });
+
+        function onlyNumbersNoSpace(e) {
+            var charCode;
+            if (navigator.appName == "Netscape") {
+                charCode = e.which;
+            }
+            else {
+                charCode = e.keyCode;
+            }
+            //alert(charCode);
+
+            if ((charCode > 47 && charCode < 58) ||
+           charCode == 8 || //backspace
+                //charCode == 32   || // espacio en blanco
+
+          charCode == 0)  // flechas direccionales
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        $("#btnBuscar").click(function e() {
+            var documento = $("#nroDocumento").val();
+            if (documento === "") {
+                alert("Error: debe ingresar un documento para poder buscar.");
+                return;
+            }
+            $('#nombreUsuario').val('');
+            $('#usuarioId').val('');
+
+            $.getJSON('/Administracion/GetUsuarioJSON', { documento: documento, ajax: 'true' }, function (result) {
+                $(result).each(function () {
+                    if (this.UsuarioId != -1) {
+                        $('#nombreUsuario').val(this.NombreUsuario);
+                        $('#usuarioId').val(this.UsuarioId);
+                        $("#imagen").attr("src", "/Usuarios/GetImagen?imagenId=" + this.ImagenId);
+                    }
+                    else {
+                        $("#imagen").attr("src", "/Images/unknown-person.jpg");
+                        alert("No se encontró al usuario con documento: " + documento);
+                        $("#nroDocumento").val('');
+                    }
+                });
+            });
+        });
+
+        $("#btnEstado").click(function e() {
+            var idUsuario = $('#usuarioId').val();
+            if (idUsuario === "") {
+                alert("Error: debe buscar a un usuario primero.");
+                return;
+            };
+
+            var estado = $("#estado option:selected").val();
+            $.ajax({
+                type: 'GET',
+                url: '/Administracion/CambiarEstadoUsuario',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: {
+                    idUsuario: idUsuario,
+                    estado: estado
+                },
+                success: function (data) {
+                    //alert(data);
+                    alert("Se actualizó el estado exitosamente.");
+                    window.location = "/Administracion/HabilitarEliminarUsuarios/";
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
