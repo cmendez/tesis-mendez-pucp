@@ -11,7 +11,7 @@ namespace SistemaGeneraliz.Models.ViewModels
         [Display(Name = "Suministrador")]
         public string RazonSocial { get; set; }
 
-        [Display(Name = "Imágen")]
+        [Display(Name = "Imagen")]
         public int ImagenPrincipal { get; set; }
         
         [Display(Name = "Leads Disponibles")]
@@ -33,7 +33,7 @@ namespace SistemaGeneraliz.Models.ViewModels
         public int MontoRecargasLogradas { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:#,##0.0#}", ApplyFormatInEditMode = true)]
-        [Display(Name = "% Conversion")]
+        [Display(Name = "% Conversión")]
         public double TasaConversion { get; set; }
     }
 }

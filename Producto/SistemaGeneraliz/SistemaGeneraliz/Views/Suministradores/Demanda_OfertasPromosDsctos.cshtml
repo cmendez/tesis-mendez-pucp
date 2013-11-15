@@ -69,8 +69,8 @@
                         columns.Bound(p => p.ImagenPrincipalId).Filterable(false).Template(@<text></text>).ClientTemplate("<img src='/Suministradores/GetImagen?imagenId=#=ImagenPrincipalId#' alt='' width='146' height='106'>");
                         columns.Bound(p => p.Descripcion);
                         columns.Bound(p => p.Suministrador);
-                        columns.Bound(p => p.FechaInicioString);
-                        columns.Bound(p => p.FechaFinString);
+                        columns.Bound(p => p.FechaInicio);
+                        columns.Bound(p => p.FechaFin);
                         columns.Bound(p => p.CantidadComprada);
                     })
                   .Resizable(resize => resize.Columns(true))

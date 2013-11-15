@@ -68,7 +68,7 @@
                         columns.Bound(p => p.NombreServicio);
                         columns.Bound(p => p.Distrito);
                         columns.Bound(p => p.NroTrabajos);
-                        columns.Bound(p => p.CalificacionPromedio);
+                        columns.Bound(p => p.CalificacionPromedio).Format("{0:n2}");
                     })
                   .Resizable(resize => resize.Columns(true))
                   .Pageable(paper => paper.Refresh(true).PageSizes(true).Messages(m => m.ItemsPerPage("Elementos por página")))

@@ -18,11 +18,12 @@ namespace SistemaGeneraliz.Models.Entities
         public int ProveedorId { get; set; }
         public virtual Proveedor Proveedor { get; set; }
         public virtual ICollection<TipoServicio> TiposServicios { get; set; }
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaReal { get; set; }
         public string DescripcionProveedor { get; set; }
         public string NroRpH_Factura { get; set; }
         public string TipoRpH_Factura { get; set; }
-        public string MontoCobrado { get; set; }
+        public double MontoCobrado { get; set; }
         public int? EncuestaClienteId { get; set; }
         [ForeignKey("EncuestaClienteId")]
         public virtual EncuestaCliente EncuestaCliente { get; set; }

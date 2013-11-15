@@ -74,7 +74,7 @@
                         columns.Bound(p => p.Servicios);
                         columns.Bound(p => p.DescripcionCliente);
                         columns.Bound(p => p.ReciboHonorarios_Factura);
-                        columns.Bound(p => p.MontoCobrado);
+                        columns.Bound(p => p.MontoCobrado).Format("S/. {0:n2}");
                         columns.Template(@<text></text>).ClientTemplate("<a id='btnVerEncuesta' type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='\\#modal_encuesta' data-toggle='modal' onclick='return mostrarEncuesta(#=TrabajoProveedorId#, #=EncuestaRespondida#);'>Ver Encuesta</a>");
                     })
                   .Resizable(resize => resize.Columns(true))

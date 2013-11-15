@@ -64,15 +64,15 @@ namespace SistemaGeneraliz.Models.Helpers
             SeedsRoles();
             var tiposServicios = SeedsTiposServicios();
             var distritos = SeedPaisesCiudadesDistritos();
-            var personasNaturales = SeedPersonasNaturales(20); // n personas en la BD
+            var personasNaturales = SeedPersonasNaturales(30); // nro personas en la BD
             var personasJuridicas = SeedPersonasJuridicas();
             var personas = personasNaturales.Concat(personasJuridicas).ToList();
             SeedUbicacionesPersonas(personas, distritos);
             var proveedores = SeedProveedores(personas, tiposServicios);
             var suministradores = SeedSuministradores(personasJuridicas);
             var clientes = SeedClientes(personas);
-            SeedRecargaLeads(suministradores, proveedores);
-            var trabajos = SeedTrabajos(clientes, 3); //nro clientes * factorMultiplicativo
+            SeedRecargaLeads(suministradores, proveedores, 30);  //cantidadMaxRecargasXsuministrador
+            var trabajos = SeedTrabajos(clientes, 4); //nro clientes * factorMultiplicativo
             var trabajosProveedores = SeedTrabajosProveedores(proveedores, trabajos, tiposServicios);
             var criteriosCalificacion = SeedCriteriosCalificacion();
             var encuestas = SeedEncuestasCliente(trabajosProveedores);
@@ -453,7 +453,7 @@ namespace SistemaGeneraliz.Models.Helpers
             return listaClientes;
         }
 
-        private void SeedRecargaLeads(List<Suministrador> suministradores, List<Proveedor> proveedores)
+        private void SeedRecargaLeads(List<Suministrador> suministradores, List<Proveedor> proveedores, int cantidadMaxRecargasXsuministrador)
         {
             var listaRecargas = new List<RecargaLeads>();
             int r1, r2, r3;
@@ -461,16 +461,17 @@ namespace SistemaGeneraliz.Models.Helpers
 
             foreach (var suministrador in suministradores)
             {
-                r1 = random.Next(1, 6);
-                for (int i = 0; i < r1; i++)
+                int nMax = random.Next(10, cantidadMaxRecargasXsuministrador + 1);
+                for (int i = 0; i < nMax; i++)
                 {
+                    r1 = random.Next(1, 6);
                     r2 = random.Next(0, proveedores.Count);
                     r3 = random.Next(5, 21);
                     RecargaLeads recarga = new RecargaLeads
                     {
                         SuministradorId = suministrador.SuministradorId,
                         ProveedorId = proveedores[r2].ProveedorId,
-                        FechaRecarga = DateTime.Now.AddMonths((r1 + r2 / 2) * -1).AddDays(r1 + r2 / 2).AddHours(r1).AddMinutes(r1 + r3),
+                        FechaRecarga = DateTime.Now.AddMonths(r1 * -1).AddDays(r1 + r2 / 2).AddHours(r1).AddMinutes(r1 + r3),
                         MontoRecarga = r3,
                         TipoMoneda = "Soles",
                         CantidadLeads = r3
@@ -566,7 +567,7 @@ namespace SistemaGeneraliz.Models.Helpers
                         TrabajoId = trabajo.TrabajoId,
                         ProveedorId = listaProveedoresTrabajo[i].ProveedorId,
                         DescripcionProveedor = "",
-                        MontoCobrado = r4.ToString(),
+                        MontoCobrado = r4,
                         NroRpH_Factura = r5.ToString(),
                         TipoRpH_Factura = "Recibo por Honorarios",
                         TiposServicios = new List<TipoServicio>(),
@@ -719,7 +720,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     proveedor.NroVolveriaContratarlo = volveria;
                     //Cálculo de la puntuación promedio: acá consideramos PuntajeTotal / NroTrabajos
                     double puntuacion = (puntaje * 1.0) / proveedor.NroTrabajosTerminados;
-                    proveedor.PuntuacionPromedio = Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven));
+                    proveedor.PuntuacionPromedio = puntuacion; //Convert.ToInt32(Math.Round(puntuacion, MidpointRounding.ToEven)); <-- si usaramos enteros
 
                     this.Proveedores.Attach(proveedor);
                     this.Entry(proveedor).State = EntityState.Modified;
@@ -926,7 +927,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 if (imagen.Nombre.Substring(0, 1) == "D")
                     tipo = "Descuento";
 
-                DateTime d = DateTime.Now.AddDays(r1).AddHours(r2).AddMinutes(r1 + r2);
+                DateTime d = DateTime.Now.AddMonths(r1).AddDays(r1).AddHours(r2).AddMinutes(r1 + r2);
                 k = (k >= suministradores.Count) ? 0 : k;
                 Suministrador suministrador = suministradores[k];
 
@@ -969,11 +970,11 @@ namespace SistemaGeneraliz.Models.Helpers
                     for (int i = 0; i < r1; i++)
                     {
                         r2 = random.Next(0, proveedores.Count);
-                        r3 = random.Next(1, 6);
+                        r3 = random.Next(1, 3);
                         r4 = random.Next(1, 7);
                         CompraVirtual compraVirtual = new CompraVirtual
                         {
-                            FechaCompra = ofertaPromoDscto.FechaInicio.AddDays(r3).AddHours(r4).AddMinutes(r3 + r4),
+                            FechaCompra = ofertaPromoDscto.FechaInicio.AddMonths(r3 * -1).AddDays(r3).AddHours(r4).AddMinutes(r3 + r4),
                             OfertaPromoDsctoId = ofertaPromoDscto.OfertaPromoDsctoId,
                             ProveedorId = proveedores[r2].ProveedorId,
                             LeadsPagados = ofertaPromoDscto.CostoEnLeads,

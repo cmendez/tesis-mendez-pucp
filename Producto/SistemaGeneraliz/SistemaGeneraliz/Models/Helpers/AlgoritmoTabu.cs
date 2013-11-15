@@ -118,7 +118,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     ProveedorBusquedaViewModel proveedorViewModel = new ProveedorBusquedaViewModel
                     {
                         ProveedorId = prov.ProveedorId,
-                        Puntaje = Convert.ToInt32(prov.PuntuacionPromedio).ToString(),
+                        Puntaje = prov.PuntuacionPromedio,
                         FotoId = (int)prov.Persona.ImagenId,
                         NombreCompleto = nombre,
                         TipoDocumento = tipoDocumento,
@@ -131,6 +131,8 @@ namespace SistemaGeneraliz.Models.Helpers
                         Telefono3 = prov.Persona.Telefono3 ?? "",
                         Email1 = prov.Persona.Email1 ?? "",
                         Email2 = prov.Persona.Email2 ?? "",
+                        NroRecomendaciones = proveedor.NroRecomendaciones + "/" + proveedor.TrabajosProveedores.Count,
+                        NroVolveriaContratarlo = proveedor.NroVolveriaContratarlo + "/" + proveedor.TrabajosProveedores.Count,
                     };
                     lista.Add(proveedorViewModel);
                 }

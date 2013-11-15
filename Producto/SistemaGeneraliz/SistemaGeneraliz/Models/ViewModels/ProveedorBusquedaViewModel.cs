@@ -10,8 +10,9 @@ namespace SistemaGeneraliz.Models.ViewModels
     public class ProveedorBusquedaViewModel
     {
         public int ProveedorId { get; set; }
+        [DisplayFormat(DataFormatString = "{0:#,##0.00#}", ApplyFormatInEditMode = true)]
         [DisplayName("Calificación")]
-        public string Puntaje { get; set; }
+        public double Puntaje { get; set; }
         [DisplayName("Foto")]
         public int FotoId { get; set; }
         [DisplayName("Nombre / Razón Social")]
@@ -35,5 +36,9 @@ namespace SistemaGeneraliz.Models.ViewModels
         public string Telefono2 { get; set; }
         [Display(Name = "Teléfono 3")]
         public string Telefono3 { get; set; }
+        [Display(Name = "# Recomen.")]
+        public string NroRecomendaciones { get; set; }
+        [Display(Name = "# Volvería")]
+        public string NroVolveriaContratarlo { get; set; }
     }
 }

@@ -391,7 +391,9 @@ namespace SistemaGeneraliz.Controllers
                             Telefono2 = proveedor.Telefono2,
                             Telefono3 = proveedor.Telefono3,
                             Email1 = proveedor.Email1,
-                            Email2 = proveedor.Email2
+                            Email2 = proveedor.Email2,
+                            NroRecomendaciones = proveedor.NroRecomendaciones,
+                            NroVolveriaContratarlo = proveedor.NroVolveriaContratarlo
                         };
 
                         proveedoresJson.Add(o);
@@ -448,7 +450,9 @@ namespace SistemaGeneraliz.Controllers
                             Telefono2 = proveedor.Telefono2,
                             Telefono3 = proveedor.Telefono3,
                             Email1 = proveedor.Email1,
-                            Email2 = proveedor.Email2
+                            Email2 = proveedor.Email2,
+                            NroRecomendaciones = proveedor.NroRecomendaciones,
+                            NroVolveriaContratarlo = proveedor.NroVolveriaContratarlo
                         };
 
                         proveedoresJson.Add(o);

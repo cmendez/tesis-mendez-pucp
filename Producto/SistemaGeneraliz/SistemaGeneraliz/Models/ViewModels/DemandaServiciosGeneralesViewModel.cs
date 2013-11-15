@@ -23,7 +23,7 @@ namespace SistemaGeneraliz.Models.ViewModels
         [Display(Name = "Nro. Trabajos")]
         public int NroTrabajos { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:#,##0.0#}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:#,##0.00#}", ApplyFormatInEditMode = true)]
         [Display(Name = "Calif. Promedio")]
         public double CalificacionPromedio { get; set; }
 

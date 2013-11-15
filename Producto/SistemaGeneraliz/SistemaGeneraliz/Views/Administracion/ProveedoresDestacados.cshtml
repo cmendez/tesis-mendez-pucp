@@ -60,12 +60,11 @@
                   .Name("Grid")
                   .Columns(columns =>
                     {
-                        columns.Bound(p => p.ProveedorId);
                         columns.Bound(p => p.NombreProveedor);
                         columns.Bound(p => p.Documento);
                         columns.Bound(p => p.Imagen).Filterable(false).Template(@<text></text>).ClientTemplate("<img src='/Suministradores/GetImagen?imagenId=#=Imagen#' alt='' width='90' height='106'>");
                         columns.Bound(p => p.Servicios);
-                        columns.Bound(p => p.PuntuacionPromedio);
+                        columns.Bound(p => p.PuntuacionPromedio).Format("{0:n2}");
                         columns.Bound(p => p.NroTrabajos);
                         columns.Bound(p => p.LeadsCompras);
                         columns.Bound(p => p.NroRecomendaciones);

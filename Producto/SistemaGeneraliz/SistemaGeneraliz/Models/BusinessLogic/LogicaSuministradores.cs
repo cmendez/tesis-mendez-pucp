@@ -595,8 +595,8 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         CantidadDisponible = ofertaPromoDscto.CantidadDisponible,
                         IsAdquiribleConLeads = ofertaPromoDscto.IsAdquiribleConLeads,
                         FechaRegistro = ofertaPromoDscto.FechaRegistro.ToString("dd/MM/yyyy"),
-                        FechaInicioString = ofertaPromoDscto.FechaInicio.ToString("dd/MM/yyyy"),
-                        FechaFinString = ofertaPromoDscto.FechaFin.ToString("dd/MM/yyyy"),
+                        FechaInicio = ofertaPromoDscto.FechaInicio,
+                        FechaFin = ofertaPromoDscto.FechaFin,
                         IsVisible = ofertaPromoDscto.IsVisible,
                         IsEliminado = ofertaPromoDscto.IsEliminado,
                         CantidadComprada = ofertaPromoDscto.ComprasVirtuales.Count //ofertaPromoDscto.ComprasVirtuales.Count(o => o.FechaCompra.Date.CompareTo(ffin) <= 0)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -10,8 +11,9 @@ namespace SistemaGeneraliz.Models.ViewModels
     {
         [DisplayName("TrabajoProveedorId")]
         public int TrabajoProveedorId { get; set; }
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DisplayName("Fecha")]
-        public string FechaTrabajo { get; set; }
+        public DateTime FechaTrabajo { get; set; }
         [DisplayName("Puntuación")]
         public string Puntuacion { get; set; }
         [DisplayName("Comentarios")]
@@ -31,7 +33,7 @@ namespace SistemaGeneraliz.Models.ViewModels
         [DisplayName("Rec. Hon./Fac.")]
         public string ReciboHonorarios_Factura { get; set; }
         [DisplayName("Monto Cobrado")]
-        public string MontoCobrado { get; set; }
+        public double MontoCobrado { get; set; }
         [DisplayName("Detalles")]
         public string LinkModificarDetalles { get; set; }
         [DisplayName("EncuestaRespondida")]

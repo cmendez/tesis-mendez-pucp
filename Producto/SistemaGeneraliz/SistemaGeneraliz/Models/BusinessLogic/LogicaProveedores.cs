@@ -144,23 +144,23 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                             rph_factura = trabajo.TipoRpH_Factura + " - " + trabajo.NroRpH_Factura;
                             ;
                         }
-                        string montoCobrado = "-";
-                        if (trabajo.MontoCobrado != null)
-                        {
-                            //if (trabajo.MontoCobrado.IndexOf("S/.") < 0)
-                            //{
-                            //    montoCobrado = "S/. " + trabajo.MontoCobrado;    
-                            //}
-                            //else
-                            //{
-                            montoCobrado = trabajo.MontoCobrado;
-                            //}
-                        }
+                        //string montoCobrado = "-";
+                        //if (trabajo.MontoCobrado != null)
+                        //{
+                        //    //if (trabajo.MontoCobrado.IndexOf("S/.") < 0)
+                        //    //{
+                        //    //    montoCobrado = "S/. " + trabajo.MontoCobrado;    
+                        //    //}
+                        //    //else
+                        //    //{
+                        //    montoCobrado = trabajo.MontoCobrado;
+                        //    //}
+                        //}
 
                         HistorialTrabajosViewModel his = new HistorialTrabajosViewModel
                         {
                             TrabajoProveedorId = trabajo.TrabajoProveedorId,
-                            FechaTrabajo = fechaTrabajo.ToString("dd/MM/yyyy"),
+                            FechaTrabajo = fechaTrabajo,
                             Puntuacion = puntuacion,
                             //PARA CUANDO ESTE LO DE ENCUESTAS
                             NombreCliente = nombreCliente,
@@ -168,7 +168,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                             Servicios = servicios,
                             DescripcionCliente = trabajo.Trabajo.DescripcionCliente,
                             ReciboHonorarios_Factura = rph_factura,
-                            MontoCobrado = montoCobrado,
+                            MontoCobrado = trabajo.MontoCobrado,
                             LinkModificarDetalles = "",
                             //AQUI IRA LINK PARA MODIFICAR DETALLES DE TRABAJO
                             EncuestaRespondida =
@@ -400,17 +400,17 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         ;
                     }
                     string montoCobrado = "-";
-                    if (trabajo.MontoCobrado != null)
-                    {
-                        //if (trabajo.MontoCobrado.IndexOf("S/.") < 0)
-                        //{
-                        //    montoCobrado = "S/. " + trabajo.MontoCobrado;    
-                        //}
-                        //else
-                        //{
-                        montoCobrado = trabajo.MontoCobrado;
-                        //}
-                    }
+                    //if (trabajo.MontoCobrado != null)
+                    //{
+                    //    //if (trabajo.MontoCobrado.IndexOf("S/.") < 0)
+                    //    //{
+                    //    //    montoCobrado = "S/. " + trabajo.MontoCobrado;    
+                    //    //}
+                    //    //else
+                    //    //{
+                    //    montoCobrado = trabajo.MontoCobrado;
+                    //    //}
+                    //}
                     string nombreProveedor = trabajo.Proveedor.Persona.RazonSocial ??
                                              (trabajo.Proveedor.Persona.PrimerNombre + " " +
                                               trabajo.Proveedor.Persona.ApellidoPaterno);
@@ -421,9 +421,8 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     HistorialTrabajosViewModel his = new HistorialTrabajosViewModel
                     {
                         TrabajoProveedorId = trabajo.TrabajoProveedorId,
-                        FechaTrabajo = fechaTrabajo.ToString("dd/MM/yyyy"),
+                        FechaTrabajo = fechaTrabajo,
                         Puntuacion = puntuacion,
-                        //PARA CUANDO ESTE LO DE ENCUESTAS
                         NombreCliente = nombreCliente,
                         DocumentoCliente = documentoCliente,
                         NombreProveedor = nombreProveedor,
@@ -431,7 +430,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         Servicios = servicios,
                         DescripcionCliente = trabajo.Trabajo.DescripcionCliente,
                         ReciboHonorarios_Factura = rph_factura,
-                        MontoCobrado = montoCobrado,
+                        MontoCobrado = trabajo.MontoCobrado,
                         LinkModificarDetalles = "",
                         EncuestaRespondida = trabajo.EncuestaCliente.IsCompletada,
                         Comentarios = comentarios

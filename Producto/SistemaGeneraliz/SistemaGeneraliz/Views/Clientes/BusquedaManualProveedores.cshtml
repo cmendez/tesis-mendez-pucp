@@ -140,6 +140,8 @@
         <button id="btnContratar" type="submit" class="btn red pull-right" style="">
             Contratar <i class="icon-ok  m-icon-white"></i>
         </button>
+        <br/>
+        <br/>
     </div>
 
     <div style="width: 18%; margin-left: auto; margin-right: auto;">
@@ -162,13 +164,14 @@
 
             var grid = $("#Grid").kendoGrid({
                 autoBind: false,
+                scrollable: false,
                 sortable: true,
                 groupable: false,
                 filterable: false,
                 pageable: {
-                    pageSize: 5,
+                    pageSize: 3,
                     numeric: true,
-                    pageSizes: true,
+                    pageSizes: [3, 6, 9],
                 },
                 resizable: true,
                 dataBound: onDataBound,
@@ -178,7 +181,7 @@
                             fields: {
                                 ProveedorId: { type: "number", editable: false, hidden: true },
                                 FotoId: { type: "number", editable: false },
-                                Puntaje: { type: "string", editable: false },
+                                Puntaje: { type: "number", editable: false },
                                 NombreCompleto: { type: "string", editable: false },
                                 Documento: { type: "string", editable: false },
                                 Servicio: { type: "string", editable: false },
@@ -190,29 +193,31 @@
                                 Telefono3: { type: "string", editable: false, hidden: true },
                                 Email1: { type: "string", editable: false, hidden: true },
                                 Email2: { type: "string", editable: false, hidden: true },
+                                NroRecomendaciones: { type: "string", editable: false },
+                                NroVolveriaContratarlo: { type: "string", editable: false }
                             }
                         }
                     }
                 },
                 columns: [
                     { template: "<input type='checkbox' class='checkbox' />", width: "30px" },
-                    { title: "ProveedorId", field: "ProveedorId"},
+                    { title: "ProveedorId", field: "ProveedorId" },
                     { title: "Foto", field: "FotoId", width: "100px",
                         attributes: {
                             style: "text-align: center"
-                        }, template: "<img src='/Usuarios/GetImagen?imagenId=#=FotoId#' alt='' width='146' height='106'>"
-
+                        }, template: "<img src='/Usuarios/GetImagen?imagenId=#=FotoId#' alt='' width='90' height='106'>"
                     },
-                    { title: "Calificación", field: "Puntaje", width: "90px" },
-                    { title: "Nombre / Razón Social", field: "NombreCompleto", width: "190px" },
-                    { title: "DNI / RUC", field: "Documento", width: "160px" },
+                    { title: "Proveedor", field: "NombreCompleto", width: "120px" },
+                    { title: "DNI / RUC", field: "Documento", width: "120px" },
                     { title: "Servicios Ofrecidos", field: "Servicio", width: "140px" },
-                    { title: "Sobre Mí", field: "Descripcion", width: "170px" },
-                    {
-                        title: "Trabajos ", field: "VerTrabajos", 
+                    { title: "Calificación", field: "Puntaje", width: "90px", format: '{0:n2}' },
+                    { title: "#Recomend.", field: "NroRecomendaciones", width: "90px" },
+                    { title: "#Volv. Contratarlo", field: "NroVolveriaContratarlo", width: "150px" },
+                    { title: "Sobre Mí", field: "Descripcion", width: "130px" },
+                    { title: "Trabajos Pasados", field: "VerTrabajos", width: "120px",
                         attributes: {
                             style: "text-align: center"
-                        }, template: "<a id='btnVerTrabajos' type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='\\\#modal_trabajos' data-toggle='modal' onclick='return mostrarTrabajos(#=ProveedorId#);'>Ver Trabajos Pasados</a>"
+                        }, template: "<a id='btnVerTrabajos' type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='\\\#modal_trabajos' data-toggle='modal' onclick='return mostrarTrabajos(#=ProveedorId#);'>Ver</a>"
                     }
                 ]
             }).data("kendoGrid");
@@ -374,7 +379,8 @@
                     dataSource.add({
                         ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, FotoId: this.FotoId, NombreCompleto: this.NombreCompleto,
                         TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, ServicioId: this.ServicioId, Descripcion: this.Descripcion,
-                        Telefono1: this.Telefono1, Telefono2: this.Telefono2, Telefono3: this.Telefono3, Email1: this.Email1, Email2: this.Email2
+                        Telefono1: this.Telefono1, Telefono2: this.Telefono2, Telefono3: this.Telefono3, Email1: this.Email1, Email2: this.Email2,
+                        NroRecomendaciones: this.NroRecomendaciones, NroVolveriaContratarlo: this.NroVolveriaContratarlo
                     });
                     //dataSource2.add({
                     //    NombreCompleto: this.NombreCompleto, Documento: this.Documento, Servicio: this.Servicio, Telefono1: this.Telefono1, Telefono2: this.Telefono2,

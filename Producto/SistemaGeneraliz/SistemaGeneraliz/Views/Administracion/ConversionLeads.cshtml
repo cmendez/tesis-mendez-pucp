@@ -67,11 +67,11 @@
                         columns.Bound(p => p.Año);
                         columns.Bound(p => p.Mes);
                         columns.Bound(p => p.RazonSocial);
-                        columns.Bound(p => p.ImagenPrincipal).Filterable(false).Template(@<text></text>).ClientTemplate("<img src='/Suministradores/GetImagen?imagenId=#=ImagenPrincipal#' alt='' width='146' height='106'>");
+                        columns.Bound(p => p.ImagenPrincipal).Filterable(false).Template(@<text></text>).ClientTemplate("<img src='/Suministradores/GetImagen?imagenId=#=ImagenPrincipal#' alt='' width='90' height='106'>");
                         columns.Bound(p => p.LeadsMensuales);
                         columns.Bound(p => p.MontoRecargasLogradas);
                         columns.Bound(p => p.MontoComprasLogradas);
-                        columns.Bound(p => p.TasaConversion);
+                        columns.Bound(p => p.TasaConversion).Format("{0:n2} %");
                     })
                     .Resizable(resize => resize.Columns(true))
                     .Pageable(paper => paper.Refresh(true).PageSizes(true).Messages(m => m.ItemsPerPage("Elementos por página")))

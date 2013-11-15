@@ -247,7 +247,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         ProveedorBusquedaViewModel proveedorViewModel = new ProveedorBusquedaViewModel
                         {
                             ProveedorId = prov.ProveedorId,
-                            Puntaje = Convert.ToInt32(prov.PuntuacionPromedio).ToString(),
+                            Puntaje = prov.PuntuacionPromedio,
                             FotoId = (int)prov.Persona.ImagenId,
                             NombreCompleto = nombreProveedor,
                             TipoDocumento = tipoDocumento,
@@ -260,6 +260,8 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                             Telefono3 = prov.Persona.Telefono3 ?? "",
                             Email1 = prov.Persona.Email1 ?? "",
                             Email2 = prov.Persona.Email2 ?? "",
+                            NroRecomendaciones = prov.NroRecomendaciones + "/" + prov.TrabajosProveedores.Count,
+                            NroVolveriaContratarlo = prov.NroVolveriaContratarlo + "/" + prov.TrabajosProveedores.Count,
                         };
                         lista.Add(proveedorViewModel);
                     }
@@ -347,7 +349,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             Proveedor proveedor = trabajo.Proveedor;
             int nroEncuestasCompletadas = proveedor.TrabajosProveedores.Count(t => t.EncuestaCliente.IsCompletada == 1);
             double nuevaPuntuacion = (proveedor.PuntuacionPromedio * nroEncuestasCompletadas + puntuacion) / (nroEncuestasCompletadas + 1);
-            proveedor.PuntuacionPromedio = Convert.ToInt32(Math.Round(nuevaPuntuacion, MidpointRounding.ToEven)); //ver si usamos enteros o decimales
+            proveedor.PuntuacionPromedio = nuevaPuntuacion; //Convert.ToInt32(Math.Round(nuevaPuntuacion, MidpointRounding.ToEven)); <-- si usaramos enteros
             proveedor.NroRecomendaciones += Int32.Parse(respuestasSplit[6]);
             proveedor.NroVolveriaContratarlo += Int32.Parse(respuestasSplit[5]);
             proveedor.NroComentarios += 1;
