@@ -288,6 +288,25 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.Proveedores.ToList();
         }
 
+        public void ActualizarListaProveedores(List<Proveedor> proveedores)
+        {
+            foreach (var proveedor in proveedores)
+            {
+                _db.Entry(proveedor).State = EntityState.Modified;
+            }
+            _db.SaveChanges();
+        }
+
+        public int GetNroLeadsRecompensa()
+        {
+            return _db.Configuraciones.Find(5).ValorNumerico;
+        }
+
+        public int GetNroProveedoresRecompensa()
+        {
+            return _db.Configuraciones.Find(6).ValorNumerico;
+        }
+
         public Cliente GetClientePorId(int clienteId)
         {
             return _db.Clientes.Find(clienteId);

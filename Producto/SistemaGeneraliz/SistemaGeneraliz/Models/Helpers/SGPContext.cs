@@ -93,7 +93,9 @@ namespace SistemaGeneraliz.Models.Helpers
                 new Configuracion { Nombre = "PuntuacionMinimaAlgoritmo", Descripcion = "Puntuación mínima requerida del proveedor para ser considerado en la lógica del algoritmo", ValorNumerico = 12},
                 new Configuracion { Nombre = "CantidadMaximaProveedoresAlgoritmo", Descripcion = "Cantidad máxima de proveedores que se devuelven al buscar proveedores dado un servicio, para la lógica del algoritmo", ValorNumerico = 100},
                 new Configuracion { Nombre = "LeadsGratisRegistro", Descripcion = "Leads gratis al registrarse", ValorNumerico = 2},
-                new Configuracion { Nombre = "PuntajePromedioInicialProveedores", Descripcion = "Puntaje Promedio Inicial Proveedores", ValorNumerico = 14}
+                new Configuracion { Nombre = "PuntajePromedioInicialProveedores", Descripcion = "Puntaje Promedio Inicial Proveedores", ValorNumerico = 14},
+                new Configuracion { Nombre = "NroLeadsRecompensa", Descripcion = "Leads de recompensa a mejores proveedores", ValorNumerico = 3},
+                new Configuracion { Nombre = "NroProveedoresRecompensa", Descripcion = "Cantidad de proveedores que reciben recompensa", ValorNumerico = 3}
             };
             listaConfiguraciones.ForEach(s => this.Configuraciones.Add(s));
             this.SaveChanges();
@@ -220,6 +222,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     Sexo = "Masculino",
                     //DireccionCompleta = persona.DireccionCompleta,
                     Email1 = nombres[r1].Substring(0, 1).ToLower() + "." + apellidos[r1].ToLower() + "@gmail.com",
+                    Email2 = "c.mendez@pucp.pe",
                     Telefono1 = d1.ToString(),
                     //ImagenPrincipal = persona.ImagenPrincipal,
                     UltimaActualizacionPersonal = DateTime.Now,
@@ -268,6 +271,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     RazonSocial = razonesSociales[i] + " S.A.C.",
                     FechaCreacion = DateTime.Now.AddYears((r1 + 5 + r3 * 4) * -1),
                     Email1 = razonesSociales[i].ToLower() + "@gmail.com",
+                    Email2 = "c.mendez@pucp.pe",
                     Telefono1 = documentos[i].Substring(4, 7).ToString(),
                     //ImagenPrincipal = persona.ImagenPrincipal,
                     UltimaActualizacionPersonal = DateTime.Now,

@@ -12,7 +12,7 @@
 </head>
 <body>
     @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Proveedores Destacados", "Reporte de los mejores proveedores"));}
-@*    <table style="width: 100%; border: 0;">
+    @*    <table style="width: 100%; border: 0;">
         <tbody>
             <tr>
                 <td style="vertical-align: top; width: 45%; padding-left: 6%">
@@ -60,6 +60,7 @@
                   .Name("Grid")
                   .Columns(columns =>
                     {
+                        columns.Bound(p => p.ProveedorId);
                         columns.Bound(p => p.NombreProveedor);
                         columns.Bound(p => p.Documento);
                         columns.Bound(p => p.Imagen).Filterable(false).Template(@<text></text>).ClientTemplate("<img src='/Suministradores/GetImagen?imagenId=#=Imagen#' alt='' width='90' height='106'>");
@@ -71,7 +72,7 @@
                         columns.Bound(p => p.NroVolveriaContratarlo);
                     })
                   .Resizable(resize => resize.Columns(true))
-                  .Pageable(paper => paper.Refresh(true).PageSizes(true).PageSizes(new [] { 3, 6, 9 }).Messages(m => m.ItemsPerPage("Elementos por página")))
+                  .Pageable(paper => paper.Refresh(true).PageSizes(true).PageSizes(new[] { 3, 6, 9 }).Messages(m => m.ItemsPerPage("Elementos por página")))
                   .Sortable()
                   .Filterable()
                   .DataSource(dataSource => dataSource
@@ -84,52 +85,36 @@
         </div>
     </div>
 
+    <div style="width: 15%; margin-left: auto; margin-right: auto;">
+        <button id="btnRegalar" type="submit" class="btn red pull-right" style="">
+            Obsequiar Leads <i class="icon-gift  m-icon-white"></i>
+        </button>
+        <br />
+        <br />
+    </div>
+
     @*    <div>
         @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
     </div>*@
 
-@*    <script>
-        function additionalData() {
-            return {
-                fechaInicio: $("#fechaInicio").val(),
-                fechaFin: $("#fechaFin").val()
-            };
-        }
-
-        $("#btnBuscar").click(function () {
-            if (($("#fechaInicio").val() != "") || ($("#fechaFin").val() != "")) {
-                var finicio = parseDate($("#fechaInicio").val());
-                var ffin = parseDate($("#fechaFin").val());
-                if ((finicio.toString() === "Invalid Date") || (ffin.toString() === "Invalid Date")) {
-                    alert("Error: formato de fecha inválido. Ingrese bien ambas fechas");
-                    return false;
+    <script>
+        $("#btnRegalar").click(function e() {
+            $.ajax({
+                type: 'GET',
+                url: '/Administracion/RecompensarProveedores',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (e) {
+                    alert("Se obsequiaron leads exitosamente.");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
                 }
-                if (ffin < finicio) {
-                    alert("Error: la fecha inicio tiene que ser menor igual que la fecha fin.");
-                    return false;
-                }
-            }
-
-            $("#Grid").data("kendoGrid").dataSource.read();
-            return true;
+            });
         });
 
-        // parse a date in dd/mm/yyyy format
-        function parseDate(input) {
-            var parts = input.split('/');
-            // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
-            return new Date(parts[2], parts[1] - 1, parts[0]); // months are 0-based
-        }
-
-        $("#fechaInicio").kendoDatePicker({
-            format: "dd/MM/yyyy"
-        });
-
-        $("#fechaFin").kendoDatePicker({
-            format: "dd/MM/yyyy"
-        });
-
-    </script>*@
+    </script>
 
 </body>
 </html>

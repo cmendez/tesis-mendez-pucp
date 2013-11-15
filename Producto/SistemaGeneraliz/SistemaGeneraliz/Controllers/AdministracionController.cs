@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -54,6 +55,16 @@ namespace SistemaGeneraliz.Controllers
         {
             List<ProveedorDestacadoViewModel> proveedoresDestacadosViewModels = _logicaProveedores.ProveedoresDestacados();
             return Json(proveedoresDestacadosViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult RecompensarProveedores()
+        {
+            _logicaProveedores.RecompensarProveedores();
+            var recargasJson = new List<Object>();
+            Object o = new { Msg = "ok" };
+            recargasJson.Add(o);
+            return Json(recargasJson, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -48,6 +48,9 @@ namespace SistemaGeneraliz.Models.Helpers
         void ActualizarUbicacion(UbicacionPersona ubicacion);
         List<TrabajoProveedor> GetHistoricoTrabajos(string fechaInicio, string fechaFin);
         List<Proveedor> GetProveedores();
+        void ActualizarListaProveedores(List<Proveedor> proveedores);
+        int GetNroLeadsRecompensa();
+        int GetNroProveedoresRecompensa();
         #endregion
 
         #region Clientes

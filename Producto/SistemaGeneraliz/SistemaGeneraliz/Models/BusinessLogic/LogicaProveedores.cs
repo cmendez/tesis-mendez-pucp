@@ -543,13 +543,14 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 
                     var compras = proveedor.ComprasVirtuales.ToList();
                     int leadsCompras = 0;
-                    if (compras.Count > 0 )
+                    if (compras.Count > 0)
                     {
                         leadsCompras = compras.Sum(c => c.LeadsPagados);
                     }
 
                     ProveedorDestacadoViewModel proveedorDestacadoViewModel = new ProveedorDestacadoViewModel
                     {
+                        PersonaId = proveedor.PersonaId,
                         ProveedorId = proveedor.ProveedorId,
                         NombreProveedor = nombreProveedor,
                         Imagen = (int)proveedor.Persona.ImagenId,
@@ -559,7 +560,9 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         PuntuacionPromedio = proveedor.PuntuacionPromedio,
                         NroTrabajos = proveedor.TrabajosProveedores.Count,
                         NroRecomendaciones = proveedor.NroRecomendaciones + "/" + proveedor.TrabajosProveedores.Count,
-                        NroVolveriaContratarlo = proveedor.NroVolveriaContratarlo + "/" + proveedor.TrabajosProveedores.Count
+                        NroVolveriaContratarlo = proveedor.NroVolveriaContratarlo + "/" + proveedor.TrabajosProveedores.Count,
+                        IsHabilitado = proveedor.Persona.IsHabilitado,
+                        IsEliminado = proveedor.Persona.IsEliminado
                     };
                     proveedoresDestacadosViewModels.Add(proveedorDestacadoViewModel);
                 }
@@ -567,6 +570,22 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             }
 
             return proveedoresDestacadosViewModels;
+        }
+
+        public void RecompensarProveedores()
+        {
+            int nroLeads = _sgpFactory.GetNroLeadsRecompensa();
+            int nroProveedores = _sgpFactory.GetNroProveedoresRecompensa();
+            List<ProveedorDestacadoViewModel> proveedoresDestacadosViewModels = ProveedoresDestacados().Where(p => (p.IsHabilitado == 1) && (p.IsEliminado == 0)).Take(nroProveedores).ToList();
+            List<Proveedor> proveedores = new List<Proveedor>();
+
+            foreach (var proveedorDestacadoViewModel in proveedoresDestacadosViewModels)
+            {
+                Proveedor proveedor = _sgpFactory.GetProveedorPorPersonaId(proveedorDestacadoViewModel.PersonaId);
+                proveedor.LeadsDisponibles += nroLeads;
+                proveedores.Add(proveedor);
+            }
+            _sgpFactory.ActualizarListaProveedores(proveedores);
         }
     }
 }

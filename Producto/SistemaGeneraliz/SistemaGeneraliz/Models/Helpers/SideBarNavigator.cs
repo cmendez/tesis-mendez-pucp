@@ -66,7 +66,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 //new SidebarSuboption("Configurar Servicios", "Administracion", "Index", "icon-cogs"),
                 new SidebarSuboption("Histórico de Trabajos", "Administracion", "HistoricoTrabajos", "icon-list-ul"),
                 new SidebarSuboption("Proveedores Destacados", "Administracion", "ProveedoresDestacados", "icon-star"),
-                new SidebarSuboption("Gestión de Recompensas", "Administracion", "Index", "icon-gift"),
+                //new SidebarSuboption("Gestión de Recompensas", "Administracion", "Index", "icon-gift"),
                 new SidebarSuboption("Conversión de Leads", "Administracion", "ConversionLeads", "icon-bar-chart")
             })));
             //}

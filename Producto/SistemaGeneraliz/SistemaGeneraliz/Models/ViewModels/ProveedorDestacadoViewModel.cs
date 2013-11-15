@@ -7,6 +7,7 @@ namespace SistemaGeneraliz.Models.ViewModels
     public class ProveedorDestacadoViewModel
     {
 		public int ProveedorId { get; set; }
+        public int PersonaId { get; set; }
 
         [Display(Name = "Proveedor")]
         public string NombreProveedor { get; set; }
@@ -35,5 +36,8 @@ namespace SistemaGeneraliz.Models.ViewModels
 
         [Display(Name = "# Volvería")]
         public string NroVolveriaContratarlo { get; set; }
+        
+        public int IsEliminado { get; set; }
+        public int IsHabilitado { get; set; }
     }
 }
