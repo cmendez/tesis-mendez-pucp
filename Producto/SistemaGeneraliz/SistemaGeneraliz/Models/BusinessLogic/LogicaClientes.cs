@@ -247,10 +247,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         ProveedorBusquedaViewModel proveedorViewModel = new ProveedorBusquedaViewModel
                         {
                             ProveedorId = prov.ProveedorId,
-                            Puntaje =
-                                Convert.ToInt32(
-                                    prov.PuntuacionPromedio).
-                                ToString(),
+                            Puntaje = Convert.ToInt32(prov.PuntuacionPromedio).ToString(),
                             FotoId = (int)prov.Persona.ImagenId,
                             NombreCompleto = nombreProveedor,
                             TipoDocumento = tipoDocumento,

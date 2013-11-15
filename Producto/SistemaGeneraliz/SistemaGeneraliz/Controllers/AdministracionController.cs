@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -45,6 +42,18 @@ namespace SistemaGeneraliz.Controllers
         {
             List<ConversionLeadsViewModel> suministradorJuridicoViewModels = _logicaSuministradores.ReporteConversionLeads(fechaInicio, fechaFin);
             return Json(suministradorJuridicoViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ProveedoresDestacados()
+        {
+            return View();
+        }
+
+        // ReSharper disable InconsistentNaming
+        public ActionResult ProveedoresDestacados_Read([DataSourceRequest]DataSourceRequest request)
+        {
+            List<ProveedorDestacadoViewModel> proveedoresDestacadosViewModels = _logicaProveedores.ProveedoresDestacados();
+            return Json(proveedoresDestacadosViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
     }
 }

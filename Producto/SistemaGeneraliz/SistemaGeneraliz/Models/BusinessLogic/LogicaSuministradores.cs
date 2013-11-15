@@ -659,7 +659,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 
         public List<DemandaProductosViewModel> Demanda_Productos_Read()
         {
-            List<DemandaProductosViewModel> litaDemandaProductosViewModel = new List<DemandaProductosViewModel>();
+            List<DemandaProductosViewModel> listaDemandaProductosViewModel = new List<DemandaProductosViewModel>();
             List<Producto> productos = _sgpFactory.Demanda_Productos();
 
             if ((productos != null) && (productos.Count > 0))
@@ -677,11 +677,11 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         NroBusquedas = producto.NroBusquedas,
                         NroClicksVisita = producto.NroClicksVisita
                     };
-                    litaDemandaProductosViewModel.Add(ofertaPromoDsctoViewModel);
+                    listaDemandaProductosViewModel.Add(ofertaPromoDsctoViewModel);
                 }
             }
 
-            return litaDemandaProductosViewModel;
+            return listaDemandaProductosViewModel;
         }
     }
 }

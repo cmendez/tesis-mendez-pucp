@@ -36,7 +36,7 @@ namespace SistemaGeneraliz.Models.Helpers
                new SidebarSuboption("Buscar Productos", "Suministradores", "BuscarProductos", "icon-search"),
                new SidebarSuboption("Ofertas, Promos y Dsctos", "Suministradores", "OfertasPromocionesDescuentos", "icon-tags"),
                //new SidebarSuboption("Comprar Ofertas, Promos y Dsctos", "Proveedores", "Index", "icon-shopping-cart"),
-               new SidebarSuboption("Demanda de Servicios Generales", "Proveedores", "Index", "icon-bar-chart"),
+               new SidebarSuboption("Demanda de Servicios Generales", "Proveedores", "Demanda_ServiciosGenerales", "icon-bar-chart"),
                //new SidebarSuboption("Mi Calendario", "Proveedores", "Index", "icon-calendar"),
                //new SidebarSuboption("Editar Mi Información", "Proveedores", "Index", "icon-edit")
             })));
@@ -65,7 +65,7 @@ namespace SistemaGeneraliz.Models.Helpers
                 //new SidebarSuboption("Configurar Ubicaciones", "Administracion", "Index", "icon-globe"),
                 //new SidebarSuboption("Configurar Servicios", "Administracion", "Index", "icon-cogs"),
                 new SidebarSuboption("Histórico de Trabajos", "Administracion", "HistoricoTrabajos", "icon-list-ul"),
-                new SidebarSuboption("Proveedores Destacados", "Administracion", "Index", "icon-star"),
+                new SidebarSuboption("Proveedores Destacados", "Administracion", "ProveedoresDestacados", "icon-star"),
                 new SidebarSuboption("Gestión de Recompensas", "Administracion", "Index", "icon-gift"),
                 new SidebarSuboption("Conversión de Leads", "Administracion", "ConversionLeads", "icon-bar-chart")
             })));

@@ -283,6 +283,11 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.TrabajosProveedores.OrderByDescending(t => t.Trabajo.Fecha).ToList();
         }
 
+        public List<Proveedor> GetProveedores()
+        {
+            return _db.Proveedores.ToList();
+        }
+
         public Cliente GetClientePorId(int clienteId)
         {
             return _db.Clientes.Find(clienteId);

@@ -382,8 +382,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     string documentoCliente = (trabajo.Trabajo.Cliente.Persona.DNI != null)
                                                   ? ("DNI - " + trabajo.Trabajo.Cliente.Persona.DNI.ToString())
                                                   : ("RUC - " + trabajo.Trabajo.Cliente.Persona.RUC.ToString());
-                    string servicios = trabajo.TiposServicios.Aggregate("",
-                                                                        (current, servicio) =>
+                    string servicios = trabajo.TiposServicios.Aggregate("", (current, servicio) =>
                                                                         current + (servicio.NombreServicio + " - "));
                     servicios = servicios.Substring(0, servicios.Length - 3);
                     string puntuacion = "-";
@@ -474,7 +473,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     {
                         foreach (var distrito in distritos)
                         {
-                            var trabajosProveedores = tipoServicio.TrabajosProveedores.Where(tp => (tp.Trabajo.Fecha.Year == d.Year) && 
+                            var trabajosProveedores = tipoServicio.TrabajosProveedores.Where(tp => (tp.Trabajo.Fecha.Year == d.Year) &&
                                                                                         (tp.Trabajo.Fecha.Month == d.Month) &&
                                                                                         (tp.Trabajo.NombreDistrito == distrito.NombreDistrito)).ToList();
                             double califProm = 0.0;
@@ -502,6 +501,72 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             }
 
             return demandaServiciosGeneralesViewModels;
+        }
+
+        public List<ProveedorDestacadoViewModel> ProveedoresDestacados(/*string fechaInicio, string fechaFin*/)
+        {
+            List<ProveedorDestacadoViewModel> proveedoresDestacadosViewModels = new List<ProveedorDestacadoViewModel>();
+            List<Proveedor> proveedores = _sgpFactory.GetProveedores();
+
+            if ((proveedores != null) && (proveedores.Count > 0))
+            {
+                //if (!String.IsNullOrEmpty(fechaInicio))
+                //{
+                //    DateTime finicio = DateTime.Parse(fechaInicio);
+                //    proveedores = proveedores.Where(t => t.Trabajo.Fecha.Date.CompareTo(finicio) >= 0).ToList();
+                //}
+
+                //if (!String.IsNullOrEmpty(fechaFin))
+                //{
+                //    DateTime ffin = DateTime.Parse(fechaFin);
+                //    proveedores = proveedores.Where(t => t.Trabajo.Fecha.Date.CompareTo(ffin) <= 0).ToList();
+                //}
+                foreach (var proveedor in proveedores)
+                {
+                    string nombreProveedor = "";
+                    string documento = "";
+
+                    switch (proveedor.Persona.TipoPersona)
+                    {
+                        case "Natural":
+                            nombreProveedor = proveedor.Persona.PrimerNombre + " " + proveedor.Persona.ApellidoPaterno;
+                            documento = "DNI - " + proveedor.Persona.DNI;
+                            break;
+
+                        case "Juridica":
+                            nombreProveedor = proveedor.Persona.RazonSocial;
+                            documento = "RUC - " + proveedor.Persona.RUC;
+                            break;
+                    }
+                    string servicios = proveedor.TiposServicios.Aggregate("", (current, servicio) => current + (servicio.NombreServicio + " - "));
+                    servicios = servicios.Substring(0, servicios.Length - 3);
+
+                    var compras = proveedor.ComprasVirtuales.ToList();
+                    int leadsCompras = 0;
+                    if (compras.Count > 0 )
+                    {
+                        leadsCompras = compras.Sum(c => c.LeadsPagados);
+                    }
+
+                    ProveedorDestacadoViewModel proveedorDestacadoViewModel = new ProveedorDestacadoViewModel
+                    {
+                        ProveedorId = proveedor.ProveedorId,
+                        NombreProveedor = nombreProveedor,
+                        Imagen = (int)proveedor.Persona.ImagenId,
+                        Documento = documento,
+                        LeadsCompras = leadsCompras,
+                        Servicios = servicios,
+                        PuntuacionPromedio = proveedor.PuntuacionPromedio,
+                        NroTrabajos = proveedor.TrabajosProveedores.Count,
+                        NroRecomendaciones = proveedor.NroRecomendaciones + "/" + proveedor.TrabajosProveedores.Count,
+                        NroVolveriaContratarlo = proveedor.NroVolveriaContratarlo + "/" + proveedor.TrabajosProveedores.Count
+                    };
+                    proveedoresDestacadosViewModels.Add(proveedorDestacadoViewModel);
+                }
+                proveedoresDestacadosViewModels = proveedoresDestacadosViewModels.OrderByDescending(p => p.PuntuacionPromedio).ThenByDescending(p => p.NroTrabajos).ThenByDescending(p => p.LeadsCompras).ThenByDescending(p => p.NombreProveedor).ToList();
+            }
+
+            return proveedoresDestacadosViewModels;
         }
     }
 }

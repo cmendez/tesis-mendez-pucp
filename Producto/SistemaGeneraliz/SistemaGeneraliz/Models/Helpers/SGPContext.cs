@@ -79,7 +79,6 @@ namespace SistemaGeneraliz.Models.Helpers
             var respuestasXcriterio = SeedRespuestasPorCriterio(encuestas, criteriosCalificacion);
             ActualizarIndicesEstadísticosProveedor();
             //faltaria puntajepromediocriterio
-            //faltaria actualizar campos tabla proveedor
             SeedImagenesPersonas(personas);
             var categoriasProductos = SeedCategoriasProductos();
             SeedProductos(suministradores, categoriasProductos, 2);
@@ -365,16 +364,16 @@ namespace SistemaGeneraliz.Models.Helpers
                     {
                         PersonaId = persona.PersonaId,
                         LeadsDisponibles = r2,
-                        PuntuacionPromedio = r3,
+                        PuntuacionPromedio = 0,
                         NroTrabajosTerminados = 0,
-                        NroBusquedasCliente = r1,
-                        NroClicksVisita = r3,
-                        NroComentarios = 0,
-                        NroCalificaciones = 0,
+                        NroBusquedasCliente = -1, //no lo usaré
+                        NroClicksVisita = -1, //no lo usaré
+                        NroComentarios = -1, //no lo usaré
+                        NroCalificaciones = -1, //no lo usaré
                         NroRecomendaciones = 0,
                         NroVolveriaContratarlo = 0,
                         PaginaWeb = "",
-                        Facebook = "",
+                        Facebook = "www.facebook.com/" + persona.Email1.Substring(0, persona.Email1.IndexOf("@")),
                         AcercaDeMi = t + " con " + r1.ToString() + " años de experiencia.",
                         IsDestacado = 0
                     };
@@ -490,7 +489,7 @@ namespace SistemaGeneraliz.Models.Helpers
             {
                 foreach (var cliente in clientes)
                 {
-                    r1 = random.Next(1, 6);
+                    r1 = random.Next(1, 3);
                     r2 = random.Next(0, clientes.Count);
                     r3 = random.Next(5, 21);
 
@@ -499,7 +498,7 @@ namespace SistemaGeneraliz.Models.Helpers
                         ClienteId = cliente.ClienteId,
                         DescripcionCliente = "Trabajo nro. " + n,
                         Direccion = cliente.Persona.DireccionCompleta,
-                        Fecha = DateTime.Now.AddMonths((r1 + r2 / 2) * -1).AddDays(r1 + r2 / 2).AddHours(r1).AddMinutes(r1 + r3),
+                        Fecha = DateTime.Now.AddMonths(r1 * -1).AddDays(r1 + r2 / 2).AddHours(r1).AddMinutes(r1 + r3),
                         NombreDistrito = cliente.Persona.DireccionCompleta.Substring(cliente.Persona.DireccionCompleta.IndexOf("-") + 2)
                     };
                     n++;
@@ -709,12 +708,8 @@ namespace SistemaGeneraliz.Models.Helpers
                     foreach (var trabajo in listaTrabajosProveedor)
                     {
                         puntaje += trabajo.EncuestaCliente.PuntajeTotal;
-                        recomendaciones +=
-                            trabajo.EncuestaCliente.RespuestasPorCriterio.Count(
-                                r => (r.CriterioCalificacionId == 7) && (r.PuntajeOtorgado == 1));
-                        volveria +=
-                            trabajo.EncuestaCliente.RespuestasPorCriterio.Count(
-                                r => (r.CriterioCalificacionId == 6) && (r.PuntajeOtorgado == 1));
+                        recomendaciones += trabajo.EncuestaCliente.RespuestasPorCriterio.Count(r => (r.CriterioCalificacionId == 7) && (r.PuntajeOtorgado == 1));
+                        volveria += trabajo.EncuestaCliente.RespuestasPorCriterio.Count(r => (r.CriterioCalificacionId == 6) && (r.PuntajeOtorgado == 1));
                     }
                     proveedor.NroRecomendaciones = recomendaciones;
                     proveedor.NroVolveriaContratarlo = volveria;

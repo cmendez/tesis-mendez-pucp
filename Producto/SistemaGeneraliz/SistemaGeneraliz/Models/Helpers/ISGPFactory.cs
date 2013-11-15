@@ -47,6 +47,7 @@ namespace SistemaGeneraliz.Models.Helpers
         int GetPuntuacionPromedioInicial();
         void ActualizarUbicacion(UbicacionPersona ubicacion);
         List<TrabajoProveedor> GetHistoricoTrabajos(string fechaInicio, string fechaFin);
+        List<Proveedor> GetProveedores();
         #endregion
 
         #region Clientes

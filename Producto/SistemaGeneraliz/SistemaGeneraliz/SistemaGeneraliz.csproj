@@ -240,6 +240,7 @@
     <Compile Include="Models\ViewModels\PersonaNaturalViewModel.cs" />
     <Compile Include="Models\Entities\Proveedor.cs" />
     <Compile Include="Models\ViewModels\ProductosViewModel.cs" />
+    <Compile Include="Models\ViewModels\ProveedorDestacadoViewModel.cs" />
     <Compile Include="Models\ViewModels\ProveedorBusquedaViewModel.cs" />
     <Compile Include="Models\ViewModels\ProveedorJuridicoViewModel.cs" />
     <Compile Include="Models\ViewModels\ProveedorNaturalViewModel.cs" />
@@ -1913,6 +1914,7 @@
     <Content Include="Views\Administracion\ConversionLeads.cshtml" />
     <Content Include="Views\Suministradores\Demanda_Productos.cshtml" />
     <Content Include="Views\Proveedores\Demanda_ServiciosGenerales.cshtml" />
+    <Content Include="Views\Administracion\ProveedoresDestacados.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
