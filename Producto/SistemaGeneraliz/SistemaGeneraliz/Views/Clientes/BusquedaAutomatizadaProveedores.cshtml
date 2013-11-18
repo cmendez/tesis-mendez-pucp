@@ -139,6 +139,8 @@
 
     <div style="width: 18%; margin-left: auto; margin-right: auto;">
         <a id="btnVerDatos" type="button" class="btn" style="width: 100%; color: black; text-shadow: none; background-color: lightblue; display: none" href="#modal_datos_contacto" data-toggle="modal">Ver Datos de Contacto</a>
+        <br/>
+        <br/>
     </div>
 
     <script>
@@ -193,7 +195,7 @@
                     { title: "Proveedor", field: "NombreCompleto", width: "120px" },
                     { title: "DNI / RUC", field: "Documento", width: "120px" },
                     { title: "Servicios Ofrecidos", field: "Servicio", width: "140px" },
-                    { title: "Calificación", field: "Puntaje", width: "90px" },
+                    { title: "Calificación", field: "Puntaje", width: "90px", format: '{0:n2}' },
                     { title: "#Recomend.", field: "NroRecomendaciones", width: "90px", format: '{0:n2}' },
                     { title: "#Volv. Contratarlo", field: "NroVolveriaContratarlo", width: "150px" },
                     { title: "Sobre Mí", field: "Descripcion", width: "130px" },
@@ -394,7 +396,7 @@
             var clienteId = $("#clienteId").val();
             var latitud = $("#Latitud").val();
             var longitud = $("#Longitud").val();
-            
+            $("#btnContratar").attr('style', 'display :none;');
             $.ajax({
                 type: 'GET',
                 url: '/Clientes/ContratarProveedores',
@@ -426,6 +428,7 @@
                     $("#tiposServicios").data("kendoMultiSelect").readonly(true);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
+                    $("#btnContratar").attr('style', '');
                     alert(xhr.status);
                     alert(thrownError);
                 }

@@ -149,6 +149,8 @@
             Ver Datos de Contacto <i class="icon-zoom-in  m-icon-white"></i>
         </button>*@
         <a id="btnVerDatos" type="button" class="btn" style="width: 100%; color: black; text-shadow: none; background-color: lightblue; display: none" href="#modal_datos_contacto" data-toggle="modal">Ver Datos de Contacto</a>
+        <br/>
+        <br/>
     </div>
 
     <script>
@@ -454,7 +456,7 @@
             var clienteId = $("#clienteId").val();
             var latitud = $("#Latitud").val();
             var longitud = $("#Longitud").val();
-            
+            $("#btnContratar").attr('style', 'display :none;');
             $.ajax({
                 type: 'GET',
                 url: '/Clientes/ContratarProveedores',
@@ -523,6 +525,7 @@
                     return;
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
+                    $("#btnContratar").attr('style', '');
                     alert(xhr.status);
                     alert(thrownError);
                 }

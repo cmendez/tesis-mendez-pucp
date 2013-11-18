@@ -6,12 +6,13 @@ using System.Web.Mvc;
 using SistemaGeneraliz.Models.Entities;
 using SistemaGeneraliz.Models.Helpers;
 using SistemaGeneraliz.Models.ViewModels;
+using System.Net.Mail;
 
 namespace SistemaGeneraliz.Models.BusinessLogic
 {
     public class LogicaPersonas
     {
-        private  ISGPFactory _sgpFactory;
+        private ISGPFactory _sgpFactory;
 
         public LogicaPersonas()
         {
@@ -265,6 +266,25 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             return usuariosViewModels;
         }
 
-
+        public static void EnviarNotificacionXCorreo(String from, String to, String subject, String message)
+        {
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+            SmtpServer.Credentials = new System.Net.NetworkCredential("c.mendez@pucp.pe", "mendez30383184");
+            SmtpServer.Port = 587;
+            SmtpServer.EnableSsl = true;
+            mail.IsBodyHtml = true;
+            mail.From = new MailAddress(from);
+            mail.Subject = subject;
+            if (String.IsNullOrEmpty(to))
+                to = "c.mendez@pucp.pe";
+            mail.To.Add(to);
+            mail.Body = message;
+            try
+            {
+                SmtpServer.Send(mail);
+            }
+            catch (Exception e) { }
+        }
     }
 }

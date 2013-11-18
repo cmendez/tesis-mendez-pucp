@@ -11,7 +11,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 {
     public class LogicaClientes
     {
-        private  ISGPFactory _sgpFactory;
+        private ISGPFactory _sgpFactory;
 
         public LogicaClientes()
         {
@@ -80,8 +80,27 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 DescripcionCliente = desc,
                 NombreDistrito = nombreDistrito
             };
-
             _sgpFactory.AgregarTrabajo(trabajo);
+
+            Persona cliente = this.GetClientePorId(clienteId).Persona;
+            string mensajeEncabezado = "Estimado Proveedor:<br/><br/>El siguiente mensaje generado por el sistema es para informarle que un cliente acaba de contratar sus servicios. <br/>Favor de ponerse en contacto con su cliente.<br/><br/>";
+            mensajeEncabezado += "Datos de Cliente:<br/>------------------------<br/>";
+            if (cliente.TipoPersona == "Natural")
+            {
+                mensajeEncabezado += "Nombre:  " + cliente.PrimerNombre + " " + cliente.ApellidoPaterno + " " + cliente.ApellidoPaterno + "<br/>";
+                mensajeEncabezado += "DNI:  " + cliente.DNI + "<br/>";
+            }
+            else
+            {
+                mensajeEncabezado += "Razón Social:  " + cliente.RazonSocial + "<br/>";
+                mensajeEncabezado += "RUC:  " + cliente.RUC + "<br/>";
+            }
+            mensajeEncabezado += "Teléfonos:  " + cliente.Telefono1 + "  " + cliente.Telefono2 + "  " + cliente.Telefono3 + "<br/>";
+            mensajeEncabezado += "Emails:  " + cliente.Email1 + "   " + cliente.Email2 + "<br/><br/>";
+            mensajeEncabezado += "Datos del Trabajo<br/>-------------------------<br/>";
+            mensajeEncabezado += "Dirección:  " + ubicacion + /*" - " + nombreDistrito +*/ "<br/>";
+            mensajeEncabezado += "Descripción:  " + desc + "<br/>";
+            mensajeEncabezado += "Fecha:  " + fecha + "<br/>";
 
             //Agregar TrabajoProveedor
             string[] provIds = proveedoresIds.Split(',');
@@ -90,6 +109,8 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             {
                 if (proveedor != "")
                 {
+                    string mensajeCorreo = mensajeEncabezado + "Servicios:  ";
+
                     TrabajoProveedor trabajoProveedor = new TrabajoProveedor
                     {
                         ProveedorId = Int32.Parse(proveedor),
@@ -108,6 +129,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                             {
                                 TipoServicio tipo = _sgpFactory.GetTipoServicioPorId(Convert.ToInt32(idServ));
                                 trabajoProveedor.TiposServicios.Add(tipo);
+                                mensajeCorreo += tipo.NombreServicio + " ";
                             }
                         }
                     }
@@ -117,9 +139,10 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         {
                             TipoServicio tipo = _sgpFactory.GetTipoServicioPorId(Convert.ToInt32(serviciosProveedor));
                             trabajoProveedor.TiposServicios.Add(tipo);
+                            mensajeCorreo += tipo.NombreServicio + " ";
                         }
                     }
-
+                    mensajeCorreo += "<br/><br/>Saludos,<br/>Sistema Generaliz.";
                     _sgpFactory.AgregarTrabajoProveedor(trabajoProveedor);
                     EncuestaCliente encuesta = new EncuestaCliente
                     {
@@ -133,6 +156,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                     trabajoProveedor.EncuestaClienteId = encuesta.EncuestaClienteId;
                     _sgpFactory.ActualizarEncuestaIdTrabajoProveedor(trabajoProveedor);
                     _sgpFactory.ConsumirLeadsProveedor(Int32.Parse(proveedor), 1);
+                    LogicaPersonas.EnviarNotificacionXCorreo("c.mendez@pucp.pe", "c.mendez@pucp.pe", "Notificación de Nuevo Trabajo", mensajeCorreo);
                 }
                 i++;
             }
@@ -141,6 +165,11 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             _sgpFactory.HabilitarDeshabilitarUsuario("Cliente", trabajo.ClienteId, "Inhabilitado");
 
             return trabajo;
+        }
+
+        private Cliente GetClientePorId(int clienteId)
+        {
+            return _sgpFactory.GetClientePorId(clienteId);
         }
 
         private Distrito GetDistritoCercanoLatLong(double latitud, double longitud)
@@ -320,8 +349,31 @@ namespace SistemaGeneraliz.Models.BusinessLogic
 
         public void EnviarEncuestaCliente(int clienteId, int encuestaId, int trabajoProveedorId, string respuestas, string comentarios)
         {
+            Persona cliente = this.GetClientePorId(clienteId).Persona;
+            TrabajoProveedor trabajo = _sgpFactory.GetTrabajoProveedor(trabajoProveedorId);
+            string mensajeCorreo = "Estimado Proveedor:<br/><br/>El siguiente mensaje generado por el sistema es para informarle que un cliente acaba de responder una encuesta de satisfacción por los servicios recibidos de usted. <br/><br/>";
+            mensajeCorreo += "Datos de Cliente:<br/>------------------------<br/>";
+            if (cliente.TipoPersona == "Natural")
+            {
+                mensajeCorreo += "Nombre:  " + cliente.PrimerNombre + " " + cliente.ApellidoPaterno + " " + cliente.ApellidoPaterno + "<br/>";
+                mensajeCorreo += "DNI:  " + cliente.DNI + "<br/>";
+            }
+            else
+            {
+                mensajeCorreo += "Razón Social:  " + cliente.RazonSocial + "<br/>";
+                mensajeCorreo += "RUC:  " + cliente.RUC + "<br/>";
+            }
+            mensajeCorreo += "Teléfonos:  " + cliente.Telefono1 + "  " + cliente.Telefono2 + "  " + cliente.Telefono3 + "<br/>";
+            mensajeCorreo += "Emails:  " + cliente.Email1 + "   " + cliente.Email2 + "<br/><br/>";
+            mensajeCorreo += "Datos del Trabajo<br/>---------------------------<br/>";
+            mensajeCorreo += "Dirección:  " + trabajo.Trabajo.Direccion + /*" - " + nombreDistrito +*/ "<br/>";
+            mensajeCorreo += "Descripción:  " + trabajo.Trabajo.DescripcionCliente + "<br/>";
+            mensajeCorreo += "Fecha:  " + trabajo.Trabajo.Fecha.ToString("dd/MM/yyyy") + "<br/><br/>";
+            mensajeCorreo += "Datos de la Encuesta<br/>---------------------------<br/>";
+
             List<RespuestaPorCriterio> listaRespuestas = new List<RespuestaPorCriterio>();
             string[] respuestasSplit = respuestas.Split(',');
+            string[] criterios = { "Calidad", "Compromiso", "Trato y Cortesía", "Puntualidad", "Precio cobrado", "Volvería a contratarlo", "Recomendaría" };
             for (int t = 0; t < respuestasSplit.Length; t++)
             {
                 if (respuestasSplit[t] != "")
@@ -333,8 +385,19 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                         PuntajeOtorgado = Int32.Parse(respuestasSplit[t])
                     };
                     listaRespuestas.Add(respuesta);
+                    string rpta = "";
+                    if (t < 5)
+                    {
+                        rpta = respuestasSplit[t];
+                    }
+                    else
+                    {
+                        rpta = (respuestasSplit[t] == "1") ? "Sí" : "No";
+                    }
+                    mensajeCorreo += criterios[t] + ":  " + rpta + "<br/>";
                 }
             }
+            mensajeCorreo += "Comentarios:  " + comentarios + "<br/><br/>";
             _sgpFactory.AgregarRespuestasEncuesta(listaRespuestas);
 
             EncuestaCliente encuesta = _sgpFactory.GetEncuestaCliente(encuestaId);
@@ -345,7 +408,6 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             encuesta.IsCompletada = 1;
             encuesta.IsVisible = 1;
             _sgpFactory.ActualizarEncuestaCompletada(encuesta);
-            TrabajoProveedor trabajo = _sgpFactory.GetTrabajoProveedor(trabajoProveedorId);
             Proveedor proveedor = trabajo.Proveedor;
             int nroEncuestasCompletadas = proveedor.TrabajosProveedores.Count(t => t.EncuestaCliente.IsCompletada == 1);
             double nuevaPuntuacion = (proveedor.PuntuacionPromedio * nroEncuestasCompletadas + puntuacion) / (nroEncuestasCompletadas + 1);
@@ -356,7 +418,9 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             //proveedor.NroTrabajosterminados++
             //proveedor.nrocalifaciones++
             _sgpFactory.ActualizarProveedor(proveedor);
-
+            mensajeCorreo += "Su nueva puntuación promedio es:  " + nuevaPuntuacion.ToString("F") + "<br/>";
+            mensajeCorreo += "Si desea puede responder a los comentarios hechos por el cliente, así como modificar la visibilidad de la encuesta." + "<br/><br/>";
+            mensajeCorreo += "Saludos,<br/>Sistema Generaliz.";
             //var c = trabajo.Trabajo.ClienteId;
             //Cliente cliente = _sgpFactory.GetClientePorId(clienteId);
 
@@ -366,6 +430,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             {
                 _sgpFactory.HabilitarDeshabilitarUsuario("Cliente", clienteId, "Habilitado");
             }
+            LogicaPersonas.EnviarNotificacionXCorreo("c.mendez@pucp.pe", "c.mendez@pucp.pe", "Notificación de Nueva Encuesta Respondida", mensajeCorreo);
         }
 
         public int CantidadEncuestasPendientesCliente(int clienteId)

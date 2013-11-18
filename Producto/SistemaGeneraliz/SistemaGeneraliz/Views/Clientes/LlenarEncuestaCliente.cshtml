@@ -286,6 +286,8 @@
             //mensaje de confirmacion aca xD
             //alert(respuestas);
             //return;
+            $("#btnEnviar").attr('style', 'display :none;');
+            $("#btnCancelar").attr('style', 'display :none;');
             $.ajax({
                 type: 'GET',
                 url: '/Clientes/EnviarEncuestaCliente',
@@ -304,6 +306,8 @@
                     window.location = "/Clientes/CalificarProveedores/";
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
+                    $("#btnEnviar").attr('style', '');
+                    $("#btnCancelar").attr('style', '');
                     alert(xhr.status);
                     alert(thrownError);
                 }
