@@ -189,6 +189,22 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.Personas.OrderBy(p => p.RazonSocial).ThenBy(p => p.PrimerNombre).ThenBy(p => p.ApellidoPaterno).ToList();
         }
 
+        public List<Configuracion> GetConfiguraciones()
+        {
+            return _db.Configuraciones.ToList();
+        }
+
+        public void ActualizarConfiguraciones(int[] valores)
+        {
+            for (int i = 0; i < valores.Count(); i++)
+            {
+                Configuracion configuracion = _db.Configuraciones.Find(i + 1);
+                configuracion.ValorNumerico = valores[i];
+                _db.Entry(configuracion).State = EntityState.Modified;
+            }
+            _db.SaveChanges();
+        }
+
         #endregion
 
         #region Proveedores

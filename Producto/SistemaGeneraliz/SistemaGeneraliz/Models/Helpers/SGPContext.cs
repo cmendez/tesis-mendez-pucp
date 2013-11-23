@@ -368,7 +368,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     {
                         PersonaId = persona.PersonaId,
                         LeadsDisponibles = r2,
-                        PuntuacionPromedio = 0,
+                        PuntuacionPromedio = 14, //puntuación mínima por default
                         NroTrabajosTerminados = 0,
                         NroBusquedasCliente = -1, //no lo usaré
                         NroClicksVisita = -1, //no lo usaré
@@ -909,9 +909,9 @@ namespace SistemaGeneraliz.Models.Helpers
             int k = 0;
             foreach (var imagen in listaImagenes)
             {
-                r1 = random.Next(-4, -1);
-                r2 = random.Next(7, 31);
-                r3 = random.Next(3, 7);
+                r1 = random.Next(-2, -1);
+                r2 = random.Next(60, 91);
+                r3 = random.Next(5, 11);
 
                 int isAdquirible = 0;
                 int costo = r3;

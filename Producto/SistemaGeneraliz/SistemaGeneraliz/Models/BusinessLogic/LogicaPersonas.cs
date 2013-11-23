@@ -286,5 +286,30 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             }
             catch (Exception e) { }
         }
+
+        public int[] GetConfiguraciones()
+        {
+            int[] parametros = new int[6];
+            List<Configuracion> configuraciones = _sgpFactory.GetConfiguraciones();
+            int i = 0;
+            foreach (var configuracion in configuraciones)
+            {
+                parametros[i] = configuracion.ValorNumerico;
+                i++;
+            }
+            return parametros;
+        }
+
+        public void ActualizarConfiguraciones(ConfiguracionesViewModel configuracionesViewModel)
+        {
+            int[] valores = new int[6];
+            valores[0] = configuracionesViewModel.PuntuacionMinimaAlgoritmo;
+            valores[1] = configuracionesViewModel.CantidadMaximaProveedoresAlgoritmo;
+            valores[2] = configuracionesViewModel.LeadsGratisRegistro;
+            valores[3] = configuracionesViewModel.PuntajePromedioInicialProveedores;
+            valores[4] = configuracionesViewModel.NroLeadsRecompensa;
+            valores[5] = configuracionesViewModel.NroProveedoresRecompensa;
+            _sgpFactory.ActualizarConfiguraciones(valores);
+        }
     }
 }

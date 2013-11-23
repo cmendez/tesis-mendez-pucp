@@ -189,5 +189,30 @@ namespace SistemaGeneraliz.Controllers
             recargasJson.Add(o);
             return Json(recargasJson, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ConfigurarParametros()
+        {
+            //ASUMIENDO QUE SOLO HABRAN 6 PARAMETROS SIEMPRE
+            int[] parametros =  _logicaPersonas.GetConfiguraciones();
+            ConfiguracionesViewModel configuracionesViewModel = new ConfiguracionesViewModel();
+            configuracionesViewModel.PuntuacionMinimaAlgoritmo = parametros[0];
+            configuracionesViewModel.CantidadMaximaProveedoresAlgoritmo = parametros[1];
+            configuracionesViewModel.LeadsGratisRegistro = parametros[2];
+            configuracionesViewModel.PuntajePromedioInicialProveedores = parametros[3];
+            configuracionesViewModel.NroLeadsRecompensa = parametros[4];
+            configuracionesViewModel.NroProveedoresRecompensa = parametros[5];
+            return View(configuracionesViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult ConfigurarParametros(ConfiguracionesViewModel configuracionesViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _logicaPersonas.ActualizarConfiguraciones(configuracionesViewModel);
+                return RedirectToAction("Index", "Home");
+            }
+            return View(configuracionesViewModel);
+        }
     }
 }

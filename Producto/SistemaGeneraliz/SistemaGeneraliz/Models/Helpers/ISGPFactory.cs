@@ -27,6 +27,8 @@ namespace SistemaGeneraliz.Models.Helpers
         List<UbicacionPersona> GetUbicacionesPersona(int personaId);
         void ActualizarPersona(Persona persona);
         List<Persona> GetTodasLasPersonasSistema();
+        List<Configuracion> GetConfiguraciones();
+        void ActualizarConfiguraciones(int[] valores);
         #endregion
 
         #region Proveedores
