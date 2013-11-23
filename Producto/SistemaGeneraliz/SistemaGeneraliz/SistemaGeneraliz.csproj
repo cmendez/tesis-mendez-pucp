@@ -262,6 +262,7 @@
     <Compile Include="Models\ViewModels\UsuarioViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Images\bronce.png" />
+    <Content Include="Images\loading.gif" />
     <Content Include="Images\OfertasPromosDsctos\D_1_Escalera de madera.jpg" />
     <Content Include="Images\OfertasPromosDsctos\D_1_Esmeril angular.jpg" />
     <Content Include="Images\OfertasPromosDsctos\D_1_Set de herramientas.jpg" />

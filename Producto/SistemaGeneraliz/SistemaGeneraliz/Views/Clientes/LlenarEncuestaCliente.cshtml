@@ -172,6 +172,7 @@
                     <tr>
                         <td>
                             <div style="margin-left: auto; margin-right: auto;">
+                                <div style="padding-left: 85%; display:none;" id="modal_loading"><img src="/Images/loading.gif" width="120"/></div>
                                 <button id="btnEnviar" type="submit" class="btn green pull-right" style="">
                                     Enviar <i class="icon-ok  m-icon-white"></i>
                                 </button>
@@ -300,12 +301,14 @@
                     respuestas: respuestas,
                     comentarios: comentarios,
                 },
-
+                beforeSend: function () { $('#modal_loading').show(); },
                 success: function (e) {
+                    $('#modal_loading').hide();
                     alert("Su encuesta ha sido enviada.");
                     window.location = "/Clientes/CalificarProveedores/";
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
+                    $('#modal_loading').hide();
                     $("#btnEnviar").attr('style', '');
                     $("#btnCancelar").attr('style', '');
                     alert(xhr.status);

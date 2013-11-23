@@ -479,7 +479,7 @@ namespace SistemaGeneraliz.Controllers
                 {
                     Object o = new
                     {
-                        FechaTrabajo = trabajo.FechaTrabajo,
+                        FechaTrabajo = trabajo.FechaTrabajo.ToString("dd/MM/yyyy"),
                         Puntuacion = trabajo.Puntuacion,
                         NombreCliente = trabajo.NombreCliente,
                         Servicios = trabajo.Servicios,

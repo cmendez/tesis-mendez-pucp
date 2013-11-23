@@ -137,11 +137,11 @@
 
 
     <div style="width: 11%; margin-left: auto; margin-right: auto;">
+        <div style="display:none" id="modal_loading"><img src="/Images/loading.gif" /></div>
         <button id="btnContratar" type="submit" class="btn red pull-right" style="">
             Contratar <i class="icon-ok  m-icon-white"></i>
         </button>
-        <br/>
-        <br/>
+        <br/><br/>
     </div>
 
     <div style="width: 18%; margin-left: auto; margin-right: auto;">
@@ -149,8 +149,7 @@
             Ver Datos de Contacto <i class="icon-zoom-in  m-icon-white"></i>
         </button>*@
         <a id="btnVerDatos" type="button" class="btn" style="width: 100%; color: black; text-shadow: none; background-color: lightblue; display: none" href="#modal_datos_contacto" data-toggle="modal">Ver Datos de Contacto</a>
-        <br/>
-        <br/>
+
     </div>
 
     <script>
@@ -472,8 +471,9 @@
                     longitud: longitud,
                     desc: desc
                 },
-
+                beforeSend: function () { $('#modal_loading').show(); },
                 success: function (e) {
+                    $('#modal_loading').hide();
                     alert("Se realizó la contratación exitosamente.");
                     //window.location = "/Home/Index/";
                     var array = $("#Grid").data("kendoGrid").dataSource.data();
@@ -525,6 +525,7 @@
                     return;
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
+                    $('#modal_loading').hide();
                     $("#btnContratar").attr('style', '');
                     alert(xhr.status);
                     alert(thrownError);
