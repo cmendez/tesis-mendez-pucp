@@ -99,6 +99,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             };
 
             _sgpFactory.AgregarRecarga(recarga);
+            _sgpFactory.ActualizarLeadsProveedor(idProveedor, monto);
         }
 
         public void ActualizarLeads(int idSuministrador, int monto)
@@ -682,6 +683,41 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             }
 
             return listaDemandaProductosViewModel;
+        }
+
+        public List<OfertasPromosDsctosViewModel> HistorialVentasOfertasPromosDsctos(int suministradorId)
+        {
+            var historialVentasOfertasPromosDsctosViewModels = new List<OfertasPromosDsctosViewModel>();
+            var listaComprasVirtuales = _sgpFactory.GetComprasVirtualesSuministrador(suministradorId);
+
+            if ((listaComprasVirtuales != null) && (listaComprasVirtuales.Count > 0))
+            {
+                foreach (var compraVirtual in listaComprasVirtuales)
+                {
+                    string nombreComprador = compraVirtual.Proveedor.Persona.RazonSocial ?? (compraVirtual.Proveedor.Persona.PrimerNombre + " " +
+                                                                                            compraVirtual.Proveedor.Persona.ApellidoPaterno);
+                    string documentoComprador = (compraVirtual.Proveedor.Persona.DNI != null)
+                                                  ? ("DNI - " + compraVirtual.Proveedor.Persona.DNI.ToString())
+                                                  : ("RUC - " + compraVirtual.Proveedor.Persona.RUC.ToString());
+                    
+                    OfertasPromosDsctosViewModel ofertaPromoDsctoViewModel = new OfertasPromosDsctosViewModel
+                    {
+                        Tipo = compraVirtual.OfertaPromoDscto.Tipo,
+                        NombreCompleto = compraVirtual.OfertaPromoDscto.NombreCompleto,
+                        ImagenPrincipalId = (int)compraVirtual.OfertaPromoDscto.ImagenPrincipalId,
+                        Descripcion = compraVirtual.OfertaPromoDscto.Descripcion,
+                        NombreComprador = nombreComprador,
+                        DocumentoComprador = documentoComprador,
+                        FotoComprador = (int)compraVirtual.Proveedor.Persona.ImagenId,
+                        FechaCompra = compraVirtual.FechaCompra,
+                        CostoEnLeads = compraVirtual.LeadsPagados
+                    };
+
+                    historialVentasOfertasPromosDsctosViewModels.Add(ofertaPromoDsctoViewModel);
+                }
+            }
+
+            return historialVentasOfertasPromosDsctosViewModels;
         }
     }
 }

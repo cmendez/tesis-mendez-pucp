@@ -358,6 +358,17 @@ namespace SistemaGeneraliz.Models.Helpers
             return _db.Configuraciones.Find(6).ValorNumerico;
         }
 
+        public void ActualizarLeadsProveedor(int idProveedor, int monto)
+        {
+            Proveedor proveedor = _db.Proveedores.Find(idProveedor);
+            proveedor.LeadsDisponibles = proveedor.LeadsDisponibles + monto;
+            proveedor.Persona.IsHabilitado = 1;
+            
+            //_db.Proveedores.Attach(proveedor);
+            _db.Entry(proveedor).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+
         public Cliente GetClientePorId(int clienteId)
         {
             return _db.Clientes.Find(clienteId);
@@ -591,8 +602,8 @@ namespace SistemaGeneraliz.Models.Helpers
             var lista = _db.ComprasVirtuales.Where(c => (c.OfertaPromoDscto.SuministradorId == suministradorId) && (c.FechaCompra.Year == year) &&
                          (c.FechaCompra.Month == month)).ToList();
             int suma = 0;
-            if ((lista != null) && (lista.Count>0))
-                suma = lista.Sum(s=>s.LeadsPagados);
+            if ((lista != null) && (lista.Count > 0))
+                suma = lista.Sum(s => s.LeadsPagados);
             return suma;
         }
 
@@ -615,6 +626,11 @@ namespace SistemaGeneraliz.Models.Helpers
         {
             IQueryable<Producto> query = _db.Productos;
             return query.OrderByDescending(p => p.NroBusquedas).ThenByDescending(p => p.NroClicksVisita).ToList();
+        }
+
+        public List<CompraVirtual> GetComprasVirtualesSuministrador(int suministradorId)
+        {
+            return _db.ComprasVirtuales.Where(c => c.OfertaPromoDscto.SuministradorId == suministradorId).OrderByDescending(c => c.FechaCompra).ToList();
         }
 
         #endregion

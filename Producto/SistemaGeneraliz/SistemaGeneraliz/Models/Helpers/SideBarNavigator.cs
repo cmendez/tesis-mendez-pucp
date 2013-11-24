@@ -34,7 +34,7 @@ namespace SistemaGeneraliz.Models.Helpers
                new SidebarSuboption("Historial de Trabajos", "Proveedores", "HistorialTrabajos", "icon-list-ul"),
                //new SidebarSuboption("Historial de Recargas", "Proveedores", "Index", "icon-list-alt"), // evaluar si va o no va
                new SidebarSuboption("Buscar Productos", "Suministradores", "BuscarProductos", "icon-search"),
-               new SidebarSuboption("Ofertas, Promos y Dsctos", "Suministradores", "OfertasPromocionesDescuentos", "icon-tags"),
+               new SidebarSuboption("Ofertas, Promociones y Descuentos", "Suministradores", "OfertasPromocionesDescuentos", "icon-tags"),
                //new SidebarSuboption("Comprar Ofertas, Promos y Dsctos", "Proveedores", "Index", "icon-shopping-cart"),
                new SidebarSuboption("Demanda de Servicios Generales", "Proveedores", "Demanda_ServiciosGenerales", "icon-bar-chart"),
                //new SidebarSuboption("Mi Calendario", "Proveedores", "Index", "icon-calendar"),
@@ -44,6 +44,7 @@ namespace SistemaGeneraliz.Models.Helpers
             // Suministradores
             Opciones.Add(new SidebarOption("Suministradores", "Suministradores", "icon-building", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Recargar Leads", "Suministradores", "RecargarLeads", "icon-bolt"),
+                new SidebarSuboption("Historial de Ventas", "Suministradores", "HistorialVentasOfertasPromosDsctos", "icon-shopping-cart"),
                 new SidebarSuboption("Demanda de Productos", "Suministradores", "Demanda_Productos", "icon-bar-chart"),
                 new SidebarSuboption("Demanda de Ofertas, Promos y Dsctos", "Suministradores", "Demanda_OfertasPromosDsctos", "icon-bar-chart"),
                 //new SidebarSuboption("Demanda de Servicios Generales", "Suministradores", "Index", "icon-bar-chart"),

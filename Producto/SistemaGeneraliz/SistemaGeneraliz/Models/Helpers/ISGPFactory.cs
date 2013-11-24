@@ -55,6 +55,7 @@ namespace SistemaGeneraliz.Models.Helpers
         void ActualizarListaProveedores(List<Proveedor> proveedores);
         int GetNroLeadsRecompensa();
         int GetNroProveedoresRecompensa();
+        void ActualizarLeadsProveedor(int idProveedor, int monto);
         #endregion
 
         #region Clientes
@@ -100,8 +101,7 @@ namespace SistemaGeneraliz.Models.Helpers
         void ActualizarListaProductos(List<Producto> productos);
         void ActualizarProducto(Producto producto);
         List<Producto> Demanda_Productos();
+        List<CompraVirtual> GetComprasVirtualesSuministrador(int suministradorId);
         #endregion
-
-        
     }
 }

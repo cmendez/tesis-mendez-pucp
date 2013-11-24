@@ -168,7 +168,7 @@ namespace SistemaGeneraliz.Controllers
             if (Roles.IsUserInRole("Suministrador"))
             {
                 _logicaSuministradores.AgregarRecarga(idProveedor, idSuministrador, monto);
-                _logicaPersonas.HabilitarDeshabilitarUsuario("Proveedor", idProveedor, "Habilitar");
+                //_logicaPersonas.HabilitarDeshabilitarUsuario("Proveedor", idProveedor, "Habilitar");
                 _logicaSuministradores.ActualizarLeads(idSuministrador, monto);
             }
             var recargasJson = new List<Object>();
@@ -651,6 +651,26 @@ namespace SistemaGeneraliz.Controllers
             List<DemandaProductosViewModel> demandaProductosViewModels = new List<DemandaProductosViewModel>();
             demandaProductosViewModels = _logicaSuministradores.Demanda_Productos_Read();
             return Json(demandaProductosViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Administrador, Suministrador")]
+        public ActionResult HistorialVentasOfertasPromosDsctos()
+        {
+            return View();
+        }
+
+        // ReSharper disable InconsistentNaming
+        public ActionResult HistorialVentasOfertasPromosDsctos_Read([DataSourceRequest]DataSourceRequest request)
+        {
+            int idPersona = WebSecurity.CurrentUserId;
+            Suministrador suministrador = _logicaSuministradores.GetSuministradorPorPersonaId(idPersona);
+            List<OfertasPromosDsctosViewModel> historialVentasOfertasPromosDsctosViewModels = new List<OfertasPromosDsctosViewModel>();
+            if (suministrador != null)
+            {
+                historialVentasOfertasPromosDsctosViewModels = _logicaSuministradores.HistorialVentasOfertasPromosDsctos(suministrador.SuministradorId);
+            }
+
+            return Json(historialVentasOfertasPromosDsctosViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
     }
 }

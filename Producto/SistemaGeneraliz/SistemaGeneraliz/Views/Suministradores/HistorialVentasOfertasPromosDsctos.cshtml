@@ -1,0 +1,58 @@
+﻿@using SistemaGeneraliz.Models.Entities
+@using SistemaGeneraliz.Models.ViewModels
+
+@{
+    ViewBag.Title = "Historial de Ventas de Ofertas, Promociones y Descuentos";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Historial de Ventas de Ofertas, Promociones y Descuentos</title>
+</head>
+<body>
+    @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Historial de Ventas de Ofertas, Promos y Dsctos", ""));}
+    
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption"><i class="icon-reorder"></i>Historial de Ventas</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse"></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            @(Html.Kendo().Grid<OfertasPromosDsctosViewModel>()
+                  .Name("Grid")
+                  .Columns(columns =>
+                    {
+                        columns.Bound(p => p.Tipo);
+                        columns.Bound(p => p.NombreCompleto);
+                        columns.Bound(p => p.ImagenPrincipalId).Filterable(false).Template(@<text></text>).ClientTemplate("<img src='/Suministradores/GetImagen?imagenId=#=ImagenPrincipalId#' alt='' width='100' height='106'>");
+                        columns.Bound(p => p.Descripcion);
+                        columns.Bound(p => p.NombreComprador);
+                        columns.Bound(p => p.DocumentoComprador);
+                        columns.Bound(p => p.FotoComprador).Filterable(false).Template(@<text></text>).ClientTemplate("<img src='/Suministradores/GetImagen?imagenId=#=FotoComprador#' alt='' width='80' height='106'>"); ;
+                        columns.Bound(p => p.FechaCompra);
+                        columns.Bound(p => p.CostoEnLeads);
+                    })
+                  .Resizable(resize => resize.Columns(true))
+                  .Pageable(paper => paper.Refresh(true).PageSizes(true).PageSizes(new [] { 3, 6, 9 }).Messages(m => m.ItemsPerPage("Elementos por página")))
+                  .Sortable()
+                  .Filterable()
+                  .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .PageSize(3)
+                        .ServerOperation(false)
+                        .Read(read => read.Action("HistorialVentasOfertasPromosDsctos_Read", "Suministradores"))
+                    )
+                  )
+        </div>
+    </div>
+
+    @*    <div>
+        @Html.ActionLink("Regresar", "RegistrarUsuario", "Usuarios")
+    </div>*@
+
+</body>
+</html>

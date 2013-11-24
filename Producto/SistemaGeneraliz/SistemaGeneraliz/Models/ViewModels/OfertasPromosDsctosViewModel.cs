@@ -82,5 +82,18 @@ namespace SistemaGeneraliz.Models.ViewModels
 
         [Display(Name = "Nro. compras")]
         public int CantidadComprada { get; set; }
+
+        [Display(Name = "Foto")]
+        public int FotoComprador { get; set; }
+        
+        [Display(Name = "Comprador")]
+        public string NombreComprador { get; set; }
+
+        [Display(Name = "Documento")]
+        public string DocumentoComprador { get; set; }
+
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Fecha Compra")]
+        public DateTime FechaCompra { get; set; }
     }
 }
