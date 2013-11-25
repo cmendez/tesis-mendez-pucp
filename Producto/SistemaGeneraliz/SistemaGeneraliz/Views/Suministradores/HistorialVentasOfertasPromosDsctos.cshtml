@@ -28,7 +28,7 @@
                     {
                         columns.Bound(p => p.Tipo);
                         columns.Bound(p => p.NombreCompleto);
-                        columns.Bound(p => p.ImagenPrincipalId).Filterable(false).Template(@<text></text>).ClientTemplate("<img src='/Suministradores/GetImagen?imagenId=#=ImagenPrincipalId#' alt='' width='100' height='106'>");
+                        columns.Bound(p => p.ImagenPrincipalId).Filterable(false).Template(@<text></text>).ClientTemplate("<img src='/Suministradores/GetImagen?imagenId=#=ImagenPrincipalId#' alt='' width='80' height='106'>");
                         columns.Bound(p => p.Descripcion);
                         columns.Bound(p => p.NombreComprador);
                         columns.Bound(p => p.DocumentoComprador);

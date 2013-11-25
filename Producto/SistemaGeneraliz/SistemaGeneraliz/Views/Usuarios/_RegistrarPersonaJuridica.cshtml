@@ -9,7 +9,7 @@
     </div>
     <div class="span7">
         <div class="editor-field" style="width: 100%; text-align: left;">
-            @Html.TextBoxFor(model => model.RUC)<br />
+            @Html.TextBoxFor(model => model.RUC, new { maxlength = "11"})<br />
             @Html.ValidationMessageFor(model => model.RUC)
         </div>
     </div>

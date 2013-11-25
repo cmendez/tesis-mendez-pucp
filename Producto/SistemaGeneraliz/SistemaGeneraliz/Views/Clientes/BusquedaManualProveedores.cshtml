@@ -215,7 +215,7 @@
                     { title: "#Recomend.", field: "NroRecomendaciones", width: "90px" },
                     { title: "#Volv. Contratarlo", field: "NroVolveriaContratarlo", width: "150px" },
                     { title: "Sobre Mí", field: "Descripcion", width: "130px" },
-                    { title: "Trabajos Pasados", field: "VerTrabajos", width: "120px",
+                    { title: "Historial", field: "VerTrabajos", width: "120px",
                         attributes: {
                             style: "text-align: center"
                         }, template: "<a id='btnVerTrabajos' type='button' class='btn' style='color: black; text-shadow: none; background-color: lightblue;' href='\\\#modal_trabajos' data-toggle='modal' onclick='return mostrarTrabajos(#=ProveedorId#);'>Ver</a>"
@@ -374,9 +374,10 @@
 
             var dataSource2 = $('#GridDatos').data('kendoGrid').dataSource;
             dataSource2.read(); //para borrar las filas de la grilla.. no sé pero funciona XD
-
+            var i = 0;
             $.getJSON('/Clientes/GetProveedoresBusquedaManualJSON', { nombre: nombre, valueServicios: valueServicios, latitud: latitud, longitud: longitud, ajax: 'true' }, function (result) {
                 $(result).each(function () {
+                    i++;
                     dataSource.add({
                         ProveedorId: this.ProveedorId, Puntaje: this.Puntaje, FotoId: this.FotoId, NombreCompleto: this.NombreCompleto,
                         TipoDocumento: this.TipoDocumento, Documento: this.Documento, Servicio: this.Servicio, ServicioId: this.ServicioId, Descripcion: this.Descripcion,
@@ -388,6 +389,8 @@
                     //    Telefono3: this.Telefono3, Email1: this.Email1, Email2: this.Email2
                     //});
                 });
+                if (i === 0)
+                    alert("No se encontró a ningún proveedor con los criterios ingresados.");
             });
             return;
         });

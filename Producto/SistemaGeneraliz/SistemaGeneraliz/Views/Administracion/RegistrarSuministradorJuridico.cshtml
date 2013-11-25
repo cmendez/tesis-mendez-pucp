@@ -21,7 +21,7 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @{Html.RenderPartial("Titulo", new SistemaGeneraliz.Models.Helpers.PageTitle("Registrar Suministrador Juridico", "Por favor complete los siguientes campos."));}
-    @using (Html.BeginForm("RegistrarSuministradorJuridico", "Suministradores", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("RegistrarSuministradorJuridico", "Administracion", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.ValidationSummary(true)
     

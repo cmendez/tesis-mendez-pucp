@@ -8,7 +8,7 @@
     </div>
     <div class="span7">
         <div class="editor-field" style="width: 100%; text-align: left;">
-            @Html.TextBoxFor(model => model.DNI)<br />
+            @Html.TextBoxFor(model => model.DNI, new { maxlength = "8" })<br />
             @Html.ValidationMessageFor(model => model.DNI)
         </div>
     </div>
@@ -20,7 +20,7 @@
     </div>
     <div class="span7">
         <div class="editor-field" style="width: 100%; text-align: left;">
-            @Html.TextBoxFor(model => model.RUC)<br />
+            @Html.TextBoxFor(model => model.RUC, new { maxlength = "11" })<br />
             @Html.ValidationMessageFor(model => model.RUC)
         </div>
     </div>
