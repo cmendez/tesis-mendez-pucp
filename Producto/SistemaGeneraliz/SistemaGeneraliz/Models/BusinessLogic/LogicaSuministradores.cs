@@ -34,7 +34,7 @@ namespace SistemaGeneraliz.Models.BusinessLogic
             {
                 LeadsDisponibles = suministrador.LeadsDisponibles,
                 LeadsReserva = suministrador.LeadsReserva,
-                //Especialidad = Suministrador.Especialidad, //setear esto desde la logica
+                LeadsMensuales = suministrador.LeadsDisponibles,
                 PaginaWeb = suministrador.PaginaWeb,
                 Facebook = suministrador.Facebook,
                 AcercaDeMi = suministrador.AcercaDeMi,

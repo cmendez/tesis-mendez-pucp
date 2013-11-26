@@ -104,7 +104,7 @@
             if (($("#fechaInicio").val() != "") || ($("#fechaFin").val() != "")) {
                 var finicio = parseDate($("#fechaInicio").val());
                 var ffin = parseDate($("#fechaFin").val());
-                alert(finicio.toString() + " " + ffin.toString());
+                //alert(finicio.toString() + " " + ffin.toString());
                 if ((finicio.toString() === "Invalid Date") || (ffin.toString() === "Invalid Date")) {
                     alert("Error: formato de fecha inválido. Ingrese bien ambas fechas");
                     return false;
