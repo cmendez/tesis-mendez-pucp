@@ -210,7 +210,7 @@ namespace SistemaGeneraliz.Controllers
             if (ModelState.IsValid)
             {
                 _logicaPersonas.ActualizarConfiguraciones(configuracionesViewModel);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("ConfigurarParametros", "Administracion");
             }
             return View(configuracionesViewModel);
         }

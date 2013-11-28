@@ -131,8 +131,8 @@ namespace SistemaGeneraliz.Models.Helpers
                         Telefono3 = prov.Persona.Telefono3 ?? "",
                         Email1 = prov.Persona.Email1 ?? "",
                         Email2 = prov.Persona.Email2 ?? "",
-                        NroRecomendaciones = proveedor.NroRecomendaciones + "/" + proveedor.TrabajosProveedores.Count,
-                        NroVolveriaContratarlo = proveedor.NroVolveriaContratarlo + "/" + proveedor.TrabajosProveedores.Count,
+                        NroRecomendaciones = prov.NroRecomendaciones + "/" + prov.TrabajosProveedores.Count,
+                        NroVolveriaContratarlo = prov.NroVolveriaContratarlo + "/" + prov.TrabajosProveedores.Count,
                     };
                     lista.Add(proveedorViewModel);
                 }
