@@ -30,6 +30,10 @@ namespace SistemaGeneraliz.Models.ViewModels
         public string Servicios { get; set; }
         [DisplayName("Descripción")]
         public string DescripcionCliente { get; set; }
+        [DisplayName("Contacto")]
+        public string DatosContactoCliente { get; set; }
+        [DisplayName("Dirección")]
+        public string DireccionTrabajo { get; set; }
         [DisplayName("Rec. Hon./Fac.")]
         public string ReciboHonorarios_Factura { get; set; }
         [DisplayName("Monto Cobrado")]

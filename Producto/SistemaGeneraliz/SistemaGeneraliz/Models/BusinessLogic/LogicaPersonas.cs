@@ -41,7 +41,6 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 TipoPersona = "Natural",
                 TipoUsuario = tipoUsuario,
                 DNI = Int32.Parse(persona.DNI),
-                RUC = (!String.IsNullOrEmpty(persona.RUC)) ? Int64.Parse(persona.RUC) : -1,
                 PrimerNombre = persona.PrimerNombre,
                 SegundoNombre = persona.SegundoNombre,
                 ApellidoMaterno = persona.ApellidoMaterno,
@@ -58,6 +57,9 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                 IsHabilitado = 1, //true
                 IsEliminado = 0 //false
             };
+
+            if (!String.IsNullOrEmpty(persona.RUC))
+                p.RUC = Int64.Parse(persona.RUC);
 
             if (persona.ImagenPrincipal != -1)
                 p.ImagenId = persona.ImagenPrincipal;

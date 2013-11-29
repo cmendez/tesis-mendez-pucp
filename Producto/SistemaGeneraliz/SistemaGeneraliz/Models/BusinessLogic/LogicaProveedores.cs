@@ -162,17 +162,16 @@ namespace SistemaGeneraliz.Models.BusinessLogic
                             TrabajoProveedorId = trabajo.TrabajoProveedorId,
                             FechaTrabajo = fechaTrabajo,
                             Puntuacion = puntuacion,
-                            //PARA CUANDO ESTE LO DE ENCUESTAS
                             NombreCliente = nombreCliente,
                             DocumentoCliente = documentoCliente,
                             Servicios = servicios,
                             DescripcionCliente = trabajo.Trabajo.DescripcionCliente,
+                            DireccionTrabajo = trabajo.Trabajo.Direccion,
+                            DatosContactoCliente = trabajo.Trabajo.Cliente.Persona.Telefono1 + " - " + trabajo.Trabajo.Cliente.Persona.Email1,
                             ReciboHonorarios_Factura = rph_factura,
                             MontoCobrado = trabajo.MontoCobrado,
                             LinkModificarDetalles = "",
-                            //AQUI IRA LINK PARA MODIFICAR DETALLES DE TRABAJO
-                            EncuestaRespondida =
-                                trabajo.EncuestaCliente.IsCompletada,
+                            EncuestaRespondida = trabajo.EncuestaCliente.IsCompletada,
                             Comentarios = comentarios
                         };
                         listaHistorialTrabajosViewModel.Add(his);

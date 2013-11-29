@@ -212,6 +212,19 @@ namespace SistemaGeneraliz.Controllers
             return listaS;
         }
 
+        private List<SelectListItem> ObtenerTiposServiciosProveedorArray(int[] listaServiciosProveedor)
+        {
+            List<SelectListItem> listaS = new List<SelectListItem>();
+            List<TipoServicio> lista = ObtenerTiposServicios();
+            foreach (var servicio in lista)
+            {
+                //lista.Add(new TipoServicio { TipoServicioId = servicio.TipoServicioId, NombreServicio = servicio.NombreServicio});
+                bool seleccionado = listaServiciosProveedor.Contains(servicio.TipoServicioId);
+                listaS.Add(new SelectListItem() { Text = servicio.NombreServicio, Value = servicio.TipoServicioId.ToString(), Selected = seleccionado });
+            }
+            return listaS;
+        }
+
         [HttpPost]
         public ActionResult EditarMiInformacion_Natural(ProveedorNaturalViewModel proveedorNaturalViewModel)
         {
@@ -225,7 +238,7 @@ namespace SistemaGeneraliz.Controllers
                     {
                         ModelState.AddModelError("", "Error: es obligatorio subir una foto");
                         ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                        ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorNaturalViewModel.TiposServicios);
+                        ViewBag.TiposServicios = ObtenerTiposServiciosProveedorArray(proveedorNaturalViewModel.ListTiposServiciosIds);
                         return View("EditarProveedorNatural", proveedorNaturalViewModel);
                     }
                     else
@@ -238,7 +251,7 @@ namespace SistemaGeneraliz.Controllers
                         {
                             ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
                             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                            ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorNaturalViewModel.TiposServicios);
+                            ViewBag.TiposServicios = ObtenerTiposServiciosProveedorArray(proveedorNaturalViewModel.ListTiposServiciosIds);
                             return View("EditarProveedorNatural", proveedorNaturalViewModel);
                         }
                     }
@@ -249,7 +262,7 @@ namespace SistemaGeneraliz.Controllers
                         {
                             ModelState.AddModelError("", "Error: ingrese bien las contraseñas");
                             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                            ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorNaturalViewModel.TiposServicios);
+                            ViewBag.TiposServicios = ObtenerTiposServiciosProveedorArray(proveedorNaturalViewModel.ListTiposServiciosIds);
                             return View("EditarProveedorNatural", proveedorNaturalViewModel);
                         }
                     }
@@ -270,7 +283,7 @@ namespace SistemaGeneraliz.Controllers
                 }
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-            ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorNaturalViewModel.TiposServicios);
+            ViewBag.TiposServicios = ObtenerTiposServiciosProveedorArray(proveedorNaturalViewModel.ListTiposServiciosIds);
             return View("EditarProveedorNatural", proveedorNaturalViewModel);
         }
 
@@ -287,7 +300,7 @@ namespace SistemaGeneraliz.Controllers
                     {
                         ModelState.AddModelError("", "Error: es obligatorio subir una foto");
                         ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                        ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorJuridicoViewModel.TiposServicios);
+                        ViewBag.TiposServicios = ObtenerTiposServiciosProveedorArray(proveedorJuridicoViewModel.ListTiposServiciosIds);
                         return View("EditarProveedorJuridico", proveedorJuridicoViewModel);
                     }
                     else
@@ -300,7 +313,7 @@ namespace SistemaGeneraliz.Controllers
                         {
                             ModelState.AddModelError("", "Error: la extensión de la foto solo puede ser JPG, JPEG, y PNG");
                             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                            ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorJuridicoViewModel.TiposServicios);
+                            ViewBag.TiposServicios = ObtenerTiposServiciosProveedorArray(proveedorJuridicoViewModel.ListTiposServiciosIds);
                             return View("EditarProveedorJuridico", proveedorJuridicoViewModel);
                         }
                     }
@@ -311,7 +324,7 @@ namespace SistemaGeneraliz.Controllers
                         {
                             ModelState.AddModelError("", "Error: ingrese bien las contraseñas");
                             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-                            ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorJuridicoViewModel.TiposServicios);
+                            ViewBag.TiposServicios = ObtenerTiposServiciosProveedorArray(proveedorJuridicoViewModel.ListTiposServiciosIds);
                             return View("EditarProveedorJuridico", proveedorJuridicoViewModel);
                         }
                     }
@@ -332,7 +345,7 @@ namespace SistemaGeneraliz.Controllers
                 }
             }
             ViewBag.Distritos = _logicaPersonas.GetDistritos(); //solo para Lima, si uso otras ciudades, usar ajax en la vista
-            ViewBag.TiposServicios = ObtenerTiposServiciosProveedor(proveedorJuridicoViewModel.TiposServicios);
+            ViewBag.TiposServicios = ObtenerTiposServiciosProveedorArray(proveedorJuridicoViewModel.ListTiposServiciosIds);
             return View("EditarProveedorJuridico", proveedorJuridicoViewModel);
         }
 

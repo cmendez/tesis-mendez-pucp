@@ -144,7 +144,7 @@
                                 <div class="editor-field" style="width: 100%; text-align: left;">
                                     <input type="hidden" id="puntaje_8" value="" />
                                     <input type="hidden" id="respuesta_8" value="" />
-                                    <textarea id="comentariosProveedor" style="background-color: white !important;"></textarea>
+                                    <textarea id="comentariosProveedor" style="background-color: white !important;" readonly="readonly"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -263,7 +263,7 @@
                 }
                 else {
                     $("#comentariosProveedor").val('');
-                    $("#comentariosProveedor").attr('readonly', false);
+                    //$("#comentariosProveedor").attr('readonly', false);
                 }
                 return;
             }

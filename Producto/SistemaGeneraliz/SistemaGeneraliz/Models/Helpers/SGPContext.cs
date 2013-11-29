@@ -64,15 +64,15 @@ namespace SistemaGeneraliz.Models.Helpers
             SeedsRoles();
             var tiposServicios = SeedsTiposServicios();
             var distritos = SeedPaisesCiudadesDistritos();
-            var personasNaturales = SeedPersonasNaturales(30); // nro personas en la BD
+            var personasNaturales = SeedPersonasNaturales(40); // nro personas en la BD
             var personasJuridicas = SeedPersonasJuridicas();
             var personas = personasNaturales.Concat(personasJuridicas).ToList();
             SeedUbicacionesPersonas(personas, distritos);
             var proveedores = SeedProveedores(personas, tiposServicios);
             var suministradores = SeedSuministradores(personasJuridicas);
             var clientes = SeedClientes(personas);
-            SeedRecargaLeads(suministradores, proveedores, 30);  //cantidadMaxRecargasXsuministrador
-            var trabajos = SeedTrabajos(clientes, 4); //nro clientes * factorMultiplicativo
+            SeedRecargaLeads(suministradores, proveedores, 40);  //cantidadMaxRecargasXsuministrador
+            var trabajos = SeedTrabajos(clientes, 5); //nro clientes * factorMultiplicativo
             var trabajosProveedores = SeedTrabajosProveedores(proveedores, trabajos, tiposServicios);
             var criteriosCalificacion = SeedCriteriosCalificacion();
             var encuestas = SeedEncuestasCliente(trabajosProveedores);
@@ -223,7 +223,9 @@ namespace SistemaGeneraliz.Models.Helpers
                     //DireccionCompleta = persona.DireccionCompleta,
                     Email1 = nombres[r1].Substring(0, 1).ToLower() + "." + apellidos[r1].ToLower() + "@gmail.com",
                     Email2 = "c.mendez@pucp.pe",
-                    Telefono1 = d1.ToString(),
+                    Telefono1 = "98" + d1.ToString().Substring(4, 3) + d1.ToString().Substring(2, 4),
+                    Telefono2 = d1.ToString().Substring(5, 3) + d1.ToString().Substring(1, 4),
+                    Telefono3 = d1.ToString().Substring(1, 3) + "*" + d1.ToString().Substring(4, 4),
                     //ImagenPrincipal = persona.ImagenPrincipal,
                     UltimaActualizacionPersonal = DateTime.Now,
                     IsHabilitado = 1, //true
@@ -272,7 +274,9 @@ namespace SistemaGeneraliz.Models.Helpers
                     FechaCreacion = DateTime.Now.AddYears((r1 + 5 + r3 * 4) * -1),
                     Email1 = razonesSociales[i].ToLower() + "@gmail.com",
                     Email2 = "c.mendez@pucp.pe",
-                    Telefono1 = documentos[i].Substring(4, 7).ToString(),
+                    Telefono1 = "98" + documentos[i].Substring(4, 7),
+                    Telefono2 = documentos[i].Substring(5, 3) + documentos[i].Substring(3, 4),
+                    Telefono3 = documentos[i].Substring(8, 3)+ "*" + documentos[i].Substring(4, 4),
                     //ImagenPrincipal = persona.ImagenPrincipal,
                     UltimaActualizacionPersonal = DateTime.Now,
                     IsHabilitado = 1, //true
@@ -331,7 +335,7 @@ namespace SistemaGeneraliz.Models.Helpers
                     PersonaId = persona.PersonaId,
                     DistritoId = distrito.DistritoId,
                     Direccion = direccion,
-                    Referencia = "   ",
+                    Referencia = "A 1/2 cdra av. principal",
                     Latitud = distrito.LatitudDefault + lat,
                     Longitud = distrito.LongitudDefault + lon,
                     IsVisible = 1,

@@ -403,7 +403,7 @@
             }
 
             var ofertaId = $("#ofertaPromoDsctoId").val();
-
+            var leadsrestantes = leadsProveedor - costo;
             $.ajax({
                 type: 'GET',
                 url: '/Suministradores/SepararOfertaPromoDscto',
@@ -416,7 +416,7 @@
                 },
 
                 success: function (e) {
-                    alert("Se realizó la separación exitosamente.\nPóngase en contacto con el suministrador para finalizar la compra.");
+                    alert("Se realizó la separación exitosamente.\nPóngase en contacto con el suministrador para finalizar la compra.\nLeads Restantes: " + leadsrestantes);
                     window.location = "/Suministradores/OfertasPromocionesDescuentos/";
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
